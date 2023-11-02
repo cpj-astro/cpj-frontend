@@ -1,0 +1,132 @@
+.table {
+	position: relative;
+	color: #000;
+
+	th,
+	td {
+		@include respond(tabport) {
+			white-space: nowrap;
+		}
+	}
+	td {
+		vertical-align: middle;
+
+		strong {
+			font-weight: $semibold;
+		}
+	}
+
+	&-striped {
+		tbody {
+			tr:nth-of-type(odd) {
+				background-color: #f6f7fb;
+
+				td {
+					.cricnotch-btn {
+						background: $secondary;
+						color: #fff;
+					}
+				}
+			}
+
+			td {
+				a.cricnotch-btn {
+					background: #eff0f5;
+					color: #000;
+
+					&:hover {
+						background: #2647d6;
+						color: #fff;
+					}
+				}
+			}
+		}
+	}
+
+	&.no-border {
+		th,
+		td {
+			border: none;
+		}
+	}
+
+	&.widget-table {
+		margin-bottom: 0;
+		th {
+			text-transform: uppercase;
+			font-size: 11px;
+			font-weight: $semibold;
+			line-height: 15px;
+
+			&:first-of-type {
+				padding-left: 20px;
+			}
+			&:last-of-type {
+				padding-right: 20px;
+				text-align: center;
+			}
+		}
+		td {
+			padding-top: 6px;
+			padding-bottom: 6px;
+
+			&:first-of-type {
+				padding-left: 20px;
+			}
+			&:last-of-type {
+				padding-right: 20px;
+				text-align: center;
+			}
+
+			a {
+				color: $primary;
+			}
+		}
+
+		caption {
+			padding-top: 15px;
+			padding-bottom: 15px;
+			a {
+				color: #000;
+				display: inline-block;
+				font-size: 13px;
+				font-weight: $semibold;
+				line-height: 18px;
+				text-decoration: underline;
+			}
+		}
+	}
+
+	&-medium {
+		th,
+		td {
+			padding: 15px 7.5px !important;
+			&:first-of-type {
+				padding-left: 30px !important;
+			}
+			&:last-of-type {
+				padding-right: 30px !important;
+			}
+		}
+
+		th {
+			font-size: 12px !important;
+			line-height: 17px !important;
+		}
+		td {
+			font-size: 14px !important;
+			font-weight: $regular;
+			line-height: 20px !important;
+		}
+
+		strong {
+			font-weight: $semibold;
+		}
+	}
+
+	.country-info {
+		@include respond(tabport) {
+			flex-wrap: nowrap;
+		}
+	}
+}

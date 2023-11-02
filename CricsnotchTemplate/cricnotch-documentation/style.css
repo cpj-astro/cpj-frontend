@@ -1,0 +1,90 @@
+@import url('https://fonts.googleapis.com/css?family=Nunito:400,600');
+
+body {
+    font-family: 'Nunito', sans-serif;
+}
+img {
+	width: 100%;
+	display: block;
+}
+.header {
+	background-color: #f4f4f4;
+	padding: 20px 0;
+}
+.header h1 a {
+	color: #0abc9c;
+}
+.header h1 a:hover {
+	text-decoration: none;
+}
+.header p {
+	color: #333;
+	margin-bottom: 0;
+}
+.logo {
+	max-width: 130px;
+	display: block;
+}
+.logo img {
+	width: auto;
+}
+.nav-sidebar nav {
+	position: relative;
+}
+.nav-sidebar ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.nav-sidebar li {
+	display: block;
+}
+.nav-sidebar a {
+	color: #111;
+	display: block;
+	text-transform: capitalize;
+}
+.main-content {
+	position: relative;
+	padding: 60px 0;
+}
+.single-div {
+	border-bottom: 1px solid #ddd;
+	padding-bottom: 30px;
+	margin-bottom: 50px;
+}
+.single-div h3 {
+	font-size: 26px;
+	margin-bottom: 15px;
+	font-weight: 600;
+}
+.inner-div ul li {
+	padding: 2px 0;
+}
+.inner-div ul li > ul {
+	margin-bottom: 20px;
+}
+.single-div h3,
+.nav-title {
+	position: relative;
+	padding-bottom: 15px;
+	margin-bottom: 10px;
+}
+.single-div h3::after, 
+.nav-title::after {
+	content: '';
+	background: #D92128;
+	width: 40px;
+	height: 3px;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+}
+.footer {
+	background-color: #343a40;
+	padding: 30px 0;
+}
+.footer p {
+	margin-bottom: 0;
+	color: #fff;
+}
