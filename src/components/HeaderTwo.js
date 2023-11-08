@@ -7,7 +7,7 @@ function HeaderTwo() {
 		<>
             <header className="header">
                 <HeaderLayer/>                
-                <section className="main-header">
+                {/* <section className="main-header">
                     <div className="container">
                         <nav className="navbar">
                             <div className="nav-menu">
@@ -118,7 +118,7 @@ function HeaderTwo() {
                         </nav>
                     </div>
                 </section>
-                
+                 */}
                 {/* <section className="header-breadcrumb">
                     <div className="container">
                         <div className="breadcrumb-area">

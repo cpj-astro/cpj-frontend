@@ -99,7 +99,7 @@ function HeaderOne() {
 					</div>
 				</section>
 
-				<section className="main-header">
+				{/* <section className="main-header">
 					<div className="container">
 						<nav className="navbar">
 							<div className="nav-menu">
@@ -209,7 +209,7 @@ function HeaderOne() {
 							</div>
 						</nav>
 					</div>
-				</section>
+				</section> */}
 			</header>
 		</>
     );

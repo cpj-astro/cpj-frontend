@@ -1,6 +1,13 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 function Footer() {
+	const [year, setYear] = useState(null);
+
+	useEffect(() => {
+		let currentDate = new Date(); 
+		setYear(currentDate.getFullYear());  
+	}, [])
+	
     return (
         <footer className="footer">
 			<div className="footer-top">
@@ -83,17 +90,15 @@ function Footer() {
 				</div>
 			</div>
 
-			<div className="container">
-				<div className="footer-copyright">
-					<div className="row">
-						<div className="col-md-6">
-							<p><a href="#">Themeies</a> &copy; 2021 &nbsp;|&nbsp; All Rights Reserved</p>
-						</div>
-						<div className="col-md-6 text-md-right">
-							<a href="#"><img src="/assets/images/payments/01.png" alt="" /></a><a href="#"><img src="/assets/images/payments/02.png" alt="" /></a
-							><a href="#"><img src="/assets/images/payments/03.png" alt="" /></a><a href="#"><img src="/assets/images/payments/04.png" alt="" /></a
-							><a href="#"><img src="/assets/images/payments/05.png" alt="" /></a><a href="#"><img src="/assets/images/payments/06.png" alt="" /></a>
-						</div>
+			<div className="footer-copyright">
+				<div className="row">
+					<div className="col-md-6">
+						<p><a href="#">CricketPanditJi</a> &copy; {year} &nbsp;|&nbsp; All Rights Reserved</p>
+					</div>
+					<div className="col-md-6 text-md-right">
+						<a href="#"><img src="/assets/images/payments/01.png" alt="" /></a><a href="#"><img src="/assets/images/payments/02.png" alt="" /></a
+						><a href="#"><img src="/assets/images/payments/03.png" alt="" /></a><a href="#"><img src="/assets/images/payments/04.png" alt="" /></a
+						><a href="#"><img src="/assets/images/payments/05.png" alt="" /></a><a href="#"><img src="/assets/images/payments/06.png" alt="" /></a>
 					</div>
 				</div>
 			</div>
