@@ -17,11 +17,11 @@ function drawText(context, x, y, maintext, subtext) {
   context.fillText(maintext, x * context.canvas.width / 100, y * context.canvas.height / 100);
 }
 
-const Kundli = ({ housesData }) => {
+const MatchKundli = ({ housesData }) => {
     console.log("MainKeywards", housesData);
     
     useEffect(() => {
-        const canvas = document.getElementById("canvas");
+        const canvas = document.getElementById("match-canvas");
         const ctx = canvas.getContext("2d");
 
         const houses = [
@@ -46,8 +46,8 @@ const Kundli = ({ housesData }) => {
     }, [housesData]);
 
     return (
-        <canvas id="canvas" width={300} height={200}></canvas>
+        <canvas id="match-canvas" width={300} height={200}></canvas>
     );
 };
 
-export default Kundli;
+export default MatchKundli;

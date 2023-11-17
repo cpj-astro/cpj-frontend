@@ -28,7 +28,7 @@ body {
   font-weight: 400;
   font-size: 1.4rem;
   line-height: 2.1rem;
-  color: #ffffff;
+  /* color: #ffffff; */
 }
 
 a {
@@ -926,7 +926,6 @@ a.post-meta:hover {
 
 .text-muted {
   font-size: 12px;
-  color: #ffffff !important;
   margin: 0;
   line-height: 17px;
 }
@@ -3710,6 +3709,12 @@ a.post-meta:hover {
       flex-basis: 126px;
 }
 
+.long-stripped {
+  color: #000;
+  -ms-flex-preferred-size: 230px !important;
+      flex-basis: 230px!important;
+}
+
 .player-profile .list-striped li p {
   -webkit-box-flex: 1;
       -ms-flex: 1;
@@ -5710,4 +5715,8 @@ input:checked ~ .cover:before {
 
 .profile-side-nav li span i {
   width: 25px;
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }

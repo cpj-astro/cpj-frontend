@@ -4,10 +4,24 @@ import HeaderTwo from '../../components/HeaderTwo';
 import Footer from '../../components/Footer';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import RazorpayIntegration from '../../components/RazorPayIntegration';
 
 function BuyMatchAstrology() {
 	const navigate = useNavigate();
     const [panditData, setPanditData] = useState([]);
+    const [isPaymentSuccess, setIsPaymentSuccess] = useState(false);
+    const [isPaymentFail, setIsPaymentFail] = useState(false);
+
+    const handlePaymentSuccess = () => {
+        setIsPaymentSuccess(true);
+        setIsPaymentFail(false);
+    };
+
+    const handlePaymentFail = () => {
+        setIsPaymentFail(true);
+        setIsPaymentSuccess(false);
+    };
+
     var accessToken = localStorage.getItem('client_token');
     const apiConfig = {
         headers: {
@@ -46,6 +60,8 @@ function BuyMatchAstrology() {
                     <div className="row">
                         <div className="col-lg-12">
                             <section className="live-matches pt-0">
+                                {isPaymentSuccess && <div className='alert alert-success'></div> } 
+                                {isPaymentFail && <div className='alert alert-danger'></div> }
                                 <div className="row">
                                 {(panditData && panditData.length > 0) ? panditData.map((pandit, index) => (
                                     <div className="col-md-4 col-sm-6">
@@ -53,7 +69,7 @@ function BuyMatchAstrology() {
                                             <div className="content-card">
                                             <figure>
                                                 <img src={`/assets/images/pandits/${pandit.avatar_image}`} alt />
-                                                <a href="#" className="cricnotch-btn btn-filled">Buy</a>
+                                                <RazorpayIntegration onPaymentSuccess={handlePaymentSuccess} onPaymentFail={handlePaymentFail} />
                                             </figure>
                                             <div className="content-block text-center">
                                                 <h3>

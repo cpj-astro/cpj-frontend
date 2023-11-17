@@ -9,6 +9,9 @@ function SignIn() {
 	const { register, handleSubmit, reset, formState, formState: { isSubmitSuccessful } } = useForm();
 
 	const onSubmit = async (data) => {
+		console.log("dev" ,process.env.REACT_APP_DEV);
+		console.log("dev api", process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL);
+		console.log("live api", process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL);
 		try {
 			axios.post(
 				process.env.REACT_APP_DEV === 'true' ? 
