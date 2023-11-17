@@ -26,7 +26,6 @@ function SignIn() {
                 } 
             }).catch((error) => {
 				console.log(error);
-				swal("Oh Snap!", error.response.data.error, "error");
                 navigate('/sign-in');
             });
 		} catch (error) {
