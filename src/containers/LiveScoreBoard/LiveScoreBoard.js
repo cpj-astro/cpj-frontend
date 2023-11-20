@@ -46,7 +46,6 @@ function LiveScoreBoard() {
     const fetchSeriesData = (s_id) => {
         axios.post(process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/fetchSeriesData` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/fetchSeriesData`, s_id, apiConfig)
         .then((response) => {
-            // console.log(response);
             if(response.data.success){
                 setSeriesData(response.data.data);
             }
