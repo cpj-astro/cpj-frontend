@@ -1,25 +1,137 @@
-import React from 'react';
-import HeaderOne from '../../components/HeaderOne';
+import React, { useEffect, useState } from 'react';
 import Footer from '../../components/Footer';
 import OwlCarousel from 'react-owl-carousel';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import Header from '../../components/Header';
+import Kundli from '../../components/Kundli';
+import { toast } from 'react-toastify';
 
 function HomePage() {
+	const navigate = useNavigate();
+	const [matchesData, setMatchesData] = useState([]);
+	const [user, setUserData] = useState([]);
+	var accessToken = localStorage.getItem('client_token');
+	const apiConfig = {
+		headers: {
+			Authorization: "Bearer " + accessToken,
+			'Content-Type': 'application/json',
+		}
+	};
+	const fetchLiveList = () => {
+		axios.get(process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/liveMatches` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/liveMatches`, apiConfig)
+		.then((response) => {
+			if(response.data.success){
+				setMatchesData(response.data.data);
+			}
+		}).catch((error) => {
+			if(error.response.data.status_code == 401){
+				localStorage.removeItem('client_token');
+				navigate('/sign-in');
+			} else {
+				toast.error("Oh Snap!" + error.code);
+			}
+		});
+	}
+
+	const fetchUserData = () => {
+        axios.get(process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/user` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/user`, apiConfig)
+        .then((response) => {
+            if(response.data.success){
+                setUserData(response.data.data);
+            }
+        }).catch((error) => {
+            if(error.response.data.status_code == 401){
+				localStorage.removeItem('client_token');
+				navigate('/sign-in');
+			} else {
+                toast.error(error.code);
+			}
+        });
+    }
+	
+	useEffect(() => {
+        fetchLiveList()
+		fetchUserData();
+    },[])
     return (
 		<>
-			<HeaderOne/>
+			<Header/>
+			<header className="header">
+				<section className="header-middle">
+					<div className="container">
+						<OwlCarousel 
+							items={4}
+							autoplay
+							margin={30}
+							dots={false}
+						>
+							{(matchesData && matchesData.length > 0) ? matchesData.map((match, index) => (
+								<div className="score-card p-0" key={index}>
+									<div className="score-card-inner">
+										<div className="score-card-header text-center">
+											<strong>Live</strong>
+											<span>{match.matchs}</span>
+										</div>
+										<div className="score-card-body">
+											<div className="country-info">
+												<div className="flag-avatar">
+													<figure>
+														<img src="/assets/images/flags/bangladesh.png" alt="" />
+													</figure>
+													<span className="country-name">{match.team_a_short}</span>
+												</div>
+												<div className="score-update">
+													<h5>146/6</h5>
+													<p className="text-muted">20.0 ov.</p>
+												</div>
+											</div>
+											<div className="country-info flex-row-reverse">
+												<div className="flag-avatar ml-05">
+													<figure>
+														<img src="/assets/images/flags/india.png" alt="" />
+													</figure>
+													<span className="country-name">{match.team_b_short}</span>
+												</div>
+												<div className="score-update">
+													<h5>102/4</h5>
+													<p className="text-muted">20.0 ov</p>
+												</div>
+											</div>
+										</div>
+										{/* <div className="floating-text">Target 147</div> */}
+									</div>
+									{/* <div className="score-card-footer">
+										<p>India need 45 runs in 27 balls. RRR: 10.0</p>
+									</div> */}
+									<div class="button-container">
+										<button class="theme-button-1" onClick={() => {navigate(`/live-score-board/${match.match_id}`)}}>View Liveline</button>
+										{match.razorpay_payment_id && match.razorpay_order_id && match.razorpay_signature && match.payment_status ? (
+											<button class="theme-button-2" onClick={() => {navigate(`/match-astrology/${match.match_id}`)}}>View Astrology</button>
+										) : (
+											<button class="theme-button-3" onClick={() => {navigate(`/match-astrology/${match.match_id}`)}}>Buy Astrology</button>
+										)}
+									</div>
+								</div>
+								)) : <></> 
+							}
+						</OwlCarousel>
+					</div>
+				</section>
+			</header>
 			<div id="main" className="main-container">
 				<div className="container">
 					<section className="player-contact pt-0 pb-0">
 						<div className="card card-shadow">
 							<div className="player-profile">
 								<figure className="kundli-avatar">
-									<img src="assets/images/kundli-img.png" alt="" />
+									<Kundli housesData={user && user.kundli_data ? user.kundli_data : []}/>
 								</figure>
 								<div className="player-info">
 									<div className="info-header">
 										<div>
 											<h2>
-												Anurag Patel &nbsp;
+												{user && user.first_name} {user && user.last_name} &nbsp;
 												<svg xmlns="http://www.w3.org/2000/svg" width="19.636" height="24" viewBox="0 0 19.636 24">
 													<path
 														id="Icon_material-verified-user"
@@ -40,40 +152,29 @@ function HomePage() {
 										<ul className="list-striped mr-05">
 											<li>
 												<span>Date of birth</span>
-												<p>Feb 04, 1986</p>
+												<span>{user && user.birth_date}</span>
+											</li>
+											<li>
+												<span>Birth Time</span>
+												<span>{user && user.birth_time}</span>
 											</li>
 											<li>
 												<span>Birth place</span>
-												<p>Mymensingh</p>
-											</li>
-											<li>
-												<span>Height</span>
-												<p>175 cm</p>
-											</li>
-											<li>
-												<span>Role</span>
-												<p>Batting Allrounder</p>
+												<span>{user && user.birth_place}</span>
 											</li>
 										</ul>
 										<ul className="list-striped">
 											<li>
 												<span>Moon Sign</span>
-												<p>Saggitarious</p>
+												<span>{user && user.sign_name}</span>
 											</li>
 											<li>
-												<span>Sun Sign</span>
-												<p>Gemini</p>
+												<span>Latitude</span>
+												<span>{user && user.latitude}</span>
 											</li>
 											<li>
-												<span>Dosha</span>
-												<p>Lorem</p>
-											</li>
-											<li>
-												<span>Gotra</span>
-												<p>
-													Vasisth
-													<small> (Sun Time)</small>
-												</p>
+												<span>Longitude</span>
+												<span>{user && user.longitude}</span>
 											</li>
 										</ul>
 									</div>

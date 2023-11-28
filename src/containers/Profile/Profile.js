@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import HeaderTwo from '../../components/HeaderTwo';
+import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
@@ -10,16 +10,42 @@ import { useForm } from 'react-hook-form';
 import Kundli from '../../components/Kundli';
 import { Modal, Button } from 'react-bootstrap';
 import MatchKundli from '../../components/MatchKundli';
+import Loader from '../../components/Loader';
 
 function Profile() {
     const navigate = useNavigate();
     const [showModal, setShowModal] = useState(false);
     const handleCloseModal = () => setShowModal(false);
     const handleShowModal = () => setShowModal(true);
+    const [loader, setLoader] = useState(false);
     const { register, handleSubmit, setValue, getValues, watch, reset, formState, formState: { isSubmitSuccessful } } = useForm();
     const [user, setUserData] = useState([]);
-    var accessToken = localStorage.getItem('client_token');
+    const [payments, setPaymentsDetails] = useState([]);
+    const [reportData, setReportData] = useState({
+        MatchName:'',
+        MatchStart:'',
+        Weather:'',
+        ProfileName: '',
+        SignName: '',
+        MatchAstrology: '',
+        VenueWiseZodiac: '',
+        LuckyNumbers: '',
+        LuckyColors: '',
+        SpecialRecommendation: '',
+        AstroFavPlayers: '',
+        MatchBetSessionFancy: '',
+        VenueFavZodiac: '',
+        FavTeams: '',
+        FancyBet6Ovrs: '',
+        FancyBet20Ovrs: '',
+        Suggestion: '',
+        AstrologicalBettingTime: '',
+        OverallBettingForMatch: '',
+        Direction: '',
+        Mantras: '',
+    });
 
+    var accessToken = localStorage.getItem('client_token');
     const apiConfig = {
         headers: {
             Authorization: "Bearer " + accessToken,
@@ -30,9 +56,9 @@ function Profile() {
     const fetchUserData = () => {
         axios.get(process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/user` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/user`, apiConfig)
         .then((response) => {
-            console.log(response);
             if(response.data.success){
                 setUserData(response.data.data);
+                setPaymentsDetails(response.data.payment_details);
             }
         }).catch((error) => {
             if(error.response.data.status_code == 401){
@@ -44,154 +70,192 @@ function Profile() {
         });
     }
 
-    const logout = () => {
-		localStorage.removeItem('client_token');
-		navigate('/sign-in');
-	}
+    const reportSet = (reportData) => {
+        handleShowModal();
+        setLoader(true);
+        try {
+            const data = reportData.astrology_data.split('|').map((item) => item.trim());
+            setReportData({
+                MatchName: reportData.team_a + ' Vs ' + reportData.team_b,
+                MatchStart: reportData.match_date,
+                Weather: reportData.weather,
+                ProfileName: reportData.first_name + ' ' + reportData.last_name,
+                SignName: reportData.sign_name,
+                MatchAstrology: data[0],
+                VenueWiseZodiac: data[1],
+                LuckyNumbers: data[2],
+                LuckyColors: data[3],
+                SpecialRecommendation: data[4],
+                AstroFavPlayers: data[5],
+                MatchBetSessionFancy: data[6],
+                VenueFavZodiac: data[7],
+                FavTeams: data[8],
+                FancyBet6Ovrs: data[9],
+                FancyBet20Ovrs: data[10],
+                Suggestion: data[11],
+                AstrologicalBettingTime: data[12],
+                OverallBettingForMatch: data[13],
+                Direction: data[14],
+                Mantras: data[15],
+            });
+        } catch (error) {
+            setLoader(false);
+            handleCloseModal()
+        }
+    }
 
+    useEffect(() => {
+        setTimeout(() => {
+            setLoader(false);
+        }, 2000);
+    }, [reportData])
+    
     useEffect(() => {
         fetchUserData();
     },[])
     return (
         <>
-            <HeaderTwo/>
+            <Header/>
             <div id="main" className="main-container">
                 {/* Modal */}
                 <Modal show={showModal} onHide={handleCloseModal} size="lg" style={{paddingLeft: '0px'}}>
                     <Modal.Body>
-                        <section className='player-contact pt-0'>
-                            <div className='player-profile'>
-                                <div className="player-info">
-                                    <div className="country-info align-items-center">
-                                        <span className="country-name text-13">Astrology Details</span>
-                                    </div>
-                                    <hr className="mt-0"/>
-                                    <div className="info-body">
-                                        <ul className="list-striped mr-05">
-                                            <li>
-                                                <span>Match Name</span>
-                                                <p className='text-muted'>Ind Vs Pak</p>
-                                            </li>
-                                            <li>
-                                                <span>Match Start</span>
-                                                <p className='text-muted'>4:00 PM IST</p>
-                                            </li>
-                                            <li>
-                                                <span>Weather</span>
-                                                <p className='text-muted'>Cloudy/Rainy</p>
-                                            </li>
-                                            <li>
-                                                <span>Profile Name</span>
-                                                <p className='text-muted'>Anurag</p>
-                                            </li>
-                                            <li>
-                                                <span>Direction</span>
-                                                <p className='text-muted'>North</p>
-                                            </li>
-                                        </ul>
-                                        <ul className="list-striped">
-                                            <li>
-                                                <span>Rashi/Zodiac</span>
-                                                <p className='text-muted'>Sagittarius</p>
-                                            </li>
-                                            <li>
-                                                <span>Reason of betting</span>
-                                                <p className='text-muted'>Mars, Rahu in 7th or 11th House</p>
-                                            </li>
-                                            <li>
-                                                <span>Lucky Numbers</span>
-                                                <p className='text-muted'>Odd/Even</p>
-                                            </li>
-                                            <li>
-                                                <span>Lucky Colours</span>
-                                                <p className='text-muted'>
-                                                    Red
-                                                </p>
-                                            </li>
-                                            <li>
-                                                <span>Favourite Team</span>
-                                                <p className='text-muted'>
-                                                    India (Do bet on this team)
-                                                </p>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <hr className=''/>  
-                                    <div className='info-body'>
-                                        <ul className="list-striped">
-                                            <li>
-                                                <span className='long-stripped'>Match Turning Time/Point</span>
-                                                <p className='text-muted'>In between 17 to 20 overs 1st innings or around 15:00 IST</p>
-                                            </li>
-                                            <li>
-                                                <span className='long-stripped'>Special Recommendation</span>
-                                                <p className='text-muted'>Avoid Major Risk , do mantras for this time.</p>
-                                            </li>
-                                            <li>
-                                                <span className='long-stripped'>Patience & timing for this match</span>
-                                                <p className='text-muted'>Around 2 PM for just 15 min</p>
-                                            </li>
-                                            <li>
-                                                <span className='long-stripped'>Venue avourite zodiacs</span>
-                                                <p className='text-muted'>Aries, Capricorn, Leo</p>
-                                            </li>
-                                            <li>
-                                                <span className='long-stripped'>Favourite Team</span>
-                                                <p className='text-muted'>
-                                                    India (Do bet on this team)
-                                                </p>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <hr className='mb-0'/>
-                                    <div className='container'>
+                        {loader ?
+                            <Loader/> :
+                            <section className='player-contact pt-0'>
+                                <div className='player-profile'>
+                                    <div className="player-info">
                                         <div className="country-info align-items-center">
-                                            <span className="country-name text-13">Match Astrology</span>
+                                            <span className="country-name text-13">Astrology Details</span>
                                         </div>
-                                        <span className='text-muted'>
-                                            How is your day overall, For this match you have to take calculated risk chances of your bet success is very less, Today is not your day so better only watch this match or if rate goes under minimum you will take little risk and book the profit immediately.
-                                        </span>
-                                    </div>
-                                    <hr className='mb-0'/>
-                                    <div className='container'>
-                                        <div className="country-info align-items-center">
-                                            <span className="country-name text-13">Astrological Favourite players</span>
+                                        <hr className="mt-0"/>
+                                        <div className="info-body">
+                                            <ul className="list-striped mr-05">
+                                                <li>
+                                                    <span>Match Name</span>
+                                                    <p className='text-muted'>{reportData.MatchName ?? 'N/A'}</p>
+                                                </li>
+                                                <li>
+                                                    <span>Match Start</span>
+                                                    <p className='text-muted'>{reportData.MatchStart ?? 'N/A'} IST</p>
+                                                </li>
+                                                <li>
+                                                    <span>Weather</span>
+                                                    <p className='text-muted'>{reportData.Weather ?? 'N/A'}</p>
+                                                </li>
+                                                <li>
+                                                    <span>Profile Name</span>
+                                                    <p className='text-muted'>{reportData.ProfileName ?? 'N/A'}</p>
+                                                </li>
+                                                <li>
+                                                    <span>Direction</span>
+                                                    <p className='text-muted'>{reportData.Direction ?? 'N/A'}</p>
+                                                </li>
+                                            </ul>
+                                            <ul className="list-striped">
+                                                <li>
+                                                    <span>Rashi/Zodiac</span>
+                                                    <p className='text-muted'>{reportData.SignName ?? 'N/A'}</p>
+                                                </li>
+                                                <li>
+                                                    <span>Favourite Zodiacs</span>
+                                                    <p className='text-muted'>{reportData.VenueWiseZodiac ?? 'N/A'}</p>
+                                                </li>
+                                                <li>
+                                                    <span>Lucky Numbers</span>
+                                                    <p className='text-muted'>{reportData.LuckyNumbers ?? 'N/A'}</p>
+                                                </li>
+                                                <li>
+                                                    <span>Lucky Colours</span>
+                                                    <p className='text-muted'>{reportData.LuckyColors ?? 'N/A'}</p>
+                                                </li>
+                                                <li>
+                                                    <span>Favourite Team</span>
+                                                    <p className='text-muted'>{reportData.FavTeams ?? 'N/A'}</p>
+                                                </li>
+                                            </ul>
                                         </div>
-                                        <span className='text-muted'>
-                                            Virat. Kohli 65%, Suresh Raina 70%, Rohit Sharma 50%, Ishan Patel 75%, Rishabh Pant 80%, Hardik Pandya 90%, Shubham Gill 70%.
-                                        </span>
-                                    </div>
-                                    <hr className='mb-0'/>
-                                    <div className='container text-center'>
-                                        <span className="country-name text-13 mb-2">Match Natal Chart</span>
-                                        <MatchKundli housesData={user && user.kundli_data ? user.kundli_data : []} />
-                                    </div>
-                                    <hr className='mb-0'/>
-                                    <div className='container'>
-                                        <div className="country-info align-items-center">
-                                            <span className="country-name text-13">Suggestions & Mantras</span>
+                                        {/* <hr className=''/>  
+                                        <div className='info-body'>
+                                            <ul className="list-striped">
+                                                <li>
+                                                    <span className='long-stripped'>Match Turning Time/Point</span>
+                                                    <p className='text-muted'>In between 17 to 20 overs 1st innings or around 15:00 IST</p>
+                                                </li>
+                                                <li>
+                                                    <span className='long-stripped'>Special Recommendation</span>
+                                                    <p className='text-muted'>Avoid Major Risk , do mantras for this time.</p>
+                                                </li>
+                                                <li>
+                                                    <span className='long-stripped'>Patience & timing for this match</span>
+                                                    <p className='text-muted'>Around 2 PM for just 15 min</p>
+                                                </li>
+                                                <li>
+                                                    <span className='long-stripped'>Venue avourite zodiacs</span>
+                                                    <p className='text-muted'>Aries, Capricorn, Leo</p>
+                                                </li>
+                                                <li>
+                                                    <span className='long-stripped'>Favourite Team</span>
+                                                    <p className='text-muted'>
+                                                        India (Do bet on this team)
+                                                    </p>
+                                                </li>
+                                            </ul>
+                                        </div> */}
+                                        <hr className='mb-0'/>
+                                        <div className='container'>
+                                            <div className="country-info align-items-center">
+                                                <span className="country-name text-13">Match Astrology</span>
+                                            </div>
+                                            <span className='text-muted'>
+                                                {reportData.MatchAstrology ?? 'N/A'}
+                                            </span>
                                         </div>
-                                        <span className='text-muted'>
-                                            •	Strengthen the power of the Sun by donating wheat, jaggery, and copper on Sundays and wearing a copper ring on the right-hand ring finger.<br />
-                                            •	Chant the Gayatri Mantra or the Maha Mrityunjaya Mantra daily to improve luck and gain financial stability.<br />
-                                            •	Avoid wearing black while Gambling and choose bright colors like red, orange, and yellow instead.<br />
-                                            •	Donate yellow sweets, bananas, or turmeric on Thursdays to strengthen Jupiter's influence and gain prosperity.<br />
-                                            •	Recite Hanuman Chalisa daily for good luck, success, and financial stability.<br />
-                                            •	Keep a silver coin in your wallet or purse while Gambling to increase your chances of success.
-                                        </span>
-                                    </div>
-                                    <hr className='mb-0'/>
-                                    <div className='container'>
-                                        <div className="country-info align-items-center">
-                                            <span className="country-name text-13">Disclaimer</span>
+                                        <hr className='mb-0'/>
+                                        <div className='container'>
+                                            <div className="country-info align-items-center">
+                                                <span className="country-name text-13">Astrological Favourite players</span>
+                                            </div>
+                                            <span className='text-muted'>
+                                                {reportData.AstroFavPlayers ?? 'N/A'}
+                                            </span>
                                         </div>
-                                        <span className='text-muted'>
-                                            The testimonials provided on our website are personal views and experiences of our clients. We do not make any type of false claims of guaranteed results as we are not GODS or HIS decendants. We promise the best of the services with truth, faith and devotion. There is no guarantee of specific results and that the results can vary as every individual has its own horoscope and different pattern of their planets. Hence, results or final effects of remedies could vary from person to person.
-                                        </span>
+                                        <hr className='mb-0'/>
+                                        <div className='container text-center'>
+                                            <span className="country-name text-13 mb-2">Match Natal Chart</span>
+                                            <MatchKundli housesData={user && user.kundli_data ? user.kundli_data : []} />
+                                        </div>
+                                        <hr className='mb-0'/>
+                                        <div className='container'>
+                                            <div className="country-info align-items-center">
+                                                <span className="country-name text-13">Suggestions</span>
+                                            </div>
+                                            <span className='text-muted'>
+                                                {reportData.Suggestion ?? 'N/A'}
+                                            </span>
+                                        </div>
+                                        <hr className='mb-0'/>
+                                        <div className='container'>
+                                            <div className="country-info align-items-center">
+                                                <span className="country-name text-13">Mantras</span>
+                                            </div>
+                                            <span className='text-muted'>
+                                                {reportData.Mantras ?? 'N/A'}
+                                            </span>
+                                        </div>
+                                        <hr className='mb-0'/>
+                                        <div className='container'>
+                                            <div className="country-info align-items-center">
+                                                <span className="country-name text-13">Disclaimer</span>
+                                            </div>
+                                            <span className='text-muted'>
+                                                The testimonials provided on our website are personal views and experiences of our clients. We do not make any type of false claims of guaranteed results as we are not GODS or HIS decendants. We promise the best of the services with truth, faith and devotion. There is no guarantee of specific results and that the results can vary as every individual has its own horoscope and different pattern of their planets. Hence, results or final effects of remedies could vary from person to person.
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </section>
+                            </section>
+                        }
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleCloseModal}>
@@ -219,12 +283,12 @@ function Profile() {
                                                         <aside className="sidebar right-sidebar">
                                                             <div className="widget widget-upcoming-match">
                                                                 <ul className="nav nav-tabs">
-                                                                    <li className="active"><a data-toggle="tab" href="#profile-details" className="active">Details</a></li>
+                                                                    <li className="active"><a data-toggle="tab" href="#profile-details" className="active">Personal Details</a></li>
                                                                     <li><a data-toggle="tab" href="#view-kundli">Kundli</a></li>
-                                                                    <li><a data-toggle="tab" href="#payment-history">Payment History</a></li>
-                                                                    <li><a data-toggle="tab" href="#astrology-reports">Astrology Reports</a></li>
+                                                                    <li><a data-toggle="tab" href="#astrology-reports">Payments & Reports</a></li>
                                                                     <li><a data-toggle="tab" href="#scorecard">Account Settings</a></li>
                                                                 </ul>
+                                                                <hr/>
 
                                                                 <div className="tab-content">
                                                                     <div id="profile-details" className="tab-pane fade in show active" onClick={()=> { fetchUserData();}}>
@@ -271,46 +335,71 @@ function Profile() {
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                    <div id="view-kundli" className="tab-pane fade">
-                                                                        <Kundli housesData={user && user.kundli_data ? user.kundli_data : []}/>
-                                                                    </div>
-                                                                    <div id="payment-history" className="tab-pane fade">
-                                                                        <h1 className='text-dark'>Payment History</h1>
+                                                                    <div id="view-kundli" className="tab-pane fade active show">
+                                                                        <div className='row'>
+                                                                            <div className='col-md-4 display-set text-center'>
+                                                                                <Kundli housesData={user && user.kundli_data ? user.kundli_data : []}/>
+                                                                            </div>
+                                                                            <div className='col-md-8'>
+                                                                                <h2>Kundli Details</h2>
+                                                                                <ul>
+                                                                                {user && user.house_details ? user.house_details.map((detail, index) => (
+                                                                                    <li key={index}>{detail}</li>
+                                                                                )) : <li></li>}
+                                                                                </ul>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
                                                                     <div id="astrology-reports" className="tab-pane fade">
                                                                     <div className="table-responsive">
                                                                         <table className="widget-table table table-striped no-border">
                                                                             <thead>
                                                                                 <tr>
-                                                                                    <th scope="col" className="text-12">Match Date</th>
-                                                                                    <th scope="col" className="text-12">Opponents</th>
-                                                                                    <th scope="col" className="text-12">Time</th>
+                                                                                    <th scope="col" className="text-12">Payment ID</th>
+                                                                                    <th scope="col" className="text-12">Price</th>
                                                                                     <th scope="col" className="text-12">Status</th>
-                                                                                    <th scope="col" className="text-12">Competition</th>
+                                                                                    <th scope="col" className="text-12">Match</th>
+                                                                                    <th scope="col" className="text-12">Opponents</th>
+                                                                                    <th scope="col" className="text-12">Date</th>
+                                                                                    <th scope="col" className="text-12">Time</th>
                                                                                     <th scope="col" className="text-12">Venue</th>
+                                                                                    <th scope="col" className="text-12">Pandit Name</th>
                                                                                     <th scope="col" className="text-12">Astrology Report</th>
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
-                                                                                <tr>
-                                                                                    <td>Sat, Mar 24</td>
+                                                                            {(payments && payments.length > 0) ? payments.map((payment, index) => (
+                                                                                <tr key={index}>
+                                                                                    <td className='text-capitalize'>{payment && payment.razorpay_payment_id}</td>
+                                                                                    <td className='text-capitalize'>₹ {payment && payment.match_astrology_price}</td>
+                                                                                    <td className='text-capitalize'><span className='badge badge-success'>Paid</span></td>
+                                                                                    <td className='text-capitalize'>{payment && payment.matchs}</td>
                                                                                     <td>
-                                                                                        <div className="country-info">
-                                                                                            <span className="country-name text-13">ind</span>
+                                                                                        <div className="country-info text-capitalize">
+                                                                                            <span className="country-name text-13">{payment && payment.team_a_short}</span>
                                                                                             <span className="country-name text-12 mx-2">VS</span>
-                                                                                            <span className="country-name text-13">eng</span>
+                                                                                            <span className="country-name text-13">{payment && payment.team_b_short}</span>
                                                                                         </div>
                                                                                     </td>
-                                                                                    <td>9:00PM EST</td>
-                                                                                    <td>FINISHED</td>
-                                                                                    <td>IPL</td>
-                                                                                    <td>Madison Cube Stadium</td>
+                                                                                    <td>{payment && payment.match_date}</td>
+                                                                                    <td>{payment && payment.match_time}</td>
+                                                                                    <td>{payment && payment.venue}</td>
+                                                                                    <td>Report By: <b>{payment && payment.name}</b></td>
                                                                                     <td className='text-center'>
-                                                                                    <span className="cricnotch-btn btn-filled py-05 cursor-pointer" onClick={handleShowModal}>
-                                                                                        <i className='fa fa-eye'></i> View Report
-                                                                                    </span>
+                                                                                        {payment && payment.astrology_data ?
+                                                                                        <span className="cricnotch-btn btn-filled py-05 cursor-pointer" onClick={() => reportSet(payment)}>
+                                                                                            <i className='fa fa-eye'></i> View Report
+                                                                                        </span>
+                                                                                        : 
+                                                                                        <span>
+                                                                                            No Report
+                                                                                        </span>}
                                                                                     </td>
                                                                                 </tr>
+                                                                            )) : 
+                                                                            <tr>
+                                                                                <td colSpan={10}>No Reports Yet</td>    
+                                                                            </tr>}
                                                                             </tbody>
                                                                         </table>
                                                                     </div>

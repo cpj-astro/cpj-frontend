@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import HeaderTwo from '../../components/HeaderTwo';
+import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import { useNavigate } from 'react-router-dom';
 
@@ -11,12 +11,12 @@ function PlayerStats() {
     };
     return (
         <>
-            <HeaderTwo/>
+            <Header/>
             <div id="main" className="main-container">
                 <div className="container">
                     <section className="player-contact pt-0 pb-0">
                         <div className="card card-shadow">
-                            <h1>Match Astrology</h1>
+                            <h1>Player Stats</h1>
                         </div>
                         <div className="card card-shadow">
                             <div className="player-profile">

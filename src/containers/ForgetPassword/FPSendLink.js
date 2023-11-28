@@ -5,25 +5,26 @@ import { useForm } from "react-hook-form";
 import swal from 'sweetalert';
 import { toast } from 'react-toastify';
 
-function SignIn() {
+function FPSendLink() {
 	const navigate = useNavigate();
 	const { register, handleSubmit, reset, formState, formState: { isSubmitSuccessful } } = useForm();
 
 	const onSubmit = async (data) => {
+        if(data.email === '') {
+            toast.error('Please enter a valid email');
+        }
 		try {
 			axios.post(
 				process.env.REACT_APP_DEV === 'true' ? 
-				`${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/sign-in` : 
-				`${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/sign-in`, 
+				`${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/forget-password` : 
+				`${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/forget-password`, 
 				data
 			)
             .then((response) => {
                 if(response.data.status == true) {
-					localStorage.setItem('client_token', response.data.token);
-					navigate('/');
-                } else {
-					toast.error(response.data.message);
-				}
+                    toast.success(response.data.message);
+                    reset();
+                } 
             }).catch((error) => {
 				console.log(error);
                 navigate('/sign-in');
@@ -38,7 +39,7 @@ function SignIn() {
 			<section className="auth-sec login">
 				<div className="auth-form">
 					<div className="auth-form-header">
-						<h3>Sign in to your account</h3>
+						<h3>Forget Password</h3>
 					</div>
 
 					<form onSubmit={handleSubmit(onSubmit)}>
@@ -52,26 +53,13 @@ function SignIn() {
 								{...register("email")}
 							/>
 						</div>
-						<div className="input-field">
-							<label for="password">Password</label>
-							<input 
-								id="password" 
-								type="password" 
-								name="password" 
-								placeholder="Enter password"  
-								{...register("password")}
-							/>
-						</div>
 						<div className="form-row">
 							<div className="col-sm-8">
-							Doesn't have an account yet? <a href="/sign-up" className="forgot-link">Sign Up</a>
-							</div>
-							<div className="col-sm-4 text-sm-right">
-								<a href="/forget-password" className="forgot-link">Forgot Password?</a>
+							Back to sign in? <a href="/sign-in" className="forgot-link">Sign In</a>
 							</div>
 						</div>
 
-						<button type="submit" className="cricnotch-btn btn-filled radius-5">Sign in to Your Account</button>
+						<button type="submit" className="cricnotch-btn btn-filled radius-5">Send Reset Link</button>
 					</form>
 				</div>
 			</section>
@@ -79,4 +67,4 @@ function SignIn() {
     );
 }
 
-export default SignIn;
+export default FPSendLink;

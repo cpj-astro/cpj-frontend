@@ -12,11 +12,16 @@ import Profile from '../Profile/Profile';
 import PlayerStats from '../PlayerStats/PlayerStats';
 import PlayerProfile from '../PlayerProfile/PlayerProfile';
 import LiveScoreBoard from '../LiveScoreBoard/LiveScoreBoard';
-import BuyMatchAstrology from '../BuyMatchAstrology/BuyMatchAstrology';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'owl.carousel/dist/assets/owl.carousel.min.css';
 import 'owl.carousel/dist/assets/owl.theme.default.min.css';
+import MatchAstrology from '../MatchAstrology/MatchAstrology';
+import Terms from '../Pages/Terms';
+import Privacy from '../Pages/Privacy';
+import Disclaimer from '../Pages/Disclaimer';
+import FPSendLink from '../ForgetPassword/FPSendLink';
+import ResetPassword from '../ForgetPassword/ResetPassword';
 
 const App = () => {
   return (
@@ -27,13 +32,18 @@ const App = () => {
             <Route exact path='/' element={<PrivateRoute/>}>
               <Route path="/" element={<HomePage/>} />
               <Route path="/profile" element={<Profile/>} />
-              <Route path="/player-stats" element={<PlayerStats/>} />
-              <Route path="/buy-match-astrology/:id" element={<BuyMatchAstrology/>} />
+              <Route path="/player-stats/:id" element={<PlayerStats/>} />
+              <Route path="/match-astrology/:id" element={<MatchAstrology/>} />
               <Route path="/player-profile/:id" element={<PlayerProfile/>} />
               <Route path="/live-score-board/:id" element={<LiveScoreBoard/>} />
             </Route>
+            <Route path="/terms" element={<Terms/>} />
+            <Route path="/privacy" element={<Privacy/>} />
+            <Route path="/disclaimer" element={<Disclaimer/>} />
             <Route path='/sign-in' element={<SignIn/>}/>
             <Route path='/sign-up' element={<SignUp/>}/>
+            <Route path='/forget-password' element={<FPSendLink/>}/>
+            <Route path='/reset-password/:token' element={<ResetPassword/>}/>
           </Routes>
         </Fragment>
       </Router>

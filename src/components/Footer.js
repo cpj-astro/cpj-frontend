@@ -71,8 +71,9 @@ function Footer() {
 									<li><a href="#">About us</a></li>
 									<li><a href="#">contact us</a></li>
 									<li><a href="#">Frequently Asked Questions</a></li>
-									<li><a href="#">Terms & Conditions</a></li>
-									<li><a href="#">Privacy Policy</a></li>
+									<li><a href="/disclaimer">Disclaimer</a></li>
+									<li><a href="/terms">Terms & Conditions</a></li>
+									<li><a href="/privacy">Privacy Policy</a></li>
 								</ul>
 							</div>
 						</div>

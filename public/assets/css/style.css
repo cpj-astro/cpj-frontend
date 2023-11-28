@@ -97,6 +97,10 @@ select {
   background-size: auto;
 }
 
+p {
+  color: #ffffff;
+}
+
 /**
  *  Preloader
  */
@@ -912,9 +916,6 @@ a.post-meta {
   color: #ffffff;
 }
 
-a.post-meta:hover {
-  color: #544e9c;
-}
 
 .radius-0 {
   border-radius: 0 !important;
@@ -981,17 +982,12 @@ a.post-meta:hover {
 }
 
 .cricnotch-btn.btn-filled {
-  background: #eff0f5;
+  background: #262536;
   border: none;
-  color: #000;
+  color: #fff;
   padding: 10px 20px;
   border-radius: 50px;
   text-align: center;
-}
-
-.cricnotch-btn.btn-filled.active, .cricnotch-btn.btn-filled:hover {
-  background: #262536;
-  color: #fff;
 }
 
 .bg-primary {
@@ -3738,6 +3734,9 @@ a.post-meta:hover {
 .kundli-avatar {
   max-width: 300px;
   margin-right: 18px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
 }
 
 @media screen and (max-width: 767px) {
@@ -4099,7 +4098,7 @@ a.post-meta:hover {
   font-size: 14px;
   font-weight: 400;
   line-height: 20px;
-  color: #ffffff;
+  color: #3a5ae5;
   text-decoration: underline;
 }
 
@@ -5359,6 +5358,18 @@ a.post-meta:hover {
   font-size: small;
 }
 
+.theme-button-3 {
+  padding: 5px;
+  width: 100%;
+  background-image: linear-gradient(to left, #ff0844, #ff2f63 , #ff6a3d, #ff0844);
+  color: #fff;
+  border: 1px solid #dbdbdb;
+  cursor: pointer;
+  border-radius: 0px 0px 10px 0px;
+  text-transform: uppercase;
+  font-size: small;
+}
+
 .tv-container {
   display: flex;
   align-items: center;
@@ -5672,6 +5683,35 @@ input:checked ~ .cover:before {
   justify-content: center;
 }
 
+.btn-astro-v1 {
+  position: relative;
+  background: linear-gradient(-90deg, #EE7752, #E73C7E, #23A6D5, #23D5AB, #EE7752);
+  background-size: 400% 100%;
+  text-transform: uppercase;
+  font-weight: 700;
+  border: none;
+  border-radius: 0.25em;
+  font-size: 13px;
+  color:#fff;
+  height: 40px;
+  width: 200px;
+  letter-spacing: 1px;
+  padding: 0;
+  margin: 0;
+  animation: Gradient 4s ease infinite;
+  text-decoration: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.buy-btn-set {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 @keyframes Gradient {
 	50% {
 		background-position: 140% 50%;
@@ -5719,4 +5759,67 @@ input:checked ~ .cover:before {
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+.buy-astrology-wrapper {
+  background: #C9D6FF;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #E2E2E2, #C9D6FF);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #E2E2E2, #C9D6FF); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.glass-effect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(5px);
+  border-radius: 15px;
+  z-index: 1;
+}
+
+.buy-astrology-content {
+  margin-top: 20px;
+  position: absolute;
+  z-index: 2;
+  width: -webkit-fill-available;
+  transform: unset;
+  color: #fff;
+  text-align: center;
+}
+
+.buy-astro-font-color {
+  color: #3b368a;
+}
+
+.pandit-img {
+  width: 100px;
+  height: 100px;
+  border-radius: 5px;
+}
+
+.display-set {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-active {
+  border: 2px solid #47c49b;
+}
+
+.cpj-loader {
+  height: 30px;
+  width: auto;
+  margin: auto;
+}
+
+.loader-container {
+  width: 100%;
+  text-align: center;
+  height: 100vh;
 }

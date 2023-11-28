@@ -1,13 +1,13 @@
 import React from 'react';
 import axios from 'axios';
-import HeaderTwo from '../../components/HeaderTwo';
+import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import { useParams } from 'react-router-dom';
 
 function PlayerProfile() {
     return (
         <>
-            <HeaderTwo/>
+            <Header/>
             <div id="main" className="main-container">
                 <div className="container">
                     <div className="row">

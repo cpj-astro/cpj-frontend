@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import OwlCarousel from 'react-owl-carousel';
-import HeaderTwo from '../../components/HeaderTwo';
 import Footer from '../../components/Footer';
 import { useForm } from 'react-hook-form';
 import { db } from '../../authFiles/fbaseconfig';
@@ -9,6 +8,7 @@ import { toast } from 'react-toastify';
 import { setDoc, getDoc, doc, collection, where, onSnapshot, query, updateDoc } from 'firebase/firestore';
 import axios from 'axios';
 import Ball from '../../components/Ball';
+import Header from '../../components/Header';
 
 let matchDatas = null;
 
@@ -99,7 +99,7 @@ function LiveScoreBoard() {
     }, []);
     return (
 		<>
-            <HeaderTwo/>
+            <Header/>
 			<div id="main" className="main-container">
                 <div className="container">
                     <div className="row">
