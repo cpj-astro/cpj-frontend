@@ -79,8 +79,8 @@ function Profile() {
                 MatchName: reportData.team_a + ' Vs ' + reportData.team_b,
                 MatchStart: reportData.match_date,
                 Weather: reportData.weather,
-                ProfileName: reportData.first_name + ' ' + reportData.last_name,
-                SignName: reportData.sign_name,
+                ProfileName: user.first_name + ' ' + user.last_name,
+                SignName: user.sign_name,
                 MatchAstrology: data[0],
                 VenueWiseZodiac: data[1],
                 LuckyNumbers: data[2],
@@ -175,33 +175,6 @@ function Profile() {
                                                 </li>
                                             </ul>
                                         </div>
-                                        {/* <hr className=''/>  
-                                        <div className='info-body'>
-                                            <ul className="list-striped">
-                                                <li>
-                                                    <span className='long-stripped'>Match Turning Time/Point</span>
-                                                    <p className='text-muted'>In between 17 to 20 overs 1st innings or around 15:00 IST</p>
-                                                </li>
-                                                <li>
-                                                    <span className='long-stripped'>Special Recommendation</span>
-                                                    <p className='text-muted'>Avoid Major Risk , do mantras for this time.</p>
-                                                </li>
-                                                <li>
-                                                    <span className='long-stripped'>Patience & timing for this match</span>
-                                                    <p className='text-muted'>Around 2 PM for just 15 min</p>
-                                                </li>
-                                                <li>
-                                                    <span className='long-stripped'>Venue avourite zodiacs</span>
-                                                    <p className='text-muted'>Aries, Capricorn, Leo</p>
-                                                </li>
-                                                <li>
-                                                    <span className='long-stripped'>Favourite Team</span>
-                                                    <p className='text-muted'>
-                                                        India (Do bet on this team)
-                                                    </p>
-                                                </li>
-                                            </ul>
-                                        </div> */}
                                         <hr className='mb-0'/>
                                         <div className='container'>
                                             <div className="country-info align-items-center">

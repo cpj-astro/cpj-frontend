@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import RazorpayIntegration from '../../components/RazorPayIntegration';
 import Loader from '../../components/Loader';
 import Header from '../../components/Header';
+import MatchKundli from '../../components/MatchKundli';
 
 function MatchAstrology() {
     const navigate = useNavigate();
@@ -18,6 +19,29 @@ function MatchAstrology() {
     const [isPaymentSuccess, setIsPaymentSuccess] = useState(false);
     const [isPaymentFail, setIsPaymentFail] = useState(false);
     const [loader, setLoader] = useState(false);
+    const [reportData, setReportData] = useState({
+        MatchName:'',
+        MatchStart:'',
+        Weather:'',
+        ProfileName: '',
+        SignName: '',
+        MatchAstrology: '',
+        VenueWiseZodiac: '',
+        LuckyNumbers: '',
+        LuckyColors: '',
+        SpecialRecommendation: '',
+        AstroFavPlayers: '',
+        MatchBetSessionFancy: '',
+        VenueFavZodiac: '',
+        FavTeams: '',
+        FancyBet6Ovrs: '',
+        FancyBet20Ovrs: '',
+        Suggestion: '',
+        AstrologicalBettingTime: '',
+        OverallBettingForMatch: '',
+        Direction: '',
+        Mantras: '',
+    });
 
     var accessToken = localStorage.getItem('client_token');
     const apiConfig = {
@@ -26,6 +50,45 @@ function MatchAstrology() {
             'Content-Type': 'application/json',
         }
     };
+
+    const reportSet = (reportData) => {
+        console.log(reportData);
+        setLoader(true);
+        try {
+            const data = reportData.astrology_data.split('|').map((item) => item.trim());
+            setReportData({
+                MatchName: match.team_a + ' Vs ' + match.team_b,
+                MatchStart: match.match_date,
+                Weather: match.weather,
+                ProfileName: user.first_name + ' ' + user.last_name,
+                SignName: user.sign_name,
+                MatchAstrology: data[0],
+                VenueWiseZodiac: data[1],
+                LuckyNumbers: data[2],
+                LuckyColors: data[3],
+                SpecialRecommendation: data[4],
+                AstroFavPlayers: data[5],
+                MatchBetSessionFancy: data[6],
+                VenueFavZodiac: data[7],
+                FavTeams: data[8],
+                FancyBet6Ovrs: data[9],
+                FancyBet20Ovrs: data[10],
+                Suggestion: data[11],
+                AstrologicalBettingTime: data[12],
+                OverallBettingForMatch: data[13],
+                Direction: data[14],
+                Mantras: data[15],
+            });
+        } catch (error) {
+            setLoader(false);
+        }
+    }
+
+    useEffect(() => {
+        setTimeout(() => {
+            setLoader(false);
+        }, 2000);
+    }, [reportData])
 
     const handlePaymentSuccess = () => {
         fetchMatchData();
@@ -45,10 +108,12 @@ function MatchAstrology() {
         }
 		axios.post(process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/matchInfo` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/matchInfo`, params, apiConfig)
         .then((response) => {
-            console.log(response);
             setLoader(false);
             if(response.data.success){
                 setMatch(response.data.data);
+                if(response.data.data && response.data.data.astrology_data){
+                    reportSet(response.data.data);
+                }
             }
         }).catch((error) => {
             setLoader(false);
@@ -111,708 +176,122 @@ function MatchAstrology() {
             <>
                 {match && match.razorpay_payment_id && match.razorpay_order_id && match.razorpay_signature && match.payment_status ? (
                     <div id="main" className="main-container">
-                        <div className="container">
-                            <section className="player-contact pt-0 pb-0">
-                                <div className="card card-shadow">
-                                    <h1>Match Astrology</h1>
-                                </div>
-                                <div className="card card-shadow">
-                                    <div className="player-profile">
-                                        <div className="player-info">
-                                            <div className="info-header">
-                                                <div>
-                                                    <h2>
-                                                        IND Vs PAK
-                                                    </h2>
-                                                </div>
-                                            </div>
-
-                                            <div className="info-body">
-                                                <ul className="list-striped mr-05">
-                                                    <li>
-                                                        <span>Match Status</span>
-                                                        <p>Feb 04, 1986</p>
-                                                    </li>
-                                                    <li>
-                                                        <span>Match Stats</span>
-                                                        <p>Mymensingh</p>
-                                                    </li>
-                                                    <li>
-                                                        <span>Match Credites</span>
-                                                        <p>175 cm</p>
-                                                    </li>
-                                                    <li>
-                                                        <span>Match Torat</span>
-                                                        <p>Batting Allrounder</p>
-                                                    </li>
-                                                </ul>
-                                                <ul className="list-striped">
-                                                    <li>
-                                                        <span>Moon Sign</span>
-                                                        <p>Saggitarious</p>
-                                                    </li>
-                                                    <li>
-                                                        <span>Sun Sign</span>
-                                                        <p>Gemini</p>
-                                                    </li>
-                                                    <li>
-                                                        <span>Dosha</span>
-                                                        <p>Lorem</p>
-                                                    </li>
-                                                    <li>
-                                                        <span>Gotra</span>
-                                                        <p>
-                                                            Vasisth
-                                                            <small> (Sun Time)</small>
-                                                        </p>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </section>
+                        <div className="container breadcrumb-area">
+                            <div className="breadcrumb">
+                                <a href="/">Home</a>
+                                <span>Match Astrology Report</span>
+                            </div>
+                            <h2>Match Astrology Report</h2>
+                        </div>
+                        <div className="container pt-20">
                             <div className="row">
-                                <div className="col-lg-9">
-                                    <section className="team-rankings pt-0">
-                                        <div className="tab-content">
-                                            <div id="test_rank" className="tab-pane fade in show active">
-                                                <div className="card card-shadow table-responsive py-30 px-0">
-                                                    <table className="widget-table table table-striped no-border">
-                                                        <thead>
-                                                            <tr>
-                                                                <th scope="col">pos</th>
-                                                                <th scope="col">Player</th>
-                                                                <th scope="col">matches</th>
-                                                                <th scope="col">points</th>
-                                                                <th scope="col">rating</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr onClick={() => {navigate('/player-profile/1')}}>
-                                                                <td>01.</td>
-                                                                <td className="pl-0">
-                                                                    <div className="country-info align-items-center">
-                                                                        <div className="flag-avatar mr-05">
-                                                                            <figure className="avatar-28">
-                                                                                <img src="assets/images/flags/india.png" alt="" />
-                                                                            </figure>
-                                                                        </div>
-                                                                        <span className="country-name text-13">MS Dhoni</span>
-                                                                    </div>
-                                                                </td>
-                                                                <td>272</td>
-                                                                <td>272</td>
-                                                                <td>272</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>02.</td>
-                                                                <td className="pl-0">
-                                                                    <div className="country-info align-items-center">
-                                                                        <div className="flag-avatar mr-05">
-                                                                            <figure className="avatar-28">
-                                                                                <img src="assets/images/flags/england.png" alt="" />
-                                                                            </figure>
-                                                                        </div>
-                                                                        <span className="country-name text-13">Virat Kohli</span>
-                                                                    </div>
-                                                                </td>
-                                                                <td>270</td>
-                                                                <td>270</td>
-                                                                <td>270</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>03.</td>
-                                                                <td className="pl-0">
-                                                                    <div className="country-info align-items-center">
-                                                                        <div className="flag-avatar mr-05">
-                                                                            <figure className="avatar-28">
-                                                                                <img src="assets/images/flags/australia.png" alt="" />
-                                                                            </figure>
-                                                                        </div>
-                                                                        <span className="country-name text-13">Shikhar Dhawan</span>
-                                                                    </div>
-                                                                </td>
-                                                                <td>267</td>
-                                                                <td>267</td>
-                                                                <td>267</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>04.</td>
-                                                                <td className="pl-0">
-                                                                    <div className="country-info align-items-center">
-                                                                        <div className="flag-avatar mr-05">
-                                                                            <figure className="avatar-28">
-                                                                                <img src="assets/images/flags/pakistan.png" alt="" />
-                                                                            </figure>
-                                                                        </div>
-                                                                        <span className="country-name text-13">Rohit Sharma</span>
-                                                                    </div>
-                                                                </td>
-                                                                <td>260</td>
-                                                                <td>260</td>
-                                                                <td>260</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>05.</td>
-                                                                <td className="pl-0">
-                                                                    <div className="country-info align-items-center">
-                                                                        <div className="flag-avatar mr-05">
-                                                                            <figure className="avatar-28">
-                                                                                <img src="assets/images/flags/new-zealand.png" alt="" />
-                                                                            </figure>
-                                                                        </div>
-                                                                        <span className="country-name text-13">Hardik Pandya</span>
-                                                                    </div>
-                                                                </td>
-                                                                <td>255</td>
-                                                                <td>255</td>
-                                                                <td>255</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>06.</td>
-                                                                <td className="pl-0">
-                                                                    <div className="country-info align-items-center">
-                                                                        <div className="flag-avatar mr-05">
-                                                                            <figure className="avatar-28">
-                                                                                <img src="assets/images/flags/england.png" alt="" />
-                                                                            </figure>
-                                                                        </div>
-                                                                        <span className="country-name text-13">Suresh Raina</span>
-                                                                    </div>
-                                                                </td>
-                                                                <td>272</td>
-                                                                <td>272</td>
-                                                                <td>272</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>07.</td>
-                                                                <td className="pl-0">
-                                                                    <div className="country-info align-items-center">
-                                                                        <div className="flag-avatar mr-05">
-                                                                            <figure className="avatar-28">
-                                                                                <img src="assets/images/flags/india.png" alt="" />
-                                                                            </figure>
-                                                                        </div>
-                                                                        <span className="country-name text-13">Yuvraj Singh</span>
-                                                                    </div>
-                                                                </td>
-                                                                <td>270</td>
-                                                                <td>270</td>
-                                                                <td>270</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>08.</td>
-                                                                <td className="pl-0">
-                                                                    <div className="country-info align-items-center">
-                                                                        <div className="flag-avatar mr-05">
-                                                                            <figure className="avatar-28">
-                                                                                <img src="assets/images/flags/australia.png" alt="" />
-                                                                            </figure>
-                                                                        </div>
-                                                                        <span className="country-name text-13">Parthiv Patel</span>
-                                                                    </div>
-                                                                </td>
-                                                                <td>267</td>
-                                                                <td>267</td>
-                                                                <td>267</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>09.</td>
-                                                                <td className="pl-0">
-                                                                    <div className="country-info align-items-center">
-                                                                        <div className="flag-avatar mr-05">
-                                                                            <figure className="avatar-28">
-                                                                                <img src="assets/images/flags/pakistan.png" alt="" />
-                                                                            </figure>
-                                                                        </div>
-                                                                        <span className="country-name text-13">Munaf Patel</span>
-                                                                    </div>
-                                                                </td>
-                                                                <td>260</td>
-                                                                <td>260</td>
-                                                                <td>260</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>10.</td>
-                                                                <td className="pl-0">
-                                                                    <div className="country-info align-items-center">
-                                                                        <div className="flag-avatar mr-05">
-                                                                            <figure className="avatar-28">
-                                                                                <img src="assets/images/flags/new-zealand.png" alt="" />
-                                                                            </figure>
-                                                                        </div>
-                                                                        <span className="country-name text-13">Yusuf Pathan</span>
-                                                                    </div>
-                                                                </td>
-                                                                <td>255</td>
-                                                                <td>255</td>
-                                                                <td>255</td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
+                                <div className="col-md-12">
+                                    <section className='card player-contact'>
+                                        <div className='player-profile'>
+                                            <div className="player-info">
+                                                <div className="country-info align-items-center">
+                                                    <h1>Astrology Details</h1>
                                                 </div>
-                                            </div>
-                                            <div id="odi_rank" className="tab-pane fade">
-                                                <div className="card card-shadow table-responsive py-30 px-0">
-                                                    <table className="widget-table table table-striped no-border">
-                                                        <thead>
-                                                            <tr>
-                                                                <th scope="col">pos</th>
-                                                                <th scope="col">team</th>
-                                                                <th scope="col">matches</th>
-                                                                <th scope="col">points</th>
-                                                                <th scope="col">rating</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>01.</td>
-                                                                <td className="pl-0">
-                                                                    <div className="country-info align-items-center">
-                                                                        <div className="flag-avatar mr-05">
-                                                                            <figure className="avatar-28">
-                                                                                <img src="assets/images/flags/england.png" alt="" />
-                                                                            </figure>
-                                                                        </div>
-                                                                        <span className="country-name text-13">england</span>
-                                                                    </div>
-                                                                </td>
-                                                                <td>272</td>
-                                                                <td>272</td>
-                                                                <td>272</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>02.</td>
-                                                                <td className="pl-0">
-                                                                    <div className="country-info align-items-center">
-                                                                        <div className="flag-avatar mr-05">
-                                                                            <figure className="avatar-28">
-                                                                                <img src="assets/images/flags/india.png" alt="" />
-                                                                            </figure>
-                                                                        </div>
-                                                                        <span className="country-name text-13">india</span>
-                                                                    </div>
-                                                                </td>
-                                                                <td>270</td>
-                                                                <td>270</td>
-                                                                <td>270</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>03.</td>
-                                                                <td className="pl-0">
-                                                                    <div className="country-info align-items-center">
-                                                                        <div className="flag-avatar mr-05">
-                                                                            <figure className="avatar-28">
-                                                                                <img src="assets/images/flags/australia.png" alt="" />
-                                                                            </figure>
-                                                                        </div>
-                                                                        <span className="country-name text-13">australia</span>
-                                                                    </div>
-                                                                </td>
-                                                                <td>267</td>
-                                                                <td>267</td>
-                                                                <td>267</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>04.</td>
-                                                                <td className="pl-0">
-                                                                    <div className="country-info align-items-center">
-                                                                        <div className="flag-avatar mr-05">
-                                                                            <figure className="avatar-28">
-                                                                                <img src="assets/images/flags/pakistan.png" alt="" />
-                                                                            </figure>
-                                                                        </div>
-                                                                        <span className="country-name text-13">pakistan</span>
-                                                                    </div>
-                                                                </td>
-                                                                <td>260</td>
-                                                                <td>260</td>
-                                                                <td>260</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>05.</td>
-                                                                <td className="pl-0">
-                                                                    <div className="country-info align-items-center">
-                                                                        <div className="flag-avatar mr-05">
-                                                                            <figure className="avatar-28">
-                                                                                <img src="assets/images/flags/new-zealand.png" alt="" />
-                                                                            </figure>
-                                                                        </div>
-                                                                        <span className="country-name text-13">new zealand</span>
-                                                                    </div>
-                                                                </td>
-                                                                <td>255</td>
-                                                                <td>255</td>
-                                                                <td>255</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>06.</td>
-                                                                <td className="pl-0">
-                                                                    <div className="country-info align-items-center">
-                                                                        <div className="flag-avatar mr-05">
-                                                                            <figure className="avatar-28">
-                                                                                <img src="assets/images/flags/england.png" alt="" />
-                                                                            </figure>
-                                                                        </div>
-                                                                        <span className="country-name text-13">england</span>
-                                                                    </div>
-                                                                </td>
-                                                                <td>272</td>
-                                                                <td>272</td>
-                                                                <td>272</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>07.</td>
-                                                                <td className="pl-0">
-                                                                    <div className="country-info align-items-center">
-                                                                        <div className="flag-avatar mr-05">
-                                                                            <figure className="avatar-28">
-                                                                                <img src="assets/images/flags/india.png" alt="" />
-                                                                            </figure>
-                                                                        </div>
-                                                                        <span className="country-name text-13">india</span>
-                                                                    </div>
-                                                                </td>
-                                                                <td>270</td>
-                                                                <td>270</td>
-                                                                <td>270</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>08.</td>
-                                                                <td className="pl-0">
-                                                                    <div className="country-info align-items-center">
-                                                                        <div className="flag-avatar mr-05">
-                                                                            <figure className="avatar-28">
-                                                                                <img src="assets/images/flags/australia.png" alt="" />
-                                                                            </figure>
-                                                                        </div>
-                                                                        <span className="country-name text-13">australia</span>
-                                                                    </div>
-                                                                </td>
-                                                                <td>267</td>
-                                                                <td>267</td>
-                                                                <td>267</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>09.</td>
-                                                                <td className="pl-0">
-                                                                    <div className="country-info align-items-center">
-                                                                        <div className="flag-avatar mr-05">
-                                                                            <figure className="avatar-28">
-                                                                                <img src="assets/images/flags/pakistan.png" alt="" />
-                                                                            </figure>
-                                                                        </div>
-                                                                        <span className="country-name text-13">pakistan</span>
-                                                                    </div>
-                                                                </td>
-                                                                <td>260</td>
-                                                                <td>260</td>
-                                                                <td>260</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>10.</td>
-                                                                <td className="pl-0">
-                                                                    <div className="country-info align-items-center">
-                                                                        <div className="flag-avatar mr-05">
-                                                                            <figure className="avatar-28">
-                                                                                <img src="assets/images/flags/new-zealand.png" alt="" />
-                                                                            </figure>
-                                                                        </div>
-                                                                        <span className="country-name text-13">new zealand</span>
-                                                                    </div>
-                                                                </td>
-                                                                <td>255</td>
-                                                                <td>255</td>
-                                                                <td>255</td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
+                                                <hr className="mt-0"/>
+                                                <div className="info-body">
+                                                    <ul className="list-striped mr-05">
+                                                        <li>
+                                                            <span>Match Name</span>
+                                                            <p className='text-muted'>{reportData.MatchName ?? 'N/A'}</p>
+                                                        </li>
+                                                        <li>
+                                                            <span>Match Start</span>
+                                                            <p className='text-muted'>{reportData.MatchStart ?? 'N/A'} IST</p>
+                                                        </li>
+                                                        <li>
+                                                            <span>Weather</span>
+                                                            <p className='text-muted'>{reportData.Weather ?? 'N/A'}</p>
+                                                        </li>
+                                                        <li>
+                                                            <span>Profile Name</span>
+                                                            <p className='text-muted'>{reportData.ProfileName ?? 'N/A'}</p>
+                                                        </li>
+                                                        <li>
+                                                            <span>Direction</span>
+                                                            <p className='text-muted'>{reportData.Direction ?? 'N/A'}</p>
+                                                        </li>
+                                                    </ul>
+                                                    <ul className="list-striped">
+                                                        <li>
+                                                            <span>Rashi/Zodiac</span>
+                                                            <p className='text-muted'>{reportData.SignName ?? 'N/A'}</p>
+                                                        </li>
+                                                        <li>
+                                                            <span>Favourite Zodiacs</span>
+                                                            <p className='text-muted'>{reportData.VenueWiseZodiac ?? 'N/A'}</p>
+                                                        </li>
+                                                        <li>
+                                                            <span>Lucky Numbers</span>
+                                                            <p className='text-muted'>{reportData.LuckyNumbers ?? 'N/A'}</p>
+                                                        </li>
+                                                        <li>
+                                                            <span>Lucky Colours</span>
+                                                            <p className='text-muted'>{reportData.LuckyColors ?? 'N/A'}</p>
+                                                        </li>
+                                                        <li>
+                                                            <span>Favourite Team</span>
+                                                            <p className='text-muted'>{reportData.FavTeams ?? 'N/A'}</p>
+                                                        </li>
+                                                    </ul>
                                                 </div>
-                                            </div>
-                                            <div id="t20_rank" className="tab-pane fade">
-                                                <div className="card card-shadow table-responsive py-30 px-0">
-                                                    <table className="widget-table table table-striped no-border">
-                                                        <thead>
-                                                            <tr>
-                                                                <th scope="col">pos</th>
-                                                                <th scope="col">team</th>
-                                                                <th scope="col">matches</th>
-                                                                <th scope="col">points</th>
-                                                                <th scope="col">rating</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>01.</td>
-                                                                <td className="pl-0">
-                                                                    <div className="country-info align-items-center">
-                                                                        <div className="flag-avatar mr-05">
-                                                                            <figure className="avatar-28">
-                                                                                <img src="assets/images/flags/england.png" alt="" />
-                                                                            </figure>
-                                                                        </div>
-                                                                        <span className="country-name text-13">england</span>
-                                                                    </div>
-                                                                </td>
-                                                                <td>272</td>
-                                                                <td>272</td>
-                                                                <td>272</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>02.</td>
-                                                                <td className="pl-0">
-                                                                    <div className="country-info align-items-center">
-                                                                        <div className="flag-avatar mr-05">
-                                                                            <figure className="avatar-28">
-                                                                                <img src="assets/images/flags/india.png" alt="" />
-                                                                            </figure>
-                                                                        </div>
-                                                                        <span className="country-name text-13">india</span>
-                                                                    </div>
-                                                                </td>
-                                                                <td>270</td>
-                                                                <td>270</td>
-                                                                <td>270</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>03.</td>
-                                                                <td className="pl-0">
-                                                                    <div className="country-info align-items-center">
-                                                                        <div className="flag-avatar mr-05">
-                                                                            <figure className="avatar-28">
-                                                                                <img src="assets/images/flags/australia.png" alt="" />
-                                                                            </figure>
-                                                                        </div>
-                                                                        <span className="country-name text-13">australia</span>
-                                                                    </div>
-                                                                </td>
-                                                                <td>267</td>
-                                                                <td>267</td>
-                                                                <td>267</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>04.</td>
-                                                                <td className="pl-0">
-                                                                    <div className="country-info align-items-center">
-                                                                        <div className="flag-avatar mr-05">
-                                                                            <figure className="avatar-28">
-                                                                                <img src="assets/images/flags/pakistan.png" alt="" />
-                                                                            </figure>
-                                                                        </div>
-                                                                        <span className="country-name text-13">pakistan</span>
-                                                                    </div>
-                                                                </td>
-                                                                <td>260</td>
-                                                                <td>260</td>
-                                                                <td>260</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>05.</td>
-                                                                <td className="pl-0">
-                                                                    <div className="country-info align-items-center">
-                                                                        <div className="flag-avatar mr-05">
-                                                                            <figure className="avatar-28">
-                                                                                <img src="assets/images/flags/new-zealand.png" alt="" />
-                                                                            </figure>
-                                                                        </div>
-                                                                        <span className="country-name text-13">new zealand</span>
-                                                                    </div>
-                                                                </td>
-                                                                <td>255</td>
-                                                                <td>255</td>
-                                                                <td>255</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>06.</td>
-                                                                <td className="pl-0">
-                                                                    <div className="country-info align-items-center">
-                                                                        <div className="flag-avatar mr-05">
-                                                                            <figure className="avatar-28">
-                                                                                <img src="assets/images/flags/england.png" alt="" />
-                                                                            </figure>
-                                                                        </div>
-                                                                        <span className="country-name text-13">england</span>
-                                                                    </div>
-                                                                </td>
-                                                                <td>272</td>
-                                                                <td>272</td>
-                                                                <td>272</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>07.</td>
-                                                                <td className="pl-0">
-                                                                    <div className="country-info align-items-center">
-                                                                        <div className="flag-avatar mr-05">
-                                                                            <figure className="avatar-28">
-                                                                                <img src="assets/images/flags/india.png" alt="" />
-                                                                            </figure>
-                                                                        </div>
-                                                                        <span className="country-name text-13">india</span>
-                                                                    </div>
-                                                                </td>
-                                                                <td>270</td>
-                                                                <td>270</td>
-                                                                <td>270</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>08.</td>
-                                                                <td className="pl-0">
-                                                                    <div className="country-info align-items-center">
-                                                                        <div className="flag-avatar mr-05">
-                                                                            <figure className="avatar-28">
-                                                                                <img src="assets/images/flags/australia.png" alt="" />
-                                                                            </figure>
-                                                                        </div>
-                                                                        <span className="country-name text-13">australia</span>
-                                                                    </div>
-                                                                </td>
-                                                                <td>267</td>
-                                                                <td>267</td>
-                                                                <td>267</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>09.</td>
-                                                                <td className="pl-0">
-                                                                    <div className="country-info align-items-center">
-                                                                        <div className="flag-avatar mr-05">
-                                                                            <figure className="avatar-28">
-                                                                                <img src="assets/images/flags/pakistan.png" alt="" />
-                                                                            </figure>
-                                                                        </div>
-                                                                        <span className="country-name text-13">pakistan</span>
-                                                                    </div>
-                                                                </td>
-                                                                <td>260</td>
-                                                                <td>260</td>
-                                                                <td>260</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>10.</td>
-                                                                <td className="pl-0">
-                                                                    <div className="country-info align-items-center">
-                                                                        <div className="flag-avatar mr-05">
-                                                                            <figure className="avatar-28">
-                                                                                <img src="assets/images/flags/new-zealand.png" alt="" />
-                                                                            </figure>
-                                                                        </div>
-                                                                        <span className="country-name text-13">new zealand</span>
-                                                                    </div>
-                                                                </td>
-                                                                <td>255</td>
-                                                                <td>255</td>
-                                                                <td>255</td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
+                                                <hr className='mb-0'/>
+                                                <div className='container'>
+                                                    <div className="country-info align-items-center">
+                                                        <span className="country-name text-13">Match Astrology</span>
+                                                    </div>
+                                                    <span className='text-muted'>
+                                                        {reportData.MatchAstrology ?? 'N/A'}
+                                                    </span>
+                                                </div>
+                                                <hr className='mb-0'/>
+                                                <div className='container'>
+                                                    <div className="country-info align-items-center">
+                                                        <span className="country-name text-13">Astrological Favourite players</span>
+                                                    </div>
+                                                    <span className='text-muted'>
+                                                        {reportData.AstroFavPlayers ?? 'N/A'}
+                                                    </span>
+                                                </div>
+                                                <hr className='mb-0'/>
+                                                <div className='container text-center'>
+                                                    <span className="country-name text-13 mb-2">Match Natal Chart</span>
+                                                    <MatchKundli housesData={user && user.kundli_data ? user.kundli_data : []} />
+                                                </div>
+                                                <hr className='mb-0'/>
+                                                <div className='container'>
+                                                    <div className="country-info align-items-center">
+                                                        <span className="country-name text-13">Suggestions</span>
+                                                    </div>
+                                                    <span className='text-muted'>
+                                                        {reportData.Suggestion ?? 'N/A'}
+                                                    </span>
+                                                </div>
+                                                <hr className='mb-0'/>
+                                                <div className='container'>
+                                                    <div className="country-info align-items-center">
+                                                        <span className="country-name text-13">Mantras</span>
+                                                    </div>
+                                                    <span className='text-muted'>
+                                                        {reportData.Mantras ?? 'N/A'}
+                                                    </span>
+                                                </div>
+                                                <hr className='mb-0'/>
+                                                <div className='container'>
+                                                    <div className="country-info align-items-center">
+                                                        <span className="country-name text-13">Disclaimer</span>
+                                                    </div>
+                                                    <span className='text-muted'>
+                                                        The testimonials provided on our website are personal views and experiences of our clients. We do not make any type of false claims of guaranteed results as we are not GODS or HIS decendants. We promise the best of the services with truth, faith and devotion. There is no guarantee of specific results and that the results can vary as every individual has its own horoscope and different pattern of their planets. Hence, results or final effects of remedies could vary from person to person.
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>
                                     </section>
-                                </div>
-                                <div className="col-lg-3">
-                                    <aside className="sidebar right-sidebar">
-                                        <div className="widget widget-latest-news">
-                                            <h3 className="widget-title">Popular News</h3>
-
-                                            <div className="card card-shadow">
-                                                <div className="content-card card-grid">
-                                                    <figure>
-                                                        <img src="assets/images/posts/thumbs/4.jpg" alt="" />
-                                                    </figure>
-                                                    <div className="content-block">
-                                                        <h3>
-                                                            <a href="#">Strength to smarts: How Smith has levelled up</a>
-                                                        </h3>
-                                                        <a href="#" className="post-meta">02 hours ago</a>
-                                                    </div>
-                                                </div>
-                                                <div className="content-card card-grid">
-                                                    <figure>
-                                                        <img src="assets/images/posts/thumbs/5.jpg" alt="" />
-                                                    </figure>
-                                                    <div className="content-block">
-                                                        <h3>
-                                                            <a href="#">Strength to smarts: How Smith has levelled up</a>
-                                                        </h3>
-                                                        <a href="#" className="post-meta">02 hours ago</a>
-                                                    </div>
-                                                </div>
-                                                <div className="content-card card-grid">
-                                                    <figure>
-                                                        <img src="assets/images/posts/thumbs/6.jpg" alt="" />
-                                                    </figure>
-                                                    <div className="content-block">
-                                                        <h3>
-                                                            <a href="#">Strength to smarts: How Smith has levelled up</a>
-                                                        </h3>
-                                                        <a href="#" className="post-meta">02 hours ago</a>
-                                                    </div>
-                                                </div>
-                                                <div className="content-card card-grid">
-                                                    <figure>
-                                                        <img src="assets/images/posts/thumbs/7.jpg" alt="" />
-                                                    </figure>
-                                                    <div className="content-block">
-                                                        <h3>
-                                                            <a href="#">Strength to smarts: How Smith has levelled up</a>
-                                                        </h3>
-                                                        <a href="#" className="post-meta">02 hours ago</a>
-                                                    </div>
-                                                </div>
-                                                <div className="content-card card-grid">
-                                                    <figure>
-                                                        <img src="assets/images/posts/thumbs/8.jpg" alt="" />
-                                                    </figure>
-                                                    <div className="content-block">
-                                                        <h3>
-                                                            <a href="#">Strength to smarts: How Smith has levelled up</a>
-                                                        </h3>
-                                                        <a href="#" className="post-meta">02 hours ago</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="widget widget-social">
-                                            <h3 className="widget-title">Reach us on</h3>
-
-                                            <div className="card p-0">
-                                                <div className="social-card facebook">
-                                                    <a href="#">
-                                                        <div className="icon">
-                                                            <i className="fab fa-facebook-f"></i>
-                                                        </div>
-                                                        <div className="social-card-content">
-                                                            <strong>Facebook</strong>
-                                                            <span>Link our facebook page</span>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div className="social-card twitter">
-                                                    <a href="#">
-                                                        <div className="icon">
-                                                            <i className="fab fa-twitter"></i>
-                                                        </div>
-                                                        <div className="social-card-content">
-                                                            <strong>Twitter</strong>
-                                                            <span>Follow us on twitter</span>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div className="social-card linkedin">
-                                                    <a href="#">
-                                                        <div className="icon">
-                                                            <i className="fab fa-linkedin-in"></i>
-                                                        </div>
-                                                        <div className="social-card-content">
-                                                            <strong>Linkedin</strong>
-                                                            <span>Join us on linkedin</span>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </aside>
                                 </div>
                             </div>
                         </div>

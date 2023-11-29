@@ -17,9 +17,7 @@ function drawText(context, x, y, maintext, subtext) {
   context.fillText(maintext, x * context.canvas.width / 100, y * context.canvas.height / 100);
 }
 
-const MatchKundli = ({ housesData }) => {
-    console.log("MainKeywards", housesData);
-    
+const MatchKundli = ({ housesData }) => {    
     useEffect(() => {
         const canvas = document.getElementById("match-canvas");
         const ctx = canvas.getContext("2d");
