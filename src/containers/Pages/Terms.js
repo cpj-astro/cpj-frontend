@@ -6,7 +6,7 @@ export default function Terms() {
   return (
     <>
         <Header/>
-        <div className='container mt-30'>
+        <div className='container mt-30 others'>
             <h2>Terms of Use</h2>
 
             <p>Welcome to Cricket Punter Line (&quot;Cpl&quot; or &quot;Cpl&quot; or &quot;Company&quot; or &quot;We&quot;).</p>

@@ -6,7 +6,7 @@ export default function Privacy() {
   return (
     <>
         <Header/>
-        <div className='container mt-30'>
+        <div className='container mt-30 others'>
             <h2>Privacy Policy</h2>
 
             <p><strong>Introduction</strong></p>

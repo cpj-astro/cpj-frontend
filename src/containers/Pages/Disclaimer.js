@@ -6,7 +6,7 @@ export default function Disclaimer() {
   return (
     <>
         <Header/>
-        <div className='container mt-30'>
+        <div className='container mt-30 others'>
             <p><span style={{ fontSize: '18px' }}><strong>Copyright</strong></span></p>
 
             <p>Cricket Punter Line or all the things in the&nbsp;app is the legal property of our company&nbsp;and we give you

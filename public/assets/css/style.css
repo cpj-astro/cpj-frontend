@@ -101,6 +101,10 @@ p {
   color: #ffffff;
 }
 
+.others p {
+  color: #000000 !important;
+}
+
 /**
  *  Preloader
  */
