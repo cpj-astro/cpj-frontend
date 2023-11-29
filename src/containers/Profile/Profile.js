@@ -15,6 +15,7 @@ import Loader from '../../components/Loader';
 function Profile() {
     const navigate = useNavigate();
     const [showModal, setShowModal] = useState(false);
+    const [activeTab, setActiveTab] = useState('profile-details');
     const handleCloseModal = () => setShowModal(false);
     const handleShowModal = () => setShowModal(true);
     const [loader, setLoader] = useState(false);
@@ -69,6 +70,10 @@ function Profile() {
 			}
         });
     }
+
+    const handleTabChange = (tab) => {
+        setActiveTab(tab);
+    };
 
     const reportSet = (reportData) => {
         handleShowModal();
@@ -255,16 +260,24 @@ function Profile() {
                                                     <div className='col-md-12'>
                                                         <aside className="sidebar right-sidebar">
                                                             <div className="widget widget-upcoming-match">
-                                                                <ul className="nav nav-tabs">
-                                                                    <li className="active"><a data-toggle="tab" href="#profile-details" className="active">Personal Details</a></li>
-                                                                    <li><a data-toggle="tab" href="#view-kundli">Kundli</a></li>
-                                                                    <li><a data-toggle="tab" href="#astrology-reports">Payments & Reports</a></li>
-                                                                    <li><a data-toggle="tab" href="#scorecard">Account Settings</a></li>
+                                                                 <ul className="nav nav-tabs custom-nav">
+                                                                    <li className={activeTab === 'profile-details' ? 'cursor-pointer active' : 'cursor-pointer'}>
+                                                                        <a onClick={() => handleTabChange('profile-details')}>Personal Details</a>
+                                                                    </li>
+                                                                    <li className={activeTab === 'view-kundli' ? 'cursor-pointer active' : 'cursor-pointer'}>
+                                                                        <a onClick={() => handleTabChange('view-kundli')}>Kundli</a>
+                                                                    </li>
+                                                                    <li className={activeTab === 'astrology-reports' ? 'cursor-pointer active' : 'cursor-pointer'}>
+                                                                        <a onClick={() => handleTabChange('astrology-reports')}>Payments & Reports</a>
+                                                                    </li>
+                                                                    <li className={activeTab === 'account-settings' ? 'cursor-pointer active' : 'cursor-pointer'}>
+                                                                        <a onClick={() => handleTabChange('account-settings')}>Account Settings</a>
+                                                                    </li>
                                                                 </ul>
                                                                 <hr/>
 
                                                                 <div className="tab-content">
-                                                                    <div id="profile-details" className="tab-pane fade in show active" onClick={()=> { fetchUserData();}}>
+                                                                    <div id="profile-details" className={`tab-pane fade in ${activeTab === 'profile-details' ? 'show active' : ''}`} onClick={() => { fetchUserData(); }}>
                                                                         <div className="form-row">
                                                                             <div className="col-md-6">
                                                                                 <div className="input-field">
@@ -308,7 +321,7 @@ function Profile() {
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                    <div id="view-kundli" className="tab-pane fade active show">
+                                                                    <div id="view-kundli" className={`tab-pane fade ${activeTab === 'view-kundli' ? 'show active' : ''}`}>
                                                                         <div className='row'>
                                                                             <div className='col-md-4 display-set text-center'>
                                                                                 <Kundli housesData={user && user.kundli_data ? user.kundli_data : []}/>
@@ -323,59 +336,63 @@ function Profile() {
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                    <div id="astrology-reports" className="tab-pane fade">
-                                                                    <div className="table-responsive">
-                                                                        <table className="widget-table table table-striped no-border">
-                                                                            <thead>
+                                                                    <div id="astrology-reports" className={`tab-pane fade ${activeTab === 'astrology-reports' ? 'show active' : ''}`}>
+                                                                        <div className="table-responsive">
+                                                                            <table className="widget-table table table-striped no-border">
+                                                                                <thead>
+                                                                                    <tr>
+                                                                                        <th scope="col" className="text-12">Payment ID</th>
+                                                                                        <th scope="col" className="text-12">Price</th>
+                                                                                        <th scope="col" className="text-12">Status</th>
+                                                                                        <th scope="col" className="text-12">Match</th>
+                                                                                        <th scope="col" className="text-12">Opponents</th>
+                                                                                        <th scope="col" className="text-12">Date</th>
+                                                                                        <th scope="col" className="text-12">Time</th>
+                                                                                        <th scope="col" className="text-12">Venue</th>
+                                                                                        <th scope="col" className="text-12">Pandit Name</th>
+                                                                                        <th scope="col" className="text-12">Astrology Report</th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                {(payments && payments.length > 0) ? payments.map((payment, index) => (
+                                                                                    <tr key={index}>
+                                                                                        <td className='text-capitalize'>{payment && payment.razorpay_payment_id}</td>
+                                                                                        <td className='text-capitalize'>₹ {payment && payment.match_astrology_price}</td>
+                                                                                        <td className='text-capitalize'><span className='badge badge-success'>Paid</span></td>
+                                                                                        <td className='text-capitalize'>{payment && payment.matchs}</td>
+                                                                                        <td>
+                                                                                            <div className="country-info text-capitalize">
+                                                                                                <span className="country-name text-13">{payment && payment.team_a_short}</span>
+                                                                                                <span className="country-name text-12 mx-2">VS</span>
+                                                                                                <span className="country-name text-13">{payment && payment.team_b_short}</span>
+                                                                                            </div>
+                                                                                        </td>
+                                                                                        <td>{payment && payment.match_date}</td>
+                                                                                        <td>{payment && payment.match_time}</td>
+                                                                                        <td>{payment && payment.venue}</td>
+                                                                                        <td>Report By: <b>{payment && payment.name}</b></td>
+                                                                                        <td className='text-center'>
+                                                                                            {payment && payment.astrology_data ?
+                                                                                            <span className="cricnotch-btn btn-filled py-05 cursor-pointer" onClick={() => reportSet(payment)}>
+                                                                                                <i className='fa fa-eye'></i> View Report
+                                                                                            </span>
+                                                                                            : 
+                                                                                            <span>
+                                                                                                No Report
+                                                                                            </span>}
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                )) : 
                                                                                 <tr>
-                                                                                    <th scope="col" className="text-12">Payment ID</th>
-                                                                                    <th scope="col" className="text-12">Price</th>
-                                                                                    <th scope="col" className="text-12">Status</th>
-                                                                                    <th scope="col" className="text-12">Match</th>
-                                                                                    <th scope="col" className="text-12">Opponents</th>
-                                                                                    <th scope="col" className="text-12">Date</th>
-                                                                                    <th scope="col" className="text-12">Time</th>
-                                                                                    <th scope="col" className="text-12">Venue</th>
-                                                                                    <th scope="col" className="text-12">Pandit Name</th>
-                                                                                    <th scope="col" className="text-12">Astrology Report</th>
-                                                                                </tr>
-                                                                            </thead>
-                                                                            <tbody>
-                                                                            {(payments && payments.length > 0) ? payments.map((payment, index) => (
-                                                                                <tr key={index}>
-                                                                                    <td className='text-capitalize'>{payment && payment.razorpay_payment_id}</td>
-                                                                                    <td className='text-capitalize'>₹ {payment && payment.match_astrology_price}</td>
-                                                                                    <td className='text-capitalize'><span className='badge badge-success'>Paid</span></td>
-                                                                                    <td className='text-capitalize'>{payment && payment.matchs}</td>
-                                                                                    <td>
-                                                                                        <div className="country-info text-capitalize">
-                                                                                            <span className="country-name text-13">{payment && payment.team_a_short}</span>
-                                                                                            <span className="country-name text-12 mx-2">VS</span>
-                                                                                            <span className="country-name text-13">{payment && payment.team_b_short}</span>
-                                                                                        </div>
-                                                                                    </td>
-                                                                                    <td>{payment && payment.match_date}</td>
-                                                                                    <td>{payment && payment.match_time}</td>
-                                                                                    <td>{payment && payment.venue}</td>
-                                                                                    <td>Report By: <b>{payment && payment.name}</b></td>
-                                                                                    <td className='text-center'>
-                                                                                        {payment && payment.astrology_data ?
-                                                                                        <span className="cricnotch-btn btn-filled py-05 cursor-pointer" onClick={() => reportSet(payment)}>
-                                                                                            <i className='fa fa-eye'></i> View Report
-                                                                                        </span>
-                                                                                        : 
-                                                                                        <span>
-                                                                                            No Report
-                                                                                        </span>}
-                                                                                    </td>
-                                                                                </tr>
-                                                                            )) : 
-                                                                            <tr>
-                                                                                <td colSpan={10}>No Reports Yet</td>    
-                                                                            </tr>}
-                                                                            </tbody>
-                                                                        </table>
+                                                                                    <td colSpan={10}>No Reports Yet</td>    
+                                                                                </tr>}
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
                                                                     </div>
+                                                                    <div id="account-settings" className={`tab-pane fade ${activeTab === 'account-settings' ? 'show active' : ''}`}>
+                                                                        Put Settings Here
+                                                                        {/* ... (existing code for Account Settings) */}
                                                                     </div>
                                                                 </div>
                                                             </div>

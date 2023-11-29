@@ -5823,3 +5823,8 @@ input:checked ~ .cover:before {
   text-align: center;
   height: 100vh;
 }
+
+.custom-nav .active a {
+  background-color: #262536!important;
+  color: #ffffff !important;;
+}

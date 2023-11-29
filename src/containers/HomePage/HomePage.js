@@ -99,11 +99,7 @@ function HomePage() {
 												</div>
 											</div>
 										</div>
-										{/* <div className="floating-text">Target 147</div> */}
 									</div>
-									{/* <div className="score-card-footer">
-										<p>India need 45 runs in 27 balls. RRR: 10.0</p>
-									</div> */}
 									<div class="button-container">
 										<button class="theme-button-1" onClick={() => {navigate(`/live-score-board/${match.match_id}`)}}>View Liveline</button>
 										{match.razorpay_payment_id && match.razorpay_order_id && match.razorpay_signature && match.payment_status ? (
@@ -143,8 +139,8 @@ function HomePage() {
 												</svg>
 											</h2>
 										</div>
-										<div className="social-share">
-											<a href="#"><i className="fab fa-facebook-f"></i></a><a href="#"><i className="fab fa-twitter"></i></a><a href="#"><i className="fab fa-instagram"></i></a>
+										<div className="display-set">
+											<a href="/profile" className='btn btn-primary text-13'>View Reports</a>
 										</div>
 									</div>
 
