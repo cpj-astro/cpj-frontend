@@ -52,8 +52,6 @@ function MatchAstrology() {
     };
 
     const reportSet = (reportData) => {
-        console.log(reportData);
-        setLoader(true);
         try {
             const data = reportData.astrology_data.split('|').map((item) => item.trim());
             setReportData({
@@ -84,12 +82,6 @@ function MatchAstrology() {
         }
     }
 
-    useEffect(() => {
-        setTimeout(() => {
-            setLoader(false);
-        }, 2000);
-    }, [reportData])
-
     const handlePaymentSuccess = () => {
         fetchMatchData();
         setIsPaymentSuccess(true);
@@ -108,12 +100,8 @@ function MatchAstrology() {
         }
 		axios.post(process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/matchInfo` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/matchInfo`, params, apiConfig)
         .then((response) => {
-            setLoader(false);
             if(response.data.success){
                 setMatch(response.data.data);
-                if(response.data.data && response.data.data.astrology_data){
-                    reportSet(response.data.data);
-                }
             }
         }).catch((error) => {
             setLoader(false);
@@ -163,6 +151,12 @@ function MatchAstrology() {
 			}
         });
     }
+
+    useEffect(() => {
+        if(match && match.astrology_data) {
+            reportSet(match);
+        }
+    }, [match])
 
 	useEffect(() => {
         fetchMatchData();
