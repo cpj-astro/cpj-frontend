@@ -18,8 +18,9 @@ function HomePage() {
 			'Content-Type': 'application/json',
 		}
 	};
-	const fetchLiveList = () => {
-		axios.get(process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/liveMatches` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/liveMatches`, apiConfig)
+	
+	const fetchAllMatches = () => {
+		axios.get(process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/allMatches` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/allMatches`, apiConfig)
 		.then((response) => {
 			if(response.data.success){
 				setMatchesData(response.data.data);
@@ -51,7 +52,7 @@ function HomePage() {
     }
 	
 	useEffect(() => {
-        fetchLiveList()
+        fetchAllMatches()
 		fetchUserData();
     },[])
     return (
@@ -70,7 +71,7 @@ function HomePage() {
 								<div className="score-card p-0" key={index}>
 									<div className="score-card-inner">
 										<div className="score-card-header text-center">
-											<strong>Live</strong>
+											<strong>{match.match_category}</strong>
 											<span>{match.matchs}</span>
 										</div>
 										<div className="score-card-body">
