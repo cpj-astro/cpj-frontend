@@ -747,7 +747,7 @@ function HomePage() {
 							</aside>
 						</div>
 						<div className="col-lg-6 display-set">
-							<h1>Google Ads Section</h1>
+							<h1>Google Ads & News Section</h1>
 							{/* <section className="widget features-sec pt-0">
 								<h3 className="widget-title">Featured</h3>
 								<div className="card card-shadow p-0">
