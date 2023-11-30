@@ -22,6 +22,8 @@ import Privacy from '../Pages/Privacy';
 import Disclaimer from '../Pages/Disclaimer';
 import FPSendLink from '../ForgetPassword/FPSendLink';
 import ResetPassword from '../ForgetPassword/ResetPassword';
+import ContactUs from '../ContactUs/ContactUs';
+import FAQs from '../FAQs/FAQs';
 
 const App = () => {
   return (
@@ -40,6 +42,8 @@ const App = () => {
             <Route path="/terms" element={<Terms/>} />
             <Route path="/privacy" element={<Privacy/>} />
             <Route path="/disclaimer" element={<Disclaimer/>} />
+            <Route path="/contact-us" element={<ContactUs/>} />
+            <Route path="/faqs" element={<FAQs/>} />
             <Route path='/sign-in' element={<SignIn/>}/>
             <Route path='/sign-up' element={<SignUp/>}/>
             <Route path='/forget-password' element={<FPSendLink/>}/>

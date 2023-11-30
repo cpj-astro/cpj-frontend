@@ -69,8 +69,8 @@ function Footer() {
 								<h3 className="widget-title">Quick Links</h3>
 								<ul>
 									<li><a href="#">About us</a></li>
-									<li><a href="#">contact us</a></li>
-									<li><a href="#">Frequently Asked Questions</a></li>
+									<li><a href="/contact-us">Contact us</a></li>
+									<li><a href="/faqs">Frequently Asked Questions</a></li>
 									<li><a href="/disclaimer">Disclaimer</a></li>
 									<li><a href="/terms">Terms & Conditions</a></li>
 									<li><a href="/privacy">Privacy Policy</a></li>
