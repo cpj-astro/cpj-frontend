@@ -344,7 +344,7 @@ function HomePage() {
 									</div>
 								</div>
 								<div className="widget widget-key-series">
-									<h3 className="widget-title">Key Series</h3>
+									<h3 className="widget-title">Series List</h3>
 
 									<div className="card card-shadow">
 										<div className="score-card">
@@ -655,7 +655,6 @@ function HomePage() {
 												<div className="table-responsive">
 													<table className="widget-table table table-striped no-border">
 														<caption className="text-center">
-															<a href="#">See all Stats</a>
 														</caption>
 														<thead>
 															<tr>
@@ -744,8 +743,9 @@ function HomePage() {
 								</div>
 							</aside>
 						</div>
-						<div className="col-lg-6">
-							<section className="widget features-sec pt-0">
+						<div className="col-lg-6 display-set">
+							<h1>Google Ads Section</h1>
+							{/* <section className="widget features-sec pt-0">
 								<h3 className="widget-title">Featured</h3>
 								<div className="card card-shadow p-0">
 									<div className="score-card score-card-lg">
@@ -971,7 +971,7 @@ function HomePage() {
 								<div className="text-center mt-30">
 									<a href="#" className="cricnotch-btn btn-filled bg-success loadMore-btn"><i className="fas fa-spinner"></i>&nbsp;&nbsp;&nbsp; Load more</a>
 								</div>
-							</section>
+							</section> */}
 						</div>
 						<div className="col-lg-3">
 							<aside className="sidebar right-sidebar">

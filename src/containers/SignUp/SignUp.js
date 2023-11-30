@@ -80,8 +80,10 @@ function SignUp() {
 		<div id="main" className="main-container p-0">
 			<section className="auth-sec signup">
 				<div className="auth-form">
-					<div className="auth-form-header">
-						<h3>Sign up</h3>
+					<div className="auth-form-header display-set">
+						<a href="/" className="logo">
+							<img src="/assets/images/logo.png" alt="logo" />
+						</a>
 					</div>
 
 					<form onSubmit={handleSubmit(onSubmit)}>

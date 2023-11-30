@@ -88,8 +88,8 @@ function Profile() {
                 SignName: user.sign_name,
                 MatchAstrology: data[0],
                 VenueWiseZodiac: data[1],
-                LuckyNumbers: data[2],
-                LuckyColors: data[3],
+                LuckyColors: data[2],
+                LuckyNumbers: data[3],
                 SpecialRecommendation: data[4],
                 AstroFavPlayers: data[5],
                 MatchBetSessionFancy: data[6],
@@ -357,23 +357,23 @@ function Profile() {
                                                                                 {(payments && payments.length > 0) ? payments.map((payment, index) => (
                                                                                     <tr key={index}>
                                                                                         <td className='text-capitalize'>{payment && payment.razorpay_payment_id}</td>
-                                                                                        <td className='text-capitalize'>₹ {payment && payment.match_astrology_price}</td>
+                                                                                        <td className='text-capitalize'>₹ {payment && payment.amount}</td>
                                                                                         <td className='text-capitalize'><span className='badge badge-success'>Paid</span></td>
-                                                                                        <td className='text-capitalize'>{payment && payment.matchs}</td>
+                                                                                        <td className='text-capitalize'>{payment && payment.match && payment.match.matchs}</td>
                                                                                         <td>
                                                                                             <div className="country-info text-capitalize">
-                                                                                                <span className="country-name text-13">{payment && payment.team_a_short}</span>
+                                                                                                <span className="country-name text-13">{payment && payment.match && payment.match.team_a_short}</span>
                                                                                                 <span className="country-name text-12 mx-2">VS</span>
-                                                                                                <span className="country-name text-13">{payment && payment.team_b_short}</span>
+                                                                                                <span className="country-name text-13">{payment && payment.match && payment.match.team_b_short}</span>
                                                                                             </div>
                                                                                         </td>
-                                                                                        <td>{payment && payment.match_date}</td>
-                                                                                        <td>{payment && payment.match_time}</td>
-                                                                                        <td>{payment && payment.venue}</td>
-                                                                                        <td>Report By: <b>{payment && payment.name}</b></td>
+                                                                                        <td>{payment && payment.match && payment.match.match_date}</td>
+                                                                                        <td>{payment && payment.match && payment.match.match_time}</td>
+                                                                                        <td>{payment && payment.match && payment.match.venue}</td>
+                                                                                        <td>Report By: <b>{payment && payment.pandit && payment.pandit.name}</b></td>
                                                                                         <td className='text-center'>
-                                                                                            {payment && payment.astrology_data ?
-                                                                                            <span className="cricnotch-btn btn-filled py-05 cursor-pointer" onClick={() => reportSet(payment)}>
+                                                                                            {payment && payment.match_id ?
+                                                                                            <span className="cricnotch-btn btn-filled py-05 cursor-pointer" onClick={() => navigate(`/match-astrology/${payment.match_id}`)}>
                                                                                                 <i className='fa fa-eye'></i> View Report
                                                                                             </span>
                                                                                             : 

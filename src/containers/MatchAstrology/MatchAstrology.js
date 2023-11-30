@@ -54,8 +54,6 @@ function MatchAstrology() {
     const reportSet = (reportData) => {
         try {
             const data = reportData.astrology_data.split('|').map((item) => item.trim());
-            console.log(data);
-
             setReportData({
                 MatchName: match.team_a + ' Vs ' + match.team_b,
                 MatchStart: match.match_date,
