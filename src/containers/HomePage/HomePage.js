@@ -52,7 +52,10 @@ function HomePage() {
     }
 	
 	useEffect(() => {
-        fetchAllMatches()
+		fetchAllMatches()
+    }, [user])
+
+	useEffect(() => {
 		fetchUserData();
     },[])
     return (
