@@ -17,6 +17,7 @@ function LiveScoreBoard() {
 	const navigate = useNavigate();
     const {id} = useParams();
     const [matchData, setMatchData] = useState([])
+    const [paymentDetails, setPaymentDetails] = useState([])
     const [seriesData, setSeriesData] = useState([])
     const [lastFewBalls, setLastFewBalls] = useState([])
     
@@ -77,7 +78,30 @@ function LiveScoreBoard() {
             setLastFewBalls(data);
         }
     }
+
+    const fetchPaymentDetails = (id) => {
+        const params = {
+            match_id: id,
+        }
+        axios.post(process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/matchInfo` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/matchInfo`, params, apiConfig)
+		.then((response) => {
+			if(response.data.success){
+				setPaymentDetails(response.data.data);
+			}
+		}).catch((error) => {
+			if(error.response.data.status_code == 401){
+				localStorage.removeItem('client_token');
+				navigate('/sign-in');
+			} else {
+				toast.error("Oh Snap!" + error.code);
+			}
+		});
+    }
     
+    useEffect(() => {
+        fetchPaymentDetails(id);
+    }, [matchData]);
+
     useEffect(() => {
         if(matchData && matchData.last4overs){
             prepareLastAFewBalls(matchData.last4overs);
@@ -773,11 +797,19 @@ function LiveScoreBoard() {
                         <div className="col-lg-3">
                             <aside className="sidebar right-sidebar">
                                 <div className="widget widget-upcoming-match">
-                                    <span onClick={() => {navigate(`/buy-match-astrology/${id}`)}} className="btn-astro">
-                                        <div>
-                                            Buy Astrology
-                                        </div>
-                                    </span>
+                                    {paymentDetails.razorpay_payment_id && paymentDetails.razorpay_order_id && paymentDetails.razorpay_signature && paymentDetails.payment_status ? (
+                                        <span onClick={() => {navigate(`/match-astrology/${id}`)}} className="btn-astro">
+                                            <div>
+                                                View Astrology
+                                            </div>
+                                        </span>
+                                    ) : (
+                                        <span onClick={() => {navigate(`/match-astrology/${id}`)}} className="btn-astro">
+                                            <div>
+                                                Buy Astrology
+                                            </div>
+                                        </span>
+                                    )}
 
                                     <h3 className="mt-10 widget-title">Upcoming Matches</h3>
 
