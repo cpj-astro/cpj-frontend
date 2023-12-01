@@ -24,6 +24,7 @@ import FPSendLink from '../ForgetPassword/FPSendLink';
 import ResetPassword from '../ForgetPassword/ResetPassword';
 import ContactUs from '../ContactUs/ContactUs';
 import FAQs from '../FAQs/FAQs';
+import AboutUs from '../Pages/AboutUs';
 
 const App = () => {
   return (
@@ -39,6 +40,7 @@ const App = () => {
               <Route path="/player-profile/:id" element={<PlayerProfile/>} />
               <Route path="/live-score-board/:id" element={<LiveScoreBoard/>} />
             </Route>
+            <Route path="/about-us" element={<AboutUs/>} />
             <Route path="/terms" element={<Terms/>} />
             <Route path="/privacy" element={<Privacy/>} />
             <Route path="/disclaimer" element={<Disclaimer/>} />
