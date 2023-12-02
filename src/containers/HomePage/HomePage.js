@@ -6,10 +6,13 @@ import axios from 'axios';
 import Header from '../../components/Header';
 import Kundli from '../../components/Kundli';
 import { toast } from 'react-toastify';
+import { setDoc, getDoc, doc, collection, where, onSnapshot, query, updateDoc } from 'firebase/firestore';
+import { db } from '../../authFiles/fbaseconfig';
 
 function HomePage() {
 	const navigate = useNavigate();
 	const [matchesData, setMatchesData] = useState([]);
+    const [matchData, setMatchData] = useState([])
 	const [user, setUserData] = useState([]);
 	var accessToken = localStorage.getItem('client_token');
 	const apiConfig = {
@@ -19,19 +22,22 @@ function HomePage() {
 		}
 	};
 	
-	const fetchAllMatches = () => {
-		axios.get(process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/allMatches` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/allMatches`, apiConfig)
+	const fetchAllMatches = (id) => {
+		const apiUrl = process.env.REACT_APP_DEV === 'true'
+		? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/allMatches`
+		: `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/allMatches`;
+
+		// Include user_id as a query parameter
+		const urlWithParams = `${apiUrl}?user_id=${id}`;
+
+		axios.get(urlWithParams)
 		.then((response) => {
 			if(response.data.success){
+				localStorage.setItem('match_id', response.data.data[0].match_id);
 				setMatchesData(response.data.data);
 			}
 		}).catch((error) => {
-			if(error.response.data.status_code == 401){
-				localStorage.removeItem('client_token');
-				navigate('/sign-in');
-			} else {
-				toast.error("Oh Snap!" + error.code);
-			}
+			toast.error("Oh Snap!" + error.code);
 		});
 	}
 
@@ -42,22 +48,28 @@ function HomePage() {
                 setUserData(response.data.data);
             }
         }).catch((error) => {
-            if(error.response.data.status_code == 401){
-				localStorage.removeItem('client_token');
-				navigate('/sign-in');
-			} else {
-                toast.error(error.code);
-			}
+            toast.error(error.code);
         });
     }
 	
 	useEffect(() => {
-		fetchAllMatches()
-    }, [user])
+		fetchAllMatches(user.id)
+    }, [user.id])
 
 	useEffect(() => {
-		fetchUserData();
+		if(accessToken) {
+			fetchUserData(); 
+		}
     },[])
+
+	useEffect(() => {
+		if(localStorage.getItem('match_id')){
+			onSnapshot(doc(db, "matchdata", localStorage.getItem('match_id')	), (doc) => {
+			    setMatchData(doc.data()); 
+			    console.log(doc.data())
+			});
+		}
+    }, [localStorage.getItem('match_id')]);
     return (
 		<>
 			<Header/>
@@ -121,7 +133,7 @@ function HomePage() {
 			</header>
 			<div id="main" className="main-container">
 				<div className="container">
-					<section className="player-contact pt-0 pb-0">
+					<section className="d-none player-contact pt-0 pb-0">
 						<div className="card card-shadow">
 							<div className="player-profile">
 								<figure className="kundli-avatar">
@@ -746,235 +758,52 @@ function HomePage() {
 								</div>
 							</aside>
 						</div>
-						<div className="col-lg-6 display-set">
-							<h1>Google Ads & News Section</h1>
-							{/* <section className="widget features-sec pt-0">
-								<h3 className="widget-title">Featured</h3>
-								<div className="card card-shadow p-0">
-									<div className="score-card score-card-lg">
-										<div className="score-card-body">
-											<div className="country-info">
-												<div className="flag-avatar">
-													<figure>
-														<img src="assets/images/flags/bangladesh.png" alt="" />
-													</figure>
-													<span className="country-name">ban</span>
+						<div className="col-lg-6">
+							{matchData && matchData.team_a ? (
+								<h3 className="widget-title">Live Line Of {matchData.team_a + ' Vs ' + matchData.team_b} </h3>
+							) : (
+								<h3 className="widget-title">Live Line Of N/A</h3>
+							)}
+							
+							<div className=''>
+								<div className='tv-container'>    
+                                    <div className="tv">
+                                        <div className="score">
+                                            {matchData.first_circle}
+                                        </div>
+										<div className='tv-score'>
+											<div className="score-card-body">
+												<div className="country-info">
+													<div className="flag-avatar">
+														<figure>
+															<img src="/assets/images/flags/bangladesh.png" alt="" />
+														</figure>
+														<span className="country-name">{matchData.team_a_short}</span>
+													</div>
+													<div className="score-update">
+														<h5>146/6</h5>
+														<p className="text-muted">20.0 ov.</p>
+													</div>
 												</div>
-												<div className="score-update">
-													<h5>146/6</h5>
-													<p className="text-muted">20.0 ov.</p>
-												</div>
-											</div>
-											<div className="score-update text-center">
-												<h5>Live</h5>
-												<p className="text-muted">Day 2, Session 2, India trail by 152 runs.</p>
-											</div>
-											<div className="country-info flex-row-reverse">
-												<div className="flag-avatar ml-05">
-													<figure>
-														<img src="assets/images/flags/india.png" alt="" />
-													</figure>
-													<span className="country-name">ind</span>
-												</div>
-												<div className="score-update">
-													<h5>102/4</h5>
-													<p className="text-muted">20.0 ov</p>
-												</div>
-											</div>
-										</div>
-										<div className="floating-text">Day-night Test, Adelaide</div>
-									</div>
-									<div className="image-card">
-										<figure className="overlay">
-											<img src="assets/images/posts/1.jpg" alt="" />
-										</figure>
-
-										<div className="image-card-content">
-											<h2><a href="#">Strength to smarts: How Smith has levelled up</a></h2>
-											<p>It's not like Smith needed to augment his batting arsenal, but the erstwhile captain has now added a power-hitting dimension to his white-ball game</p>
-										</div>
-									</div>
-								</div>
-
-								<div className="card card-shadow">
-									<div className="content-card card-grid">
-										<figure className="w-190">
-											<img src="assets/images/posts/thumbs/feat-1.jpg" alt="" />
-										</figure>
-										<div className="content-block">
-											<h3>
-												<a href="#">Strength to smarts: How Smith has levelled up</a>
-											</h3>
-											<p>It's not like Smith needed to augment his batting arsenal, but the erstwhile captain has now.</p>
-											<a href="#" className="post-meta">02 hours ago</a>
-										</div>
-									</div>
-								</div>
-								<div className="card card-shadow">
-									<div className="content-card card-grid">
-										<figure className="w-190">
-											<img src="assets/images/posts/thumbs/feat-1.jpg" alt="" />
-										</figure>
-										<div className="content-block">
-											<h3>
-												<a href="#">Strength to smarts: How Smith has levelled up</a>
-											</h3>
-											<p>It's not like Smith needed to augment his batting arsenal, but the erstwhile captain has now.</p>
-											<a href="#" className="post-meta">02 hours ago</a>
-										</div>
-									</div>
-								</div>
-
-								<div className="row gutters-5">
-									<div className="col-md-6">
-										<div className="card card-shadow">
-											<div className="content-card">
-												<figure>
-													<img src="assets/images/posts/thumbs/feat-1.jpg" alt="" />
-												</figure>
-												<div className="content-block">
-													<h3>
-														<a href="#">Strength to smarts: How Smith has levelled up</a>
-													</h3>
-													<p>It's not like Smith needed to augment his batting arsenal, but the erstwhile captain has now.</p>
-													<a href="#" className="post-meta">02 hours ago</a>
+												<div className="country-info flex-row-reverse">
+													<div className="flag-avatar ml-05">
+														<figure>
+															<img src="/assets/images/flags/india.png" alt="" />
+														</figure>
+														<span className="country-name">{matchData.team_b_short}</span>
+													</div>
+													<div className="score-update">
+														<h5>102/4</h5>
+														<p className="text-muted">20.0 ov</p>
+													</div>
 												</div>
 											</div>
 										</div>
-									</div>
-									<div className="col-md-6">
-										<div className="card card-shadow">
-											<div className="content-card">
-												<figure>
-													<img src="assets/images/posts/thumbs/feat-1.jpg" alt="" />
-												</figure>
-												<div className="content-block">
-													<h3>
-														<a href="#">Strength to smarts: How Smith has levelled up</a>
-													</h3>
-													<p>It's not like Smith needed to augment his batting arsenal, but the erstwhile captain has now.</p>
-													<a href="#" className="post-meta">02 hours ago</a>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-
-								<div className="card card-shadow">
-									<OwlCarousel 
-										className="editors-pick owl-theme"
-										items={3}
-										loop
-										nav
-										autoplay
-										margin={10}
-										dots={false}
-									>
-										<div className="content-card">
-											<figure>
-												<img src="assets/images/posts/thumbs/feat-1.jpg" alt="" />
-											</figure>
-											<div className="content-block">
-												<h3>
-													<a href="#">Strength to smarts: How Smith has levelled up</a>
-												</h3>
-												<a href="#" className="post-meta">02 hours ago</a>
-											</div>
-										</div>
-										<div className="content-card">
-											<figure>
-												<img src="assets/images/posts/thumbs/feat-2.jpg" alt="" />
-											</figure>
-											<div className="content-block">
-												<h3>
-													<a href="#">Strength to smarts: How Smith has levelled up</a>
-												</h3>
-												<a href="#" className="post-meta">02 hours ago</a>
-											</div>
-										</div>
-										<div className="content-card">
-											<figure>
-												<img src="assets/images/posts/thumbs/feat-3.jpg" alt="" />
-											</figure>
-											<div className="content-block">
-												<h3>
-													<a href="#">Strength to smarts: How Smith has levelled up</a>
-												</h3>
-												<a href="#" className="post-meta">02 hours ago</a>
-											</div>
-										</div>
-										<div className="content-card">
-											<figure>
-												<img src="assets/images/posts/thumbs/feat-2.jpg" alt="" />
-											</figure>
-											<div className="content-block">
-												<h3>
-													<a href="#">Strength to smarts: How Smith has levelled up</a>
-												</h3>
-												<a href="#" className="post-meta">02 hours ago</a>
-											</div>
-										</div>
-									</OwlCarousel>
-								</div>
-
-								<div className="image-card mb-10">
-									<figure className="overlay">
-										<img src="assets/images/posts/2.jpg" alt="" />
-									</figure>
-
-									<div className="image-card-content">
-										<h2><a href="#">Strength to smarts: How Smith has levelled up</a></h2>
-										<p>It's not like Smith needed to augment his batting arsenal, but the erstwhile captain has now added a power-hitting dimension to his white-ball game</p>
-									</div>
-								</div>
-
-								<div className="card card-shadow">
-									<div className="content-card card-grid">
-										<figure className="w-190">
-											<img src="assets/images/posts/thumbs/feat-1.jpg" alt="" />
-										</figure>
-										<div className="content-block">
-											<h3>
-												<a href="#">Strength to smarts: How Smith has levelled up</a>
-											</h3>
-											<p>It's not like Smith needed to augment his batting arsenal, but the erstwhile captain has now.</p>
-											<a href="#" className="post-meta">02 hours ago</a>
-										</div>
-									</div>
-								</div>
-								<div className="card card-shadow">
-									<div className="content-card card-grid">
-										<figure className="w-190">
-											<img src="assets/images/posts/thumbs/feat-1.jpg" alt="" />
-										</figure>
-										<div className="content-block">
-											<h3>
-												<a href="#">Strength to smarts: How Smith has levelled up</a>
-											</h3>
-											<p>It's not like Smith needed to augment his batting arsenal, but the erstwhile captain has now.</p>
-											<a href="#" className="post-meta">02 hours ago</a>
-										</div>
-									</div>
-								</div>
-								<div className="card card-shadow">
-									<div className="content-card card-grid">
-										<figure className="w-190">
-											<img src="assets/images/posts/thumbs/feat-1.jpg" alt="" />
-										</figure>
-										<div className="content-block">
-											<h3>
-												<a href="#">Strength to smarts: How Smith has levelled up</a>
-											</h3>
-											<p>It's not like Smith needed to augment his batting arsenal, but the erstwhile captain has now.</p>
-											<a href="#" className="post-meta">02 hours ago</a>
-										</div>
-									</div>
-								</div>
-
-								<div className="text-center mt-30">
-									<a href="#" className="cricnotch-btn btn-filled bg-success loadMore-btn"><i className="fas fa-spinner"></i>&nbsp;&nbsp;&nbsp; Load more</a>
-								</div>
-							</section> */}
+                                    </div>
+                                    <div className='tv-line-horizontal'></div>
+                                    <div className='tv-line-vertical'></div>
+                                </div> 
+							</div>
 						</div>
 						<div className="col-lg-3">
 							<aside className="sidebar right-sidebar">

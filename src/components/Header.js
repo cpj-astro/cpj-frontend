@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function Header() {
     const navigate = useNavigate();
+    var accessToken = localStorage.getItem('client_token');
     const [isLoggedUserDropdownOpen, setIsLoggedUserDropdownOpen] = useState(false);
 	
     const toggleLoggedUserDropdown = () => {
@@ -29,7 +30,7 @@ export default function Header() {
                     <div className="col-sm-6">
                         <div className="topbar-right">
                             <div className="logged-user">
-                                <a href={'#'} onClick={toggleLoggedUserDropdown}>
+                                <span className='cursor-pointer' onClick={toggleLoggedUserDropdown}>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                         <g id="Account" transform="translate(-1367.51 -13.509)">
                                             <rect width="24" height="24" rx="12" transform="translate(1367.51 13.509)" opacity="0.15" />
@@ -51,25 +52,32 @@ export default function Header() {
                                             </g>
                                         </g>
                                     </svg>
-                                </a>
-                                {isLoggedUserDropdownOpen && (
-                                    <div className="logged-user-dropdown" style={dropDownStyle}>
-                                        <ul>
-                                            <li>
-                                                <a href={'/profile'}><i className="far fa-edit"></i> Edit Profile</a>
-                                            </li>
-                                            <li>
-                                                <a href="#"><i className="fas fa-cogs"></i> Account Settings</a>
-                                            </li>
-                                            <li>
-                                                <a href="#"><i className="far fa-question-circle"></i> Help Center</a>
-                                            </li>
-                                            <li>
-                                                <span onClick={()=>logout()}><i className="fas fa-sign-out-alt"></i> Sign Out</span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                )}
+                                </span>
+                                
+                                    {accessToken ? 
+                                        isLoggedUserDropdownOpen && (
+                                        <div className="logged-user-dropdown" style={dropDownStyle}>
+                                            <ul>
+                                                <li>
+                                                    <a href={'/profile'}><i className="far fa-edit"></i> Edit Profile</a>
+                                                </li>
+                                                <li>
+                                                    <span onClick={()=>logout()}><i className="fas fa-sign-out-alt"></i> Sign Out</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    ) : isLoggedUserDropdownOpen && (
+                                        <div className="logged-user-dropdown" style={dropDownStyle}>
+                                            <ul>
+                                                <li>
+                                                    <a href={'/sign-in'}><i className="fas fa-sign-in-alt"></i> Sign In</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#"><i className="far fa-question-circle"></i> Help Center</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    )}
                             </div>
                         </div>
                     </div>

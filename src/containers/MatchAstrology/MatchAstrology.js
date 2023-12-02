@@ -25,21 +25,19 @@ function MatchAstrology() {
         Weather:'',
         ProfileName: '',
         SignName: '',
-        MatchAstrology: '',
-        VenueWiseZodiac: '',
-        LuckyNumbers: '',
+        YourMatchAstrology: '',
         LuckyColors: '',
+        LuckyNumbers: '',
         SpecialRecommendation: '',
         AstroFavPlayers: '',
-        MatchBetSessionFancy: '',
-        VenueFavZodiac: '',
-        FavTeams: '',
-        FancyBet6Ovrs: '',
-        FancyBet20Ovrs: '',
-        Suggestion: '',
+        MatchBet: '',
+        FancyOrSession: '',
+        FavTeam: '',
+        FancyMatchData: '',
         AstrologicalBettingTime: '',
         OverallBettingForMatch: '',
         Direction: '',
+        Suggestions: '',
         Mantras: '',
     });
 
@@ -53,29 +51,27 @@ function MatchAstrology() {
 
     const reportSet = (reportData) => {
         try {
-            const data = reportData.astrology_data.split('|').map((item) => item.trim());
+            const data = reportData.astrology_data.split('#').map((item) => item.trim());
             setReportData({
                 MatchName: match.team_a + ' Vs ' + match.team_b,
                 MatchStart: match.match_date,
                 Weather: match.weather,
                 ProfileName: user.first_name + ' ' + user.last_name,
                 SignName: user.sign_name,
-                MatchAstrology: data[0],
-                VenueWiseZodiac: data[1],
-                LuckyColors: data[2],
-                LuckyNumbers: data[3],
-                SpecialRecommendation: data[4],
-                AstroFavPlayers: data[5],
-                MatchBetSessionFancy: data[6],
-                VenueFavZodiac: data[7],
-                FavTeams: data[8],
-                FancyBet6Ovrs: data[9],
-                FancyBet20Ovrs: data[10],
-                Suggestion: data[11],
-                AstrologicalBettingTime: data[12],
-                OverallBettingForMatch: data[13],
-                Direction: data[14],
-                Mantras: data[15],
+                YourMatchAstrology: data[0],
+                LuckyColors: data[1],
+                LuckyNumbers: data[2],
+                SpecialRecommendation: data[3],
+                AstroFavPlayers: data[4],
+                MatchBet: data[5],
+                FancyOrSession: data[6],
+                FavTeam: data[7],
+                FancyMatchData: data[8],
+                AstrologicalBettingTime: data[9],
+                OverallBettingForMatch: data[10],
+                Direction: data[11],
+                Suggestions: data[12],
+                Mantras: data[13],
             });
         } catch (error) {
             setLoader(false);
@@ -187,99 +183,148 @@ function MatchAstrology() {
                                                     <h1>Astrology Details</h1>
                                                 </div>
                                                 <hr className="mt-0"/>
-                                                <div className="info-body">
-                                                    <ul className="list-striped mr-05">
-                                                        <li>
-                                                            <span>Match Name</span>
-                                                            <p className='text-muted'>{reportData.MatchName ?? 'N/A'}</p>
-                                                        </li>
-                                                        <li>
-                                                            <span>Match Start</span>
-                                                            <p className='text-muted'>{reportData.MatchStart ?? 'N/A'} IST</p>
-                                                        </li>
-                                                        <li>
-                                                            <span>Weather</span>
-                                                            <p className='text-muted'>{reportData.Weather ?? 'N/A'}</p>
-                                                        </li>
-                                                        <li>
-                                                            <span>Profile Name</span>
-                                                            <p className='text-muted'>{reportData.ProfileName ?? 'N/A'}</p>
-                                                        </li>
-                                                        <li>
-                                                            <span>Direction</span>
-                                                            <p className='text-muted'>{reportData.Direction ?? 'N/A'}</p>
-                                                        </li>
-                                                    </ul>
-                                                    <ul className="list-striped">
-                                                        <li>
-                                                            <span>Rashi/Zodiac</span>
-                                                            <p className='text-muted'>{reportData.SignName ?? 'N/A'}</p>
-                                                        </li>
-                                                        <li>
-                                                            <span>Favourite Zodiacs</span>
-                                                            <p className='text-muted'>{reportData.VenueWiseZodiac ?? 'N/A'}</p>
-                                                        </li>
-                                                        <li>
-                                                            <span>Lucky Numbers</span>
-                                                            <p className='text-muted'>{reportData.LuckyNumbers ?? 'N/A'}</p>
-                                                        </li>
-                                                        <li>
-                                                            <span>Lucky Colours</span>
-                                                            <p className='text-muted'>{reportData.LuckyColors ?? 'N/A'}</p>
-                                                        </li>
-                                                        <li>
-                                                            <span>Favourite Team</span>
-                                                            <p className='text-muted'>{reportData.FavTeams ?? 'N/A'}</p>
-                                                        </li>
-                                                    </ul>
+                                                <div className='row'>
+                                                    <div className='col-md-8'>        
+                                                        <div className="info-body">
+                                                            <ul className="list-striped mr-05">
+                                                                <li>
+                                                                    <span className='text-15'>Match Name</span>
+                                                                    <p className='report-values'>{reportData.MatchName ?? 'N/A'}</p>
+                                                                </li>
+                                                                <li>
+                                                                    <span className='text-15'>Match Start</span>
+                                                                    <p className='report-values'>{reportData.MatchStart ?? 'N/A'} IST</p>
+                                                                </li>
+                                                                <li>
+                                                                    <span className='text-15'>Weather</span>
+                                                                    <p className='report-values'>{reportData.Weather ?? 'N/A'}</p>
+                                                                </li>
+                                                                <li>
+                                                                    <span className='text-15'>Profile Name</span>
+                                                                    <p className='report-values'>{reportData.ProfileName ?? 'N/A'}</p>
+                                                                </li>
+                                                                <li>
+                                                                    <span className='text-15'>Your Rashi</span>
+                                                                    <p className='report-values'>{reportData.SignName ?? 'N/A'}</p>
+                                                                </li>
+                                                            </ul>
+                                                            <ul className="list-striped">
+                                                                <li>
+                                                                    <span className='text-15'>Lucky Colors</span>
+                                                                    <p className='report-values'>{reportData.LuckyColors ?? 'N/A'}</p>
+                                                                </li>
+                                                                <li>
+                                                                    <span className='text-15'>Lucky Numbers</span>
+                                                                    <p className='report-values'>{reportData.LuckyNumbers ?? 'N/A'}</p>
+                                                                </li>
+                                                                <li>
+                                                                    <span className='text-15'>Match Bet</span>
+                                                                    <p className='report-values'>{reportData.MatchBet ?? 'N/A'}</p>
+                                                                </li>
+                                                                <li>
+                                                                    <span className='text-15'>Fancy/Session</span>
+                                                                    <p className='report-values'>{reportData.FancyOrSession ?? 'N/A'}</p>
+                                                                </li>
+                                                                <li>
+                                                                    <span className='text-15'>Favourite Team</span>
+                                                                    <p className='report-values'>{reportData.FavTeam ?? 'N/A'}</p>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div className='col-md-4'>
+                                                        <div className='display-set'>
+                                                            <MatchKundli housesData={user && user.kundli_data ? user.kundli_data : []} />
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <hr className='mb-0'/>
+                                                <hr />
                                                 <div className='container'>
                                                     <div className="country-info align-items-center">
-                                                        <span className="country-name text-13">Match Astrology</span>
+                                                        <span className="country-name text-17 mb-10">Match Astrology</span>
                                                     </div>
-                                                    <span className='text-muted'>
-                                                        {reportData.MatchAstrology ?? 'N/A'}
+                                                    <span className='report-values'>
+                                                        {reportData.YourMatchAstrology ?? 'N/A'}
                                                     </span>
                                                 </div>
-                                                <hr className='mb-0'/>
+                                                <hr />
                                                 <div className='container'>
                                                     <div className="country-info align-items-center">
-                                                        <span className="country-name text-13">Astrological Favourite players</span>
+                                                        <span className="country-name text-17 mb-10">Fancy Match Data</span>
                                                     </div>
-                                                    <span className='text-muted'>
+                                                    <span className='report-values'>
+                                                        {reportData.FancyMatchData ?? 'N/A'}
+                                                    </span>
+                                                </div>
+                                                <hr />
+                                                <div className='container'>
+                                                    <div className="country-info align-items-center">
+                                                        <span className="country-name text-17 mb-10">Astrological Betting Time</span>
+                                                    </div>
+                                                    <span className='report-values'>
+                                                        {reportData.AstrologicalBettingTime ?? 'N/A'}
+                                                    </span>
+                                                </div>
+                                                <hr />
+                                                <div className='container'>
+                                                    <div className="country-info align-items-center">
+                                                        <span className="country-name text-17 mb-10">Astrological Favourite Players</span>
+                                                    </div>
+                                                    <span className='report-values'>
                                                         {reportData.AstroFavPlayers ?? 'N/A'}
                                                     </span>
                                                 </div>
-                                                <hr className='mb-0'/>
-                                                <div className='container text-center'>
-                                                    <span className="country-name text-13 mb-2">Match Natal Chart</span>
-                                                    <MatchKundli housesData={user && user.kundli_data ? user.kundli_data : []} />
-                                                </div>
-                                                <hr className='mb-0'/>
+                                                <hr />
                                                 <div className='container'>
                                                     <div className="country-info align-items-center">
-                                                        <span className="country-name text-13">Suggestions</span>
+                                                        <span className="country-name text-17 mb-10">Overall Betting For Match</span>
                                                     </div>
-                                                    <span className='text-muted'>
-                                                        {reportData.Suggestion ?? 'N/A'}
+                                                    <span className='report-values'>
+                                                        {reportData.OverallBettingForMatch ?? 'N/A'}
                                                     </span>
                                                 </div>
-                                                <hr className='mb-0'/>
+                                                <hr />
                                                 <div className='container'>
                                                     <div className="country-info align-items-center">
-                                                        <span className="country-name text-13">Mantras</span>
+                                                        <span className="country-name text-17 mb-10">Suggestions</span>
                                                     </div>
-                                                    <span className='text-muted'>
+                                                    <span className='report-values'>
+                                                        {reportData.Suggestions ?? 'N/A'}
+                                                    </span>
+                                                </div>
+                                                <hr />
+                                                <div className='container'>
+                                                    <div className="country-info align-items-center">
+                                                        <span className="country-name text-17 mb-10">Direction</span>
+                                                    </div>
+                                                    <span className='report-values'>
+                                                        {reportData.Direction ?? 'N/A'}
+                                                    </span>
+                                                </div>
+                                                <hr />
+                                                <div className='container'>
+                                                    <div className="country-info align-items-center">
+                                                        <span className="country-name text-17 mb-10">Mantras</span>
+                                                    </div>
+                                                    <span className='report-values'>
                                                         {reportData.Mantras ?? 'N/A'}
                                                     </span>
                                                 </div>
-                                                <hr className='mb-0'/>
+                                                <hr />
                                                 <div className='container'>
                                                     <div className="country-info align-items-center">
-                                                        <span className="country-name text-13">Disclaimer</span>
+                                                        <span className="country-name text-17 mb-10">Special Recommendations</span>
                                                     </div>
-                                                    <span className='text-muted'>
+                                                    <span className='report-values'>
+                                                        {reportData.SpecialRecommendation ?? 'N/A'}
+                                                    </span>
+                                                </div>
+                                                <hr />
+                                                <div className='container'>
+                                                    <div className="country-info align-items-center">
+                                                        <span className="country-name text-17 mb-10">Disclaimer</span>
+                                                    </div>
+                                                    <span className='report-values'>
                                                         The testimonials provided on our website are personal views and experiences of our clients. We do not make any type of false claims of guaranteed results as we are not GODS or HIS decendants. We promise the best of the services with truth, faith and devotion. There is no guarantee of specific results and that the results can vary as every individual has its own horoscope and different pattern of their planets. Hence, results or final effects of remedies could vary from person to person.
                                                     </span>
                                                 </div>

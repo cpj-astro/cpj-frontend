@@ -1057,7 +1057,7 @@ a.post-meta {
 *********************************/
 .card {
   position: relative;
-  padding: 20px;
+  padding: 5px;
   border: none;
   border-radius: 10px;
   margin-bottom: 10px;
@@ -1070,7 +1070,6 @@ a.post-meta {
 
 .card .nav {
   border: none;
-  margin-bottom: 15px;
 }
 
 .card .nav li {
@@ -1408,10 +1407,11 @@ a.post-meta {
 
 .country-name {
   color: inherit;
-  font-size: 10px;
+  font-size: 14px;
   text-transform: uppercase;
-  display: block;
+  display: inline-flex;
   font-weight: 600;
+  margin-right: 5px;
 }
 
 .score-card-lg {
@@ -2366,7 +2366,6 @@ a.post-meta {
 }
 
 .table.widget-table td:last-of-type {
-  padding-right: 20px;
   text-align: center;
 }
 
@@ -2691,14 +2690,14 @@ a.post-meta {
   font-size: 15px;
   font-weight: 600;
   line-height: 21px;
-  padding: 5px 15px;
+  padding: 2px 15px;
   text-transform: uppercase;
 }
 
 @media screen and (max-width: 1199px) {
   .live-matches .nav li a {
     font-size: 12px;
-    padding: 5px 15px;
+    padding: 2px 15px;
   }
 }
 
@@ -5386,7 +5385,7 @@ a.post-meta {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 }
 
 .tv-line-horizontal {
@@ -5405,7 +5404,6 @@ a.post-meta {
   background: #333;
   width: 100%;
   height: auto;
-  padding: 5px;
   border: 10px solid #000;
   border-radius: 5px;
   border-color: #000 #101010 #000 #101010;
@@ -5434,8 +5432,8 @@ a.post-meta {
   color: #000;
 }
 .score {
-  padding-top: 20%;
-  padding-bottom: 20%;
+  padding-top: 10%;
+  padding-bottom: 10%;
   width: 100%;
   height: auto;
   color: #fff;
@@ -5838,4 +5836,29 @@ input:checked ~ .cover:before {
 .custom-nav .active a {
   background-color: #262536!important;
   color: #ffffff !important;;
+}
+
+.report-values {
+  font-size: 14px;
+  font-weight: 400;
+  color: #000;
+}
+
+.tv-score {
+  background-color: #ffffff;
+  width: 100%;
+  padding: 3px 5px;
+  border-radius: 5px;
+}
+
+.back-color {
+  background-color: #9bd4ff;
+  border: 2px solid #fff !important;
+  font-weight: 600;
+}
+
+.lay-color {
+  background-color: #f6a8b8;
+  border: 2px solid #ffff !important;
+  font-weight: 600;
 }

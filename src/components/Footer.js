@@ -13,7 +13,7 @@ function Footer() {
 			<div className="footer-top">
 				<div className="container">
 					<div className="row">
-						<div className="col-md-6 col-lg-3">
+						<div className="col-md-4">
 							<div className="foo-widget foo-text mb-40">
 								<div className="foo-text-content">
 									<a href="homepage.html" className="logo">
@@ -30,7 +30,7 @@ function Footer() {
 								><a href="#"><i className="fab fa-pinterest-p"></i></a>
 							</div>
 						</div>
-						<div className="col-md-6 col-lg-3">
+						<div className="col-md-4">
 							<div className="foo-widget foo-recent-post">
 								<h3 className="widget-title">Hot Topics</h3>
 								<ul>
@@ -64,7 +64,7 @@ function Footer() {
 								</ul>
 							</div>
 						</div>
-						<div className="col-md-6 col-lg-3">
+						<div className="col-md-4">
 							<div className="foo-widget foo-navigation">
 								<h3 className="widget-title">Quick Links</h3>
 								<ul>
@@ -75,16 +75,6 @@ function Footer() {
 									<li><a href="/terms">Terms & Conditions</a></li>
 									<li><a href="/privacy">Privacy Policy</a></li>
 								</ul>
-							</div>
-						</div>
-						<div className="col-md-6 col-lg-3">
-							<div className="foo-widget foo-newsletter">
-								<h3 className="widget-title">newsletter</h3>
-								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-								<form action="index.html">
-									<input type="text" placeholder="Email Address" />
-									<button type="submit">Subscribe</button>
-								</form>
 							</div>
 						</div>
 					</div>
