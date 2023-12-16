@@ -60,6 +60,7 @@ export default function ContactUs() {
                             <h3 className="widget-title">Send Us Messages</h3>
                             <p className="mb-20">
                                 Our Office timings are <p><strong>Mondays to Fridays: 9:00am to 12:00pm </strong></p>
+                                Email Us <p><strong>cricketpanditji.astro@gmail.com </strong></p>
                             </p>
                             <hr/>
                             <form onSubmit={handleSubmit(onSubmit)}>

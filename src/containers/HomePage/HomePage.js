@@ -8,13 +8,32 @@ import Kundli from '../../components/Kundli';
 import { toast } from 'react-toastify';
 import { setDoc, getDoc, doc, collection, where, onSnapshot, query, updateDoc } from 'firebase/firestore';
 import { db } from '../../authFiles/fbaseconfig';
+import Reviews from '../../components/Reviews';
 
 function HomePage() {
 	const navigate = useNavigate();
 	const [matchesData, setMatchesData] = useState([]);
     const [matchData, setMatchData] = useState([])
 	const [user, setUserData] = useState([]);
+	const [ads, setAds] = useState([]);
+	const [currentAds, setCurrentAds] = useState([]);
+	const [currentIndex, setCurrentIndex] = useState(0);
+
 	var accessToken = localStorage.getItem('client_token');
+	const responsiveOptions = {
+		0: {
+		  	items: 1,
+		},
+		300: {
+			items: 1,
+		},
+		600: {
+		  	items: 3,
+		},
+		1000: {
+		  	items: 4,
+		},		
+	};
 	const apiConfig = {
 		headers: {
 			Authorization: "Bearer " + accessToken,
@@ -51,6 +70,72 @@ function HomePage() {
             toast.error(error.code);
         });
     }
+
+	const fetchPrivateAds = () => {
+		axios.get(process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/getAllPrivateAds` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/getAllPrivateAds`, apiConfig)
+		.then(response => setAds(response.data.data))
+      	.catch(error => console.error('Error fetching ads:' + error));
+    }
+
+	useEffect(() => {
+		if (ads.length > 0) {
+		  // Calculate the number of slots
+		  const slots = 4;
+	
+		  // Ensure there are enough ads to fill all slots
+		  if (ads.length >= slots) {
+			const uniqueAdIndices = getRandomUniqueIndices(ads.length, slots);
+	
+			// Update the current ads based on the selected indices
+			const updatedCurrentAds = uniqueAdIndices.map(index => ads[index]);
+			setCurrentAds(updatedCurrentAds);
+	
+			// Set up an interval to rotate through the ads every 10 seconds
+			const interval = setInterval(() => {
+			  const nextIndex = (currentIndex + 1) % ads.length;
+			  setCurrentIndex(nextIndex);
+			  const nextAds = ads.slice(nextIndex, nextIndex + slots);
+			  setCurrentAds(nextAds);
+			}, 10000);
+	
+			// Clear the interval when the component unmounts or ads change
+			return () => clearInterval(interval);
+		  }
+		}
+	}, [ads, currentIndex]);
+	
+	const getRandomUniqueIndices = (max, count) => {
+		const indices = [];
+		while (indices.length < count) {
+		  const randomIndex = Math.floor(Math.random() * max);
+		  if (!indices.includes(randomIndex)) {
+			indices.push(randomIndex);
+		  }
+		}
+		return indices;
+	};
+
+	const renderMedia = (mediaFile) => {
+		// Check if mediaFile is defined and not null
+		if (mediaFile) {
+		  // Extract the file extension
+		  const fileExtension = mediaFile.split('.').pop().toLowerCase();
+	  
+		  // Define supported image and video file extensions
+		  const imageExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+		  const videoExtensions = ['mp4', 'webm', 'ogg'];
+	  
+		  // Check if the file extension corresponds to an image or video
+		  if (imageExtensions.includes(fileExtension)) {
+			return <img src={mediaFile} alt="Ad" />;
+		  } else if (videoExtensions.includes(fileExtension)) {
+			return <video src={mediaFile} autoPlay muted controls width="100%" height="auto" />;
+		  }
+		}
+	  
+		// If mediaFile is undefined or null, or the extension is not recognized, return null or handle accordingly
+		return null;
+	  };	  
 	
 	useEffect(() => {
 		fetchAllMatches(user.id)
@@ -59,12 +144,15 @@ function HomePage() {
 	useEffect(() => {
 		if(accessToken) {
 			fetchUserData(); 
+			fetchPrivateAds();
+		} else {
+			fetchPrivateAds();
 		}
     },[])
 
 	useEffect(() => {
 		if(localStorage.getItem('match_id')){
-			onSnapshot(doc(db, "matchdata", localStorage.getItem('match_id')	), (doc) => {
+			onSnapshot(doc(db, "matchdata", localStorage.getItem('match_id')), (doc) => {
 			    setMatchData(doc.data()); 
 			    console.log(doc.data())
 			});
@@ -78,55 +166,64 @@ function HomePage() {
 					<div className="container">
 						<OwlCarousel 
 							items={4}
-							autoplay
 							margin={30}
 							dots={false}
+							responsive={responsiveOptions}
 						>
-							{(matchesData && matchesData.length > 0) ? matchesData.map((match, index) => (
-								<div className="score-card p-0" key={index}>
-									<div className="score-card-inner">
-										<div className="score-card-header text-center">
-											<strong>{match.match_category}</strong>
-											<span>{match.matchs}</span>
-										</div>
-										<div className="score-card-body">
-											<div className="country-info">
-												<div className="flag-avatar">
-													<figure>
-														<img src="/assets/images/flags/bangladesh.png" alt="" />
-													</figure>
-													<span className="country-name">{match.team_a_short}</span>
+							{matchesData && matchesData.length > 0 && matchesData.map((match, index) => {
+								console.log('astrology_status:', match.astrology_status);
+								console.log('razorpay_payment_id:', match.razorpay_payment_id);
+								return (
+										<div className="score-card p-0" key={index}>
+											<div className="score-card-inner">
+												<div className="score-card-header text-center">
+													<strong>{match.match_category}</strong>
+													<span>{match.matchs}</span>
 												</div>
-												<div className="score-update">
-													<h5>146/6</h5>
-													<p className="text-muted">20.0 ov.</p>
+												<div className="score-card-body">
+													<div className="country-info">
+														<div className="flag-avatar">
+															<figure>
+																<img src="/assets/images/flags/bangladesh.png" alt="" />
+															</figure>
+															<span className="country-name">{match.team_a_short}</span>
+														</div>
+														<div className="score-update">
+															<h5>146/6</h5>
+															<p className="text-muted">20.0 ov.</p>
+														</div>
+													</div>
+													<div className="country-info flex-row-reverse">
+														<div className="flag-avatar ml-05">
+															<figure>
+																<img src="/assets/images/flags/india.png" alt="" />
+															</figure>
+															<span className="country-name">{match.team_b_short}</span>
+														</div>
+														<div className="score-update">
+															<h5>102/4</h5>
+															<p className="text-muted">20.0 ov</p>
+														</div>
+													</div>
 												</div>
 											</div>
-											<div className="country-info flex-row-reverse">
-												<div className="flag-avatar ml-05">
-													<figure>
-														<img src="/assets/images/flags/india.png" alt="" />
-													</figure>
-													<span className="country-name">{match.team_b_short}</span>
-												</div>
-												<div className="score-update">
-													<h5>102/4</h5>
-													<p className="text-muted">20.0 ov</p>
-												</div>
+											{match.astrology_status === 'enable' ?
+											<div class="button-container">
+												<button class="theme-button-1" onClick={() => {navigate(`/live-score-board/${match.match_id}`)}}>View Liveline</button>
+												{match && typeof match.razorpay_payment_id === 'string' && match.razorpay_payment_id.includes('pay') ? (
+													<button class="theme-button-2" onClick={() => {navigate(`/match-astrology/${match.match_id}`)}}>View Astrology</button>
+												) : (
+													<button class="theme-button-3" onClick={() => {navigate(`/match-astrology/${match.match_id}`)}}>Buy Astrology</button>
+												)}
 											</div>
+											: 
+											<div class="button-container">
+												<button class="theme-button-1" onClick={() => {navigate(`/live-score-board/${match.match_id}`)}}>View Liveline</button>
+											</div>}
 										</div>
-									</div>
-									<div class="button-container">
-										<button class="theme-button-1" onClick={() => {navigate(`/live-score-board/${match.match_id}`)}}>View Liveline</button>
-										{match.razorpay_payment_id && match.razorpay_order_id && match.razorpay_signature && match.payment_status ? (
-											<button class="theme-button-2" onClick={() => {navigate(`/match-astrology/${match.match_id}`)}}>View Astrology</button>
-										) : (
-											<button class="theme-button-3" onClick={() => {navigate(`/match-astrology/${match.match_id}`)}}>Buy Astrology</button>
-										)}
-									</div>
-								</div>
-								)) : <></> 
-							}
+									);
+								}
+							)}
 						</OwlCarousel>
 					</div>
 				</section>
@@ -198,561 +295,20 @@ function HomePage() {
 						<div className="col-lg-3">
 							<aside className="sidebar left-sidebar">
 								<div className="widget widget-upcoming-match">
-									<h3 className="widget-title">Upcoming Matches</h3>
-
 									<div className="card card-shadow">
-										<ul className="nav nav-tabs">
-											<li className="active"><a data-toggle="tab" href="#series" className="active">Series</a></li>
-											<li><a data-toggle="tab" href="#league">League</a></li>
-										</ul>
-
-										<div className="tab-content">
-											<div id="series" className="tab-pane fade in show active">
-												<div className="score-card">
-													<div className="score-card-body">
-														<div className="country-info">
-															<div className="flag-avatar">
-																<figure>
-																	<img src="assets/images/flags/afghanistan.png" alt="" />
-																</figure>
-																<span className="country-name">ban</span>
-															</div>
-														</div>
-														<div className="score-update m-0 text-center">
-															<h5>22:30</h5>
-															<p className="text-muted">Today</p>
-														</div>
-														<div className="country-info">
-															<div className="flag-avatar">
-																<figure>
-																	<img src="assets/images/flags/australia.png" alt="" />
-																</figure>
-																<span className="country-name">ind</span>
-															</div>
-														</div>
-													</div>
-												</div>
-												<div className="score-card">
-													<div className="score-card-body">
-														<div className="country-info">
-															<div className="flag-avatar">
-																<figure>
-																	<img src="assets/images/flags/india.png" alt="" />
-																</figure>
-																<span className="country-name">ban</span>
-															</div>
-														</div>
-														<div className="score-update m-0 text-center">
-															<h5>22:30</h5>
-															<p className="text-muted">Today</p>
-														</div>
-														<div className="country-info">
-															<div className="flag-avatar">
-																<figure>
-																	<img src="assets/images/flags/england.png" alt="" />
-																</figure>
-																<span className="country-name">ind</span>
-															</div>
-														</div>
-													</div>
-												</div>
-												<div className="score-card">
-													<div className="score-card-body">
-														<div className="country-info">
-															<div className="flag-avatar">
-																<figure>
-																	<img src="assets/images/flags/bangladesh.png" alt="" />
-																</figure>
-																<span className="country-name">ban</span>
-															</div>
-														</div>
-														<div className="score-update m-0 text-center">
-															<h5>22:30</h5>
-															<p className="text-muted">Today</p>
-														</div>
-														<div className="country-info">
-															<div className="flag-avatar">
-																<figure>
-																	<img src="assets/images/flags/zimbabwe.png" alt="" />
-																</figure>
-																<span className="country-name">ind</span>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-											<div id="league" className="tab-pane fade">
-												<div className="score-card">
-													<div className="score-card-body">
-														<div className="country-info">
-															<div className="flag-avatar">
-																<figure>
-																	<img src="assets/images/flags/bangladesh.png" alt="" />
-																</figure>
-																<span className="country-name">ban</span>
-															</div>
-														</div>
-														<div className="score-update m-0 text-center">
-															<h5>22:30</h5>
-															<p className="text-muted">Today</p>
-														</div>
-														<div className="country-info">
-															<div className="flag-avatar">
-																<figure>
-																	<img src="assets/images/flags/india.png" alt="" />
-																</figure>
-																<span className="country-name">ind</span>
-															</div>
-														</div>
-													</div>
-												</div>
-												<div className="score-card">
-													<div className="score-card-body">
-														<div className="country-info">
-															<div className="flag-avatar">
-																<figure>
-																	<img src="assets/images/flags/south-africa.png" alt="" />
-																</figure>
-																<span className="country-name">ban</span>
-															</div>
-														</div>
-														<div className="score-update m-0 text-center">
-															<h5>22:30</h5>
-															<p className="text-muted">Today</p>
-														</div>
-														<div className="country-info">
-															<div className="flag-avatar">
-																<figure>
-																	<img src="assets/images/flags/sri-lanka.png" alt="" />
-																</figure>
-																<span className="country-name">ind</span>
-															</div>
-														</div>
-													</div>
-												</div>
-												<div className="score-card">
-													<div className="score-card-body">
-														<div className="country-info">
-															<div className="flag-avatar">
-																<figure>
-																	<img src="assets/images/flags/new-zealand.png" alt="" />
-																</figure>
-																<span className="country-name">ban</span>
-															</div>
-														</div>
-														<div className="score-update m-0 text-center">
-															<h5>22:30</h5>
-															<p className="text-muted">Today</p>
-														</div>
-														<div className="country-info">
-															<div className="flag-avatar">
-																<figure>
-																	<img src="assets/images/flags/india.png" alt="" />
-																</figure>
-																<span className="country-name">ind</span>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
+										<div className="ad-slot" key={currentAds[0]?.id}>
+											<h3>{currentAds[0]?.title}</h3>
+											{renderMedia(currentAds[0]?.media_file)}
+											{/* Add more details as needed */}
 										</div>
 									</div>
 								</div>
-								<div className="widget widget-key-series">
-									<h3 className="widget-title">Series List</h3>
-
+								<div className="widget widget-upcoming-match">
 									<div className="card card-shadow">
-										<div className="score-card">
-											<div className="score-card-body">
-												<div className="country-info align-items-center">
-													<div className="flag-avatar mr-05">
-														<figure>
-															<img src="assets/images/flags/new-zealand.png" alt="" />
-														</figure>
-													</div>
-													<span className="country-name text-12">ban</span>
-												</div>
-												<div className="score-update m-0 text-center">
-													<p className="text-muted">VS</p>
-												</div>
-												<div className="country-info align-items-center flex-row-reverse">
-													<div className="flag-avatar ml-05">
-														<figure>
-															<img src="assets/images/flags/india.png" alt="" />
-														</figure>
-													</div>
-													<span className="country-name text-12">ind</span>
-												</div>
-											</div>
-										</div>
-										<div className="score-card">
-											<div className="score-card-body">
-												<div className="country-info align-items-center">
-													<div className="flag-avatar mr-05">
-														<figure>
-															<img src="assets/images/flags/afghanistan.png" alt="" />
-														</figure>
-													</div>
-													<span className="country-name text-12">ban</span>
-												</div>
-												<div className="score-update m-0 text-center">
-													<p className="text-muted">VS</p>
-												</div>
-												<div className="country-info align-items-center flex-row-reverse">
-													<div className="flag-avatar ml-05">
-														<figure>
-															<img src="assets/images/flags/bangladesh.png" alt="" />
-														</figure>
-													</div>
-													<span className="country-name text-12">ind</span>
-												</div>
-											</div>
-										</div>
-										<div className="score-card">
-											<div className="score-card-body">
-												<div className="country-info align-items-center">
-													<div className="flag-avatar mr-05">
-														<figure>
-															<img src="assets/images/flags/australia.png" alt="" />
-														</figure>
-													</div>
-													<span className="country-name text-12">ban</span>
-												</div>
-												<div className="score-update m-0 text-center">
-													<p className="text-muted">VS</p>
-												</div>
-												<div className="country-info align-items-center flex-row-reverse">
-													<div className="flag-avatar ml-05">
-														<figure>
-															<img src="assets/images/flags/zimbabwe.png" alt="" />
-														</figure>
-													</div>
-													<span className="country-name text-12">ind</span>
-												</div>
-											</div>
-										</div>
-										<div className="score-card">
-											<div className="score-card-body">
-												<div className="country-info align-items-center">
-													<div className="flag-avatar mr-05">
-														<figure>
-															<img src="assets/images/flags/afghanistan.png" alt="" />
-														</figure>
-													</div>
-													<span className="country-name text-12">ban</span>
-												</div>
-												<div className="score-update m-0 text-center">
-													<p className="text-muted">VS</p>
-												</div>
-												<div className="country-info align-items-center flex-row-reverse">
-													<div className="flag-avatar ml-05">
-														<figure>
-															<img src="assets/images/flags/india.png" alt="" />
-														</figure>
-													</div>
-													<span className="country-name text-12">ind</span>
-												</div>
-											</div>
-										</div>
-										<div className="score-card">
-											<div className="score-card-body">
-												<div className="country-info align-items-center">
-													<div className="flag-avatar mr-05">
-														<figure>
-															<img src="assets/images/flags/afghanistan.png" alt="" />
-														</figure>
-													</div>
-													<span className="country-name text-12">ban</span>
-												</div>
-												<div className="score-update m-0 text-center">
-													<p className="text-muted">VS</p>
-												</div>
-												<div className="country-info align-items-center flex-row-reverse">
-													<div className="flag-avatar ml-05">
-														<figure>
-															<img src="assets/images/flags/south-africa.png" alt="" />
-														</figure>
-													</div>
-													<span className="country-name text-12">ind</span>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div className="widget widget-rankings">
-									<h3 className="widget-title">Team Ranking</h3>
-
-									<div className="card card-shadow p-0">
-										<ul className="nav nav-tabs px-20 py-20 pb-0">
-											<li className="active"><a data-toggle="tab" href="#t20_rank" className="active">T20</a></li>
-											<li><a data-toggle="tab" href="#odi_rank">ODI</a></li>
-											<li><a data-toggle="tab" href="#test_rank">Test</a></li>
-										</ul>
-
-										<div className="tab-content">
-											<div id="t20_rank" className="tab-pane fade in show active">
-												<div className="table-responsive">
-													<table className="widget-table table table-striped no-border">
-														<caption className="text-center">
-															<a href="#">See all Stats</a>
-														</caption>
-														<thead>
-															<tr>
-																<th scope="col"></th>
-																<th scope="col">team</th>
-																<th scope="col">points</th>
-															</tr>
-														</thead>
-														<tbody>
-															<tr>
-																<td className="text-13">01.</td>
-																<td className="pl-0">
-																	<div className="country-info align-items-center">
-																		<div className="flag-avatar mr-05">
-																			<figure className="avatar-28">
-																				<img src="assets/images/flags/england.png" alt="" />
-																			</figure>
-																		</div>
-																		<span className="country-name text-13">england</span>
-																	</div>
-																</td>
-																<td className="text-13">272</td>
-															</tr>
-															<tr>
-																<td className="text-13">02.</td>
-																<td className="pl-0">
-																	<div className="country-info align-items-center">
-																		<div className="flag-avatar mr-05">
-																			<figure className="avatar-28">
-																				<img src="assets/images/flags/india.png" alt="" />
-																			</figure>
-																		</div>
-																		<span className="country-name text-13">india</span>
-																	</div>
-																</td>
-																<td className="text-13">270</td>
-															</tr>
-															<tr>
-																<td className="text-13">03.</td>
-																<td className="pl-0">
-																	<div className="country-info align-items-center">
-																		<div className="flag-avatar mr-05">
-																			<figure className="avatar-28">
-																				<img src="assets/images/flags/australia.png" alt="" />
-																			</figure>
-																		</div>
-																		<span className="country-name text-13">australia</span>
-																	</div>
-																</td>
-																<td className="text-13">267</td>
-															</tr>
-															<tr>
-																<td className="text-13">04.</td>
-																<td className="pl-0">
-																	<div className="country-info align-items-center">
-																		<div className="flag-avatar mr-05">
-																			<figure className="avatar-28">
-																				<img src="assets/images/flags/pakistan.png" alt="" />
-																			</figure>
-																		</div>
-																		<span className="country-name text-13">pakistan</span>
-																	</div>
-																</td>
-																<td className="text-13">260</td>
-															</tr>
-															<tr>
-																<td className="text-13">05.</td>
-																<td className="pl-0">
-																	<div className="country-info align-items-center">
-																		<div className="flag-avatar mr-05">
-																			<figure className="avatar-28">
-																				<img src="assets/images/flags/new-zealand.png" alt="" />
-																			</figure>
-																		</div>
-																		<span className="country-name text-13">new zealand</span>
-																	</div>
-																</td>
-																<td className="text-13">255</td>
-															</tr>
-														</tbody>
-													</table>
-												</div>
-											</div>
-											<div id="odi_rank" className="tab-pane fade">
-												<div className="table-responsive">
-													<table className="widget-table table table-striped no-border">
-														<caption className="text-center">
-															<a href="#">See all Stats</a>
-														</caption>
-														<thead>
-															<tr>
-																<th scope="col"></th>
-																<th scope="col">team</th>
-																<th scope="col">points</th>
-															</tr>
-														</thead>
-														<tbody>
-															<tr>
-																<td className="text-13">01.</td>
-																<td className="pl-0">
-																	<div className="country-info align-items-center">
-																		<div className="flag-avatar mr-05">
-																			<figure className="avatar-28">
-																				<img src="assets/images/flags/england.png" alt="" />
-																			</figure>
-																		</div>
-																		<span className="country-name text-13">england</span>
-																	</div>
-																</td>
-																<td className="text-13">121</td>
-															</tr>
-															<tr>
-																<td className="text-13">02.</td>
-																<td className="pl-0">
-																	<div className="country-info align-items-center">
-																		<div className="flag-avatar mr-05">
-																			<figure className="avatar-28">
-																				<img src="assets/images/flags/india.png" alt="" />
-																			</figure>
-																		</div>
-																		<span className="country-name text-13">india</span>
-																	</div>
-																</td>
-																<td className="text-13">119</td>
-															</tr>
-															<tr>
-																<td className="text-13">03.</td>
-																<td className="pl-0">
-																	<div className="country-info align-items-center">
-																		<div className="flag-avatar mr-05">
-																			<figure className="avatar-28">
-																				<img src="assets/images/flags/new-zealand.png" alt="" />
-																			</figure>
-																		</div>
-																		<span className="country-name text-13">new zealand</span>
-																	</div>
-																</td>
-																<td className="text-13">118</td>
-															</tr>
-															<tr>
-																<td className="text-13">04.</td>
-																<td className="pl-0">
-																	<div className="country-info align-items-center">
-																		<div className="flag-avatar mr-05">
-																			<figure className="avatar-28">
-																				<img src="assets/images/flags/australia.png" alt="" />
-																			</figure>
-																		</div>
-																		<span className="country-name text-13">australia</span>
-																	</div>
-																</td>
-																<td className="text-13">111</td>
-															</tr>
-															<tr>
-																<td className="text-13">05.</td>
-																<td className="pl-0">
-																	<div className="country-info align-items-center">
-																		<div className="flag-avatar mr-05">
-																			<figure className="avatar-28">
-																				<img src="assets/images/flags/south-africa.png" alt="" />
-																			</figure>
-																		</div>
-																		<span className="country-name text-13">south africa</span>
-																	</div>
-																</td>
-																<td className="text-13">107</td>
-															</tr>
-														</tbody>
-													</table>
-												</div>
-											</div>
-											<div id="test_rank" className="tab-pane fade">
-												<div className="table-responsive">
-													<table className="widget-table table table-striped no-border">
-														<caption className="text-center">
-														</caption>
-														<thead>
-															<tr>
-																<th scope="col"></th>
-																<th scope="col">team</th>
-																<th scope="col">points</th>
-															</tr>
-														</thead>
-														<tbody>
-															<tr>
-																<td className="text-13">01.</td>
-																<td className="pl-0">
-																	<div className="country-info align-items-center">
-																		<div className="flag-avatar mr-05">
-																			<figure className="avatar-28">
-																				<img src="assets/images/flags/india.png" alt="" />
-																			</figure>
-																		</div>
-																		<span className="country-name text-13">india</span>
-																	</div>
-																</td>
-																<td className="text-13">120</td>
-															</tr>
-															<tr>
-																<td className="text-13">02.</td>
-																<td className="pl-0">
-																	<div className="country-info align-items-center">
-																		<div className="flag-avatar mr-05">
-																			<figure className="avatar-28">
-																				<img src="assets/images/flags/new-zealand.png" alt="" />
-																			</figure>
-																		</div>
-																		<span className="country-name text-13">new zealand</span>
-																	</div>
-																</td>
-																<td className="text-13">118</td>
-															</tr>
-															<tr>
-																<td className="text-13">03.</td>
-																<td className="pl-0">
-																	<div className="country-info align-items-center">
-																		<div className="flag-avatar mr-05">
-																			<figure className="avatar-28">
-																				<img src="assets/images/flags/australia.png" alt="" />
-																			</figure>
-																		</div>
-																		<span className="country-name text-13">australia</span>
-																	</div>
-																</td>
-																<td className="text-13">113</td>
-															</tr>
-															<tr>
-																<td className="text-13">04.</td>
-																<td className="pl-0">
-																	<div className="country-info align-items-center">
-																		<div className="flag-avatar mr-05">
-																			<figure className="avatar-28">
-																				<img src="assets/images/flags/england.png" alt="" />
-																			</figure>
-																		</div>
-																		<span className="country-name text-13">england</span>
-																	</div>
-																</td>
-																<td className="text-13">106</td>
-															</tr>
-															<tr>
-																<td className="text-13">05.</td>
-																<td className="pl-0">
-																	<div className="country-info align-items-center">
-																		<div className="flag-avatar mr-05">
-																			<figure className="avatar-28">
-																				<img src="assets/images/flags/pakistan.png" alt="" />
-																			</figure>
-																		</div>
-																		<span className="country-name text-13">pakistan</span>
-																	</div>
-																</td>
-																<td className="text-13">90</td>
-															</tr>
-														</tbody>
-													</table>
-												</div>
-											</div>
+										<div className="ad-slot" key={currentAds[1]?.id}>
+											<h3>{currentAds[1]?.title}</h3>
+											{renderMedia(currentAds[1]?.media_file)}
+											{/* Add more details as needed */}
 										</div>
 									</div>
 								</div>
@@ -774,27 +330,17 @@ function HomePage() {
 										<div className='tv-score'>
 											<div className="score-card-body">
 												<div className="country-info">
-													<div className="flag-avatar">
-														<figure>
-															<img src="/assets/images/flags/bangladesh.png" alt="" />
-														</figure>
+													<div className="text-center">
 														<span className="country-name">{matchData.team_a_short}</span>
-													</div>
-													<div className="score-update">
-														<h5>146/6</h5>
-														<p className="text-muted">20.0 ov.</p>
+														<span>{matchData && matchData.team_a_scores ? matchData.team_a_scores : '00-0'}</span> &nbsp;
+														<span className="text-muted">{matchData && matchData.team_a_over ? matchData.team_a_over : '0.0'} ov.</span>
 													</div>
 												</div>
-												<div className="country-info flex-row-reverse">
-													<div className="flag-avatar ml-05">
-														<figure>
-															<img src="/assets/images/flags/india.png" alt="" />
-														</figure>
+												<div className="country-info">
+													<div className="text-center">
 														<span className="country-name">{matchData.team_b_short}</span>
-													</div>
-													<div className="score-update">
-														<h5>102/4</h5>
-														<p className="text-muted">20.0 ov</p>
+														<span>{matchData && matchData.team_b_scores ? matchData.team_b_scores : '00-0'}</span> &nbsp;
+														<span className="text-muted">{matchData && matchData.team_b_over ? matchData.team_b_over : '0.0'} ov.</span>
 													</div>
 												</div>
 											</div>
@@ -803,178 +349,26 @@ function HomePage() {
                                     <div className='tv-line-horizontal'></div>
                                     <div className='tv-line-vertical'></div>
                                 </div> 
+								<Reviews/>
 							</div>
 						</div>
 						<div className="col-lg-3">
 							<aside className="sidebar right-sidebar">
-								<div className="widget widget-latest-news">
-									<h3 className="widget-title">Popular News</h3>
-
+								<div className="widget widget-upcoming-match">
 									<div className="card card-shadow">
-										<div className="content-card card-grid">
-											<figure>
-												<img src="assets/images/posts/thumbs/4.jpg" alt="" />
-											</figure>
-											<div className="content-block">
-												<h3>
-													<a href="#">Strength to smarts: How Smith has levelled up</a>
-												</h3>
-												<a href="#" className="post-meta">02 hours ago</a>
-											</div>
-										</div>
-										<div className="content-card card-grid">
-											<figure>
-												<img src="assets/images/posts/thumbs/5.jpg" alt="" />
-											</figure>
-											<div className="content-block">
-												<h3>
-													<a href="#">Strength to smarts: How Smith has levelled up</a>
-												</h3>
-												<a href="#" className="post-meta">02 hours ago</a>
-											</div>
-										</div>
-										<div className="content-card card-grid">
-											<figure>
-												<img src="assets/images/posts/thumbs/6.jpg" alt="" />
-											</figure>
-											<div className="content-block">
-												<h3>
-													<a href="#">Strength to smarts: How Smith has levelled up</a>
-												</h3>
-												<a href="#" className="post-meta">02 hours ago</a>
-											</div>
-										</div>
-										<div className="content-card card-grid">
-											<figure>
-												<img src="assets/images/posts/thumbs/7.jpg" alt="" />
-											</figure>
-											<div className="content-block">
-												<h3>
-													<a href="#">Strength to smarts: How Smith has levelled up</a>
-												</h3>
-												<a href="#" className="post-meta">02 hours ago</a>
-											</div>
-										</div>
-										<div className="content-card card-grid">
-											<figure>
-												<img src="assets/images/posts/thumbs/8.jpg" alt="" />
-											</figure>
-											<div className="content-block">
-												<h3>
-													<a href="#">Strength to smarts: How Smith has levelled up</a>
-												</h3>
-												<a href="#" className="post-meta">02 hours ago</a>
-											</div>
+										<div className="ad-slot" key={currentAds[2]?.id}>
+											<h3>{currentAds[2]?.title}</h3>
+											{renderMedia(currentAds[2]?.media_file)}
+											{/* Add more details as needed */}
 										</div>
 									</div>
 								</div>
-								<div className="widget widget-feature-video">
-									<h3 className="widget-title">Featured Videos</h3>
-
+								<div className="widget widget-upcoming-match">
 									<div className="card card-shadow">
-										<OwlCarousel
-											className="featVideo-caro owl-theme"
-											items={1}
-											loop
-											nav
-											autoplay
-											margin={10}
-											dots={false}
-										>
-											<div className="content-card">
-												<figure>
-													<img src="assets/images/posts/2.jpg" alt="" />
-												</figure>
-												<div className="content-block">
-													<h3>
-														<a href="#">Strength to smarts: How Smith has levelled up</a>
-													</h3>
-													<a href="#" className="post-meta">02 hours ago</a>
-												</div>
-											</div>
-											<div className="content-card">
-												<figure>
-													<img src="assets/images/posts/2.jpg" alt="" />
-												</figure>
-												<div className="content-block">
-													<h3>
-														<a href="#">Strength to smarts: How Smith has levelled up</a>
-													</h3>
-													<a href="#" className="post-meta">02 hours ago</a>
-												</div>
-											</div>
-											<div className="content-card">
-												<figure>
-													<img src="assets/images/posts/2.jpg" alt="" />
-												</figure>
-												<div className="content-block">
-													<h3>
-														<a href="#">Strength to smarts: How Smith has levelled up</a>
-													</h3>
-													<a href="#" className="post-meta">02 hours ago</a>
-												</div>
-											</div>
-											<div className="content-card">
-												<figure>
-													<img src="assets/images/posts/2.jpg" alt="" />
-												</figure>
-												<div className="content-block">
-													<h3>
-														<a href="#">Strength to smarts: How Smith has levelled up</a>
-													</h3>
-													<a href="#" className="post-meta">02 hours ago</a>
-												</div>
-											</div>
-											<div className="content-card">
-												<figure>
-													<img src="assets/images/posts/2.jpg" alt="" />
-												</figure>
-												<div className="content-block">
-													<h3>
-														<a href="#">Strength to smarts: How Smith has levelled up</a>
-													</h3>
-													<a href="#" className="post-meta">02 hours ago</a>
-												</div>
-											</div>
-										</OwlCarousel>
-									</div>
-								</div>
-								<div className="widget widget-social">
-									<h3 className="widget-title">Reach us on</h3>
-
-									<div className="card p-0">
-										<div className="social-card facebook">
-											<a href="#">
-												<div className="icon">
-													<i className="fab fa-facebook-f"></i>
-												</div>
-												<div className="social-card-content">
-													<strong>Facebook</strong>
-													<span>Link our facebook page</span>
-												</div>
-											</a>
-										</div>
-										<div className="social-card twitter">
-											<a href="#">
-												<div className="icon">
-													<i className="fab fa-twitter"></i>
-												</div>
-												<div className="social-card-content">
-													<strong>Twitter</strong>
-													<span>Follow us on twitter</span>
-												</div>
-											</a>
-										</div>
-										<div className="social-card linkedin">
-											<a href="#">
-												<div className="icon">
-													<i className="fab fa-linkedin-in"></i>
-												</div>
-												<div className="social-card-content">
-													<strong>Linkedin</strong>
-													<span>Join us on linkedin</span>
-												</div>
-											</a>
+										<div className="ad-slot" key={currentAds[3]?.id}>
+											<h3>{currentAds[3]?.title}</h3>
+											{renderMedia(currentAds[3]?.media_file)}
+											{/* Add more details as needed */}
 										</div>
 									</div>
 								</div>

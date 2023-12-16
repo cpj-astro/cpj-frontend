@@ -114,7 +114,6 @@ function LiveScoreBoard() {
     }, []);
     return (
 		<>
-            {/* <Header/> */}
 			<div id="main" className="main-container others">
                 <div className="container">
                     <div className="row">
@@ -145,18 +144,6 @@ function LiveScoreBoard() {
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    {/* <div className='rrates-container'>
-                                                        <div className='text-left'>
-                                                            <div className="rrates">
-                                                                <p>Current RR<span>{matchData && matchData.curr_rate ? matchData.curr_rate : '0.0'}</span></p>
-                                                            </div>
-                                                        </div>
-                                                        <div className='text-right'>
-                                                            <div className="rrates">
-                                                                <p>Required RR<span>{matchData && matchData.rr_rate ? matchData.rr_rate : '0.0'}</span></p>
-                                                            </div>
-                                                        </div>
-                                                    </div> */}
                                                 </div>
                                             </div>
                                         </div>
@@ -771,318 +758,29 @@ function LiveScoreBoard() {
                         <div className="col-lg-3">
                             <aside className="sidebar right-sidebar">
                                 <div className="widget widget-upcoming-match">
-                                    {paymentDetails.razorpay_payment_id && paymentDetails.razorpay_order_id && paymentDetails.razorpay_signature && paymentDetails.payment_status ? (
-                                        <span onClick={() => {navigate(`/match-astrology/${id}`)}} className="btn-astro">
-                                            <div>
-                                                View Astrology
-                                            </div>
-                                        </span>
-                                    ) : (
-                                        <span onClick={() => {navigate(`/match-astrology/${id}`)}} className="btn-astro">
-                                            <div>
-                                                Buy Astrology
-                                            </div>
-                                        </span>
-                                    )}
-
+                                    <span onClick={() => {navigate(`/match-astrology/${id}`)}} className="btn-astro">
+                                        <div>
+                                            {paymentDetails.razorpay_payment_id ? 'View Astrology' : 'Buy Astrology'}
+                                        </div>
+                                    </span>
                                     <h3 className="mt-10 widget-title">Upcoming Matches</h3>
 
                                     <div className="card card-shadow">
-                                        <ul className="nav nav-tabs">
-                                            <li className="active"><a data-toggle="tab" href="#series" className="active">Series</a></li>
-                                            <li><a data-toggle="tab" href="#league">League</a></li>
-                                        </ul>
-
-                                        <div className="tab-content">
-                                            <div id="series" className="tab-pane fade in show active">
-                                                <div className="score-card">
-                                                    <div className="score-card-body">
-                                                        <div className="country-info">
-                                                            <div className="flag-avatar">
-                                                                <figure>
-                                                                    <img src="/assets/images/flags/afghanistan.png" alt="" />
-                                                                </figure>
-                                                                <span className="country-name">ban</span>
-                                                            </div>
-                                                        </div>
-                                                        <div className="score-update m-0 text-center">
-                                                            <h5>22:30</h5>
-                                                            <p className="text-muted">Today</p>
-                                                        </div>
-                                                        <div className="country-info">
-                                                            <div className="flag-avatar">
-                                                                <figure>
-                                                                    <img src="/assets/images/flags/australia.png" alt="" />
-                                                                </figure>
-                                                                <span className="country-name">ind</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="score-card">
-                                                    <div className="score-card-body">
-                                                        <div className="country-info">
-                                                            <div className="flag-avatar">
-                                                                <figure>
-                                                                    <img src="/assets/images/flags/india.png" alt="" />
-                                                                </figure>
-                                                                <span className="country-name">ban</span>
-                                                            </div>
-                                                        </div>
-                                                        <div className="score-update m-0 text-center">
-                                                            <h5>22:30</h5>
-                                                            <p className="text-muted">Today</p>
-                                                        </div>
-                                                        <div className="country-info">
-                                                            <div className="flag-avatar">
-                                                                <figure>
-                                                                    <img src="/assets/images/flags/england.png" alt="" />
-                                                                </figure>
-                                                                <span className="country-name">ind</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="score-card">
-                                                    <div className="score-card-body">
-                                                        <div className="country-info">
-                                                            <div className="flag-avatar">
-                                                                <figure>
-                                                                    <img src="/assets/images/flags/bangladesh.png" alt="" />
-                                                                </figure>
-                                                                <span className="country-name">ban</span>
-                                                            </div>
-                                                        </div>
-                                                        <div className="score-update m-0 text-center">
-                                                            <h5>22:30</h5>
-                                                            <p className="text-muted">Today</p>
-                                                        </div>
-                                                        <div className="country-info">
-                                                            <div className="flag-avatar">
-                                                                <figure>
-                                                                    <img src="/assets/images/flags/zimbabwe.png" alt="" />
-                                                                </figure>
-                                                                <span className="country-name">ind</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div id="league" className="tab-pane fade">
-                                                <div className="score-card">
-                                                    <div className="score-card-body">
-                                                        <div className="country-info">
-                                                            <div className="flag-avatar">
-                                                                <figure>
-                                                                    <img src="/assets/images/flags/bangladesh.png" alt="" />
-                                                                </figure>
-                                                                <span className="country-name">ban</span>
-                                                            </div>
-                                                        </div>
-                                                        <div className="score-update m-0 text-center">
-                                                            <h5>22:30</h5>
-                                                            <p className="text-muted">Today</p>
-                                                        </div>
-                                                        <div className="country-info">
-                                                            <div className="flag-avatar">
-                                                                <figure>
-                                                                    <img src="/assets/images/flags/india.png" alt="" />
-                                                                </figure>
-                                                                <span className="country-name">ind</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="score-card">
-                                                    <div className="score-card-body">
-                                                        <div className="country-info">
-                                                            <div className="flag-avatar">
-                                                                <figure>
-                                                                    <img src="/assets/images/flags/south-africa.png" alt="" />
-                                                                </figure>
-                                                                <span className="country-name">ban</span>
-                                                            </div>
-                                                        </div>
-                                                        <div className="score-update m-0 text-center">
-                                                            <h5>22:30</h5>
-                                                            <p className="text-muted">Today</p>
-                                                        </div>
-                                                        <div className="country-info">
-                                                            <div className="flag-avatar">
-                                                                <figure>
-                                                                    <img src="/assets/images/flags/sri-lanka.png" alt="" />
-                                                                </figure>
-                                                                <span className="country-name">ind</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="score-card">
-                                                    <div className="score-card-body">
-                                                        <div className="country-info">
-                                                            <div className="flag-avatar">
-                                                                <figure>
-                                                                    <img src="/assets/images/flags/new-zealand.png" alt="" />
-                                                                </figure>
-                                                                <span className="country-name">ban</span>
-                                                            </div>
-                                                        </div>
-                                                        <div className="score-update m-0 text-center">
-                                                            <h5>22:30</h5>
-                                                            <p className="text-muted">Today</p>
-                                                        </div>
-                                                        <div className="country-info">
-                                                            <div className="flag-avatar">
-                                                                <figure>
-                                                                    <img src="/assets/images/flags/india.png" alt="" />
-                                                                </figure>
-                                                                <span className="country-name">ind</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        
                                     </div>
                                 </div>
                                 <div className="widget widget-rankings">
                                     <h3 className="widget-title">Standings</h3>
 
                                     <div className="card card-shadow p-0">
-                                        <div className="table-responsive">
-                                            <table className="widget-table table table-striped no-border">
-                                                <thead>
-                                                    <tr>
-                                                        <th scope="col">team</th>
-                                                        <th scope="col">p</th>
-                                                        <th scope="col">w</th>
-                                                        <th scope="col">l</th>
-                                                        <th scope="col">pts</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>
-                                                            <div className="country-info align-items-center">
-                                                                <div className="flag-avatar mr-05">
-                                                                    <figure className="avatar-28">
-                                                                        <img src="/assets/images/flags/england.png" alt="" />
-                                                                    </figure>
-                                                                </div>
-                                                                <span className="country-name text-13">eng</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>3</td>
-                                                        <td>5</td>
-                                                        <td>7</td>
-                                                        <td className="text-13">21</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <div className="country-info align-items-center">
-                                                                <div className="flag-avatar mr-05">
-                                                                    <figure className="avatar-28">
-                                                                        <img src="/assets/images/flags/india.png" alt="" />
-                                                                    </figure>
-                                                                </div>
-                                                                <span className="country-name text-13">ind</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>2</td>
-                                                        <td>5</td>
-                                                        <td>6</td>
-                                                        <td className="text-13">20</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <div className="country-info align-items-center">
-                                                                <div className="flag-avatar mr-05">
-                                                                    <figure className="avatar-28">
-                                                                        <img src="/assets/images/flags/australia.png" alt="" />
-                                                                    </figure>
-                                                                </div>
-                                                                <span className="country-name text-13">aus</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>2</td>
-                                                        <td>4</td>
-                                                        <td>8</td>
-                                                        <td className="text-13">18</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <div className="country-info align-items-center">
-                                                                <div className="flag-avatar mr-05">
-                                                                    <figure className="avatar-28">
-                                                                        <img src="/assets/images/flags/pakistan.png" alt="" />
-                                                                    </figure>
-                                                                </div>
-                                                                <span className="country-name text-13">pak</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>6</td>
-                                                        <td>5</td>
-                                                        <td>8</td>
-                                                        <td className="text-13">17</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <div className="country-info align-items-center">
-                                                                <div className="flag-avatar mr-05">
-                                                                    <figure className="avatar-28">
-                                                                        <img src="/assets/images/flags/new-zealand.png" alt="" />
-                                                                    </figure>
-                                                                </div>
-                                                                <span className="country-name text-13">nz</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>5</td>
-                                                        <td>4</td>
-                                                        <td>7</td>
-                                                        <td className="text-13">16</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                        
                                     </div>
                                 </div>
                                 <div className="widget widget-social">
                                     <h3 className="widget-title">Reach us on</h3>
 
                                     <div className="card p-0">
-                                        <div className="social-card facebook">
-                                            <a href="#">
-                                                <div className="icon">
-                                                    <i className="fab fa-facebook-f"></i>
-                                                </div>
-                                                <div className="social-card-content">
-                                                    <strong>Facebook</strong>
-                                                    <span>Link our facebook page</span>
-                                                </div>
-                                            </a>
-                                        </div>
-                                        <div className="social-card twitter">
-                                            <a href="#">
-                                                <div className="icon">
-                                                    <i className="fab fa-twitter"></i>
-                                                </div>
-                                                <div className="social-card-content">
-                                                    <strong>Twitter</strong>
-                                                    <span>Follow us on twitter</span>
-                                                </div>
-                                            </a>
-                                        </div>
-                                        <div className="social-card linkedin">
-                                            <a href="#">
-                                                <div className="icon">
-                                                    <i className="fab fa-linkedin-in"></i>
-                                                </div>
-                                                <div className="social-card-content">
-                                                    <strong>Linkedin</strong>
-                                                    <span>Join us on linkedin</span>
-                                                </div>
-                                            </a>
-                                        </div>
+                                        
                                     </div>
                                 </div>
                             </aside>

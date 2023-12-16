@@ -25,20 +25,20 @@ function MatchAstrology() {
         Weather:'',
         ProfileName: '',
         SignName: '',
-        YourMatchAstrology: '',
         LuckyColors: '',
         LuckyNumbers: '',
-        SpecialRecommendation: '',
-        AstroFavPlayers: '',
         MatchBet: '',
         FancyOrSession: '',
         FavTeam: '',
+        YourMatchAstrology: '',
         FancyMatchData: '',
         AstrologicalBettingTime: '',
+        AstroFavPlayers: '',
         OverallBettingForMatch: '',
-        Direction: '',
         Suggestions: '',
+        Direction: '',
         Mantras: '',
+        SpecialRecommendation: '',
     });
 
     var accessToken = localStorage.getItem('client_token');
@@ -52,26 +52,27 @@ function MatchAstrology() {
     const reportSet = (reportData) => {
         try {
             const data = reportData.astrology_data.split('#').map((item) => item.trim());
+            console.log("Report", user);
             setReportData({
                 MatchName: match.team_a + ' Vs ' + match.team_b,
                 MatchStart: match.match_date,
                 Weather: match.weather,
                 ProfileName: user.first_name + ' ' + user.last_name,
                 SignName: user.sign_name,
-                YourMatchAstrology: data[0],
-                LuckyColors: data[1],
-                LuckyNumbers: data[2],
-                SpecialRecommendation: data[3],
-                AstroFavPlayers: data[4],
-                MatchBet: data[5],
-                FancyOrSession: data[6],
-                FavTeam: data[7],
-                FancyMatchData: data[8],
-                AstrologicalBettingTime: data[9],
-                OverallBettingForMatch: data[10],
+                LuckyColors: data[0],
+                LuckyNumbers: data[1],
+                MatchBet: data[2],
+                FancyOrSession: data[3],
+                FavTeam: data[4],
+                YourMatchAstrology: data[5],
+                FancyMatchData: data[6],
+                AstrologicalBettingTime: data[7],
+                AstroFavPlayers: data[8],
+                OverallBettingForMatch: data[9],
+                Suggestions: data[10],
                 Direction: data[11],
-                Suggestions: data[12],
-                Mantras: data[13],
+                Mantras: data[12],
+                SpecialRecommendation: data[13],
             });
         } catch (error) {
             setLoader(false);
@@ -97,7 +98,11 @@ function MatchAstrology() {
 		axios.post(process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/matchInfo` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/matchInfo`, params, apiConfig)
         .then((response) => {
             if(response.data.success){
-                setMatch(response.data.data);
+                if(response && response.data && response.data.data.astrology_data) {
+                    setMatch(response.data.data);
+                } else {
+                    navigate('/');
+                }
             }
         }).catch((error) => {
             setLoader(false);
@@ -111,7 +116,6 @@ function MatchAstrology() {
 	}
 
     const fetchUserData = () => {
-        setLoader(true);
         axios.get(process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/user` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/user`, apiConfig)
         .then((response) => {
             setLoader(false);
@@ -119,7 +123,6 @@ function MatchAstrology() {
                 setUserData(response.data.data);
             }
         }).catch((error) => {
-            setLoader(false);
             if(error.response.data.status_code == 401){
 				localStorage.removeItem('client_token');
 				navigate('/sign-in');
@@ -130,7 +133,6 @@ function MatchAstrology() {
     }
 
     const fetchPanditsList = () => {
-        setLoader(true);
         axios.get(process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/pandits` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/pandits`, apiConfig)
         .then((response) => {
             setLoader(false);
@@ -152,11 +154,19 @@ function MatchAstrology() {
         if(match && match.astrology_data) {
             reportSet(match);
         }
+        fetchUserData();
     }, [match])
+
+    useEffect(() => {
+        if(reportData && reportData.YourMatchAstrology) {
+            setTimeout(() => {
+                setLoader(false);   
+            }, 3000);
+        }
+    }, [reportData])
 
 	useEffect(() => {
         fetchMatchData();
-        fetchUserData();
         fetchPanditsList();
     },[])
     return (
@@ -325,7 +335,21 @@ function MatchAstrology() {
                                                         <span className="country-name text-17 mb-10">Disclaimer</span>
                                                     </div>
                                                     <span className='report-values'>
-                                                        The testimonials provided on our website are personal views and experiences of our clients. We do not make any type of false claims of guaranteed results as we are not GODS or HIS decendants. We promise the best of the services with truth, faith and devotion. There is no guarantee of specific results and that the results can vary as every individual has its own horoscope and different pattern of their planets. Hence, results or final effects of remedies could vary from person to person.
+                                                        <p>
+                                                            Strictly for Entertainment Purposes
+                                                        </p>
+                                                        <p>
+                                                            The “cricketpanditji.com“ provided herein is for entertainment purposes only. Any information, guidance, or advice offered during any course of the service provided by  “Cricket Panditji “ is not intended to substitute professional, legal, financial, or medical advice. 
+                                                        </p>
+                                                        <p>
+                                                            The content presented is based on interpretation, subjective analysis, and personal insights, and should not be considered as a substitute for expert advice. Individuals are encouraged to use their discretion and judgement in applying any information received during this service to their personal lives or decisions.
+                                                        </p>
+                                                        <p>
+                                                            We do not guarantee the accuracy, reliability, or completeness of any information provided during this service. Participants are advised to seek appropriate professional advice or consultation for specific concerns or issues.
+                                                        </p>
+                                                        <p>
+                                                            By engaging in this service, you acknowledge that any decisions or actions taken as a result of the information provided are at your own risk and discretion. Any information/advice/service must be taken as a pure entertainment and “Cricket Panditji takes no responsibility whatsoever in any manner, caused by any give any service/information by “Cricket Panditji“
+                                                        </p>
                                                     </span>
                                                 </div>
                                             </div>
@@ -348,15 +372,19 @@ function MatchAstrology() {
                                 {(panditData && panditData.length > 0) ? panditData.map((pandit, index) => (
                                     <div className='col-md-4'>
                                         <div className={`card card-shadow cursor-pointer ${panditNo === (index+1) ? 'card-active' : ''}`}  onClick={() => {setPanditNo(index+1); setSelectedPandit(pandit);}}>
-                                            <div className='row'>
-                                                <div className='col-md-4'>
+                                            <div className='d-flex'>
+                                                <div className=''>
                                                     <img src={`/assets/images/pandits/${pandit.avatar_image}`} alt className='pandit-img'/>
                                                 </div>
-                                                <div className='col-md-8'>
+                                                <div className='ml-3'>
                                                     <div className='mt-2'>
                                                         <h4>Name: {pandit.name}</h4>
                                                         <h4>Experience : {pandit.experience}</h4>
-                                                        <h4>Rating : {pandit.rating}</h4>
+                                                        <h4>Rating : 
+                                                            {Array.from({ length: pandit.rating }, (_, index) => (
+                                                                <i key={index} className="fa fa-star text-warning ml-1"></i>
+                                                            ))}
+                                                        </h4>
                                                         <h4>Astrology: ₹ {pandit.match_astrology_price}</h4>
                                                     </div>
                                                 </div>

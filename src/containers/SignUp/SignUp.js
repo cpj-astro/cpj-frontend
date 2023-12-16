@@ -42,6 +42,9 @@ function SignUp() {
 	}
 
 	const onSubmit = async (data) => {
+		if(!data.accept_terms) {
+			return toast.error("Please enter other details and accept terms");	
+		}
 		if(validateData(data)) {
 			try {
 				axios.post(
@@ -86,7 +89,15 @@ function SignUp() {
 						</a>
 					</div>
 
-					<form onSubmit={handleSubmit(onSubmit)}>
+					<div className='row'>
+						<div className='col-md-12'>
+							<div className='text-center mt-3'>
+								<h1>Sign Up</h1>
+							</div>
+						</div>
+					</div>
+
+					<form onSubmit={handleSubmit(onSubmit)} className='pt-20'>
 						<input type="hidden" name="latitude"/>
 						<input type="hidden" name="longitude"/>
 						<input type="hidden" name="birth_place"/>
@@ -190,14 +201,20 @@ function SignUp() {
 								</div>
                             </div>
                         </div>
-						
-						<div className="form-row">
+					
+						<div className="form-row text-center">
+							<div className="col-sm-12">
+								<input type='checkbox' name="terms" {...register("accept_terms")}/> I accept all <a href='/terms'>terms & conditions</a> and I am above 18 years <a href='/terms'></a>
+							</div>
+						</div>
+
+
+						<button type="submit" className="cricnotch-btn btn-filled radius-5">Create Your Account</button>
+						<div className="form-row text-center mt-2">
 							<div className="col-sm-12">
 								Already have an account? <a href="/sign-in" className="forgot-link">Sign in</a>
 							</div>
 						</div>
-
-						<button type="submit" className="cricnotch-btn btn-filled radius-5">Create Your Account</button>
 					</form>
 				</div>
 			</section>

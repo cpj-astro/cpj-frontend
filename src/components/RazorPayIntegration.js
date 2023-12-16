@@ -72,6 +72,8 @@ function RazorpayIntegration({ matchId, panditId, amount, moonSign, onPaymentSuc
       .then((response) => {
           if(response.data.success){
             onPaymentSuccess();
+          } else {
+            onPaymentFail();
           }
       }).catch((error) => {
         if(error.response.data.status_code == 401){

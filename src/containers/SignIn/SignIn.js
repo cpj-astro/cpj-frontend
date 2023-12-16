@@ -43,7 +43,15 @@ function SignIn() {
 						</a>
 					</div>
 
-					<form onSubmit={handleSubmit(onSubmit)}>
+					<div className='row'>
+						<div className='col-md-12'>
+							<div className='text-center mt-3'>
+								<h1>Sign In</h1>
+							</div>
+						</div>
+					</div>
+
+					<form onSubmit={handleSubmit(onSubmit)} className='pt-20'>
 						<div className="input-field">
 							<label for="email">Email Address</label>
 							<input 
@@ -64,7 +72,9 @@ function SignIn() {
 								{...register("password")}
 							/>
 						</div>
-						<div className="form-row">
+
+						<button type="submit" className="cricnotch-btn btn-filled radius-5">Sign in to Your Account</button>
+						<div className="form-row mt-2">
 							<div className="col-sm-8">
 							Doesn't have an account yet? <a href="/sign-up" className="forgot-link">Sign Up</a>
 							</div>
@@ -72,8 +82,6 @@ function SignIn() {
 								<a href="/forget-password" className="forgot-link">Forgot Password?</a>
 							</div>
 						</div>
-
-						<button type="submit" className="cricnotch-btn btn-filled radius-5">Sign in to Your Account</button>
 					</form>
 				</div>
 			</section>

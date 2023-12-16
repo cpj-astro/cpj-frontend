@@ -97,7 +97,7 @@ select {
   background-size: auto;
 }
 
-p {
+footer p {
   color: #ffffff;
 }
 
@@ -1718,9 +1718,9 @@ a.post-meta {
 
 @media screen and (max-width: 575px) {
   .topbar-right {
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
+    -webkit-box-pack: flex-end;
+        -ms-flex-pack: flex-end;
+            justify-content: flex-end;
   }
 }
 
@@ -3344,6 +3344,10 @@ a.post-meta {
   padding: 14px 40px;
 }
 
+.disabled-cric-btn {
+  background: #262536bf!important;
+  cursor: not-allowed!important;
+}
 /**********************************
 * Team Rankings style start
 *********************************/
@@ -5848,6 +5852,7 @@ input:checked ~ .cover:before {
   background-color: #ffffff;
   width: 100%;
   padding: 3px 5px;
+
   border-radius: 5px;
 }
 
@@ -5861,4 +5866,15 @@ input:checked ~ .cover:before {
   background-color: #f6a8b8;
   border: 2px solid #ffff !important;
   font-weight: 600;
+}
+
+.custom-review {
+  border: 1px solid #ddd;
+}
+
+.star-icon-set {
+  color: gold;
+  font-size: 15px;
+  margin-right: 5px;
+  margin-bottom: 10px;
 }

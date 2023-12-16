@@ -21,7 +21,7 @@ export default function Header() {
     return (
         <section className="topbar">
             <div className="container">
-                <div className="row align-items-center">
+                <div className="display-set">
                     <div className="col-sm-6">
                         <a href="/" className="logo">
                             <img src="/assets/images/logo.png" alt="logo" />

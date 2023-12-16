@@ -13,7 +13,7 @@ function Footer() {
 			<div className="footer-top">
 				<div className="container">
 					<div className="row">
-						<div className="col-md-4">
+						<div className="col-md-6">
 							<div className="foo-widget foo-text mb-40">
 								<div className="foo-text-content">
 									<a href="homepage.html" className="logo">
@@ -30,47 +30,13 @@ function Footer() {
 								><a href="#"><i className="fab fa-pinterest-p"></i></a>
 							</div>
 						</div>
-						<div className="col-md-4">
-							<div className="foo-widget foo-recent-post">
-								<h3 className="widget-title">Hot Topics</h3>
-								<ul>
-									<li>
-										<div className="post-thumb">
-											<img src="/assets/images/posts/thumbs/1.jpg" alt="" />
-										</div>
-										<div className="rc-post-inner">
-											<h5><a href="#">Strength to smarts: How Smith has levelled up</a></h5>
-											<a href="#" className="post-meta">02 hours ago</a>
-										</div>
-									</li>
-									<li>
-										<div className="post-thumb">
-											<img src="/assets/images/posts/thumbs/2.jpg" alt="" />
-										</div>
-										<div className="rc-post-inner">
-											<h5><a href="#">Strength to smarts: How Smith has levelled up</a></h5>
-											<a href="#" className="post-meta">02 hours ago</a>
-										</div>
-									</li>
-									<li>
-										<div className="post-thumb">
-											<img src="/assets/images/posts/thumbs/3.jpg" alt="" />
-										</div>
-										<div className="rc-post-inner">
-											<h5><a href="#">Strength to smarts: How Smith has levelled up</a></h5>
-											<a href="#" className="post-meta">02 hours ago</a>
-										</div>
-									</li>
-								</ul>
-							</div>
-						</div>
-						<div className="col-md-4">
+						<div className="col-md-6">
 							<div className="foo-widget foo-navigation">
 								<h3 className="widget-title">Quick Links</h3>
 								<ul>
 									<li><a href="/about-us">About us</a></li>
 									<li><a href="/contact-us">Contact us</a></li>
-									<li><a href="/faqs">Frequently Asked Questions</a></li>
+									{/* <li><a href="/faqs">Frequently Asked Questions</a></li> */}
 									<li><a href="/disclaimer">Disclaimer</a></li>
 									<li><a href="/terms">Terms & Conditions</a></li>
 									<li><a href="/privacy">Privacy Policy</a></li>
@@ -85,11 +51,6 @@ function Footer() {
 				<div className="row">
 					<div className="col-md-6">
 						<p><a href="#">CricketPanditJi</a> &copy; {year} &nbsp;|&nbsp; All Rights Reserved</p>
-					</div>
-					<div className="col-md-6 text-md-right">
-						<a href="#"><img src="/assets/images/payments/01.png" alt="" /></a><a href="#"><img src="/assets/images/payments/02.png" alt="" /></a
-						><a href="#"><img src="/assets/images/payments/03.png" alt="" /></a><a href="#"><img src="/assets/images/payments/04.png" alt="" /></a
-						><a href="#"><img src="/assets/images/payments/05.png" alt="" /></a><a href="#"><img src="/assets/images/payments/06.png" alt="" /></a>
 					</div>
 				</div>
 			</div>
