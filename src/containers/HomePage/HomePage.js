@@ -171,8 +171,6 @@ function HomePage() {
 							responsive={responsiveOptions}
 						>
 							{matchesData && matchesData.length > 0 && matchesData.map((match, index) => {
-								console.log('astrology_status:', match.astrology_status);
-								console.log('razorpay_payment_id:', match.razorpay_payment_id);
 								return (
 										<div className="score-card p-0" key={index}>
 											<div className="score-card-inner">
@@ -230,67 +228,6 @@ function HomePage() {
 			</header>
 			<div id="main" className="main-container">
 				<div className="container">
-					<section className="d-none player-contact pt-0 pb-0">
-						<div className="card card-shadow">
-							<div className="player-profile">
-								<figure className="kundli-avatar">
-									<Kundli housesData={user && user.kundli_data ? user.kundli_data : []}/>
-								</figure>
-								<div className="player-info">
-									<div className="info-header">
-										<div>
-											<h2>
-												{user && user.first_name} {user && user.last_name} &nbsp;
-												<svg xmlns="http://www.w3.org/2000/svg" width="19.636" height="24" viewBox="0 0 19.636 24">
-													<path
-														id="Icon_material-verified-user"
-														data-name="Icon material-verified-user"
-														d="M14.318,1.5,4.5,5.864v6.545c0,6.055,4.189,11.716,9.818,13.091,5.629-1.375,9.818-7.036,9.818-13.091V5.864ZM12.136,18.955,7.773,14.591l1.538-1.538,2.825,2.815,7.189-7.189,1.538,1.549Z"
-														transform="translate(-4.5 -1.5)"
-														fill="#3a5ae5"
-													/>
-												</svg>
-											</h2>
-										</div>
-										<div className="display-set">
-											<a href="/profile" className='btn btn-primary text-13'>View Reports</a>
-										</div>
-									</div>
-
-									<div className="info-body">
-										<ul className="list-striped mr-05">
-											<li>
-												<span>Date of birth</span>
-												<span>{user && user.birth_date}</span>
-											</li>
-											<li>
-												<span>Birth Time</span>
-												<span>{user && user.birth_time}</span>
-											</li>
-											<li>
-												<span>Birth place</span>
-												<span>{user && user.birth_place}</span>
-											</li>
-										</ul>
-										<ul className="list-striped">
-											<li>
-												<span>Moon Sign</span>
-												<span>{user && user.sign_name}</span>
-											</li>
-											<li>
-												<span>Latitude</span>
-												<span>{user && user.latitude}</span>
-											</li>
-											<li>
-												<span>Longitude</span>
-												<span>{user && user.longitude}</span>
-											</li>
-										</ul>
-									</div>
-								</div>
-							</div>
-						</div>
-					</section>
 					<div className="row">
 						<div className="col-lg-3">
 							<aside className="sidebar left-sidebar">

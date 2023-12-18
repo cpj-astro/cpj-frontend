@@ -52,7 +52,6 @@ function MatchAstrology() {
     const reportSet = (reportData) => {
         try {
             const data = reportData.astrology_data.split('#').map((item) => item.trim());
-            console.log("Report", user);
             setReportData({
                 MatchName: match.team_a + ' Vs ' + match.team_b,
                 MatchStart: match.match_date,
@@ -100,8 +99,6 @@ function MatchAstrology() {
             if(response.data.success){
                 if(response && response.data && response.data.data.astrology_data) {
                     setMatch(response.data.data);
-                } else {
-                    navigate('/');
                 }
             }
         }).catch((error) => {
