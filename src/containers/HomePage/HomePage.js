@@ -4,7 +4,6 @@ import OwlCarousel from 'react-owl-carousel';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Header from '../../components/Header';
-import Kundli from '../../components/Kundli';
 import { toast } from 'react-toastify';
 import { setDoc, getDoc, doc, collection, where, onSnapshot, query, updateDoc } from 'firebase/firestore';
 import { db } from '../../authFiles/fbaseconfig';
@@ -255,7 +254,7 @@ function HomePage() {
 							{matchData && matchData.team_a ? (
 								<h3 className="widget-title">Live Line Of {matchData.team_a + ' Vs ' + matchData.team_b} </h3>
 							) : (
-								<h3 className="widget-title">Live Line Of N/A</h3>
+								<h3 className="widget-title">No Data</h3>
 							)}
 							
 							<div className=''>
