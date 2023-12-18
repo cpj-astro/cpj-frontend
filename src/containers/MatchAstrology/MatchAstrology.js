@@ -97,9 +97,7 @@ function MatchAstrology() {
 		axios.post(process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/matchInfo` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/matchInfo`, params, apiConfig)
         .then((response) => {
             if(response.data.success){
-                if(response && response.data && response.data.data.astrology_data) {
-                    setMatch(response.data.data);
-                }
+                setMatch(response.data.data);
             }
         }).catch((error) => {
             setLoader(false);
