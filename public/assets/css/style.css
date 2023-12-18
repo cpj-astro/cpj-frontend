@@ -1701,6 +1701,12 @@ a.post-meta {
   width: 100%;
 }
 
+.f-logo {
+  max-width: 250px;
+  display: block;
+  width: 100%;
+}
+
 @media screen and (max-width: 575px) {
   .logo {
     margin: 0 auto 10px;
@@ -5142,7 +5148,7 @@ a.post-meta {
 }
 
 .footer-top {
-  padding: 80px 0;
+  padding: 20px 0;
 }
 
 .footer-copyright {
@@ -5852,7 +5858,6 @@ input:checked ~ .cover:before {
   background-color: #ffffff;
   width: 100%;
   padding: 3px 5px;
-
   border-radius: 5px;
 }
 
@@ -5870,6 +5875,10 @@ input:checked ~ .cover:before {
 
 .custom-review {
   border: 1px solid #ddd;
+}
+
+.text-white a {
+  color: #fff!important;
 }
 
 .star-icon-set {

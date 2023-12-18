@@ -66,7 +66,6 @@ function LiveScoreBoard() {
                 })
                 data.push({ "ballVal": "", "over": "", "runs": lastBallsData[key].runs });
             })
-            console.log("last_few_balls: \n", data);
             setLastFewBalls(data);
         } catch (error) {
             setLastFewBalls(data);

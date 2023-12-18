@@ -324,29 +324,6 @@ function MatchAstrology() {
                                                         {reportData.SpecialRecommendation ?? 'N/A'}
                                                     </span>
                                                 </div>
-                                                <hr />
-                                                <div className='container'>
-                                                    <div className="country-info align-items-center">
-                                                        <span className="country-name text-17 mb-10">Disclaimer</span>
-                                                    </div>
-                                                    <span className='report-values'>
-                                                        <p>
-                                                            Strictly for Entertainment Purposes
-                                                        </p>
-                                                        <p>
-                                                            The “cricketpanditji.com“ provided herein is for entertainment purposes only. Any information, guidance, or advice offered during any course of the service provided by  “Cricket Panditji “ is not intended to substitute professional, legal, financial, or medical advice. 
-                                                        </p>
-                                                        <p>
-                                                            The content presented is based on interpretation, subjective analysis, and personal insights, and should not be considered as a substitute for expert advice. Individuals are encouraged to use their discretion and judgement in applying any information received during this service to their personal lives or decisions.
-                                                        </p>
-                                                        <p>
-                                                            We do not guarantee the accuracy, reliability, or completeness of any information provided during this service. Participants are advised to seek appropriate professional advice or consultation for specific concerns or issues.
-                                                        </p>
-                                                        <p>
-                                                            By engaging in this service, you acknowledge that any decisions or actions taken as a result of the information provided are at your own risk and discretion. Any information/advice/service must be taken as a pure entertainment and “Cricket Panditji takes no responsibility whatsoever in any manner, caused by any give any service/information by “Cricket Panditji“
-                                                        </p>
-                                                    </span>
-                                                </div>
                                             </div>
                                         </div>
                                     </section>

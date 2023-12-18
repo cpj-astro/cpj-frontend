@@ -14,33 +14,20 @@ function Footer() {
 				<div className="container">
 					<div className="row">
 						<div className="col-md-6">
-							<div className="foo-widget foo-text mb-40">
+							<div className="foo-widget foo-text">
 								<div className="foo-text-content">
-									<a href="homepage.html" className="logo">
+									<a href="/" className="f-logo m-0">
 										<img src="/assets/images/logo.png" alt="Cricnotch" />
 									</a>
-									<p>
-										It's not like Smith needed to augment his batting arsenal, but the erstwhile captain has now. It's not like Smith needed to augment his batting arsenal, but the
-										erstwhile captain has now. It's not like Smith needed to augment his batting arsenal, but the erstwhile.
-									</p>
 								</div>
-							</div>
-							<div className="foo-widget foo-social">
-								<a href="#"><i className="fab fa-facebook-f"></i></a><a href="#"><i className="fab fa-twitter"></i></a><a href="#"><i className="fab fa-instagram"></i></a
-								><a href="#"><i className="fab fa-pinterest-p"></i></a>
 							</div>
 						</div>
 						<div className="col-md-6">
-							<div className="foo-widget foo-navigation">
-								<h3 className="widget-title">Quick Links</h3>
-								<ul>
-									<li><a href="/about-us">About us</a></li>
-									<li><a href="/contact-us">Contact us</a></li>
-									{/* <li><a href="/faqs">Frequently Asked Questions</a></li> */}
-									<li><a href="/disclaimer">Disclaimer</a></li>
-									<li><a href="/terms">Terms & Conditions</a></li>
-									<li><a href="/privacy">Privacy Policy</a></li>
-								</ul>
+							<div className="display-set mt-5" style={{flexWrap: 'wrap'}}>
+								<span className='ml-5 text-white'><a href="/contact-us">Contact us</a></span>
+								<span className='ml-5 text-white'><a href="/disclaimer">Disclaimer</a></span>
+								<span className='ml-5 text-white'><a href="/terms">Terms & Conditions</a></span>
+								<span className='ml-5 text-white'><a href="/privacy">Privacy Policy</a></span>
 							</div>
 						</div>
 					</div>

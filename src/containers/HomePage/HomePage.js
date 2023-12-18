@@ -95,7 +95,7 @@ function HomePage() {
 			  setCurrentIndex(nextIndex);
 			  const nextAds = ads.slice(nextIndex, nextIndex + slots);
 			  setCurrentAds(nextAds);
-			}, 10000);
+			}, 20000);
 	
 			// Clear the interval when the component unmounts or ads change
 			return () => clearInterval(interval);
@@ -128,13 +128,13 @@ function HomePage() {
 		  if (imageExtensions.includes(fileExtension)) {
 			return <img src={mediaFile} alt="Ad" />;
 		  } else if (videoExtensions.includes(fileExtension)) {
-			return <video src={mediaFile} autoPlay muted controls width="100%" height="auto" />;
+			return <video src={mediaFile} muted controls width="100%" height="auto" />;
 		  }
 		}
 	  
 		// If mediaFile is undefined or null, or the extension is not recognized, return null or handle accordingly
 		return null;
-	  };	  
+	};	  
 	
 	useEffect(() => {
 		fetchAllMatches(user.id)
@@ -157,6 +157,7 @@ function HomePage() {
 			});
 		}
     }, [localStorage.getItem('match_id')]);
+	
     return (
 		<>
 			<Header/>
@@ -169,58 +170,60 @@ function HomePage() {
 							dots={false}
 							responsive={responsiveOptions}
 						>
-							{matchesData && matchesData.length > 0 && matchesData.map((match, index) => {
-								return (
-										<div className="score-card p-0" key={index}>
-											<div className="score-card-inner">
-												<div className="score-card-header text-center">
-													<strong>{match.match_category}</strong>
-													<span>{match.matchs}</span>
-												</div>
-												<div className="score-card-body">
-													<div className="country-info">
-														<div className="flag-avatar">
-															<figure>
-																<img src="/assets/images/flags/bangladesh.png" alt="" />
-															</figure>
-															<span className="country-name">{match.team_a_short}</span>
-														</div>
-														<div className="score-update">
-															<h5>146/6</h5>
-															<p className="text-muted">20.0 ov.</p>
-														</div>
+						{console.log("matchesData", matchesData)}
+						{matchesData && matchesData.length > 0 && matchesData.map((match, index) => {
+							return (
+									<div className="score-card p-0" key={index}>
+										<div className="score-card-inner">
+											<div className="score-card-header text-center">
+												<strong>{match.match_category}</strong>
+												<span>{match.matchs}</span>
+											</div>
+											<div className="score-card-body">
+												<div className="country-info">
+													<div className="flag-avatar">
+														<figure>
+															<img src="/assets/images/flags/bangladesh.png" alt="" />
+														</figure>
+														<span className="country-name">{match.team_a_short}</span>
 													</div>
-													<div className="country-info flex-row-reverse">
-														<div className="flag-avatar ml-05">
-															<figure>
-																<img src="/assets/images/flags/india.png" alt="" />
-															</figure>
-															<span className="country-name">{match.team_b_short}</span>
-														</div>
-														<div className="score-update">
-															<h5>102/4</h5>
-															<p className="text-muted">20.0 ov</p>
-														</div>
+													<div className="score-update">
+														<h5>146/6</h5>
+														<p className="text-muted">20.0 ov.</p>
+													</div>
+												</div>
+												<div className="country-info flex-row-reverse">
+													<div className="flag-avatar ml-05">
+														<figure>
+															<img src="/assets/images/flags/india.png" alt="" />
+														</figure>
+														<span className="country-name">{match.team_b_short}</span>
+													</div>
+													<div className="score-update">
+														<h5>102/4</h5>
+														<p className="text-muted">20.0 ov</p>
 													</div>
 												</div>
 											</div>
-											{match.astrology_status === 'enable' ?
-											<div class="button-container">
-												<button class="theme-button-1" onClick={() => {navigate(`/live-score-board/${match.match_id}`)}}>View Liveline</button>
-												{match && typeof match.razorpay_payment_id === 'string' && match.razorpay_payment_id.includes('pay') ? (
-													<button class="theme-button-2" onClick={() => {navigate(`/match-astrology/${match.match_id}`)}}>View Astrology</button>
-												) : (
-													<button class="theme-button-3" onClick={() => {navigate(`/match-astrology/${match.match_id}`)}}>Buy Astrology</button>
-												)}
-											</div>
-											: 
-											<div class="button-container">
-												<button class="theme-button-1" onClick={() => {navigate(`/live-score-board/${match.match_id}`)}}>View Liveline</button>
-											</div>}
 										</div>
-									);
-								}
-							)}
+										{match.astrology_status === 'enable' ?
+										<div class="button-container">
+											<button class="theme-button-1" onClick={() => {navigate(`/live-score-board/${match.match_id}`)}}>View Liveline</button>
+
+											{match && typeof match.razorpay_payment_id === 'string' && match.razorpay_payment_id.includes('pay') ? (
+												<button class="theme-button-2" onClick={() => {navigate(`/match-astrology/${match.match_id}`)}}>View Astrology</button>
+											) : (
+												<button class="theme-button-3" onClick={() => {navigate(`/match-astrology/${match.match_id}`)}}>Buy Astrology</button>
+											)}
+										</div>
+										: 
+										<div class="button-container">
+											<button class="theme-button-1" onClick={() => {navigate(`/live-score-board/${match.match_id}`)}}>View Liveline</button>
+										</div>}
+									</div>
+								);
+							}
+						)}
 						</OwlCarousel>
 					</div>
 				</section>
