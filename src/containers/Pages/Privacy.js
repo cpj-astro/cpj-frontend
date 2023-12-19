@@ -9,7 +9,7 @@ export default function Privacy() {
         <div className='container mt-30 others'>
             <h2>Privacy Policy</h2>
 
-            <p>Welcome to www.cricketpanditji.com (&quot;Infinity Infotech&quot; or &quot;Infinity Infotech&quot; or &quot;Company&quot; or &quot;We&quot;).</p>
+            <p>Welcome to <a href='/'>www.cricketpanditji.com</a> (&quot;Infinity Infotech&quot; or &quot;Infinity Infotech&quot; or &quot;Company&quot; or &quot;We&quot;).</p>
 
             <p>We&#39;re a software development firm based in Gujarat (India).</p>
 
@@ -31,17 +31,17 @@ export default function Privacy() {
                 <li>(b) The Consumer Protection (E-Commerce) Rules, 2020;</li>
             </ul>
 
-            <p>(iii) &quot;Infinity Infotech&quot;: It shall mean and include www.cricketpanditji.com, its partners, employees, affiliates, key
+            <p>(iii) &quot;Infinity Infotech&quot;: It shall mean and include <a href='/'>www.cricketpanditji.com</a>, its partners, employees, affiliates, key
                 managerial personnel etc.</p>
 
-            <p>(iv) &quot;Company&quot;: It shall mean and include www.cricketpanditji.com, its partners, employees, affiliates, key
+            <p>(iv) &quot;Company&quot;: It shall mean and include <a href='/'>www.cricketpanditji.com</a>, its partners, employees, affiliates, key
                 managerial personnel etc.</p>
 
-            <p>(v) &quot;We&quot;: It shall mean and include www.cricketpanditji.com, its partners, employees, affiliates, key
+            <p>(v) &quot;We&quot;: It shall mean and include <a href='/'>www.cricketpanditji.com</a>, its partners, employees, affiliates, key
                 managerial personnel etc.</p>
 
             <p>(vi) &quot;Website(s)/Mobile Application(s)&quot;: It shall mean and include all websites and mobile applications
-                available for the User(s) owned and managed (directly or indirectly) by www.cricketpanditji.com</p>
+                available for the User(s) owned and managed (directly or indirectly) by <a href='/'>www.cricketpanditji.com</a></p>
 
             <p>(vii) &quot;Service(s)&quot;: It means and includes the various services offered by Infinity Infotech to all its User(s)
                 through the Website(s)/Mobile Application(s) of Infinity Infotech.</p>
@@ -505,6 +505,27 @@ export default function Privacy() {
             <p>(h) These Terms of Use shall be governed by and construed in accordance with the laws of India and be subject to
                 the exclusive jurisdiction of the Courts at Delhi (India), without giving effect to any principles of conflicts
                 of law.</p><br/><br/>
+
+                <p><strong>REFUND POLICY</strong></p>
+            <span className='report-values'>
+                <p>
+                By purchasing a match astrology report on this website, you acknowledge and agree to the following refund policy:
+                </p>
+                <p>
+                    1. All sales of match astrology reports are final, and no refunds will be provided.
+                </p>
+                <p>
+                    2. Once the match astrology report is generated and delivered to you, no refunds will be issued, regardless of the outcome or satisfaction.
+                </p>
+                <p>
+                    By proceeding with the purchase of a match astrology report, you expressly waive any right to a refund, and this refund policy shall constitute a binding agreement between you and <a href='/'>www.cricketpanditji.com</a>.
+                    <br />
+                    For any questions or concerns regarding this refund policy, please write us an email on our customer support at <a href="mailto:cricketpanditji.astro@gmail.com">cricketpanditji.astro@gmail.com</a>.
+                </p>
+            </span>
+
+            <br/>
+            <br/>
 
                 <p><strong>DISCLAIMER</strong></p>
             <span className='report-values'>
