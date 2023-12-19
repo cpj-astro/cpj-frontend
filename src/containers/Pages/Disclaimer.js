@@ -533,7 +533,7 @@ export default function Disclaimer() {
                     Strictly for Entertainment Purposes
                 </p>
                 <p>
-                    The “cricketpanditji.com“ provided herein is for entertainment purposes only. Any information, guidance, or advice offered during any course of the service provided by  “Cricket Panditji “ is not intended to substitute professional, legal, financial, or medical advice. 
+                    The <a href='/'>www.cricketpanditji.com</a> provided herein is for entertainment purposes only. Any information, guidance, or advice offered during any course of the service provided by  “Cricket Panditji “ is not intended to substitute professional, legal, financial, or medical advice. 
                 </p>
                 <p>
                     The content presented is based on interpretation, subjective analysis, and personal insights, and should not be considered as a substitute for expert advice. Individuals are encouraged to use their discretion and judgement in applying any information received during this service to their personal lives or decisions.

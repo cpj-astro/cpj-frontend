@@ -234,22 +234,28 @@ function HomePage() {
 						<div className="col-lg-3">
 							<aside className="sidebar left-sidebar">
 								<div className="widget widget-upcoming-match">
-									<div className="card card-shadow">
-										<div className="ad-slot" key={currentAds[0]?.id}>
-											<h3>{currentAds[0]?.title}</h3>
-											{renderMedia(currentAds[0]?.media_file)}
-											{/* Add more details as needed */}
+									{currentAds[0]?.status == 1 && 
+									<a href={currentAds[0]?.link} target='_blank'>
+										<div className="card card-shadow">
+											<div className="ad-slot" key={currentAds[0]?.id}>
+												<h3>{currentAds[0]?.title}</h3>
+												{renderMedia(currentAds[0]?.media_file)}
+												{/* Add more details as needed */}
+											</div>
 										</div>
-									</div>
+									</a>}
 								</div>
 								<div className="widget widget-upcoming-match">
-									<div className="card card-shadow">
-										<div className="ad-slot" key={currentAds[1]?.id}>
-											<h3>{currentAds[1]?.title}</h3>
-											{renderMedia(currentAds[1]?.media_file)}
-											{/* Add more details as needed */}
+									{currentAds[1]?.status == 1 && 
+									<a href={currentAds[1]?.link} target='_blank'>
+										<div className="card card-shadow">
+											<div className="ad-slot" key={currentAds[1]?.id}>
+												<h3>{currentAds[1]?.title}</h3>
+												{renderMedia(currentAds[1]?.media_file)}
+												{/* Add more details as needed */}
+											</div>
 										</div>
-									</div>
+									</a>}
 								</div>
 							</aside>
 						</div>
@@ -294,22 +300,28 @@ function HomePage() {
 						<div className="col-lg-3">
 							<aside className="sidebar right-sidebar">
 								<div className="widget widget-upcoming-match">
-									<div className="card card-shadow">
-										<div className="ad-slot" key={currentAds[2]?.id}>
-											<h3>{currentAds[2]?.title}</h3>
-											{renderMedia(currentAds[2]?.media_file)}
-											{/* Add more details as needed */}
+									{currentAds[2]?.status == 1 && 
+									<a href={currentAds[2]?.link} target='_blank'>
+										<div className="card card-shadow">
+											<div className="ad-slot" key={currentAds[2]?.id}>
+												<h3>{currentAds[2]?.title}</h3>
+												{renderMedia(currentAds[2]?.media_file)}
+												{/* Add more details as needed */}
+											</div>
 										</div>
-									</div>
+									</a>}
 								</div>
 								<div className="widget widget-upcoming-match">
-									<div className="card card-shadow">
-										<div className="ad-slot" key={currentAds[3]?.id}>
-											<h3>{currentAds[3]?.title}</h3>
-											{renderMedia(currentAds[3]?.media_file)}
-											{/* Add more details as needed */}
+									{currentAds[3]?.status == 1 && 
+									<a href={currentAds[3]?.link} target='_blank'>
+										<div className="card card-shadow">
+											<div className="ad-slot" key={currentAds[3]?.id}>
+												<h3>{currentAds[3]?.title}</h3>
+												{renderMedia(currentAds[3]?.media_file)}
+												{/* Add more details as needed */}
+											</div>
 										</div>
-									</div>
+									</a>}
 								</div>
 							</aside>
 						</div>
