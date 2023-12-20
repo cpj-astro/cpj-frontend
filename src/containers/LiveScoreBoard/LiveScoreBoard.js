@@ -16,6 +16,18 @@ function LiveScoreBoard() {
     const randomNumbers = Array.from({ length: 11 }, () => Math.floor(Math.random() * 100));
 	const navigate = useNavigate();
     const {id} = useParams();
+    const [back1Style, setBack1Style] = useState('')
+    const [lay1Style, setLay1Style] = useState('')
+    const [back2Style, setBack2Style] = useState('')
+    const [lay2Style, setLay2Style] = useState('')
+    const [mcBack1Style, setMcBack1Style] = useState('')
+    const [mcLay1Style, setMcLay1Style] = useState('')
+    const [mcBack2Style, setMcBack2Style] = useState('')
+    const [mcLay2Style, setMcLay2Style] = useState('')
+    const [mtBack1Style, setMtBack1Style] = useState('')
+    const [mtLay1Style, setMtLay1Style] = useState('')
+    const [mtBack2Style, setMtBack2Style] = useState('')
+    const [mtLay2Style, setMtLay2Style] = useState('')
     const [matchData, setMatchData] = useState([])
     const [paymentDetails, setPaymentDetails] = useState([])
     const [seriesData, setSeriesData] = useState([])
@@ -42,7 +54,6 @@ function LiveScoreBoard() {
             return 'bg-secondary text-white';
         }
     }
-
     
     const fetchSeriesData = (s_id) => {
         axios.post(process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/fetchSeriesData` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/fetchSeriesData`, s_id)
@@ -111,6 +122,90 @@ function LiveScoreBoard() {
             console.log(doc.data())
         });
     }, []);
+    
+    useEffect(() => {
+        setBack1Style('summer-yellow');
+        setTimeout(() => {
+            setBack1Style('');
+        }, 200);
+    }, [matchData.back1])
+
+    useEffect(() => {
+        setLay1Style('summer-yellow');
+        setTimeout(() => {
+            setLay1Style('');
+        }, 200);
+    }, [matchData.lay1])
+
+    useEffect(() => {
+        setBack2Style('summer-yellow');
+        setTimeout(() => {
+            setBack2Style('');
+        }, 200);
+    }, [matchData.back2])
+
+    useEffect(() => {
+        setLay2Style('summer-yellow');
+        setTimeout(() => {
+            setLay2Style('');
+        }, 200);
+    }, [matchData.lay2])
+
+    useEffect(() => {
+        setMcBack1Style('summer-yellow');
+        setTimeout(() => {
+            setMcBack1Style('');
+        }, 200);
+    }, [matchData.match_completed && matchData.match_completed.t1_back])
+
+    useEffect(() => {
+        setMcLay1Style('summer-yellow');
+        setTimeout(() => {
+            setMcLay1Style('');
+        }, 200);
+    }, [matchData.match_completed && matchData.match_completed.t1_lay])
+
+    useEffect(() => {
+        setMcBack2Style('summer-yellow');
+        setTimeout(() => {
+            setMcBack2Style('');
+        }, 200);
+    }, [matchData.match_completed && matchData.match_completed.t2_back])
+
+    useEffect(() => {
+        setMcLay2Style('summer-yellow');
+        setTimeout(() => {
+            setMcLay2Style('');
+        }, 200);
+    }, [matchData.match_completed && matchData.match_completed.t2_lay])
+
+    useEffect(() => {
+        setMtBack1Style('summer-yellow');
+        setTimeout(() => {
+            setMtBack1Style('');
+        }, 200);
+    }, [matchData.match_tied && matchData.match_tied.t1_back])
+
+    useEffect(() => {
+        setMtLay1Style('summer-yellow');
+        setTimeout(() => {
+            setMtLay1Style('');
+        }, 200);
+    }, [matchData.match_tied && matchData.match_tied.t1_lay])
+
+    useEffect(() => {
+        setMtBack2Style('summer-yellow');
+        setTimeout(() => {
+            setMtBack2Style('');
+        }, 200);
+    }, [matchData.match_tied && matchData.match_tied.t2_back])
+
+    useEffect(() => {
+        setMtLay2Style('summer-yellow');
+        setTimeout(() => {
+            setMtLay2Style('');
+        }, 200);
+    }, [matchData.match_tied && matchData.match_tied.t2_lay])
     return (
 		<>
 			<div id="main" className="main-container others">
@@ -118,9 +213,17 @@ function LiveScoreBoard() {
                     <div className="row">
                         <div className="col-lg-9">
                             <section className="live-matches p-0">
-                                <div className='tv-container'>    
+                                <span onClick={() => {navigate(`/match-astrology/${id}`)}} className="btn-astro">
+                                    <div>
+                                        {paymentDetails.razorpay_payment_id ? 'View Astrology' : 'Buy Astrology'}
+                                    </div>
+                                </span>
+                                <div className='tv-container mt-3'>    
                                     <div className="tv">
-                                        <strong className="text-red text-uppercase">{matchData.match_category}</strong>
+                                        <div className='just-set'>
+                                            <strong className="text-red text-uppercase">{matchData.match_category}</strong>
+
+                                        </div>
                                         <div className="score">
                                             {matchData.first_circle}
                                         </div>
@@ -189,6 +292,7 @@ function LiveScoreBoard() {
                                                 <div className="card card-shadow">
                                                     <ul className="nav nav-tabs">
                                                         <li className="active"><a data-toggle="tab" href="#liveline" className="active">Liveline</a></li>
+                                                        <li><a data-toggle="tab" href="#liveastrology">Live Astrology</a></li>
                                                         <li><a data-toggle="tab" href="#info">Info</a></li>
                                                         <li><a data-toggle="tab" href="#session">Session</a></li>
                                                         <li><a data-toggle="tab" href="#commentary">Commentary</a></li>
@@ -210,20 +314,20 @@ function LiveScoreBoard() {
                                                                                         <thead>
                                                                                             <tr>
                                                                                                 <th scope="col">Team Name</th>
-                                                                                                <th scope="col" style={{width: '10%', textAlign: 'center'}}>Back</th>
-                                                                                                <th scope="col" style={{width: '10%', textAlign: 'center'}}>Lay</th>
+                                                                                                <th scope="col">Back</th>
+                                                                                                <th scope="col">Lay</th>
                                                                                             </tr>
                                                                                         </thead>
                                                                                         <tbody>
                                                                                             <tr>
                                                                                                 <td>{matchData.team_a}</td>
-                                                                                                <td style={{width: '10%', textAlign: 'center'}} className='back-color'>{matchData.back1}</td>
-                                                                                                <td style={{width: '10%', textAlign: 'center'}} className='lay-color'>{matchData.lay1}</td>
+                                                                                                <td className={'back-color bl-style ' + back1Style}>{matchData.back1}</td>
+                                                                                                <td className={'lay-color bl-style ' + lay1Style}>{matchData.lay1}</td>
                                                                                             </tr>
                                                                                             <tr>
                                                                                                 <td>{matchData.team_b}</td>
-                                                                                                <td style={{width: '10%', textAlign: 'center'}} className='back-color'>{matchData.back2}</td>
-                                                                                                <td style={{width: '10%', textAlign: 'center'}} className='lay-color'>{matchData.lay2}</td>
+                                                                                                <td className={'back-color bl-style ' + back2Style}>{matchData.back2}</td>
+                                                                                                <td className={'lay-color bl-style ' + lay2Style}>{matchData.lay2}</td>
                                                                                             </tr>
                                                                                         </tbody>
                                                                                     </table>
@@ -232,6 +336,7 @@ function LiveScoreBoard() {
                                                                         </div>
                                                                     </div>
                                                                 </div>
+                                                                {matchData && matchData.fancy_info && matchData.fancy_info.length > 0 ?  
                                                                 <div className="col-md-12">
                                                                     <div className="widget widget-rankings">
                                                                         <h3 className="widget-title">Fancy Info</h3>
@@ -250,37 +355,28 @@ function LiveScoreBoard() {
                                                                                         <tbody>
                                                                                         {matchData && matchData.fancy_info && matchData.fancy_info.map((fancy, index) => (
                                                                                             <tr className={fancy.over ? '' : 'd-none'}>
-                                                                                                <td>
-                                                                                                    {!fancy.suspend ?   
-                                                                                                        <div>
-                                                                                                            {fancy.s_over + ' over runs'}
-                                                                                                        </div> :
-                                                                                                        <div className="suspend-style text-muted">
-                                                                                                            SUSPENDED
-                                                                                                        </div>
-                                                                                                    }
+                                                                                                <td> 
+                                                                                                    <div>
+                                                                                                        {fancy.s_over + ' over runs'}
+                                                                                                    </div> 
                                                                                                 </td>
-                                                                                                <td style={{width: '10%', textAlign: 'center'}}>
-                                                                                                    {!fancy.suspend ?     
-                                                                                                        <div className='back-color'>
-                                                                                                            <div>{fancy.s_min}</div>
-                                                                                                            <div style={{color: 'orangered', fontSize: 'small', fontWeight: 'bold'}}>{fancy.s_min_rate}</div>
-                                                                                                        </div> :
-                                                                                                        <div className="suspend-style text-muted">
-                                                                                                            SUSPENDED
-                                                                                                        </div>
-                                                                                                    }
+                                                                                                <td style={{padding: '0px'}}> 
+                                                                                                    <div className='back-color bl-style'>
+                                                                                                        {fancy.suspend && 
+                                                                                                            <div className='suspend-style'>SUSPENDED</div>
+                                                                                                        } 
+                                                                                                        <div className='fancy-t1'>{fancy.s_min}</div>
+                                                                                                        <div style={{color: 'black', fontSize: '9px', fontWeight: 'bold'}}>{fancy.s_min_rate}</div>
+                                                                                                    </div>
                                                                                                 </td>
-                                                                                                <td style={{width: '10%', textAlign: 'center'}}>
-                                                                                                    {!fancy.suspend ?     
-                                                                                                        <div className='lay-color'>
-                                                                                                            <div>{fancy.s_max}</div>
-                                                                                                            <div style={{color: 'orangered', fontSize: 'small', fontWeight: 'bold'}}>{fancy.s_max_rate}</div>
-                                                                                                        </div> :
-                                                                                                        <div className="suspend-style text-muted">
-                                                                                                            SUSPENDED
-                                                                                                        </div>
-                                                                                                    }
+                                                                                                <td style={{ padding: '0px' }}>
+                                                                                                    <div className='lay-color bl-style'>
+                                                                                                        {fancy.suspend && 
+                                                                                                            <div className='suspend-style'>SUSPENDED</div>
+                                                                                                        } 
+                                                                                                        <div className='fancy-t1'>{fancy.s_max}</div>
+                                                                                                        <div style={{color: 'black', fontSize: '9px', fontWeight: 'bold'}}>{fancy.s_max_rate}</div>
+                                                                                                    </div>
                                                                                                 </td>
                                                                                             </tr>
                                                                                         ))}
@@ -290,11 +386,11 @@ function LiveScoreBoard() {
                                                                             </div>  
                                                                         </div>
                                                                     </div>
-                                                                </div>
+                                                                </div> : <></>}
+                                                                {matchData && matchData.match_completed && matchData.match_completed.status &&
                                                                 <div className="col-md-12">
                                                                     <div className="widget widget-rankings">
                                                                         <h3 className="widget-title">Match Completed</h3>
-
                                                                         <div className="card px-0 py-10 odd-border">
                                                                             <div id="test_rank_trs" className="tab-pane fade in show active">
                                                                                 <div className="table-responsive">
@@ -309,13 +405,13 @@ function LiveScoreBoard() {
                                                                                         <tbody>
                                                                                             <tr>
                                                                                                 <td>YES</td>
-                                                                                                <td style={{width: '10%', textAlign: 'center'}} className='back-color'>{matchData && matchData.match_completed ? matchData.match_completed.t1_back : ''}</td>
-                                                                                                <td style={{width: '10%', textAlign: 'center'}} className='lay-color'>{matchData && matchData.match_completed ? matchData.match_completed.t1_lay : ''}</td>
+                                                                                                <td className={'back-color bl-style ' + mcBack1Style}>{matchData && matchData.match_completed ? matchData.match_completed.t1_back : ''}</td>
+                                                                                                <td className={'lay-color bl-style ' + mcLay1Style}>{matchData && matchData.match_completed ? matchData.match_completed.t1_lay : ''}</td>
                                                                                             </tr>
                                                                                             <tr>
                                                                                                 <td>NO</td>
-                                                                                                <td style={{width: '10%', textAlign: 'center'}} className='back-color'>{matchData && matchData.match_completed ? matchData.match_completed.t2_back : ''}</td>
-                                                                                                <td style={{width: '10%', textAlign: 'center'}} className='lay-color'>{matchData && matchData.match_completed ? matchData.match_completed.t2_lay : ''}</td>
+                                                                                                <td className={'back-color bl-style ' + mcBack2Style}>{matchData && matchData.match_completed ? matchData.match_completed.t2_back : ''}</td>
+                                                                                                <td className={'lay-color bl-style ' + mcLay2Style}>{matchData && matchData.match_completed ? matchData.match_completed.t2_lay : ''}</td>
                                                                                             </tr>
                                                                                         </tbody>
                                                                                     </table>
@@ -323,7 +419,8 @@ function LiveScoreBoard() {
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
+                                                                </div>}
+                                                                {matchData && matchData.match_tied && matchData.match_tied.status &&
                                                                 <div className="col-md-12">
                                                                     <div className="widget widget-rankings">
                                                                         <h3 className="widget-title">Match Tied</h3>
@@ -342,13 +439,13 @@ function LiveScoreBoard() {
                                                                                         <tbody>
                                                                                             <tr>
                                                                                                 <td>YES</td>
-                                                                                                <td style={{width: '10%', textAlign: 'center'}} className='back-color'>{matchData && matchData.match_tied ? matchData.match_tied.t1_back : ''}</td>
-                                                                                                <td style={{width: '10%', textAlign: 'center'}} className='lay-color'>{matchData && matchData.match_tied ? matchData.match_tied.t1_lay : ''}</td>
+                                                                                                <td className={'back-color bl-style ' + mtBack1Style}>{matchData && matchData.match_tied ? matchData.match_tied.t1_back : ''}</td>
+                                                                                                <td className={'lay-color bl-style ' + mtLay1Style}>{matchData && matchData.match_tied ? matchData.match_tied.t1_lay : ''}</td>
                                                                                             </tr>
                                                                                             <tr>
                                                                                                 <td>NO</td>
-                                                                                                <td style={{width: '10%', textAlign: 'center'}} className='back-color'>{matchData && matchData.match_tied ? matchData.match_tied.t2_back : ''}</td>
-                                                                                                <td style={{width: '10%', textAlign: 'center'}} className='lay-color'>{matchData && matchData.match_tied ? matchData.match_tied.t2_lay : ''}</td>
+                                                                                                <td className={'back-color bl-style ' + mtBack2Style}>{matchData && matchData.match_tied ? matchData.match_tied.t2_back : ''}</td>
+                                                                                                <td className={'lay-color bl-style ' + mtLay2Style}>{matchData && matchData.match_tied ? matchData.match_tied.t2_lay : ''}</td>
                                                                                             </tr>
                                                                                         </tbody>
                                                                                     </table>
@@ -356,7 +453,7 @@ function LiveScoreBoard() {
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
+                                                                </div>}
                                                             </div>
                                                             <hr/>
                                                             <div className="accordion" id="accordion">
@@ -444,6 +541,12 @@ function LiveScoreBoard() {
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                        </div>
+                                                        <div id="liveastrology" className="tab-pane fade">
+                                                            Time: 10:00 PM <br/>
+                                                            Description: Lorem Ipsum <br/>
+                                                            Zodiac/Rashi: Lorem Ipsum Dorem <br/>
+                                                            Special Recommendation: Lorem Ipsum <br/>
                                                         </div>
                                                         <div id="info" className="tab-pane fade">
                                                             <hr className='mb-0'/>
@@ -755,34 +858,7 @@ function LiveScoreBoard() {
                             </section>
                         </div>
                         <div className="col-lg-3">
-                            <aside className="sidebar right-sidebar">
-                                <div className="widget widget-upcoming-match">
-                                    <span onClick={() => {navigate(`/match-astrology/${id}`)}} className="btn-astro">
-                                        <div>
-                                            {paymentDetails.razorpay_payment_id ? 'View Astrology' : 'Buy Astrology'}
-                                        </div>
-                                    </span>
-                                    <h3 className="mt-10 widget-title">Upcoming Matches</h3>
-
-                                    <div className="card card-shadow">
-                                        
-                                    </div>
-                                </div>
-                                <div className="widget widget-rankings">
-                                    <h3 className="widget-title">Standings</h3>
-
-                                    <div className="card card-shadow p-0">
-                                        
-                                    </div>
-                                </div>
-                                <div className="widget widget-social">
-                                    <h3 className="widget-title">Reach us on</h3>
-
-                                    <div className="card p-0">
-                                        
-                                    </div>
-                                </div>
-                            </aside>
+                            
                         </div>
                     </div>
                 </div>

@@ -1070,6 +1070,7 @@ a.post-meta {
 
 .card .nav {
   border: none;
+  white-space: nowrap;
 }
 
 .card .nav li {
@@ -1705,6 +1706,19 @@ a.post-meta {
   max-width: 250px;
   display: block;
   width: 100%;
+}
+
+.bl-style {
+  height: auto;
+  width: 60px;
+  text-align: center;
+  position: relative;
+  font-weight: 700!important;
+}
+
+.fancy-t1 {
+  font-size: 16px;
+  padding-top: 4px;
 }
 
 @media screen and (max-width: 575px) {
@@ -5667,6 +5681,68 @@ input:checked ~ .cover:before {
   display: 'block';
 }
 
+.btn-astro-v2 {
+	background: linear-gradient(-90deg, #EE7752, #E73C7E, #23A6D5, #23D5AB, #EE7752);
+	background-size: 400% 100%;
+  text-transform: uppercase;
+  font-weight: 700;
+  border: none;
+  border-radius: 0.25em;
+  font-size: 13px;
+  letter-spacing: 1px;
+  padding: 0;
+  margin: 0;
+  width: fit-content;
+  display: block;
+  animation: Gradient 4s ease infinite;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.suspend-style {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  font-size: 8px;
+  color: red;
+  background: rgba(48, 48, 48, 0.7); /* Adjust the alpha value for transparency */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.overlay-content {
+  position: relative;
+  z-index: 1;
+}
+
+.just-set {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn-astro-v2 div {
+  color: white;
+  min-height: 40px;
+  padding: 0 1.618em;
+  border-radius: inherit;
+  background-size: inherit;
+  background-image: inherit;
+  animation: Gradient 4s ease infinite;
+  position: relative;
+  z-index: 1;
+  mix-blend-mode: overlay;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.summer-yellow {
+  background-color: #FFFF00!important;
+}
 
 .btn-astro {
   position: relative;
