@@ -222,10 +222,10 @@ function MatchAstrology() {
                                                                     <span className='text-15'>Lucky Numbers</span>
                                                                     <p className='report-values'>{reportData.LuckyNumbers ?? 'N/A'}</p>
                                                                 </li>
-                                                                <li>
+                                                                {/* <li>
                                                                     <span className='text-15'>Match Bet</span>
                                                                     <p className='report-values'>{reportData.MatchBet ?? 'N/A'}</p>
-                                                                </li>
+                                                                </li> */}
                                                                 <li>
                                                                     <span className='text-15'>Fancy/Session</span>
                                                                     <p className='report-values'>{reportData.FancyOrSession ?? 'N/A'}</p>
@@ -262,14 +262,14 @@ function MatchAstrology() {
                                                     </span>
                                                 </div>
                                                 <hr />
-                                                <div className='container'>
+                                                {/* <div className='container'>
                                                     <div className="country-info align-items-center">
                                                         <span className="country-name text-17 mb-10">Astrological Betting Time</span>
                                                     </div>
                                                     <span className='report-values'>
                                                         {reportData.AstrologicalBettingTime ?? 'N/A'}
                                                     </span>
-                                                </div>
+                                                </div> */}
                                                 <hr />
                                                 <div className='container'>
                                                     <div className="country-info align-items-center">
@@ -280,14 +280,14 @@ function MatchAstrology() {
                                                     </span>
                                                 </div>
                                                 <hr />
-                                                <div className='container'>
+                                                {/* <div className='container'>
                                                     <div className="country-info align-items-center">
                                                         <span className="country-name text-17 mb-10">Overall Betting For Match</span>
                                                     </div>
                                                     <span className='report-values'>
                                                         {reportData.OverallBettingForMatch ?? 'N/A'}
                                                     </span>
-                                                </div>
+                                                </div> */}
                                                 <hr />
                                                 <div className='container'>
                                                     <div className="country-info align-items-center">
