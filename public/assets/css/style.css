@@ -5465,6 +5465,8 @@ a.post-meta {
   text-transform: uppercase;
   align-items: center;
   display: flex;
+  text-align: center;
+  line-height: 1;
   justify-content: center;
 }
 

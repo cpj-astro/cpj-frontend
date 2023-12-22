@@ -81,7 +81,7 @@ function HomePage() {
                 setUserData(response.data.data);
             }
         }).catch((error) => {
-            toast.error(error.code);
+            // console.error(error.code);
         });
     }
 
@@ -314,6 +314,107 @@ function HomePage() {
 								<a href={gameZop} target='_blank'>
 									<img src='assets/images/gamezop-banner.png' className='gamezop-image'/>
 								</a>
+								<h3 className="widget-title">Cricket News</h3>
+								<section className="related-news p-0">
+									<div className="row">
+										<div className="col-md-6">
+											<div className="card card-shadow p-0">
+												<div className="content-card">
+													<figure>
+														<img src="https://static.cricbuzz.com/a/img/v1/205x152/i1/c367019/jordan-silk-top-scored-with-61.jpg" alt="" />
+													</figure>
+													<div className="content-block">
+														<h3>
+															<a href="#">Strength to smarts: How Smith has levelled up</a>
+														</h3>
+														<p>It's not like Smith needed to augment his batting arsenal, but the erstwhile captain has now.</p>
+														<a href="#" className="post-meta">02 hours ago</a>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div className="col-md-6">
+											<div className="card card-shadow p-0">
+												<div className="content-card">
+													<figure>
+														<img src="https://static.cricbuzz.com/a/img/v1/205x152/i1/c366984/there-were-four-half-centurion.jpg" alt="" />
+													</figure>
+													<div className="content-block">
+														<h3>
+															<a href="#">Strength to smarts: How Smith has levelled up</a>
+														</h3>
+														<p>It's not like Smith needed to augment his batting arsenal, but the erstwhile captain has now.</p>
+														<a href="#" className="post-meta">02 hours ago</a>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div className="col-md-6">
+											<div className="card card-shadow p-0">
+												<div className="content-card">
+													<figure>
+														<img src="https://static.cricbuzz.com/a/img/v1/205x152/i1/c366984/there-were-four-half-centurion.jpg" alt="" />
+													</figure>
+													<div className="content-block">
+														<h3>
+															<a href="#">Strength to smarts: How Smith has levelled up</a>
+														</h3>
+														<p>It's not like Smith needed to augment his batting arsenal, but the erstwhile captain has now.</p>
+														<a href="#" className="post-meta">02 hours ago</a>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div className="col-md-6">
+											<div className="card card-shadow p-0">
+												<div className="content-card">
+													<figure>
+														<img src="https://static.cricbuzz.com/a/img/v1/205x152/i1/c366921/williamson-has-been-nursing-a.jpg" alt="" />
+													</figure>
+													<div className="content-block">
+														<h3>
+															<a href="#">Strength to smarts: How Smith has levelled up</a>
+														</h3>
+														<p>It's not like Smith needed to augment his batting arsenal, but the erstwhile captain has now.</p>
+														<a href="#" className="post-meta">02 hours ago</a>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div className="col-md-6">
+											<div className="card card-shadow p-0">
+												<div className="content-card">
+													<figure>
+														<img src="https://static.cricbuzz.com/a/img/v1/205x152/i1/c366917/samson-scored-108-off-114-on-a.jpg" alt="" />
+													</figure>
+													<div className="content-block">
+														<h3>
+															<a href="#">Strength to smarts: How Smith has levelled up</a>
+														</h3>
+														<p>It's not like Smith needed to augment his batting arsenal, but the erstwhile captain has now.</p>
+														<a href="#" className="post-meta">02 hours ago</a>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div className="col-md-6">
+											<div className="card card-shadow p-0">
+												<div className="content-card">
+													<figure>
+														<img src="https://static.cricbuzz.com/a/img/v1/205x152/i1/c366916/pooja-vastrakars-robotic-le.jpg" alt="" />
+													</figure>
+													<div className="content-block">
+														<h3>
+															<a href="#">Strength to smarts: How Smith has levelled up</a>
+														</h3>
+														<p>It's not like Smith needed to augment his batting arsenal, but the erstwhile captain has now.</p>
+														<a href="#" className="post-meta">02 hours ago</a>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</section>
 								<Reviews/>
 							</div>
 						</div>
