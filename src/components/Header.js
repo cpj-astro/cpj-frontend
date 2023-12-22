@@ -72,9 +72,6 @@ export default function Header() {
                                                 <li>
                                                     <a href={'/sign-in'}><i className="fas fa-sign-in-alt"></i> Sign In</a>
                                                 </li>
-                                                <li>
-                                                    <a href="#"><i className="far fa-question-circle"></i> Help Center</a>
-                                                </li>
                                             </ul>
                                         </div>
                                     )}
