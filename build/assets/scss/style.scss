@@ -1,0 +1,30 @@
+/*-------------------------------------
+    Template Name: Cricnotch - Sports Clean & Minimal Html Template
+    Theme URI: http://themeies.com
+    Description: Cricnotch - Get Live Cricket Info, Match Highlights etc.
+    Author: themeies
+    Author URI: #
+    Version: 1.0
+    Tags: cricket, score, live-score, odi, test, t20
+---------------------------------------*/
+
+/**
+ * Fonts 
+ * Source Sans Pro
+ */
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700;900&display=swap");
+
+// Partial files
+@import "base/variables";
+@import "base/reset";
+@import "base/mixins";
+@import "base/mediaQuery";
+@import "base/util";
+
+// Components (Elements Specific)
+@import "components/common";
+@import "components/header";
+@import "components/table";
+@import "components/main";
+@import "components/shop";
+@import "components/footer";

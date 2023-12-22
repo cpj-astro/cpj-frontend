@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useSpeechSynthesis } from 'react-speech-kit';
 import OwlCarousel from 'react-owl-carousel';
 import Footer from '../../components/Footer';
 import { useForm } from 'react-hook-form';
@@ -32,7 +33,7 @@ function LiveScoreBoard() {
     const [paymentDetails, setPaymentDetails] = useState([])
     const [seriesData, setSeriesData] = useState([])
     const [lastFewBalls, setLastFewBalls] = useState([])
-    
+    const { speak } = useSpeechSynthesis();
     const { register, handleSubmit, setValue, getValues, watch, reset, formState, formState: { isSubmitSuccessful } } = useForm();
     
     var accessToken = localStorage.getItem('client_token');
@@ -206,6 +207,10 @@ function LiveScoreBoard() {
             setMtLay2Style('');
         }, 200);
     }, [matchData.match_tied && matchData.match_tied.t2_lay])
+
+    useEffect(() => {
+        speak({ text: matchData.first_circle });
+    }, [matchData.first_circle]);
     return (
 		<>
 			<div id="main" className="main-container others">
@@ -222,7 +227,6 @@ function LiveScoreBoard() {
                                     <div className="tv">
                                         <div className='just-set'>
                                             <strong className="text-red text-uppercase">{matchData.match_category}</strong>
-
                                         </div>
                                         <div className="score">
                                             {matchData.first_circle}
@@ -863,7 +867,7 @@ function LiveScoreBoard() {
                     </div>
                 </div>
             </div>
-            <Footer/>
+            {/* <Footer/> */}
 		</>
     );
 }

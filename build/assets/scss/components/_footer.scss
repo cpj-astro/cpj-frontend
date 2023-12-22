@@ -1,0 +1,181 @@
+/**********************************
+* Footer Style start
+*********************************/
+
+.footer {
+	background-color: #32313f;
+
+	&-top {
+		padding: 80px 0;
+	}
+
+	&-copyright {
+		background: #262536;
+		padding: 25px 30px;
+
+		@include respond(tabport) {
+			text-align: center;
+		}
+
+		p {
+			margin-bottom: 0;
+
+			@include respond(tabport) {
+				margin-bottom: 20px;
+			}
+
+			a {
+				color: #fff;
+			}
+		}
+
+		a {
+			display: inline-block;
+			padding: 0 5px;
+			img {
+				width: auto;
+			}
+		}
+	}
+}
+
+.foo-widget {
+	.widget-title {
+		font-size: 16px;
+		font-weight: $semibold;
+		color: #fff;
+		line-height: 22px;
+		text-transform: capitalize;
+		margin-bottom: 28px;
+	}
+}
+.foo-text {
+	.logo {
+		margin-bottom: 30px;
+	}
+
+	p {
+		font-size: 13px;
+		margin: 0;
+	}
+}
+
+.foo-recent-post {
+	ul {
+		padding: 0;
+		margin: 0;
+		list-style: none;
+	}
+	li {
+		position: relative;
+		margin-bottom: 15px;
+
+		@include flexbox;
+		.post-thumb {
+			max-width: 80px;
+			flex-basis: 80px;
+
+			img {
+				width: 100%;
+				height: auto;
+			}
+		}
+	}
+
+	.rc-post-inner {
+		flex: 1;
+		margin-left: 13px;
+
+		h5 {
+			margin-bottom: 0;
+			a {
+				display: block;
+				font-size: 14px;
+				font-weight: $semibold;
+				line-height: 20px;
+				color: #fff;
+			}
+		}
+		a.post-meta {
+			display: block;
+			color: #777;
+			font-size: 14px;
+			font-weight: $regular;
+			line-height: 17px;
+		}
+	}
+}
+
+.foo-navigation {
+	ul {
+	}
+
+	li {
+		a {
+			display: block;
+			color: #777;
+			font-size: 14px;
+			font-weight: $regular;
+			line-height: 30px;
+
+			&:hover {
+				color: #fff;
+			}
+		}
+	}
+}
+
+.foo-newsletter {
+	p {
+		margin-bottom: 24px;
+	}
+	form {
+		width: 100%;
+
+		input {
+			background-color: #262536;
+			font-size: 14px;
+			font-weight: $regular;
+			height: 40px;
+			color: #fff;
+			border: none;
+			box-shadow: none;
+			outline: 0 !important;
+			padding: 0 20px;
+			width: 100%;
+			margin-bottom: 10px;
+
+			&::placeholder {
+				color: #444;
+			}
+		}
+
+		button {
+			background-color: #32cf8a;
+			font-size: 13px;
+			font-weight: $semibold;
+			line-height: 18px;
+			color: #fff;
+			border: none;
+			box-shadow: none;
+			outline: 0 !important;
+			width: 100%;
+			padding: 12px 0;
+		}
+	}
+}
+
+.foo-social {
+	a {
+		display: inline-flex;
+		width: 40px;
+		height: 40px;
+		justify-content: center;
+		align-items: center;
+		color: #fff;
+
+		&:hover {
+			background-color: #32cf8a;
+		}
+	}
+}

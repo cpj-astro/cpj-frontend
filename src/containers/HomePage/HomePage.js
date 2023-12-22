@@ -13,6 +13,7 @@ function HomePage() {
 	const navigate = useNavigate();
 	const [matchesData, setMatchesData] = useState([]);
     const [matchData, setMatchData] = useState([])
+    const [gameZop, setGameZop] = useState([])
 	const [user, setUserData] = useState([]);
 	const [ads, setAds] = useState([]);
 	const [currentAds, setCurrentAds] = useState([]);
@@ -39,6 +40,20 @@ function HomePage() {
 			'Content-Type': 'application/json',
 		}
 	};
+
+	const fetchGameZop = () => {
+		const apiUrl = process.env.REACT_APP_DEV === 'true'
+		? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/getGameZop`
+		: `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/getGameZop`;
+		axios.get(apiUrl)
+		.then((response) => {
+			if(response.data.success){
+				setGameZop(response.data.data.game_link);
+			}
+		}).catch((error) => {
+			toast.error("Oh Snap!" + error.code);
+		});
+	}
 	
 	const fetchAllMatches = (id) => {
 		const apiUrl = process.env.REACT_APP_DEV === 'true'
@@ -144,7 +159,9 @@ function HomePage() {
 		if(accessToken) {
 			fetchUserData(); 
 			fetchPrivateAds();
+			fetchGameZop();
 		} else {
+			fetchGameZop();
 			fetchPrivateAds();
 		}
     },[])
@@ -170,7 +187,6 @@ function HomePage() {
 							dots={false}
 							responsive={responsiveOptions}
 						>
-						{console.log("matchesData", matchesData)}
 						{matchesData && matchesData.length > 0 && matchesData.map((match, index) => {
 							return (
 									<div className="score-card p-0" key={index}>
@@ -294,6 +310,10 @@ function HomePage() {
                                     <div className='tv-line-horizontal'></div>
                                     <div className='tv-line-vertical'></div>
                                 </div> 
+								<h3 className="widget-title">Games & More</h3>
+								<a href={gameZop} target='_blank'>
+									<img src='assets/images/gamezop-banner.png' className='gamezop-image'/>
+								</a>
 								<Reviews/>
 							</div>
 						</div>

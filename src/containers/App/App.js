@@ -21,6 +21,7 @@ import ResetPassword from '../ForgetPassword/ResetPassword';
 import ContactUs from '../ContactUs/ContactUs';
 import FAQs from '../FAQs/FAQs';
 import AboutUs from '../Pages/AboutUs';
+import Feedback from '../Feedback';
 
 const App = () => {
   return (
@@ -50,6 +51,7 @@ const App = () => {
             <Route path="/" element={<HomePage />} />
             <Route path="/live-score-board/:id" element={<LiveScoreBoard />} />
             <Route path="/about-us" element={<AboutUs />} />
+            <Route path="/feedback" element={<Feedback />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/disclaimer" element={<Disclaimer />} />
