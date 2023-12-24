@@ -5970,3 +5970,7 @@ input:checked ~ .cover:before {
   margin-right: 5px;
   margin-bottom: 10px;
 }
+
+.home-page .card-shadow {
+  box-shadow: none;
+}
