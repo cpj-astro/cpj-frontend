@@ -294,10 +294,14 @@ const HomePage = () => {
 											<div className='tv-line-horizontal'></div>
 											<div className='tv-line-vertical'></div>
 										</div> 
-										<h3 className="widget-title">Games & More</h3>
-										<a href={gameZop} target='_blank'>
-											<img src='assets/images/gamezop-banner.png' className='gamezop-image'/>
-										</a>
+										{gameZop &&
+											<>
+												<h3 className="widget-title">Games & More</h3>
+												<a href={gameZop} target='_blank'>
+													<img src='assets/images/gamezop-banner.png' className='gamezop-image'/>
+												</a>
+											</>
+										}
 										<Reviews/>
 									</div>
 								</div>
