@@ -5,177 +5,177 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Header from '../../components/Header';
 import { toast } from 'react-toastify';
-import { setDoc, getDoc, doc, collection, where, onSnapshot, query, updateDoc } from 'firebase/firestore';
+import {
+  setDoc,
+  getDoc,
+  doc,
+  collection,
+  where,
+  onSnapshot,
+  query,
+  updateDoc
+} from 'firebase/firestore';
 import { db } from '../../authFiles/fbaseconfig';
 import Reviews from '../../components/Reviews';
 
-function HomePage() {
+const HomePage = () => {
 	const navigate = useNavigate();
 	const [matchesData, setMatchesData] = useState([]);
-    const [matchData, setMatchData] = useState([])
-    const [gameZop, setGameZop] = useState([])
+	const [matchData, setMatchData] = useState([]);
+	const [gameZop, setGameZop] = useState([]);
 	const [user, setUserData] = useState([]);
 	const [ads, setAds] = useState([]);
 	const [currentAds, setCurrentAds] = useState([]);
 	const [currentIndex, setCurrentIndex] = useState(0);
+	const accessToken = localStorage.getItem('client_token');
 
-	var accessToken = localStorage.getItem('client_token');
 	const responsiveOptions = {
-		0: {
-		  	items: 1,
-		},
-		300: {
-			items: 1,
-		},
-		600: {
-		  	items: 3,
-		},
-		1000: {
-		  	items: 3,
-		},		
+		0: { items: 1 },
+		300: { items: 1 },
+		600: { items: 3 },
+		1000: { items: 3 },
 	};
+
 	const apiConfig = {
 		headers: {
-			Authorization: "Bearer " + accessToken,
-			'Content-Type': 'application/json',
-		}
+		Authorization: "Bearer " + accessToken,
+		'Content-Type': 'application/json',
+		},
 	};
 
-	const fetchGameZop = () => {
-		const apiUrl = process.env.REACT_APP_DEV === 'true'
-		? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/getGameZop`
-		: `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/getGameZop`;
+	const fetchDataFromGameZop = () => {
+		const apiUrl =
+		process.env.REACT_APP_DEV === 'true'
+			? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/getGameZop`
+			: `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/getGameZop`;
 		axios.get(apiUrl)
 		.then((response) => {
-			if(response.data.success){
-				setGameZop(response.data.data.game_link);
+			if (response.data.success) {
+			setGameZop(response.data.data.game_link);
 			}
-		}).catch((error) => {
+		})
+		.catch((error) => {
 			toast.error("Oh Snap!" + error.code);
 		});
-	}
-	
-	const fetchAllMatches = (id) => {
+	};
+
+	const fetchAllMatches = async (id) => {
 		const apiUrl = process.env.REACT_APP_DEV === 'true'
 		? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/allMatches`
 		: `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/allMatches`;
 
-		// Include user_id as a query parameter
-		const urlWithParams = `${apiUrl}?user_id=${id}`;
-
-		axios.get(urlWithParams)
-		.then((response) => {
-			if(response.data.success){
+		try {
+			const response = await axios.get(`${apiUrl}?user_id=${id}`);
+			if (response.data.success) {
 				localStorage.setItem('match_id', response.data.data[0].match_id);
 				setMatchesData(response.data.data);
 			}
-		}).catch((error) => {
+		} catch (error) {
 			toast.error("Oh Snap!" + error.code);
-		});
-	}
+		}
+	};
 
 	const fetchUserData = () => {
-        axios.get(process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/user` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/user`, apiConfig)
-        .then((response) => {
-            if(response.data.success){
-                setUserData(response.data.data);
-            }
-        }).catch((error) => {
-            toast.error(error.code);
-        });
-    }
+		axios.get(
+		process.env.REACT_APP_DEV === 'true'
+			? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/user`
+			: `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/user`,
+		apiConfig
+		)
+		.then((response) => {
+			if (response.data.success) {
+			setUserData(response.data.data);
+			}
+		})
+		.catch((error) => {
+			toast.error(error.code);
+		});
+	};
 
 	const fetchPrivateAds = () => {
-		axios.get(process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/getAllPrivateAds` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/getAllPrivateAds`, apiConfig)
-		.then(response => setAds(response.data.data))
-      	.catch(error => console.error('Error fetching ads:' + error));
-    }
+		axios.get(
+		process.env.REACT_APP_DEV === 'true'
+			? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/getAllPrivateAds`
+			: `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/getAllPrivateAds`,
+		apiConfig
+		)
+		.then((response) => setAds(response.data.data))
+		.catch((error) => console.error('Error fetching ads:' + error));
+	};
 
 	useEffect(() => {
 		if (ads.length > 0) {
-		  // Calculate the number of slots
-		  const slots = 4;
-	
-		  // Ensure there are enough ads to fill all slots
-		  if (ads.length >= slots) {
+		const slots = 4;
+
+		if (ads.length >= slots) {
 			const uniqueAdIndices = getRandomUniqueIndices(ads.length, slots);
-	
-			// Update the current ads based on the selected indices
+
 			const updatedCurrentAds = uniqueAdIndices.map(index => ads[index]);
 			setCurrentAds(updatedCurrentAds);
-	
-			// Set up an interval to rotate through the ads every 10 seconds
+
 			const interval = setInterval(() => {
-			  const nextIndex = (currentIndex + 1) % ads.length;
-			  setCurrentIndex(nextIndex);
-			  const nextAds = ads.slice(nextIndex, nextIndex + slots);
-			  setCurrentAds(nextAds);
+			const nextIndex = (currentIndex + 1) % ads.length;
+			setCurrentIndex(nextIndex);
+			const nextAds = ads.slice(nextIndex, nextIndex + slots);
+			setCurrentAds(nextAds);
 			}, 20000);
-	
-			// Clear the interval when the component unmounts or ads change
+
 			return () => clearInterval(interval);
-		  }
+		}
 		}
 	}, [ads, currentIndex]);
-	
+
 	const getRandomUniqueIndices = (max, count) => {
 		const indices = [];
 		while (indices.length < count) {
-		  const randomIndex = Math.floor(Math.random() * max);
-		  if (!indices.includes(randomIndex)) {
+		const randomIndex = Math.floor(Math.random() * max);
+		if (!indices.includes(randomIndex)) {
 			indices.push(randomIndex);
-		  }
+		}
 		}
 		return indices;
 	};
 
 	const renderMedia = (mediaFile) => {
-		// Check if mediaFile is defined and not null
 		if (mediaFile) {
-		  // Extract the file extension
-		  const fileExtension = mediaFile.split('.').pop().toLowerCase();
-	  
-		  // Define supported image and video file extensions
-		  const imageExtensions = ['jpg', 'jpeg', 'png', 'gif'];
-		  const videoExtensions = ['mp4', 'webm', 'ogg'];
-	  
-		  // Check if the file extension corresponds to an image or video
-		  if (imageExtensions.includes(fileExtension)) {
+		const fileExtension = mediaFile.split('.').pop().toLowerCase();
+		const imageExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+		const videoExtensions = ['mp4', 'webm', 'ogg'];
+
+		if (imageExtensions.includes(fileExtension)) {
 			return <img src={mediaFile} alt="Ad" />;
-		  } else if (videoExtensions.includes(fileExtension)) {
+		} else if (videoExtensions.includes(fileExtension)) {
 			return <video src={mediaFile} muted controls width="100%" height="auto" />;
-		  }
 		}
-	  
-		// If mediaFile is undefined or null, or the extension is not recognized, return null or handle accordingly
+		}
 		return null;
-	};	  
-	
-	useEffect(() => {
-		fetchAllMatches(user.id)
-    }, [user.id])
+	};
 
 	useEffect(() => {
-		if(accessToken) {
-			fetchUserData(); 
-			fetchPrivateAds();
-			fetchGameZop();
+		fetchAllMatches(user.id);
+	}, [user.id]);
+
+	useEffect(() => {
+		if (accessToken) {
+		fetchUserData();
+		fetchPrivateAds();
+		fetchDataFromGameZop();
 		} else {
-			fetchGameZop();
-			fetchPrivateAds();
+		fetchDataFromGameZop();
+		fetchPrivateAds();
 		}
-    },[])
+	}, []);
 
 	useEffect(() => {
-		if(localStorage.getItem('match_id')){
-			onSnapshot(doc(db, "matchdata", localStorage.getItem('match_id')), (doc) => {
-			    setMatchData(doc.data()); 
-			    console.log(doc.data())
-			});
+		if (localStorage.getItem('match_id')) {
+		onSnapshot(doc(db, "matchdata", localStorage.getItem('match_id')), (doc) => {
+			setMatchData(doc.data());
+			console.log(doc.data());
+		});
 		}
-    }, [localStorage.getItem('match_id')]);
-	
-    return (
+	}, [localStorage.getItem('match_id')]);
+		
+	return (
 		<>
 			<Header/>
 			<header className="header">
@@ -187,64 +187,61 @@ function HomePage() {
 						<div className="col-md-8">	
 							<div className="container">
 								<OwlCarousel 
+									key={new Date().getTime()} 
+									className='owl-theme'
 									items={4}
 									margin={30}
 									dots={false}
 									responsive={responsiveOptions}
 								>
-								{matchesData && matchesData.length > 0 && matchesData.map((match, index) => {
+								{matchesData && matchesData.length > 0 ? matchesData.map((match, index) => {
 									return (
-											<div className="score-card p-0" key={index}>
-												<div className="score-card-inner">
-													<div className="score-card-header text-center">
-														<strong>{match.match_category}</strong>
-														<span>{match.matchs}</span>
-													</div>
-													<div className="score-card-body">
-														<div className="country-info">
-															<div className="flag-avatar">
-																<figure>
-																	<img src="/assets/images/flags/bangladesh.png" alt="" />
-																</figure>
-																<span className="country-name">{match.team_a_short}</span>
-															</div>
-															<div className="score-update">
-																<h5>146/6</h5>
-																<p className="text-muted">20.0 ov.</p>
-															</div>
+										<div className="score-card p-0" key={index}>
+											<div className="score-card-inner">
+												<div className="score-card-header text-center">
+													<strong>{match.match_category}</strong>
+													<span>{match.matchs}</span>
+												</div>
+												<div className="score-card-body">
+													<div className="country-info">
+														<div className="flag-avatar">
+															<figure>
+																<img src="/assets/images/flags/bangladesh.png" alt="" />
+															</figure>
+															<span className="country-name">{match.team_a_short}</span>
 														</div>
-														<div className="country-info flex-row-reverse">
-															<div className="flag-avatar ml-05">
-																<figure>
-																	<img src="/assets/images/flags/india.png" alt="" />
-																</figure>
-																<span className="country-name">{match.team_b_short}</span>
-															</div>
-															<div className="score-update">
-																<h5>102/4</h5>
-																<p className="text-muted">20.0 ov</p>
-															</div>
+														<div className="score-update">
+															<h5>146/6</h5>
+															<p className="text-muted">20.0 ov.</p>
+														</div>
+													</div>
+													<div className="country-info flex-row-reverse">
+														<div className="flag-avatar ml-05">
+															<figure>
+																<img src="/assets/images/flags/india.png" alt="" />
+															</figure>
+															<span className="country-name">{match.team_b_short}</span>
+														</div>
+														<div className="score-update">
+															<h5>102/4</h5>
+															<p className="text-muted">20.0 ov</p>
 														</div>
 													</div>
 												</div>
-												{match.astrology_status === 'enable' ?
-												<div class="button-container">
-													<button class="theme-button-1" onClick={() => {navigate(`/live-score-board/${match.match_id}`)}}>View Liveline</button>
-
-													{match && typeof match.razorpay_payment_id === 'string' && match.razorpay_payment_id.includes('pay') ? (
-														<button class="theme-button-2" onClick={() => {navigate(`/match-astrology/${match.match_id}`)}}>View Astrology</button>
-													) : (
-														<button class="theme-button-3" onClick={() => {navigate(`/match-astrology/${match.match_id}`)}}>Buy Astrology</button>
-													)}
-												</div>
-												: 
-												<div class="button-container">
-													<button class="theme-button-1" onClick={() => {navigate(`/live-score-board/${match.match_id}`)}}>View Liveline</button>
-												</div>}
 											</div>
+											{match.astrology_status === 'enable' ?
+											<div class="button-container">
+												<button class="theme-button-1" onClick={() => {navigate(`/live-score-board/${match.match_id}`)}}>View Liveline</button>
+												<button class={match.button_class} onClick={() => {navigate(`/match-astrology/${match.match_id}`)}}>{match.button_text}</button>
+											</div>
+											: 
+											<div class="button-container">
+												<button class="theme-button-1" onClick={() => {navigate(`/live-score-board/${match.match_id}`)}}>View Liveline</button>
+											</div>}
+										</div>
 										);
 									}
-								)}
+								) : null}
 								</OwlCarousel>
 							</div>
 						</div>
@@ -366,7 +363,7 @@ function HomePage() {
 			</div>
 			<Footer />
 		</>
-    );
+	);
 }
 
 export default HomePage;

@@ -56,7 +56,7 @@ h6 {
 
 img {
   display: block;
-  width: 100%;
+  max-width: 250px;
   height: auto;
 }
 
@@ -5796,7 +5796,7 @@ input:checked ~ .cover:before {
   font-size: 13px;
   color:#fff;
   height: 40px;
-  width: 200px;
+  width: 100%;
   letter-spacing: 1px;
   padding: 0;
   margin: 0;

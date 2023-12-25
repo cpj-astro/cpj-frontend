@@ -9,9 +9,6 @@ import PlayerStats from '../PlayerStats/PlayerStats';
 import PlayerProfile from '../PlayerProfile/PlayerProfile';
 import LiveScoreBoard from '../LiveScoreBoard/LiveScoreBoard';
 import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import 'owl.carousel/dist/assets/owl.carousel.min.css';
-import 'owl.carousel/dist/assets/owl.theme.default.min.css';
 import MatchAstrology from '../MatchAstrology/MatchAstrology';
 import Terms from '../Pages/Terms';
 import Privacy from '../Pages/Privacy';
@@ -22,6 +19,9 @@ import ContactUs from '../ContactUs/ContactUs';
 import FAQs from '../FAQs/FAQs';
 import AboutUs from '../Pages/AboutUs';
 import Feedback from '../Feedback';
+import 'react-toastify/dist/ReactToastify.css';
+import 'owl.carousel/dist/assets/owl.carousel.min.css';
+import 'owl.carousel/dist/assets/owl.theme.default.min.css';
 
 const App = () => {
   return (

@@ -30,13 +30,13 @@ export default function Reviews() {
         fetchReviewData();
     }, [])
 
-    const StarRating = ({ rating }) => {
+    const StarRating = ({ rating, index }) => {
         const stars = [];
         for (let i = 0; i < rating; i++) {
             stars.push(<i className='fa fa-star star-icon-set'></i>);
         }
         
-        return <span>{stars}</span>;
+        return <span key={index}>{stars}</span>;
     };
     
     return (
@@ -44,14 +44,14 @@ export default function Reviews() {
             <div className='row'>
                 <div className='col-md-12'>
                     <h3 class="widget-title">Reviews & Ratings</h3>
-                    <OwlCarousel className='owl-theme' autoplay={true} autoplayTimeout={3000} loop={true} dots={true} arrows={false} items={1} margin={10}>
+                    <OwlCarousel className='owl-theme' autoplay={true} autoplayTimeout={3000} loop={true} dots={true} arrows={false} items={1} margin={10} key={new Date().getTime()} >
                     {reviews && reviews.length > 0 && reviews.map((review, index) => {
                         return(
                             <div className="card card-shadow text-center custom-review" key={index}>
                                 <div className="card-body">
                                     <h3 className="card-title">{review.user_name}</h3>
                                     <p className="card-text">{review.review}</p>
-                                    <StarRating rating={review.rating}/>
+                                    <StarRating rating={review.rating} index={index}/>
                                     <h6>Reviewed on: {moment(review.created_at).format('DD-MM-YYYY')}</h6>
                                 </div>
                             </div>

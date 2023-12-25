@@ -12,10 +12,8 @@ function MatchAstrology() {
     const navigate = useNavigate();
     const {id} = useParams();
     const [panditData, setPanditData] = useState([]);
-    const [selectedPandit, setSelectedPandit] = useState(null);
     const [user, setUserData] = useState([]);
     const [match, setMatch] = useState(null);
-    const [panditNo, setPanditNo] = useState(0);
     const [isPaymentSuccess, setIsPaymentSuccess] = useState(false);
     const [isPaymentFail, setIsPaymentFail] = useState(false);
     const [loader, setLoader] = useState(false);
@@ -343,7 +341,7 @@ function MatchAstrology() {
                                 <div className='row'>
                                 {(panditData && panditData.length > 0) ? panditData.map((pandit, index) => (
                                     <div className='col-md-4'>
-                                        <div className={`card card-shadow cursor-pointer ${panditNo === (index+1) ? 'card-active' : ''}`}  onClick={() => {setPanditNo(index+1); setSelectedPandit(pandit);}}>
+                                        <div className='card card-shadow cursor-pointer'>
                                             <div className='d-flex'>
                                                 <div className=''>
                                                     <img src={`/assets/images/pandits/${pandit.avatar_image}`} alt className='pandit-img'/>
@@ -361,6 +359,9 @@ function MatchAstrology() {
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div className=''>
+                                                <RazorpayIntegration matchId={id} panditId={pandit.id} amount={pandit.match_astrology_price} moonSign={user.moon_sign} onPaymentSuccess={handlePaymentSuccess} onPaymentFail={handlePaymentFail} />
+                                            </div>
                                         </div>
                                     </div>
                                     )) 
@@ -371,205 +372,6 @@ function MatchAstrology() {
                                         </div>
                                     </div> 
                                 }
-                                </div>
-                                <div className="mt-5 card card-shadow buy-astrology-wrapper">
-                                    <div className="glass-effect"></div>
-                                    <div className="buy-astrology-content">
-                                        <h1 className='buy-astro-font-color'>Get This Astrology</h1>
-                                        <h5 className='buy-astro-font-color'>Select Your Pandit & Click the Buy Astrology button</h5>
-                                        <div className='buy-btn-set'>
-                                            {panditNo > 0 ?
-                                                <RazorpayIntegration matchId={id} panditId={selectedPandit.id} amount={selectedPandit.match_astrology_price} moonSign={user.moon_sign} onPaymentSuccess={handlePaymentSuccess} onPaymentFail={handlePaymentFail} />
-                                                :
-                                                <button onClick={() => {toast.error('Please Select Pandit')}} className="mt-4 btn-astro-v1">
-                                                    Buy Astrology
-                                                </button>
-                                            }
-                                        </div>
-                                    </div>
-                                    <div className="player-profile">
-                                        <div className="player-info">
-                                            <div className="info-body">
-                                                <ul className="list-striped mr-05">
-                                                    <li>
-                                                        <span>Match Data</span>
-                                                        <p>N/A</p>
-                                                    </li>
-                                                    <li>
-                                                        <span>Match Data</span>
-                                                        <p>N/A</p>
-                                                    </li>
-                                                    <li>
-                                                        <span>Match Data</span>
-                                                        <p>N/A</p>
-                                                    </li>
-                                                    <li>
-                                                        <span>Match Data</span>
-                                                        <p>N/A</p>
-                                                    </li>
-                                                </ul>
-                                                <ul className="list-striped">
-                                                    <li>
-                                                        <span>Match Data</span>
-                                                        <p>N/A</p>
-                                                    </li>
-                                                    <li>
-                                                        <span>Match Data</span>
-                                                        <p>N/A</p>
-                                                    </li>
-                                                    <li>
-                                                        <span>Match Data</span>
-                                                        <p>N/A</p>
-                                                    </li>
-                                                    <li>
-                                                        <span>Match Data</span>
-                                                        <p>N/A</p>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="card card-shadow buy-astrology-wrapper">
-                                    <div className="glass-effect"></div>
-                                    <div className="player-profile">
-                                        <div className="player-info">
-                                            <div className="info-body">
-                                                <ul className="list-striped mr-05">
-                                                    <li>
-                                                        <span>Match Data</span>
-                                                        <p>N/A</p>
-                                                    </li>
-                                                    <li>
-                                                        <span>Match Data</span>
-                                                        <p>N/A</p>
-                                                    </li>
-                                                    <li>
-                                                        <span>Match Data</span>
-                                                        <p>N/A</p>
-                                                    </li>
-                                                    <li>
-                                                        <span>Match Data</span>
-                                                        <p>N/A</p>
-                                                    </li>
-                                                </ul>
-                                                <ul className="list-striped">
-                                                    <li>
-                                                        <span>Match Data</span>
-                                                        <p>N/A</p>
-                                                    </li>
-                                                    <li>
-                                                        <span>Match Data</span>
-                                                        <p>N/A</p>
-                                                    </li>
-                                                    <li>
-                                                        <span>Match Data</span>
-                                                        <p>N/A</p>
-                                                    </li>
-                                                    <li>
-                                                        <span>Match Data</span>
-                                                        <p>N/A</p>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className='row'>
-                                    <div className='col-md-6'>
-                                        <div className="card card-shadow buy-astrology-wrapper">
-                                            <div className="glass-effect"></div>
-                                            <div className="player-profile">
-                                                <div className="player-info">
-                                                    <div className="info-body">
-                                                        <ul className="list-striped mr-05">
-                                                            <li>
-                                                                <span>Match Data</span>
-                                                                <p>N/A</p>
-                                                            </li>
-                                                            <li>
-                                                                <span>Match Data</span>
-                                                                <p>N/A</p>
-                                                            </li>
-                                                            <li>
-                                                                <span>Match Data</span>
-                                                                <p>N/A</p>
-                                                            </li>
-                                                            <li>
-                                                                <span>Match Data</span>
-                                                                <p>N/A</p>
-                                                            </li>
-                                                        </ul>
-                                                        <ul className="list-striped">
-                                                            <li>
-                                                                <span>Match Data</span>
-                                                                <p>N/A</p>
-                                                            </li>
-                                                            <li>
-                                                                <span>Match Data</span>
-                                                                <p>N/A</p>
-                                                            </li>
-                                                            <li>
-                                                                <span>Match Data</span>
-                                                                <p>N/A</p>
-                                                            </li>
-                                                            <li>
-                                                                <span>Match Data</span>
-                                                                <p>N/A</p>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className='col-md-6'>
-                                        <div className="card card-shadow buy-astrology-wrapper">
-                                            <div className="glass-effect"></div>
-                                            <div className="player-profile">
-                                                <div className="player-info">
-                                                    <div className="info-body">
-                                                        <ul className="list-striped mr-05">
-                                                            <li>
-                                                                <span>Match Data</span>
-                                                                <p>N/A</p>
-                                                            </li>
-                                                            <li>
-                                                                <span>Match Data</span>
-                                                                <p>N/A</p>
-                                                            </li>
-                                                            <li>
-                                                                <span>Match Data</span>
-                                                                <p>N/A</p>
-                                                            </li>
-                                                            <li>
-                                                                <span>Match Data</span>
-                                                                <p>N/A</p>
-                                                            </li>
-                                                        </ul>
-                                                        <ul className="list-striped">
-                                                            <li>
-                                                                <span>Match Data</span>
-                                                                <p>N/A</p>
-                                                            </li>
-                                                            <li>
-                                                                <span>Match Data</span>
-                                                                <p>N/A</p>
-                                                            </li>
-                                                            <li>
-                                                                <span>Match Data</span>
-                                                                <p>N/A</p>
-                                                            </li>
-                                                            <li>
-                                                                <span>Match Data</span>
-                                                                <p>N/A</p>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </section>
                         </div>
