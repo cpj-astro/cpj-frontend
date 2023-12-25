@@ -5977,3 +5977,27 @@ input:checked ~ .cover:before {
   margin-right: 5px;
   margin-bottom: 10px;
 }
+
+.fantasy-ground {
+  height: auto;
+  width: 100%;
+}
+
+.disclaimer-container {
+  margin-top: 20px;
+  background-color: #f5f5f5;
+  padding: 20px;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 20px; /* Add some margin to separate from other sections */
+}
+
+.disclaimer {
+  max-width: 600px;
+  margin: 0 auto;
+  color: #333;
+  font-size: 16px;
+}
