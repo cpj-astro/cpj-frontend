@@ -317,6 +317,11 @@ const HomePage = () => {
 									</div>
 								</div>
 								<div className="col-md-4" style={{backgroundColor: '#ffffff'}}>
+									<div>
+										{/* <h3 className="widget-title">Astrological Fantasy Players</h3> */}
+										<img src='/assets/images/fantacy-ground.png' className='pt-15 fantasy-ground'/>
+									</div>
+
 									<aside className="sidebar right-sidebar">
 										<div className="widget widget-upcoming-match">
 											{currentAds[0]?.status == 1 && 

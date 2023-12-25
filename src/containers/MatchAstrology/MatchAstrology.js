@@ -166,7 +166,7 @@ function MatchAstrology() {
         <>
             <Header/>
             {loader ? <Loader/> :
-            <>
+            <div>
                 {match && match.razorpay_payment_id && match.razorpay_order_id && match.razorpay_signature && match.payment_status ? (
                     <div id="main" className="main-container">
                         <div className="container breadcrumb-area">
@@ -360,7 +360,8 @@ function MatchAstrology() {
                                                 </div>
                                             </div>
                                             <div className=''>
-                                                <RazorpayIntegration matchId={id} panditId={pandit.id} amount={pandit.match_astrology_price} moonSign={user.moon_sign} onPaymentSuccess={handlePaymentSuccess} onPaymentFail={handlePaymentFail} />
+                                                <button className="mt-4 btn-astro-v1" onClick={() => {toast('We Will Show Payment Gateway On Buy Astrology Button')}}> Buy Astrology </button>
+                                                {/* <RazorpayIntegration matchId={id} panditId={pandit.id} amount={pandit.match_astrology_price} moonSign={user.moon_sign} onPaymentSuccess={handlePaymentSuccess} onPaymentFail={handlePaymentFail} /> */}
                                             </div>
                                         </div>
                                     </div>
@@ -372,12 +373,26 @@ function MatchAstrology() {
                                         </div>
                                     </div> 
                                 }
+                                    <div className='col-md-12'>
+                                        <hr/>
+                                        <div class="disclaimer-container">
+                                            <div class="disclaimer">
+                                                <p>
+                                                    🌟 Explore the expertise of our CricketPanditji astrologers! 🌟
+                                                </p>
+                                                <p>
+                                                    Our experienced pandits specialize in providing detailed astrology insights for cricket matches.
+                                                    Enhance your match experience by unlocking the secrets of the stars. Purchase their services now!
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </section>
                         </div>
                     </div>
                 )}
-            </>
+            </div>
             }
             <Footer/>
         </>
