@@ -16,7 +16,7 @@ export default function Header() {
 
 	const logout = () => {
 		localStorage.removeItem('client_token');
-		navigate('/sign-in');
+		navigate('/');
 	}
     return (
         <section className="topbar">

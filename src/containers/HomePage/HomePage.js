@@ -61,32 +61,17 @@ const HomePage = () => {
 		});
 	};
 
-	const fetchAllMatches = async (id) => {
-		const apiUrl = process.env.REACT_APP_DEV === 'true'
-		? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/allMatches`
-		: `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/allMatches`;
-
-		try {
-			const response = await axios.get(`${apiUrl}?user_id=${id}`);
-			if (response.data.success) {
-				localStorage.setItem('match_id', response.data.data[0].match_id);
-				setMatchesData(response.data.data);
-			}
-		} catch (error) {
-			toast.error("Oh Snap!" + error.code);
-		}
-	};
-
-	const fetchUserData = () => {
+	const fetchAllMatches = () => {
 		axios.get(
 		process.env.REACT_APP_DEV === 'true'
-			? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/user`
-			: `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/user`,
+			? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/${accessToken ? 'allMatchesOnline': 'allMatchesOffline'}`
+			: `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/${accessToken ? 'allMatchesOnline': 'allMatchesOffline'}`,
 		apiConfig
 		)
 		.then((response) => {
 			if (response.data.success) {
-			setUserData(response.data.data);
+				localStorage.setItem('match_id', response.data.data[0].match_id);
+				setMatchesData(response.data.data);
 			}
 		})
 		.catch((error) => {
@@ -154,18 +139,9 @@ const HomePage = () => {
 	};
 
 	useEffect(() => {
-		fetchAllMatches(user.id);
-	}, [user.id]);
-
-	useEffect(() => {
-		if (accessToken) {
-		fetchUserData();
-		fetchPrivateAds();
-		fetchDataFromGameZop();
-		} else {
+		fetchAllMatches();
 		fetchDataFromGameZop();
 		fetchPrivateAds();
-		}
 	}, []);
 
 	useEffect(() => {
@@ -176,8 +152,7 @@ const HomePage = () => {
 		});
 		}
 	}, [localStorage.getItem('match_id')]);
-	console.log("newsData");
-	console.log(newsData);
+	
 	return (
 		<>
 			<Header/>
@@ -235,6 +210,7 @@ const HomePage = () => {
 											{match.astrology_status === 'enable' ?
 											<div class="button-container">
 												<button class="theme-button-1" onClick={() => {navigate(`/live-score-board/${match.match_id}`)}}>View Liveline</button>
+
 												<button class={match.button_class} onClick={() => {navigate(`/match-astrology/${match.match_id}`)}}>{match.button_text}</button>
 											</div>
 											: 
