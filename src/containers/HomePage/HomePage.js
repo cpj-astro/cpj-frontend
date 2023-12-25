@@ -17,6 +17,7 @@ import {
 } from 'firebase/firestore';
 import { db } from '../../authFiles/fbaseconfig';
 import Reviews from '../../components/Reviews';
+import newsData from '../../apiResponses/news.json';
 
 const HomePage = () => {
 	const navigate = useNavigate();
@@ -28,7 +29,8 @@ const HomePage = () => {
 	const [currentAds, setCurrentAds] = useState([]);
 	const [currentIndex, setCurrentIndex] = useState(0);
 	const accessToken = localStorage.getItem('client_token');
-
+	const maxContentLength = 100;
+	const maxTitleLength = 35;
 	const responsiveOptions = {
 		0: { items: 1 },
 		300: { items: 1 },
@@ -88,7 +90,7 @@ const HomePage = () => {
 			}
 		})
 		.catch((error) => {
-			toast.error(error.code);
+			console.log(error.code);
 		});
 	};
 
@@ -174,7 +176,8 @@ const HomePage = () => {
 		});
 		}
 	}, [localStorage.getItem('match_id')]);
-		
+	console.log("newsData");
+	console.log(newsData);
 	return (
 		<>
 			<Header/>
@@ -302,6 +305,38 @@ const HomePage = () => {
 												</a>
 											</>
 										}
+										<h3 className="widget-title">Cricket News</h3>
+										<section className="related-news p-0">
+											<div className="row">
+											{newsData.status ? (
+												<>
+													{newsData.data.map((news) => (
+														<div className="col-md-6" key={news.news_id}>
+															<div className="card card-shadow p-0">
+																<div className="content-card news-card">
+																	<figure>
+																		<img src={news.image} alt="" />
+																	</figure>
+																	<div className="content-block">
+																		<h3>
+																			<a href="#">{news.title.slice(0, maxTitleLength)}...</a>
+																		</h3>
+																		<div
+																		dangerouslySetInnerHTML={{
+																			__html: `${news.content[0].slice(0, maxContentLength)}...`,
+																		}}/>
+																		<a href="#" className="post-meta">02 hours ago</a>
+																	</div>
+																</div>
+															</div>
+														</div>
+													))}
+												</>
+											) : (
+												<p>No data available</p>
+											)}
+											</div>
+										</section>
 										<Reviews/>
 									</div>
 								</div>

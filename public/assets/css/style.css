@@ -55,9 +55,14 @@ h6 {
 }
 
 img {
-  display: block;
-  max-width: 250px;
+  /* display: block;
+  max-width: 250px; */
+  width: 100%;
   height: auto;
+}
+
+.news-card img {
+  height: 250px;
 }
 
 ul {
@@ -5971,8 +5976,4 @@ input:checked ~ .cover:before {
   font-size: 15px;
   margin-right: 5px;
   margin-bottom: 10px;
-}
-
-.home-page .card-shadow {
-  box-shadow: none;
 }
