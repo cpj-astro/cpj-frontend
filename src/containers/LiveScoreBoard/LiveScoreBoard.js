@@ -846,7 +846,8 @@ function LiveScoreBoard() {
                                                                 </div>
                                                             </div>
                                                         ))}
-                                                        {teams && teams.length == 0 && <div>Please Login to see Fantasy Teams</div>}
+                                                        {accessToken && teams && teams.length == 0 && <div>No Fantasy Teams</div>}
+                                                        {!accessToken && teams && teams.length == 0 && <div>Please Login to see Fantasy Teams</div>}
                                                         </div>
                                                         <div id="info" className="tab-pane fade">
                                                             <hr className='mb-0'/>
