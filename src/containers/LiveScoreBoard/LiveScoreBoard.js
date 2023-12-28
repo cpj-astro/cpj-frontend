@@ -236,9 +236,15 @@ function LiveScoreBoard() {
                                 <a href={"/"} className="left-com">
                                     <i className='fa fa-arrow-left'></i>
                                 </a>
-                                <a href={"/profile"} className="right-com">
-                                    <span className=''>My Profile</span>
-                                </a>
+                                {accessToken ?
+                                    <a href={"/profile"} className="right-com">
+                                        <span className=''>My Profile</span>
+                                    </a>
+                                : 
+                                    <a href={"/sign-in"} className="right-com">
+                                        <span className=''>Sign In</span>
+                                    </a>
+                                }
                             </div>
                             <section className="live-matches p-0">
                                 <span onClick={() => {navigate(`/match-astrology/${id}`)}} className="btn-astro">
