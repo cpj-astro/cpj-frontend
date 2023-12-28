@@ -28,6 +28,7 @@ const HomePage = () => {
 	const [ads, setAds] = useState([]);
 	const [currentAds, setCurrentAds] = useState([]);
 	const [currentIndex, setCurrentIndex] = useState(0);
+	const [activeTab, setActiveTab] = useState('home');
 	const accessToken = localStorage.getItem('client_token');
 	const maxContentLength = 100;
 	const maxTitleLength = 35;
@@ -153,6 +154,10 @@ const HomePage = () => {
 		}
 	}, [localStorage.getItem('match_id')]);
 	
+    const handleTabChange = (tab) => {
+        setActiveTab(tab);
+    };
+
 	return (
 		<>
 			<Header/>
@@ -235,143 +240,605 @@ const HomePage = () => {
 					<div className="col-md-2">
 
 					</div>
-					<div className="col-md-8">		
-						<div className="container">
-							<div className="row">
-								<div className="col-md-8" style={{backgroundColor: '#ffffff'}}>
-									{matchData && matchData.team_a ? (
-										<h3 className="widget-title">Live Line Of {matchData.team_a + ' Vs ' + matchData.team_b} </h3>
-									) : (
-										<h3 className="widget-title">No Data</h3>
-									)}
-									
-									<div className=''>
-										<div className='tv-container'>    
-											<div className="tv">
-												<div className="score">
-													{matchData.first_circle}
-												</div>
-												<div className='tv-score'>
-													<div className="score-card-body">
-														<div className="country-info">
-															<div className="text-center">
-																<span className="country-name">{matchData.team_a_short}</span>
-																<span>{matchData && matchData.team_a_scores ? matchData.team_a_scores : '00-0'}</span> &nbsp;
-																<span className="text-muted">{matchData && matchData.team_a_over ? matchData.team_a_over : '0.0'} ov.</span>
-															</div>
-														</div>
-														<div className="country-info">
-															<div className="text-center">
-																<span className="country-name">{matchData.team_b_short}</span>
-																<span>{matchData && matchData.team_b_scores ? matchData.team_b_scores : '00-0'}</span> &nbsp;
-																<span className="text-muted">{matchData && matchData.team_b_over ? matchData.team_b_over : '0.0'} ov.</span>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-											<div className='tv-line-horizontal'></div>
-											<div className='tv-line-vertical'></div>
-										</div> 
-										{gameZop &&
-											<>
-												<h3 className="widget-title">Games & More</h3>
-												<a href={gameZop} target='_blank'>
-													<img src='assets/images/gamezop-banner.png' className='gamezop-image'/>
-												</a>
-											</>
-										}
-										<h3 className="widget-title">Cricket News</h3>
-										<section className="related-news p-0">
-											<div className="row">
-											{newsData.status ? (
-												<>
-													{newsData.data.map((news) => (
-														<div className="col-md-6" key={news.news_id}>
-															<div className="card card-shadow p-0">
-																<div className="content-card news-card">
-																	<figure>
-																		<img src={news.image} alt="" />
-																	</figure>
-																	<div className="content-block">
-																		<h3>
-																			<a href="#">{news.title.slice(0, maxTitleLength)}...</a>
-																		</h3>
-																		<div
-																		dangerouslySetInnerHTML={{
-																			__html: `${news.content[0].slice(0, maxContentLength)}...`,
-																		}}/>
-																		<a href="#" className="post-meta">02 hours ago</a>
+					<div className="col-md-8">	
+						<div className="widget">
+							<div className="mt-3 card p-0">
+								<div className="checkout-form p-0">
+									<div className="row">
+										<div className='col-md-12'>
+											<aside className="sidebar right-sidebar">
+												<div className="widget widget-upcoming-match">
+													<ul className="nav nav-tabs custom-nav">
+														<li className={activeTab === 'home' ? 'cursor-pointer active' : 'cursor-pointer'}>
+															<a onClick={() => handleTabChange('home')}>Home</a>
+														</li>
+														<li className={activeTab === 'live-matches' ? 'cursor-pointer active' : 'cursor-pointer'}>
+															<a onClick={() => handleTabChange('live-matches')}>Live Matches</a>
+														</li>
+														<li className={activeTab === 'upcoming-matches' ? 'cursor-pointer active' : 'cursor-pointer'}>
+															<a onClick={() => handleTabChange('upcoming-matches')}>Upcoming Matches</a>
+														</li>
+														<li className={activeTab === 'recent-matches' ? 'cursor-pointer active' : 'cursor-pointer'}>
+															<a onClick={() => handleTabChange('recent-matches')}>Recent Matches</a>
+														</li>
+													</ul>
+													<hr className='mt-3 mb-1'/>
+													<div className="tab-content">
+														<div id="home" className={`tab-pane fade in ${activeTab === 'home' ? 'show active' : ''}`}>
+															<div className="container">
+																<div className="row">
+																	<div className="col-md-8" style={{backgroundColor: '#ffffff'}}>
+																		{matchData && matchData.team_a ? (
+																			<h3 className="widget-title">Live Line Of {matchData.team_a + ' Vs ' + matchData.team_b} </h3>
+																		) : (
+																			<h3 className="widget-title">No Data</h3>
+																		)}
+																		
+																		<div className=''>
+																			<div className='tv-container'>    
+																				<div className="tv">
+																					<div className="score">
+																						{matchData.first_circle}
+																					</div>
+																					<div className='tv-score'>
+																						<div className="score-card-body">
+																							<div className="country-info">
+																								<div className="text-center">
+																									<span className="country-name">{matchData.team_a_short}</span>
+																									<span>{matchData && matchData.team_a_scores ? matchData.team_a_scores : '00-0'}</span> &nbsp;
+																									<span className="text-muted">{matchData && matchData.team_a_over ? matchData.team_a_over : '0.0'} ov.</span>
+																								</div>
+																							</div>
+																							<div className="country-info">
+																								<div className="text-center">
+																									<span className="country-name">{matchData.team_b_short}</span>
+																									<span>{matchData && matchData.team_b_scores ? matchData.team_b_scores : '00-0'}</span> &nbsp;
+																									<span className="text-muted">{matchData && matchData.team_b_over ? matchData.team_b_over : '0.0'} ov.</span>
+																								</div>
+																							</div>
+																						</div>
+																					</div>
+																				</div>
+																				<div className='tv-line-horizontal'></div>
+																				<div className='tv-line-vertical'></div>
+																			</div> 
+																			{gameZop &&
+																				<>
+																					<h3 className="widget-title">Games & More</h3>
+																					<a href={gameZop} target='_blank'>
+																						<img src='assets/images/gamezop-banner.png' className='gamezop-image'/>
+																					</a>
+																				</>
+																			}
+																			<h3 className="widget-title">Cricket News</h3>
+																			<section className="related-news p-0">
+																				<div className="row">
+																				{newsData.status ? (
+																					<>
+																						{newsData.data.map((news) => (
+																							<div className="col-md-6" key={news.news_id}>
+																								<div className="card card-shadow p-0">
+																									<div className="content-card news-card">
+																										<figure>
+																											<img src={news.image} alt="" />
+																										</figure>
+																										<div className="content-block">
+																											<h3>
+																												<a href="#">{news.title.slice(0, maxTitleLength)}...</a>
+																											</h3>
+																											<div
+																											dangerouslySetInnerHTML={{
+																												__html: `${news.content[0].slice(0, maxContentLength)}...`,
+																											}}/>
+																											<a href="#" className="post-meta">02 hours ago</a>
+																										</div>
+																									</div>
+																								</div>
+																							</div>
+																						))}
+																					</>
+																				) : (
+																					<p>No data available</p>
+																				)}
+																				</div>
+																			</section>
+																			<Reviews/>
+																		</div>
+																	</div>
+																	<div className="col-md-4" style={{backgroundColor: '#ffffff'}}>
+																		<div>
+																			{/* <h3 className="widget-title">Astrological Fantasy Players</h3> */}
+																			<img src='/assets/images/fantacy-ground.png' className='pt-15 fantasy-ground'/>
+																		</div>
+
+																		<aside className="sidebar right-sidebar">
+																			<div className="widget widget-upcoming-match">
+																				{currentAds[0]?.status == 1 && 
+																				<a href={currentAds[0]?.link} target='_blank'>
+																					<div className="card card-shadow">
+																						<div className="ad-slot" key={currentAds[0]?.id}>
+																							<h3>{currentAds[0]?.title}</h3>
+																							{renderMedia(currentAds[0]?.media_file)}
+																							{/* Add more details as needed */}
+																						</div>
+																					</div>
+																				</a>}
+																			</div>
+																			<div className="widget widget-upcoming-match">
+																				{currentAds[1]?.status == 1 && 
+																				<a href={currentAds[1]?.link} target='_blank'>
+																					<div className="card card-shadow">
+																						<div className="ad-slot" key={currentAds[1]?.id}>
+																							<h3>{currentAds[1]?.title}</h3>
+																							{renderMedia(currentAds[1]?.media_file)}
+																							{/* Add more details as needed */}
+																						</div>
+																					</div>
+																				</a>}
+																			</div>
+																			<div className="widget widget-upcoming-match">
+																				{currentAds[2]?.status == 1 && 
+																				<a href={currentAds[2]?.link} target='_blank'>
+																					<div className="card card-shadow">
+																						<div className="ad-slot" key={currentAds[2]?.id}>
+																							<h3>{currentAds[2]?.title}</h3>
+																							{renderMedia(currentAds[2]?.media_file)}
+																							{/* Add more details as needed */}
+																						</div>
+																					</div>
+																				</a>}
+																			</div>
+																			<div className="widget widget-upcoming-match">
+																				{currentAds[3]?.status == 1 && 
+																				<a href={currentAds[3]?.link} target='_blank'>
+																					<div className="card card-shadow">
+																						<div className="ad-slot" key={currentAds[3]?.id}>
+																							<h3>{currentAds[3]?.title}</h3>
+																							{renderMedia(currentAds[3]?.media_file)}
+																							{/* Add more details as needed */}
+																						</div>
+																					</div>
+																				</a>}
+																			</div>
+																		</aside>
 																	</div>
 																</div>
 															</div>
 														</div>
-													))}
-												</>
-											) : (
-												<p>No data available</p>
-											)}
-											</div>
-										</section>
-										<Reviews/>
-									</div>
-								</div>
-								<div className="col-md-4" style={{backgroundColor: '#ffffff'}}>
-									<div>
-										{/* <h3 className="widget-title">Astrological Fantasy Players</h3> */}
-										<img src='/assets/images/fantacy-ground.png' className='pt-15 fantasy-ground'/>
-									</div>
+														<div id="live-matches" className={`tab-pane fade ${activeTab === 'live-matches' ? 'show active' : ''}`}>
+															<div className='container'>
+																<div className='row'>
+																	<div className='col-md-8'>
+																		<div className='pt-3'>	
+																			<div class="score-card score-card-lg d-md-flex p-0">
+																				<div class="score-card-inner flex-grow-1 px-3 py-3">
+																					<div class="score-card-header mb-1">
+																						<strong class="text-red">live</strong>
+																					</div>
+																					<div class="score-card-body">
+																						<div class="country-info">
+																							<div class="flag-avatar">
+																								<figure>
+																									<img src="assets/images/flags/australia.png" alt="" />
+																								</figure>
+																								<span class="country-name">ban</span>
+																							</div>
+																							<div class="score-update">
+																								<h5>146/6</h5>
+																								<p class="text-muted">20.0 ov.</p>
+																							</div>
+																						</div>
+																						<div class="country-info flex-row-reverse">
+																							<div class="flag-avatar">
+																								<figure>
+																									<img src="assets/images/flags/sri-lanka.png" alt="" />
+																								</figure>
+																								<span class="country-name">ind</span>
+																							</div>
+																							<div class="score-update">
+																								<h5>102/4</h5>
+																								<p class="text-muted">20.0 ov</p>
+																							</div>
+																						</div>
+																					</div>
+																				</div>
+																				<div class="custom-card-aside px-2 py-2">
+																					<a href="#" class="custom-left-btn cricnotch-btn btn-filled text-uppercase active">View Liveline</a>
+																					<a href="#" class="custom-right-btn cricnotch-btn btn-filled text-uppercase">Buy Astrology</a>
+																				</div>
+																			</div>
+																		</div>
+																		<div className='pt-3'>	
+																			<div class="score-card score-card-lg d-md-flex p-0">
+																				<div class="score-card-inner flex-grow-1 px-3 py-3">
+																					<div class="score-card-header mb-1">
+																						<strong class="text-red">live</strong>
+																					</div>
+																					<div class="score-card-body">
+																						<div class="country-info">
+																							<div class="flag-avatar">
+																								<figure>
+																									<img src="assets/images/flags/australia.png" alt="" />
+																								</figure>
+																								<span class="country-name">ban</span>
+																							</div>
+																							<div class="score-update">
+																								<h5>146/6</h5>
+																								<p class="text-muted">20.0 ov.</p>
+																							</div>
+																						</div>
+																						<div class="country-info flex-row-reverse">
+																							<div class="flag-avatar">
+																								<figure>
+																									<img src="assets/images/flags/sri-lanka.png" alt="" />
+																								</figure>
+																								<span class="country-name">ind</span>
+																							</div>
+																							<div class="score-update">
+																								<h5>102/4</h5>
+																								<p class="text-muted">20.0 ov</p>
+																							</div>
+																						</div>
+																					</div>
+																				</div>
+																				<div class="custom-card-aside px-2 py-2">
+																					<a href="#" class="custom-left-btn cricnotch-btn btn-filled text-uppercase active">View Liveline</a>
+																					<a href="#" class="custom-right-btn cricnotch-btn btn-filled text-uppercase">Buy Astrology</a>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																	<div className="col-md-4" style={{backgroundColor: '#ffffff'}}>
+																		<div>
+																			{/* <h3 className="widget-title">Astrological Fantasy Players</h3> */}
+																			<img src='/assets/images/fantacy-ground.png' className='pt-15 fantasy-ground'/>
+																		</div>
 
-									<aside className="sidebar right-sidebar">
-										<div className="widget widget-upcoming-match">
-											{currentAds[0]?.status == 1 && 
-											<a href={currentAds[0]?.link} target='_blank'>
-												<div className="card card-shadow">
-													<div className="ad-slot" key={currentAds[0]?.id}>
-														<h3>{currentAds[0]?.title}</h3>
-														{renderMedia(currentAds[0]?.media_file)}
-														{/* Add more details as needed */}
+																		<aside className="sidebar right-sidebar">
+																			<div className="widget widget-upcoming-match">
+																				{currentAds[0]?.status == 1 && 
+																				<a href={currentAds[0]?.link} target='_blank'>
+																					<div className="card card-shadow">
+																						<div className="ad-slot" key={currentAds[0]?.id}>
+																							<h3>{currentAds[0]?.title}</h3>
+																							{renderMedia(currentAds[0]?.media_file)}
+																							{/* Add more details as needed */}
+																						</div>
+																					</div>
+																				</a>}
+																			</div>
+																			<div className="widget widget-upcoming-match">
+																				{currentAds[1]?.status == 1 && 
+																				<a href={currentAds[1]?.link} target='_blank'>
+																					<div className="card card-shadow">
+																						<div className="ad-slot" key={currentAds[1]?.id}>
+																							<h3>{currentAds[1]?.title}</h3>
+																							{renderMedia(currentAds[1]?.media_file)}
+																							{/* Add more details as needed */}
+																						</div>
+																					</div>
+																				</a>}
+																			</div>
+																			<div className="widget widget-upcoming-match">
+																				{currentAds[2]?.status == 1 && 
+																				<a href={currentAds[2]?.link} target='_blank'>
+																					<div className="card card-shadow">
+																						<div className="ad-slot" key={currentAds[2]?.id}>
+																							<h3>{currentAds[2]?.title}</h3>
+																							{renderMedia(currentAds[2]?.media_file)}
+																							{/* Add more details as needed */}
+																						</div>
+																					</div>
+																				</a>}
+																			</div>
+																			<div className="widget widget-upcoming-match">
+																				{currentAds[3]?.status == 1 && 
+																				<a href={currentAds[3]?.link} target='_blank'>
+																					<div className="card card-shadow">
+																						<div className="ad-slot" key={currentAds[3]?.id}>
+																							<h3>{currentAds[3]?.title}</h3>
+																							{renderMedia(currentAds[3]?.media_file)}
+																							{/* Add more details as needed */}
+																						</div>
+																					</div>
+																				</a>}
+																			</div>
+																		</aside>
+																	</div>
+																</div>
+															</div>
+														</div>
+														<div id="upcoming-matches" className={`tab-pane fade ${activeTab === 'upcoming-matches' ? 'show active' : ''}`}>
+															<div className='container'>
+																<div className='row'>
+																	<div className='col-md-8'>
+																		<div className='pt-3'>	
+																			<div class="score-card score-card-lg d-md-flex p-0">
+																				<div class="score-card-inner flex-grow-1 px-3 py-3">
+																					<div class="score-card-header mb-1">
+																						<strong class="text-red">upcoming</strong>
+																					</div>
+																					<div class="score-card-body">
+																						<div class="country-info">
+																							<div class="flag-avatar">
+																								<figure>
+																									<img src="assets/images/flags/australia.png" alt="" />
+																								</figure>
+																								<span class="country-name">ban</span>
+																							</div>
+																							<div class="score-update">
+																								<h5>146/6</h5>
+																								<p class="text-muted">20.0 ov.</p>
+																							</div>
+																						</div>
+																						<div class="country-info flex-row-reverse">
+																							<div class="flag-avatar">
+																								<figure>
+																									<img src="assets/images/flags/sri-lanka.png" alt="" />
+																								</figure>
+																								<span class="country-name">ind</span>
+																							</div>
+																							<div class="score-update">
+																								<h5>102/4</h5>
+																								<p class="text-muted">20.0 ov</p>
+																							</div>
+																						</div>
+																					</div>
+																				</div>
+																				<div class="custom-card-aside px-2 py-2">
+																					<a href="#" class="custom-left-btn cricnotch-btn btn-filled text-uppercase active">View Liveline</a>
+																					<a href="#" class="custom-right-btn cricnotch-btn btn-filled text-uppercase">Buy Astrology</a>
+																				</div>
+																			</div>
+																		</div>
+																		<div className='pt-3'>	
+																			<div class="score-card score-card-lg d-md-flex p-0">
+																				<div class="score-card-inner flex-grow-1 px-3 py-3">
+																					<div class="score-card-header mb-1">
+																						<strong class="text-red">upcoming</strong>
+																					</div>
+																					<div class="score-card-body">
+																						<div class="country-info">
+																							<div class="flag-avatar">
+																								<figure>
+																									<img src="assets/images/flags/australia.png" alt="" />
+																								</figure>
+																								<span class="country-name">ban</span>
+																							</div>
+																							<div class="score-update">
+																								<h5>146/6</h5>
+																								<p class="text-muted">20.0 ov.</p>
+																							</div>
+																						</div>
+																						<div class="country-info flex-row-reverse">
+																							<div class="flag-avatar">
+																								<figure>
+																									<img src="assets/images/flags/sri-lanka.png" alt="" />
+																								</figure>
+																								<span class="country-name">ind</span>
+																							</div>
+																							<div class="score-update">
+																								<h5>102/4</h5>
+																								<p class="text-muted">20.0 ov</p>
+																							</div>
+																						</div>
+																					</div>
+																				</div>
+																				<div class="custom-card-aside px-2 py-2">
+																					<a href="#" class="custom-left-btn cricnotch-btn btn-filled text-uppercase active">View Liveline</a>
+																					<a href="#" class="custom-right-btn cricnotch-btn btn-filled text-uppercase">Buy Astrology</a>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																	<div className="col-md-4" style={{backgroundColor: '#ffffff'}}>
+																		<div>
+																			{/* <h3 className="widget-title">Astrological Fantasy Players</h3> */}
+																			<img src='/assets/images/fantacy-ground.png' className='pt-15 fantasy-ground'/>
+																		</div>
+
+																		<aside className="sidebar right-sidebar">
+																			<div className="widget widget-upcoming-match">
+																				{currentAds[0]?.status == 1 && 
+																				<a href={currentAds[0]?.link} target='_blank'>
+																					<div className="card card-shadow">
+																						<div className="ad-slot" key={currentAds[0]?.id}>
+																							<h3>{currentAds[0]?.title}</h3>
+																							{renderMedia(currentAds[0]?.media_file)}
+																							{/* Add more details as needed */}
+																						</div>
+																					</div>
+																				</a>}
+																			</div>
+																			<div className="widget widget-upcoming-match">
+																				{currentAds[1]?.status == 1 && 
+																				<a href={currentAds[1]?.link} target='_blank'>
+																					<div className="card card-shadow">
+																						<div className="ad-slot" key={currentAds[1]?.id}>
+																							<h3>{currentAds[1]?.title}</h3>
+																							{renderMedia(currentAds[1]?.media_file)}
+																							{/* Add more details as needed */}
+																						</div>
+																					</div>
+																				</a>}
+																			</div>
+																			<div className="widget widget-upcoming-match">
+																				{currentAds[2]?.status == 1 && 
+																				<a href={currentAds[2]?.link} target='_blank'>
+																					<div className="card card-shadow">
+																						<div className="ad-slot" key={currentAds[2]?.id}>
+																							<h3>{currentAds[2]?.title}</h3>
+																							{renderMedia(currentAds[2]?.media_file)}
+																							{/* Add more details as needed */}
+																						</div>
+																					</div>
+																				</a>}
+																			</div>
+																			<div className="widget widget-upcoming-match">
+																				{currentAds[3]?.status == 1 && 
+																				<a href={currentAds[3]?.link} target='_blank'>
+																					<div className="card card-shadow">
+																						<div className="ad-slot" key={currentAds[3]?.id}>
+																							<h3>{currentAds[3]?.title}</h3>
+																							{renderMedia(currentAds[3]?.media_file)}
+																							{/* Add more details as needed */}
+																						</div>
+																					</div>
+																				</a>}
+																			</div>
+																		</aside>
+																	</div>
+																</div>
+															</div>
+														</div>
+														<div id="recent-matches" className={`tab-pane fade ${activeTab === 'recent-matches' ? 'show active' : ''}`}>
+															<div className='container'>
+																<div className='row'>
+																	<div className='col-md-8'>
+																		<div className='pt-3'>	
+																			<div class="score-card score-card-lg d-md-flex p-0">
+																				<div class="score-card-inner flex-grow-1 px-3 py-3">
+																					<div class="score-card-header mb-1">
+																						<strong class="text-red">Recent</strong>
+																					</div>
+																					<div class="score-card-body">
+																						<div class="country-info">
+																							<div class="flag-avatar">
+																								<figure>
+																									<img src="assets/images/flags/australia.png" alt="" />
+																								</figure>
+																								<span class="country-name">ban</span>
+																							</div>
+																							<div class="score-update">
+																								<h5>146/6</h5>
+																								<p class="text-muted">20.0 ov.</p>
+																							</div>
+																						</div>
+																						<div class="country-info flex-row-reverse">
+																							<div class="flag-avatar">
+																								<figure>
+																									<img src="assets/images/flags/sri-lanka.png" alt="" />
+																								</figure>
+																								<span class="country-name">ind</span>
+																							</div>
+																							<div class="score-update">
+																								<h5>102/4</h5>
+																								<p class="text-muted">20.0 ov</p>
+																							</div>
+																						</div>
+																					</div>
+																				</div>
+																				<div class="custom-card-aside px-2 py-2">
+																					<a href="#" class="custom-left-btn cricnotch-btn btn-filled text-uppercase active">View Liveline</a>
+																					<a href="#" class="custom-right-btn cricnotch-btn btn-filled text-uppercase">Buy Astrology</a>
+																				</div>
+																			</div>
+																		</div>
+																		<div className='pt-3'>	
+																			<div class="score-card score-card-lg d-md-flex p-0">
+																				<div class="score-card-inner flex-grow-1 px-3 py-3">
+																					<div class="score-card-header mb-1">
+																						<strong class="text-red">Recent</strong>
+																					</div>
+																					<div class="score-card-body">
+																						<div class="country-info">
+																							<div class="flag-avatar">
+																								<figure>
+																									<img src="assets/images/flags/australia.png" alt="" />
+																								</figure>
+																								<span class="country-name">ban</span>
+																							</div>
+																							<div class="score-update">
+																								<h5>146/6</h5>
+																								<p class="text-muted">20.0 ov.</p>
+																							</div>
+																						</div>
+																						<div class="country-info flex-row-reverse">
+																							<div class="flag-avatar">
+																								<figure>
+																									<img src="assets/images/flags/sri-lanka.png" alt="" />
+																								</figure>
+																								<span class="country-name">ind</span>
+																							</div>
+																							<div class="score-update">
+																								<h5>102/4</h5>
+																								<p class="text-muted">20.0 ov</p>
+																							</div>
+																						</div>
+																					</div>
+																				</div>
+																				<div class="custom-card-aside px-2 py-2">
+																					<a href="#" class="custom-left-btn cricnotch-btn btn-filled text-uppercase active">View Liveline</a>
+																					<a href="#" class="custom-right-btn cricnotch-btn btn-filled text-uppercase">Buy Astrology</a>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																	<div className="col-md-4" style={{backgroundColor: '#ffffff'}}>
+																		<div>
+																			{/* <h3 className="widget-title">Astrological Fantasy Players</h3> */}
+																			<img src='/assets/images/fantacy-ground.png' className='pt-15 fantasy-ground'/>
+																		</div>
+
+																		<aside className="sidebar right-sidebar">
+																			<div className="widget widget-upcoming-match">
+																				{currentAds[0]?.status == 1 && 
+																				<a href={currentAds[0]?.link} target='_blank'>
+																					<div className="card card-shadow">
+																						<div className="ad-slot" key={currentAds[0]?.id}>
+																							<h3>{currentAds[0]?.title}</h3>
+																							{renderMedia(currentAds[0]?.media_file)}
+																							{/* Add more details as needed */}
+																						</div>
+																					</div>
+																				</a>}
+																			</div>
+																			<div className="widget widget-upcoming-match">
+																				{currentAds[1]?.status == 1 && 
+																				<a href={currentAds[1]?.link} target='_blank'>
+																					<div className="card card-shadow">
+																						<div className="ad-slot" key={currentAds[1]?.id}>
+																							<h3>{currentAds[1]?.title}</h3>
+																							{renderMedia(currentAds[1]?.media_file)}
+																							{/* Add more details as needed */}
+																						</div>
+																					</div>
+																				</a>}
+																			</div>
+																			<div className="widget widget-upcoming-match">
+																				{currentAds[2]?.status == 1 && 
+																				<a href={currentAds[2]?.link} target='_blank'>
+																					<div className="card card-shadow">
+																						<div className="ad-slot" key={currentAds[2]?.id}>
+																							<h3>{currentAds[2]?.title}</h3>
+																							{renderMedia(currentAds[2]?.media_file)}
+																							{/* Add more details as needed */}
+																						</div>
+																					</div>
+																				</a>}
+																			</div>
+																			<div className="widget widget-upcoming-match">
+																				{currentAds[3]?.status == 1 && 
+																				<a href={currentAds[3]?.link} target='_blank'>
+																					<div className="card card-shadow">
+																						<div className="ad-slot" key={currentAds[3]?.id}>
+																							<h3>{currentAds[3]?.title}</h3>
+																							{renderMedia(currentAds[3]?.media_file)}
+																							{/* Add more details as needed */}
+																						</div>
+																					</div>
+																				</a>}
+																			</div>
+																		</aside>
+																	</div>
+																</div>
+															</div>
+														</div>
 													</div>
 												</div>
-											</a>}
+											</aside>
 										</div>
-										<div className="widget widget-upcoming-match">
-											{currentAds[1]?.status == 1 && 
-											<a href={currentAds[1]?.link} target='_blank'>
-												<div className="card card-shadow">
-													<div className="ad-slot" key={currentAds[1]?.id}>
-														<h3>{currentAds[1]?.title}</h3>
-														{renderMedia(currentAds[1]?.media_file)}
-														{/* Add more details as needed */}
-													</div>
-												</div>
-											</a>}
-										</div>
-										<div className="widget widget-upcoming-match">
-											{currentAds[2]?.status == 1 && 
-											<a href={currentAds[2]?.link} target='_blank'>
-												<div className="card card-shadow">
-													<div className="ad-slot" key={currentAds[2]?.id}>
-														<h3>{currentAds[2]?.title}</h3>
-														{renderMedia(currentAds[2]?.media_file)}
-														{/* Add more details as needed */}
-													</div>
-												</div>
-											</a>}
-										</div>
-										<div className="widget widget-upcoming-match">
-											{currentAds[3]?.status == 1 && 
-											<a href={currentAds[3]?.link} target='_blank'>
-												<div className="card card-shadow">
-													<div className="ad-slot" key={currentAds[3]?.id}>
-														<h3>{currentAds[3]?.title}</h3>
-														{renderMedia(currentAds[3]?.media_file)}
-														{/* Add more details as needed */}
-													</div>
-												</div>
-											</a>}
-										</div>
-									</aside>
+									</div>
 								</div>
 							</div>
 						</div>

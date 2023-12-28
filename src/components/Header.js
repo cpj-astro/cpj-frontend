@@ -59,7 +59,7 @@ export default function Header() {
                                         <div className="logged-user-dropdown" style={dropDownStyle}>
                                             <ul>
                                                 <li>
-                                                    <a href={'/profile'}><i className="far fa-edit"></i> Edit Profile</a>
+                                                    <a href={'/profile'}><i className="far fa-user"></i> My Profile</a>
                                                 </li>
                                                 <li>
                                                     <span onClick={()=>logout()}><i className="fas fa-sign-out-alt"></i> Sign Out</span>

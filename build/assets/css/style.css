@@ -1004,6 +1004,7 @@ a.post-meta {
   padding: 10px 20px;
   border-radius: 50px;
   text-align: center;
+  width: 100%;
 }
 
 .bg-primary {
@@ -1388,8 +1389,52 @@ a.post-meta {
   height: 40px;
   border-radius: 50%;
   padding: 5px;
-  background-color: #eff0f5;
-  border: 1px solid rgba(58, 90, 229, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cvc_class {
+  border: 1px solid #ddd;
+  padding: 5px;
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  border-radius: 50%;
+  font-size: 15px;
+  justify-content: center;
+  align-items: center;
+}
+
+.cvc_active_class {
+  border: 1px solid #000000;
+  background-color: #000000;
+  color: #fff;
+  padding: 5px;
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  border-radius: 50%;
+  font-size: 15px;
+  justify-content: center;
+  align-items: center;
+}
+
+span.p_class {
+  font-size: 6px!important;
+  border: 1px solid #fff;
+  position: absolute;
+  padding: 3px;
+  height: 17px;
+  width: 17px;
+  display: inline-flex !important;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  top: 12px;
+  left: 15px;
+  color: #fff!important;
+  background-color: black;
 }
 
 .flag-avatar figure.avatar-28 {
@@ -1493,6 +1538,28 @@ a.post-meta {
     border-top: 1px solid #eff0f5;
     max-width: 100%;
   }
+  .custom-card-aside {
+    display: flex !important;
+  }
+  .custom-left-btn {
+    margin-top: 10px;
+    margin-right: 5px;
+  }
+  .custom-right-btn {
+    margin-top: 10px;
+    margin-left: 5px;
+  }
+}
+
+.custom-card-aside {
+  display: inline-grid;
+}
+
+.custom-left-btn {
+  /* margin-right: 5px; */
+}
+.custom-right-btn {
+  margin-top: 10px;
 }
 
 .card-aside p span {
@@ -2367,18 +2434,22 @@ a.post-meta {
 
 .table.widget-table th {
   text-transform: uppercase;
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 600;
   line-height: 15px;
 }
 
 .table.widget-table th:first-of-type {
-  padding-left: 20px;
+  /* padding-left: 15px; */
 }
 
 .table.widget-table th:last-of-type {
-  padding-right: 20px;
+  /* padding-right: 15px; */
   text-align: center;
+}
+
+.fantasy-players thead th { 
+  font-size: larger;
 }
 
 .table.widget-table td {
@@ -2386,8 +2457,8 @@ a.post-meta {
   padding-bottom: 6px;
 }
 
-.table.widget-table td:first-of-type {
-  padding-left: 20px;
+.table.widget-table td {
+  /* padding-left: 20px; */
 }
 
 .table.widget-table td:last-of-type {
@@ -3384,18 +3455,14 @@ a.post-meta {
   background-color: #fff;
 }
 
-.team-rankings .table tbody tr:first-of-type {
-  background-color: #544e9c;
-  color: #fff;
-}
-
-.team-rankings .table tbody tr:first-of-type .country-name {
-  color: #fff;
+.team-rankings .table tbody tr {
+  border: 2px solid #ddd;
+  border-radius: 5px;
 }
 
 .team-rankings .table td {
-  padding-top: 15px;
-  padding-bottom: 15px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
 .team-rankings .card .nav li a {
@@ -5444,6 +5511,38 @@ a.post-meta {
   justify-content: space-between;
 }
 
+.left-com {
+  border: 1px solid #575757;
+  padding: 10px;
+  height: 30px;
+  width: 30px;
+  color: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100%;
+  cursor: pointer;
+}
+
+.l_con {
+  padding-top:10px;
+}
+.home-page .card .nav {
+  padding: 5px;
+}
+.right-com {
+  border: 1px solid #575757;
+  padding: 10px;
+  height: 30px;
+  width: auto;
+  color: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
 .rrates {
   display: flex;
   flex-direction: column;
@@ -5609,8 +5708,8 @@ input:checked ~ .cover:before {
   background-color: red!important;
 }
 
-.score-update h5 {
-  padding: 5px 10px!important;
+.score-update h5, .score-update p {
+  padding: 3px !important;
 }
 
 .custom-fancy-tags {

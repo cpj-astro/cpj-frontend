@@ -11,8 +11,6 @@ import axios from 'axios';
 import Ball from '../../components/Ball';
 import Header from '../../components/Header';
 
-let matchDatas = null;
-
 function LiveScoreBoard() {
     const randomNumbers = Array.from({ length: 11 }, () => Math.floor(Math.random() * 100));
 	const navigate = useNavigate();
@@ -30,7 +28,8 @@ function LiveScoreBoard() {
     const [mtBack2Style, setMtBack2Style] = useState('')
     const [mtLay2Style, setMtLay2Style] = useState('')
     const [matchData, setMatchData] = useState([])
-    const [paymentDetails, setPaymentDetails] = useState([])
+    const [matchDetails, setMatchDetails] = useState([])
+    const [teams, setTeams] = useState([])
     const [seriesData, setSeriesData] = useState([])
     const [lastFewBalls, setLastFewBalls] = useState([])
     const { speak } = useSpeechSynthesis();
@@ -84,23 +83,37 @@ function LiveScoreBoard() {
         }
     }
 
-    const fetchPaymentDetails = (id) => {
+    const fetchMatchDetails = (id) => {
         const params = {
             match_id: id,
         }
         axios.post(process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/matchInfo` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/matchInfo`, params, apiConfig)
 		.then((response) => {
 			if(response.data.success){
-				setPaymentDetails(response.data.data);
+				setMatchDetails(response.data.data);
+				setTeams(response.data.teams);
 			}
 		}).catch((error) => {
 			toast.error("Oh Snap!" + error.code);
 		});
     }
     
+    const showTag = (t, number) => {
+        if(t.bowler == number) {
+            return 'BL';
+        } else if (t.batsman == number) {
+            return 'BT';
+        } else if (t.wicket_keeper == number) {
+            return 'WK';
+        } else if (t.all_rounder == number) {
+            return 'AR';
+        } 
+        return '';
+    }
+
     useEffect(() => {
         if(accessToken) {
-            fetchPaymentDetails(id);
+            fetchMatchDetails(id);
         }
     }, [matchData]);
 
@@ -209,18 +222,28 @@ function LiveScoreBoard() {
     }, [matchData.match_tied && matchData.match_tied.t2_lay])
 
     useEffect(() => {
-        speak({ text: matchData.first_circle });
+        if(matchData.first_circle) {
+            speak({ text: matchData.first_circle });
+        }
     }, [matchData.first_circle]);
     return (
 		<>
-			<div id="main" className="main-container others">
+			<div id="main" className="l_con main-container others">
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-9">
+                            <div className='rrates-container mb-3'>
+                                <a href={"/"} className="left-com">
+                                    <i className='fa fa-arrow-left'></i>
+                                </a>
+                                <a href={"/profile"} className="right-com">
+                                    <span className=''>My Profile</span>
+                                </a>
+                            </div>
                             <section className="live-matches p-0">
                                 <span onClick={() => {navigate(`/match-astrology/${id}`)}} className="btn-astro">
                                     <div>
-                                        {paymentDetails.razorpay_payment_id ? 'View Astrology' : 'Buy Astrology'}
+                                        {matchDetails.razorpay_payment_id ? 'View Astrology' : 'Buy Astrology'}
                                     </div>
                                 </span>
                                 <div className='tv-container mt-3'>    
@@ -285,6 +308,7 @@ function LiveScoreBoard() {
                                                         }
                                                     })
                                                 }
+                                                {lastFewBalls.length == 0 && <div>No Data</div>}
                                                 </ul>
                                             </div>
                                         </div>
@@ -297,6 +321,7 @@ function LiveScoreBoard() {
                                                     <ul className="nav nav-tabs">
                                                         <li className="active"><a data-toggle="tab" href="#liveline" className="active">Liveline</a></li>
                                                         <li><a data-toggle="tab" href="#liveastrology">Live Astrology</a></li>
+                                                        <li><a data-toggle="tab" href="#fantasyteams">Fantasy Teams</a></li>
                                                         <li><a data-toggle="tab" href="#info">Info</a></li>
                                                         <li><a data-toggle="tab" href="#session">Session</a></li>
                                                         <li><a data-toggle="tab" href="#commentary">Commentary</a></li>
@@ -551,6 +576,271 @@ function LiveScoreBoard() {
                                                             Description: Lorem Ipsum <br/>
                                                             Zodiac/Rashi: Lorem Ipsum Dorem <br/>
                                                             Special Recommendation: Lorem Ipsum <br/>
+                                                        </div>
+                                                        <div id="fantasyteams" className="tab-pane fade">
+                                                        <hr className='mb-2 mt-2'/>
+                                                        {teams && teams.length > 0 && teams.map((team, index) => (
+                                                            <div className="widget widget-shop-categories widget-accordion">
+
+                                                                <div className="accordion" id="accordion">
+                                                                    <div className="accordion-item">
+                                                                        <h5 className="collapsed" data-toggle="collapse" data-target={'#_' + team.id} aria-expanded="false">
+                                                                            <b>{team.team_name}</b>
+                                                                            <button className='btn btn-success float-right mr-5' onClick={()=> {toast('Will show payment gateway on fantasy team purchase')}}>Buy</button>
+                                                                        </h5>
+                                                                    </div>
+                                                                    <section id={'_' + team.id} data-parent="#accordion" className="collapse team-rankings pt-1 p-0 pb-1">
+                                                                        <div className="tab-pane fade in show active">
+                                                                            <div className="card card-shadow table-responsive p-0">
+                                                                                <table className="fantasy-players widget-table table table-striped no-border">
+                                                                                    <thead>
+                                                                                        <tr>
+                                                                                            <th scope="col">Players</th>
+                                                                                            <th scope="col" className='text-center'>CAP</th>
+                                                                                            <th scope="col" className='text-center'>VC</th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        <tr>
+                                                                                            <td>
+                                                                                                <div className="country-info align-items-center">
+                                                                                                    <div className="flag-avatar mr-05">
+                                                                                                        <figure className="avatar-28 p-0">
+                                                                                                            <img src="/assets/images/user-logo.png" alt="" />
+                                                                                                            {showTag(team, 1) !== '' && 
+                                                                                                                <span class="p_class">{showTag(team, 1)}</span>
+                                                                                                            }
+                                                                                                        </figure>
+                                                                                                    </div>
+                                                                                                    <span className="country-name text-13">{team.p1}</span>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td className='text-center'>
+                                                                                                <div className={team.captain == 1 ? 'cvc_active_class' : 'cvc_class'}>C</div>
+                                                                                            </td>
+                                                                                            <td className='text-center'>
+                                                                                                <div className={team.vice_captain == 1 ? 'cvc_active_class' : 'cvc_class'}>VC</div>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>
+                                                                                                <div className="country-info align-items-center">
+                                                                                                    <div className="flag-avatar mr-05">
+                                                                                                        <figure className="avatar-28 p-0">
+                                                                                                            <img src="/assets/images/user-logo.png" alt="" />
+                                                                                                            {showTag(team, 2) !== '' && 
+                                                                                                                <span class="p_class">{showTag(team, 2)}</span>
+                                                                                                            }
+                                                                                                        </figure>
+                                                                                                    </div>
+                                                                                                    <span className="country-name text-13">{team.p2}</span>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td className='text-center'>
+                                                                                                <div className={team.captain == 2 ? 'cvc_active_class' : 'cvc_class'}>C</div>
+                                                                                            </td>
+                                                                                            <td className='text-center'>
+                                                                                                <div className={team.vice_captain == 2 ? 'cvc_active_class' : 'cvc_class'}>VC</div>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>
+                                                                                                <div className="country-info align-items-center">
+                                                                                                    <div className="flag-avatar mr-05">
+                                                                                                        <figure className="avatar-28 p-0">
+                                                                                                            <img src="/assets/images/user-logo.png" alt="" />
+                                                                                                            {showTag(team, 3) !== '' && 
+                                                                                                                <span class="p_class">{showTag(team, 3)}</span>
+                                                                                                            }
+                                                                                                        </figure>
+                                                                                                    </div>
+                                                                                                    <span className="country-name text-13">{team.p3}</span>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td className='text-center'>
+                                                                                                <div className={team.captain == 3 ? 'cvc_active_class' : 'cvc_class'}>C</div>
+                                                                                            </td>
+                                                                                            <td className='text-center'>
+                                                                                                <div className={team.vice_captain == 3 ? 'cvc_active_class' : 'cvc_class'}>VC</div>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>
+                                                                                                <div className="country-info align-items-center">
+                                                                                                    <div className="flag-avatar mr-05">
+                                                                                                        <figure className="avatar-28 p-0">
+                                                                                                            <img src="/assets/images/user-logo.png" alt="" />
+                                                                                                            {showTag(team, 4) !== '' && 
+                                                                                                                <span class="p_class">{showTag(team, 4)}</span>
+                                                                                                            }
+                                                                                                        </figure>
+                                                                                                    </div>
+                                                                                                    <span className="country-name text-13">{team.p4}</span>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td className='text-center'>
+                                                                                                <div className={team.captain == 4 ? 'cvc_active_class' : 'cvc_class'}>C</div>
+                                                                                            </td>
+                                                                                            <td className='text-center'>
+                                                                                                <div className={team.vice_captain == 4 ? 'cvc_active_class' : 'cvc_class'}>VC</div>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>
+                                                                                                <div className="country-info align-items-center">
+                                                                                                    <div className="flag-avatar mr-05">
+                                                                                                        <figure className="avatar-28 p-0">
+                                                                                                            <img src="/assets/images/user-logo.png" alt="" />
+                                                                                                            {showTag(team, 5) !== '' && 
+                                                                                                                <span class="p_class">{showTag(team, 5)}</span>
+                                                                                                            }
+                                                                                                        </figure>
+                                                                                                    </div>
+                                                                                                    <span className="country-name text-13">{team.p5}</span>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td className='text-center'>
+                                                                                                <div className={team.captain == 5 ? 'cvc_active_class' : 'cvc_class'}>C</div>
+                                                                                            </td>
+                                                                                            <td className='text-center'>
+                                                                                                <div className={team.vice_captain == 5 ? 'cvc_active_class' : 'cvc_class'}>VC</div>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>
+                                                                                                <div className="country-info align-items-center">
+                                                                                                    <div className="flag-avatar mr-05">
+                                                                                                        <figure className="avatar-28 p-0">
+                                                                                                            <img src="/assets/images/user-logo.png" alt="" />
+                                                                                                            {showTag(team, 6) !== '' && 
+                                                                                                                <span class="p_class">{showTag(team, 6)}</span>
+                                                                                                            }
+                                                                                                        </figure>
+                                                                                                    </div>
+                                                                                                    <span className="country-name text-13">{team.p6}</span>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td className='text-center'>
+                                                                                                <div className={team.captain == 6 ? 'cvc_active_class' : 'cvc_class'}>C</div>
+                                                                                            </td>
+                                                                                            <td className='text-center'>
+                                                                                                <div className={team.vice_captain == 6 ? 'cvc_active_class' : 'cvc_class'}>VC</div>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>
+                                                                                                <div className="country-info align-items-center">
+                                                                                                    <div className="flag-avatar mr-05">
+                                                                                                        <figure className="avatar-28 p-0">
+                                                                                                            <img src="/assets/images/user-logo.png" alt="" />
+                                                                                                            {showTag(team, 7) !== '' && 
+                                                                                                                <span class="p_class">{showTag(team, 7)}</span>
+                                                                                                            }
+                                                                                                        </figure>
+                                                                                                    </div>
+                                                                                                    <span className="country-name text-13">{team.p7}</span>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td className='text-center'>
+                                                                                                <div className={team.captain == 7 ? 'cvc_active_class' : 'cvc_class'}>C</div>
+                                                                                            </td>
+                                                                                            <td className='text-center'>
+                                                                                                <div className={team.vice_captain == 7 ? 'cvc_active_class' : 'cvc_class'}>VC</div>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>
+                                                                                                <div className="country-info align-items-center">
+                                                                                                    <div className="flag-avatar mr-05">
+                                                                                                        <figure className="avatar-28 p-0">
+                                                                                                            <img src="/assets/images/user-logo.png" alt="" />
+                                                                                                            {showTag(team, 8) !== '' && 
+                                                                                                                <span class="p_class">{showTag(team, 8)}</span>
+                                                                                                            }
+                                                                                                        </figure>
+                                                                                                    </div>
+                                                                                                    <span className="country-name text-13">{team.p8}</span>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td className='text-center'>
+                                                                                                <div className={team.captain == 8 ? 'cvc_active_class' : 'cvc_class'}>C</div>
+                                                                                            </td>
+                                                                                            <td className='text-center'>
+                                                                                                <div className={team.vice_captain == 8 ? 'cvc_active_class' : 'cvc_class'}>VC</div>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>
+                                                                                                <div className="country-info align-items-center">
+                                                                                                    <div className="flag-avatar mr-05">
+                                                                                                        <figure className="avatar-28 p-0">
+                                                                                                            <img src="/assets/images/user-logo.png" alt="" />
+                                                                                                            {showTag(team, 9) !== '' && 
+                                                                                                                <span class="p_class">{showTag(team, 9)}</span>
+                                                                                                            }
+                                                                                                        </figure>
+                                                                                                    </div>
+                                                                                                    <span className="country-name text-13">{team.p9}</span>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td className='text-center'>
+                                                                                                <div className={team.captain == 9 ? 'cvc_active_class' : 'cvc_class'}>C</div>
+                                                                                            </td>
+                                                                                            <td className='text-center'>
+                                                                                                <div className={team.vice_captain == 9 ? 'cvc_active_class' : 'cvc_class'}>VC</div>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>
+                                                                                                <div className="country-info align-items-center">
+                                                                                                    <div className="flag-avatar mr-05">
+                                                                                                        <figure className="avatar-28 p-0">
+                                                                                                            <img src="/assets/images/user-logo.png" alt="" />
+                                                                                                            {showTag(team, 10) !== '' && 
+                                                                                                                <span class="p_class">{showTag(team, 10)}</span>
+                                                                                                            }
+                                                                                                        </figure>
+                                                                                                    </div>
+                                                                                                    <span className="country-name text-13">{team.p10}</span>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td className='text-center'>
+                                                                                                <div className={team.captain == 10 ? 'cvc_active_class' : 'cvc_class'}>C</div>
+                                                                                            </td>
+                                                                                            <td className='text-center'>
+                                                                                                <div className={team.vice_captain == 10 ? 'cvc_active_class' : 'cvc_class'}>VC</div>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>
+                                                                                                <div className="country-info align-items-center">
+                                                                                                    <div className="flag-avatar mr-05">
+                                                                                                        <figure className="avatar-28 p-0">
+                                                                                                            <img src="/assets/images/user-logo.png" alt="" />
+                                                                                                            {showTag(team, 11) !== '' && 
+                                                                                                                <span class="p_class">{showTag(team, 11)}</span>
+                                                                                                            }
+                                                                                                        </figure>
+                                                                                                    </div>
+                                                                                                    <span className="country-name text-13">{team.p11}</span>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td className='text-center'>
+                                                                                                <div className={team.captain == 11 ? 'cvc_active_class' : 'cvc_class'}>C</div>
+                                                                                            </td>
+                                                                                            <td className='text-center'>
+                                                                                                <div className={team.vice_captain == 11 ? 'cvc_active_class' : 'cvc_class'}>VC</div>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                        </div>
+                                                                    </section>
+                                                                </div>
+                                                            </div>
+                                                        ))}
+                                                        {teams && teams.length == 0 && <div>Please Login to see Fantasy Teams</div>}
                                                         </div>
                                                         <div id="info" className="tab-pane fade">
                                                             <hr className='mb-0'/>
