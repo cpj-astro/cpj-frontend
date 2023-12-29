@@ -99,17 +99,27 @@ function LiveScoreBoard() {
     }
     
     const showTag = (t, number) => {
-        if(t.bowler == number) {
+        const checkNumberInList = (list) => {
+            if (list) {
+                const numbers = list.split(',').map(num => num.trim());
+                if (numbers.includes(number.toString())) {
+                    return true;
+                }
+            }
+            return false;
+        };
+    
+        if (checkNumberInList(t.bowler)) {
             return 'BL';
-        } else if (t.batsman == number) {
+        } else if (checkNumberInList(t.batsman)) {
             return 'BT';
-        } else if (t.wicket_keeper == number) {
+        } else if (checkNumberInList(t.wicket_keeper)) {
             return 'WK';
-        } else if (t.all_rounder == number) {
+        } else if (checkNumberInList(t.all_rounder)) {
             return 'AR';
         } 
         return '';
-    }
+    }    
 
     useEffect(() => {
         if(accessToken) {
