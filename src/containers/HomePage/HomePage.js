@@ -24,7 +24,9 @@ const HomePage = () => {
 	const [matchesData, setMatchesData] = useState([]);
 	const [matchData, setMatchData] = useState([]);
 	const [gameZop, setGameZop] = useState([]);
-	const [user, setUserData] = useState([]);
+	const [upcomingMatches, setUpcomingMatches] = useState([]);
+	const [recentMatches, setRecentMatches] = useState([]);
+	const [liveMatches, setLiveMatches] = useState([]);
 	const [ads, setAds] = useState([]);
 	const [currentAds, setCurrentAds] = useState([]);
 	const [currentIndex, setCurrentIndex] = useState(0);
@@ -54,7 +56,7 @@ const HomePage = () => {
 		axios.get(apiUrl)
 		.then((response) => {
 			if (response.data.success) {
-			setGameZop(response.data.data.game_link);
+				setGameZop(response.data.data);
 			}
 		})
 		.catch((error) => {
@@ -90,40 +92,51 @@ const HomePage = () => {
 		.then((response) => setAds(response.data.data))
 		.catch((error) => console.error('Error fetching ads:' + error));
 	};
-
-	useEffect(() => {
-		if (ads.length > 0) {
-		const slots = 4;
-
-		if (ads.length >= slots) {
-			const uniqueAdIndices = getRandomUniqueIndices(ads.length, slots);
-
-			const updatedCurrentAds = uniqueAdIndices.map(index => ads[index]);
-			setCurrentAds(updatedCurrentAds);
-
-			const interval = setInterval(() => {
-			const nextIndex = (currentIndex + 1) % ads.length;
-			setCurrentIndex(nextIndex);
-			const nextAds = ads.slice(nextIndex, nextIndex + slots);
-			setCurrentAds(nextAds);
-			}, 20000);
-
-			return () => clearInterval(interval);
-		}
-		}
-	}, [ads, currentIndex]);
+	
+	const fetchUpcomingList = () => {
+		axios.get(
+		process.env.REACT_APP_DEV === 'true'
+			? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/${accessToken ? 'upcomingMatches': 'offlineUpcomingMatches'}`
+			: `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/${accessToken ? 'upcomingMatches': 'offlineUpcomingMatches'}`,
+		apiConfig
+		)
+		.then((response) => setUpcomingMatches(response.data.data))
+		.catch((error) => console.error('Error fetching upcoming matches:' + error));
+	};
+	
+	const fetchRecentList = () => {
+		axios.get(
+			process.env.REACT_APP_DEV === 'true'
+			? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/${accessToken ? 'recentMatches': 'offlineRecentMatches'}`
+			: `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/${accessToken ? 'recentMatches': 'offlineRecentMatches'}`,
+			apiConfig
+			)
+			.then((response) => setRecentMatches(response.data.data))
+			.catch((error) => console.error('Error fetching recent matches:' + error));
+	};
+	
+	const fetchLiveList = () => {
+		axios.get(
+		process.env.REACT_APP_DEV === 'true'
+			? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/${accessToken ? 'liveMatches': 'offlineLiveMatches'}`
+			: `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/${accessToken ? 'liveMatches': 'offlineLiveMatches'}`,
+		apiConfig
+		)
+		.then((response) => setLiveMatches(response.data.data))
+		.catch((error) => console.error('Error fetching ads:' + error));
+	};
 
 	const getRandomUniqueIndices = (max, count) => {
 		const indices = [];
 		while (indices.length < count) {
-		const randomIndex = Math.floor(Math.random() * max);
-		if (!indices.includes(randomIndex)) {
-			indices.push(randomIndex);
-		}
+			const randomIndex = Math.floor(Math.random() * max);
+			if (!indices.includes(randomIndex)) {
+				indices.push(randomIndex);
+			}
 		}
 		return indices;
 	};
-
+	
 	const renderMedia = (mediaFile) => {
 		if (mediaFile) {
 		const fileExtension = mediaFile.split('.').pop().toLowerCase();
@@ -138,12 +151,32 @@ const HomePage = () => {
 		}
 		return null;
 	};
-
+	
+    const handleTabChange = (tab) => {
+		setActiveTab(tab);
+    };
+	
 	useEffect(() => {
-		fetchAllMatches();
-		fetchDataFromGameZop();
-		fetchPrivateAds();
-	}, []);
+		if (ads.length > 0) {
+			const slots = 4;
+
+			if (ads.length >= slots) {
+				const uniqueAdIndices = getRandomUniqueIndices(ads.length, slots);
+
+				const updatedCurrentAds = uniqueAdIndices.map(index => ads[index]);
+				setCurrentAds(updatedCurrentAds);
+
+				const interval = setInterval(() => {
+				const nextIndex = (currentIndex + 1) % ads.length;
+				setCurrentIndex(nextIndex);
+				const nextAds = ads.slice(nextIndex, nextIndex + slots);
+				setCurrentAds(nextAds);
+				}, 20000);
+
+				return () => clearInterval(interval);
+			}
+		}
+	}, [ads, currentIndex]);
 
 	useEffect(() => {
 		if (localStorage.getItem('match_id')) {
@@ -154,9 +187,14 @@ const HomePage = () => {
 		}
 	}, [localStorage.getItem('match_id')]);
 	
-    const handleTabChange = (tab) => {
-        setActiveTab(tab);
-    };
+	useEffect(() => {
+		fetchAllMatches();
+		fetchLiveList();
+		fetchUpcomingList();
+		fetchRecentList();
+		fetchDataFromGameZop();
+		fetchPrivateAds();
+	}, []);
 
 	return (
 		<>
@@ -253,13 +291,13 @@ const HomePage = () => {
 															<a onClick={() => handleTabChange('home')}>Home</a>
 														</li>
 														<li className={activeTab === 'live-matches' ? 'cursor-pointer active' : 'cursor-pointer'}>
-															<a onClick={() => handleTabChange('live-matches')}>Live Matches</a>
+															<a onClick={() => handleTabChange('live-matches')}>Live</a>
 														</li>
 														<li className={activeTab === 'upcoming-matches' ? 'cursor-pointer active' : 'cursor-pointer'}>
-															<a onClick={() => handleTabChange('upcoming-matches')}>Upcoming Matches</a>
+															<a onClick={() => handleTabChange('upcoming-matches')}>Upcoming</a>
 														</li>
 														<li className={activeTab === 'recent-matches' ? 'cursor-pointer active' : 'cursor-pointer'}>
-															<a onClick={() => handleTabChange('recent-matches')}>Recent Matches</a>
+															<a onClick={() => handleTabChange('recent-matches')}>Finished</a>
 														</li>
 													</ul>
 													<hr className='mt-3 mb-1'/>
@@ -302,10 +340,10 @@ const HomePage = () => {
 																				<div className='tv-line-horizontal'></div>
 																				<div className='tv-line-vertical'></div>
 																			</div> 
-																			{gameZop &&
+																			{gameZop.game_link && gameZop.status &&
 																				<>
 																					<h3 className="widget-title">Games & More</h3>
-																					<a href={gameZop} target='_blank'>
+																					<a href={gameZop.game_link} target='_blank'>
 																						<img src='assets/images/gamezop-banner.png' className='gamezop-image'/>
 																					</a>
 																				</>
@@ -409,84 +447,49 @@ const HomePage = () => {
 															<div className='container'>
 																<div className='row'>
 																	<div className='col-md-8'>
-																		<div className='pt-3'>	
-																			<div class="score-card score-card-lg d-md-flex p-0">
-																				<div class="score-card-inner flex-grow-1 px-3 py-3">
-																					<div class="score-card-header mb-1">
-																						<strong class="text-red">live</strong>
-																					</div>
-																					<div class="score-card-body">
-																						<div class="country-info">
-																							<div class="flag-avatar">
-																								<figure>
-																									<img src="assets/images/flags/australia.png" alt="" />
-																								</figure>
-																								<span class="country-name">ban</span>
+																		{liveMatches && liveMatches.length > 0 && liveMatches.map((match, index) => (
+																			<div className='pt-3'>	
+																				<div class="score-card score-card-lg d-md-flex p-0">
+																					<div class="score-card-inner flex-grow-1 px-3 py-3">
+																						<div class="score-card-header mb-1">
+																							<strong class="text-red">{match.match_category}</strong>
+																						</div>
+																						<div class="score-card-body">
+																							<div class="country-info">
+																								<div class="flag-avatar">
+																									<figure>
+																										<img src="assets/images/flags/australia.png" alt="" />
+																									</figure>
+																									<span class="country-name">{match.team_a_short}</span>
+																								</div>
+																								<div class="score-update">
+																									<h5>146/6</h5>
+																									<p class="text-muted">20.0 ov.</p>
+																								</div>
 																							</div>
-																							<div class="score-update">
-																								<h5>146/6</h5>
-																								<p class="text-muted">20.0 ov.</p>
+																							<div class="country-info flex-row-reverse">
+																								<div class="flag-avatar">
+																									<figure>
+																										<img src="assets/images/flags/sri-lanka.png" alt="" />
+																									</figure>
+																									<span class="country-name">{match.team_b_short}</span>
+																								</div>
+																								<div class="score-update">
+																									<h5>102/4</h5>
+																									<p class="text-muted">20.0 ov</p>
+																								</div>
 																							</div>
 																						</div>
-																						<div class="country-info flex-row-reverse">
-																							<div class="flag-avatar">
-																								<figure>
-																									<img src="assets/images/flags/sri-lanka.png" alt="" />
-																								</figure>
-																								<span class="country-name">ind</span>
-																							</div>
-																							<div class="score-update">
-																								<h5>102/4</h5>
-																								<p class="text-muted">20.0 ov</p>
-																							</div>
-																						</div>
 																					</div>
-																				</div>
-																				<div class="custom-card-aside px-2 py-2">
-																					<a href="#" class="custom-left-btn cricnotch-btn btn-filled text-uppercase active">View Liveline</a>
-																					<a href="#" class="custom-right-btn cricnotch-btn btn-filled text-uppercase">Buy Astrology</a>
+																					<div class="custom-card-aside px-2 py-2">
+																						<a href="#" class="custom-left-btn cricnotch-btn btn-filled text-uppercase active">View Liveline</a>
+																						<a href="#" class="custom-right-btn cricnotch-btn btn-filled text-uppercase">Buy Astrology</a>
+																					</div>
 																				</div>
 																			</div>
-																		</div>
-																		<div className='pt-3'>	
-																			<div class="score-card score-card-lg d-md-flex p-0">
-																				<div class="score-card-inner flex-grow-1 px-3 py-3">
-																					<div class="score-card-header mb-1">
-																						<strong class="text-red">live</strong>
-																					</div>
-																					<div class="score-card-body">
-																						<div class="country-info">
-																							<div class="flag-avatar">
-																								<figure>
-																									<img src="assets/images/flags/australia.png" alt="" />
-																								</figure>
-																								<span class="country-name">ban</span>
-																							</div>
-																							<div class="score-update">
-																								<h5>146/6</h5>
-																								<p class="text-muted">20.0 ov.</p>
-																							</div>
-																						</div>
-																						<div class="country-info flex-row-reverse">
-																							<div class="flag-avatar">
-																								<figure>
-																									<img src="assets/images/flags/sri-lanka.png" alt="" />
-																								</figure>
-																								<span class="country-name">ind</span>
-																							</div>
-																							<div class="score-update">
-																								<h5>102/4</h5>
-																								<p class="text-muted">20.0 ov</p>
-																							</div>
-																						</div>
-																					</div>
-																				</div>
-																				<div class="custom-card-aside px-2 py-2">
-																					<a href="#" class="custom-left-btn cricnotch-btn btn-filled text-uppercase active">View Liveline</a>
-																					<a href="#" class="custom-right-btn cricnotch-btn btn-filled text-uppercase">Buy Astrology</a>
-																				</div>
-																			</div>
-																		</div>
+																		))}
+																		{liveMatches && liveMatches.length == 0 && 
+																		<div>No Live Matches</div>}
 																	</div>
 																	<div className="col-md-4" style={{backgroundColor: '#ffffff'}}>
 																		<div>
@@ -552,84 +555,49 @@ const HomePage = () => {
 															<div className='container'>
 																<div className='row'>
 																	<div className='col-md-8'>
-																		<div className='pt-3'>	
-																			<div class="score-card score-card-lg d-md-flex p-0">
-																				<div class="score-card-inner flex-grow-1 px-3 py-3">
-																					<div class="score-card-header mb-1">
-																						<strong class="text-red">upcoming</strong>
-																					</div>
-																					<div class="score-card-body">
-																						<div class="country-info">
-																							<div class="flag-avatar">
-																								<figure>
-																									<img src="assets/images/flags/australia.png" alt="" />
-																								</figure>
-																								<span class="country-name">ban</span>
+																		{upcomingMatches && upcomingMatches.length > 0 && upcomingMatches.map((match, index) => (
+																			<div className='pt-3'>	
+																				<div class="score-card score-card-lg d-md-flex p-0">
+																					<div class="score-card-inner flex-grow-1 px-3 py-3">
+																						<div class="score-card-header mb-1">
+																							<strong class="text-red">{match.match_category}</strong>
+																						</div>
+																						<div class="score-card-body">
+																							<div class="country-info">
+																								<div class="flag-avatar">
+																									<figure>
+																										<img src="assets/images/flags/australia.png" alt="" />
+																									</figure>
+																									<span class="country-name">{match.team_a_short}</span>
+																								</div>
+																								<div class="score-update">
+																									<h5>146/6</h5>
+																									<p class="text-muted">20.0 ov.</p>
+																								</div>
 																							</div>
-																							<div class="score-update">
-																								<h5>146/6</h5>
-																								<p class="text-muted">20.0 ov.</p>
+																							<div class="country-info flex-row-reverse">
+																								<div class="flag-avatar">
+																									<figure>
+																										<img src="assets/images/flags/sri-lanka.png" alt="" />
+																									</figure>
+																									<span class="country-name">{match.team_b_short}</span>
+																								</div>
+																								<div class="score-update">
+																									<h5>102/4</h5>
+																									<p class="text-muted">20.0 ov</p>
+																								</div>
 																							</div>
 																						</div>
-																						<div class="country-info flex-row-reverse">
-																							<div class="flag-avatar">
-																								<figure>
-																									<img src="assets/images/flags/sri-lanka.png" alt="" />
-																								</figure>
-																								<span class="country-name">ind</span>
-																							</div>
-																							<div class="score-update">
-																								<h5>102/4</h5>
-																								<p class="text-muted">20.0 ov</p>
-																							</div>
-																						</div>
 																					</div>
-																				</div>
-																				<div class="custom-card-aside px-2 py-2">
-																					<a href="#" class="custom-left-btn cricnotch-btn btn-filled text-uppercase active">View Liveline</a>
-																					<a href="#" class="custom-right-btn cricnotch-btn btn-filled text-uppercase">Buy Astrology</a>
+																					<div class="custom-card-aside px-2 py-2">
+																						<a href="#" class="custom-left-btn cricnotch-btn btn-filled text-uppercase active">View Liveline</a>
+																						<a href="#" class="custom-right-btn cricnotch-btn btn-filled text-uppercase">Buy Astrology</a>
+																					</div>
 																				</div>
 																			</div>
-																		</div>
-																		<div className='pt-3'>	
-																			<div class="score-card score-card-lg d-md-flex p-0">
-																				<div class="score-card-inner flex-grow-1 px-3 py-3">
-																					<div class="score-card-header mb-1">
-																						<strong class="text-red">upcoming</strong>
-																					</div>
-																					<div class="score-card-body">
-																						<div class="country-info">
-																							<div class="flag-avatar">
-																								<figure>
-																									<img src="assets/images/flags/australia.png" alt="" />
-																								</figure>
-																								<span class="country-name">ban</span>
-																							</div>
-																							<div class="score-update">
-																								<h5>146/6</h5>
-																								<p class="text-muted">20.0 ov.</p>
-																							</div>
-																						</div>
-																						<div class="country-info flex-row-reverse">
-																							<div class="flag-avatar">
-																								<figure>
-																									<img src="assets/images/flags/sri-lanka.png" alt="" />
-																								</figure>
-																								<span class="country-name">ind</span>
-																							</div>
-																							<div class="score-update">
-																								<h5>102/4</h5>
-																								<p class="text-muted">20.0 ov</p>
-																							</div>
-																						</div>
-																					</div>
-																				</div>
-																				<div class="custom-card-aside px-2 py-2">
-																					<a href="#" class="custom-left-btn cricnotch-btn btn-filled text-uppercase active">View Liveline</a>
-																					<a href="#" class="custom-right-btn cricnotch-btn btn-filled text-uppercase">Buy Astrology</a>
-																				</div>
-																			</div>
-																		</div>
+																		))}
+																		{upcomingMatches && upcomingMatches.length == 0 && 
+																		<div>No Upcoming Matches</div>}
 																	</div>
 																	<div className="col-md-4" style={{backgroundColor: '#ffffff'}}>
 																		<div>
@@ -695,84 +663,48 @@ const HomePage = () => {
 															<div className='container'>
 																<div className='row'>
 																	<div className='col-md-8'>
-																		<div className='pt-3'>	
-																			<div class="score-card score-card-lg d-md-flex p-0">
-																				<div class="score-card-inner flex-grow-1 px-3 py-3">
-																					<div class="score-card-header mb-1">
-																						<strong class="text-red">Recent</strong>
-																					</div>
-																					<div class="score-card-body">
-																						<div class="country-info">
-																							<div class="flag-avatar">
-																								<figure>
-																									<img src="assets/images/flags/australia.png" alt="" />
-																								</figure>
-																								<span class="country-name">ban</span>
+																		{recentMatches && recentMatches.length > 0 && recentMatches.map((match, index) => (
+																			<div className='pt-3'>	
+																				<div class="score-card score-card-lg d-md-flex p-0">
+																					<div class="score-card-inner flex-grow-1 px-3 py-3">
+																						<div class="score-card-header mb-1">
+																							<strong class="text-red">{match.match_category}</strong>
+																						</div>
+																						<div class="score-card-body">
+																							<div class="country-info">
+																								<div class="flag-avatar">
+																									<figure>
+																										<img src="assets/images/flags/australia.png" alt="" />
+																									</figure>
+																									<span class="country-name">{match.team_a_short}</span>
+																								</div>
+																								<div class="score-update">
+																									<h5>146/6</h5>
+																									<p class="text-muted">20.0 ov.</p>
+																								</div>
 																							</div>
-																							<div class="score-update">
-																								<h5>146/6</h5>
-																								<p class="text-muted">20.0 ov.</p>
+																							<div class="country-info flex-row-reverse">
+																								<div class="flag-avatar">
+																									<figure>
+																										<img src="assets/images/flags/sri-lanka.png" alt="" />
+																									</figure>
+																									<span class="country-name">{match.team_b_short}</span>
+																								</div>
+																								<div class="score-update">
+																									<h5>102/4</h5>
+																									<p class="text-muted">20.0 ov</p>
+																								</div>
 																							</div>
 																						</div>
-																						<div class="country-info flex-row-reverse">
-																							<div class="flag-avatar">
-																								<figure>
-																									<img src="assets/images/flags/sri-lanka.png" alt="" />
-																								</figure>
-																								<span class="country-name">ind</span>
-																							</div>
-																							<div class="score-update">
-																								<h5>102/4</h5>
-																								<p class="text-muted">20.0 ov</p>
-																							</div>
-																						</div>
 																					</div>
-																				</div>
-																				<div class="custom-card-aside px-2 py-2">
-																					<a href="#" class="custom-left-btn cricnotch-btn btn-filled text-uppercase active">View Liveline</a>
-																					<a href="#" class="custom-right-btn cricnotch-btn btn-filled text-uppercase">Buy Astrology</a>
+																					<div class="custom-card-aside px-2 py-2">
+																						<a href="#" class="custom-left-btn cricnotch-btn btn-filled text-uppercase active">View Liveline</a>
+																					</div>
 																				</div>
 																			</div>
-																		</div>
-																		<div className='pt-3'>	
-																			<div class="score-card score-card-lg d-md-flex p-0">
-																				<div class="score-card-inner flex-grow-1 px-3 py-3">
-																					<div class="score-card-header mb-1">
-																						<strong class="text-red">Recent</strong>
-																					</div>
-																					<div class="score-card-body">
-																						<div class="country-info">
-																							<div class="flag-avatar">
-																								<figure>
-																									<img src="assets/images/flags/australia.png" alt="" />
-																								</figure>
-																								<span class="country-name">ban</span>
-																							</div>
-																							<div class="score-update">
-																								<h5>146/6</h5>
-																								<p class="text-muted">20.0 ov.</p>
-																							</div>
-																						</div>
-																						<div class="country-info flex-row-reverse">
-																							<div class="flag-avatar">
-																								<figure>
-																									<img src="assets/images/flags/sri-lanka.png" alt="" />
-																								</figure>
-																								<span class="country-name">ind</span>
-																							</div>
-																							<div class="score-update">
-																								<h5>102/4</h5>
-																								<p class="text-muted">20.0 ov</p>
-																							</div>
-																						</div>
-																					</div>
-																				</div>
-																				<div class="custom-card-aside px-2 py-2">
-																					<a href="#" class="custom-left-btn cricnotch-btn btn-filled text-uppercase active">View Liveline</a>
-																					<a href="#" class="custom-right-btn cricnotch-btn btn-filled text-uppercase">Buy Astrology</a>
-																				</div>
-																			</div>
-																		</div>
+																		))}
+																		{recentMatches && recentMatches.length == 0 && 
+																		<div>No Recent Matches</div>}
 																	</div>
 																	<div className="col-md-4" style={{backgroundColor: '#ffffff'}}>
 																		<div>

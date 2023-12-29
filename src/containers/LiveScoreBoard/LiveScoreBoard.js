@@ -587,12 +587,11 @@ function LiveScoreBoard() {
                                                         <hr className='mb-2 mt-2'/>
                                                         {teams && teams.length > 0 && teams.map((team, index) => (
                                                             <div className="widget widget-shop-categories widget-accordion">
-
                                                                 <div className="accordion" id="accordion">
                                                                     <div className="accordion-item">
-                                                                        <h5 className="collapsed" data-toggle="collapse" data-target={'#_' + team.id} aria-expanded="false">
+                                                                        <h5 className="collapsed just-set" data-toggle="collapse" data-target={'#_' + team.id} aria-expanded="false">
                                                                             <b>{team.team_name}</b>
-                                                                            <button className='btn btn-success float-right mr-5' onClick={()=> {toast('Will show payment gateway on fantasy team purchase')}}>Buy</button>
+                                                                            <button className='btn btn-success buy-btn' onClick={()=> {toast('Will show payment gateway on fantasy team purchase')}}>₹&nbsp;39</button>
                                                                         </h5>
                                                                     </div>
                                                                     <section id={'_' + team.id} data-parent="#accordion" className="collapse team-rankings pt-1 p-0 pb-1">
