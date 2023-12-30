@@ -26,7 +26,7 @@ const getBallStyle = (val) => {
 const Ball = (props) => {
 
     return (
-        <div style={{ backgroundColor: getBallStyle(props.val), height: '35px', width: '35px', borderRadius: '50%', justifyContent: 'center', marginHorizontal: '4px', borderColor:'#FFFFFF', borderWidth: '0.5px', display: 'flex', alignItems: 'center', marginRight: '5px'}}>
+        <div style={{ backgroundColor: getBallStyle(props.val), height: '30px', width: '30px', borderRadius: '50%', justifyContent: 'center', marginHorizontal: '4px', borderColor:'#FFFFFF', borderWidth: '0.5px', display: 'flex', alignItems: 'center', marginRight: '5px'}}>
             <span style={{ color: '#FFFFFF', textAlign: 'center', fontSize: '11px', fontWeight:'600' }}>{props.val}</span>
         </div>
     );

@@ -1,8 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import axios from 'axios';
+import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
 export default function Header() {
     const navigate = useNavigate();
+    const [visitors, setVisitors] = useState([]);
+
     var accessToken = localStorage.getItem('client_token');
     const [isLoggedUserDropdownOpen, setIsLoggedUserDropdownOpen] = useState(false);
 	
@@ -18,6 +22,35 @@ export default function Header() {
 		localStorage.removeItem('client_token');
 		navigate('sign-in/');
 	}
+
+    const fetchVisitorList = async () => {
+        try {
+            const response = await axios.get(
+                process.env.REACT_APP_DEV === 'true'
+                ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/getVisitor`
+                : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/getVisitor`
+            );
+            let updatedValue = null;
+            const res = response.data.data;
+            if(response.data.success) {
+                if(res.status) {
+                    updatedValue = Math.floor(Math.random() * (res.max - res.min) + res.min)  
+                } else {
+                    updatedValue = Math.floor(Math.random() * (res.fake_users - 10) + 10)  
+                }
+                setVisitors(updatedValue);
+            }
+        } catch (error) {
+          console.log('Oh Snap!' + error);
+        }
+    };
+    const formatNumber = (number) => {
+        const formattedNumber = new Intl.NumberFormat('en-IN').format(number);
+        return formattedNumber;
+    };
+    useEffect(() => {
+        fetchVisitorList();
+    }, []);
     return (
         <section className="topbar">
             <div className="container">
@@ -29,6 +62,9 @@ export default function Header() {
                     </div>
                     <div className="col-sm-6">
                         <div className="topbar-right">
+                            <div className='online-wrap'>
+                                <div class="online-amount"><span className="online-dot"></span>{formatNumber(visitors)}</div>
+                            </div>
                             <div className="logged-user">
                                 <span className='cursor-pointer' onClick={toggleLoggedUserDropdown}>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">

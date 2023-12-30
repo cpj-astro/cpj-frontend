@@ -78,7 +78,7 @@ const HomePage = () => {
 			}
 		})
 		.catch((error) => {
-			console.log(error.code);
+			console.log(error);
 		});
 	};
 
@@ -182,7 +182,6 @@ const HomePage = () => {
 		if (localStorage.getItem('match_id')) {
 		onSnapshot(doc(db, "matchdata", localStorage.getItem('match_id')), (doc) => {
 			setMatchData(doc.data());
-			console.log(doc.data());
 		});
 		}
 	}, [localStorage.getItem('match_id')]);
@@ -217,7 +216,7 @@ const HomePage = () => {
 								>
 								{matchesData && matchesData.length > 0 ? matchesData.map((match, index) => {
 									return (
-										<div className="score-card p-0" key={index}>
+										<div className="score-card p-0" key={index} onClick={() => {navigate(`/live-score-board/${match.match_id}`)}}>
 											<div className="score-card-inner">
 												<div className="score-card-header text-center">
 													<strong>{match.match_category}</strong>
@@ -227,38 +226,38 @@ const HomePage = () => {
 													<div className="country-info">
 														<div className="flag-avatar">
 															<figure>
-																<img src="/assets/images/flags/bangladesh.png" alt="" />
+																<img src={match && match.team_a_img ? match.team_a_img : '/assets/images/flags/bangladesh.png'} alt="" />
 															</figure>
-															<span className="country-name">{match.team_a_short}</span>
+															<span className="country-name">{match && match.team_a_short ? match.team_a_short : ''}</span>
 														</div>
 														<div className="score-update">
-															<h5>146/6</h5>
-															<p className="text-muted">20.0 ov.</p>
+															<h5>{match && match.team_a_scores ? match.team_a_scores : '00-0'}</h5>
+															<p className="text-muted">{match && match.team_a_over ? match.team_a_over : '00-0'} ov.</p>
 														</div>
 													</div>
 													<div className="country-info flex-row-reverse">
 														<div className="flag-avatar ml-05">
 															<figure>
-																<img src="/assets/images/flags/india.png" alt="" />
+																<img src={match && match.team_b_img ? match.team_b_img : '/assets/images/flags/bangladesh.png'} alt="" />
 															</figure>
 															<span className="country-name">{match.team_b_short}</span>
 														</div>
 														<div className="score-update">
-															<h5>102/4</h5>
-															<p className="text-muted">20.0 ov</p>
+															<h5>{match && match.team_b_scores ? match.team_b_scores : '00-0'}</h5>
+															<p className="text-muted">{match && match.team_b_over ? match.team_b_over : '00-0'} ov.</p>
 														</div>
 													</div>
 												</div>
 											</div>
 											{match.astrology_status === 'enable' ?
-											<div class="button-container">
-												<button class="theme-button-1" onClick={() => {navigate(`/live-score-board/${match.match_id}`)}}>View Liveline</button>
+											<div className="button-container">
+												<button className="theme-button-1" onClick={() => {navigate(`/live-score-board/${match.match_id}`)}}>View Liveline</button>
 
-												<button class={match.button_class} onClick={() => {navigate(`/match-astrology/${match.match_id}`)}}>{match.button_text}</button>
+												<button className={match.button_class} onClick={() => {navigate(`/match-astrology/${match.match_id}`)}}>{match.button_text}</button>
 											</div>
 											: 
-											<div class="button-container">
-												<button class="theme-button-1" onClick={() => {navigate(`/live-score-board/${match.match_id}`)}}>View Liveline</button>
+											<div className="button-container">
+												<button className="theme-button-1" onClick={() => {navigate(`/live-score-board/${match.match_id}`)}}>View Liveline</button>
 											</div>}
 										</div>
 										);
@@ -316,20 +315,20 @@ const HomePage = () => {
 																			<div className='tv-container'>    
 																				<div className="tv">
 																					<div className="score">
-																						{matchData.first_circle}
+																						{matchData && matchData.first_circle ? matchData.first_circle : 'No Data'}
 																					</div>
 																					<div className='tv-score'>
 																						<div className="score-card-body">
 																							<div className="country-info">
 																								<div className="text-center">
-																									<span className="country-name">{matchData.team_a_short}</span>
+																									<span className="country-name">{matchData && matchData.team_a_short ? matchData.team_a_short : 'N/A'}</span>
 																									<span>{matchData && matchData.team_a_scores ? matchData.team_a_scores : '00-0'}</span> &nbsp;
 																									<span className="text-muted">{matchData && matchData.team_a_over ? matchData.team_a_over : '0.0'} ov.</span>
 																								</div>
 																							</div>
 																							<div className="country-info">
 																								<div className="text-center">
-																									<span className="country-name">{matchData.team_b_short}</span>
+																									<span className="country-name">{matchData && matchData.team_b_short ? matchData.team_b_short : 'N/A'}</span>
 																									<span>{matchData && matchData.team_b_scores ? matchData.team_b_scores : '00-0'}</span> &nbsp;
 																									<span className="text-muted">{matchData && matchData.team_b_over ? matchData.team_b_over : '0.0'} ov.</span>
 																								</div>
@@ -449,41 +448,48 @@ const HomePage = () => {
 																	<div className='col-md-8'>
 																		{liveMatches && liveMatches.length > 0 && liveMatches.map((match, index) => (
 																			<div className='pt-3'>	
-																				<div class="score-card score-card-lg d-md-flex p-0">
-																					<div class="score-card-inner flex-grow-1 px-3 py-3">
-																						<div class="score-card-header mb-1">
-																							<strong class="text-red">{match.match_category}</strong>
+																				<div className="score-card score-card-lg d-md-flex p-0">
+																					<div className="score-card-inner flex-grow-1 px-3 py-3">
+																						<div className="score-card-header mb-1">
+																							<strong className="text-red">{match.match_category}</strong>
 																						</div>
-																						<div class="score-card-body">
-																							<div class="country-info">
-																								<div class="flag-avatar">
+																						<div className="score-card-body">
+																							<div className="country-info">
+																								<div className="flag-avatar">
 																									<figure>
-																										<img src="assets/images/flags/australia.png" alt="" />
+																										<img src={match && match.team_a_img ? match.team_a_img : 'assets/images/flags/australia.png'} alt="" />
 																									</figure>
-																									<span class="country-name">{match.team_a_short}</span>
+																									<span className="country-name">{match && match.team_a_short ? match.team_a_short : ''}</span>
 																								</div>
-																								<div class="score-update">
-																									<h5>146/6</h5>
-																									<p class="text-muted">20.0 ov.</p>
+																								<div className="score-update">
+																									<h5>{match && match.team_a_scores ? match.team_a_scores : '00-0'}</h5>
+																									<p className="text-muted">{match && match.team_a_over ? match.team_a_over : '0.0'} ov.</p>
 																								</div>
 																							</div>
-																							<div class="country-info flex-row-reverse">
-																								<div class="flag-avatar">
+																							<div className="country-info flex-row-reverse">
+																								<div className="flag-avatar">
 																									<figure>
-																										<img src="assets/images/flags/sri-lanka.png" alt="" />
+																										<img src={match && match.team_b_img ? match.team_b_img : 'assets/images/flags/australia.png'} alt="" />
 																									</figure>
-																									<span class="country-name">{match.team_b_short}</span>
+																									<span className="country-name">{match && match.team_b_short ? match.team_b_short : ''}</span>
 																								</div>
-																								<div class="score-update">
-																									<h5>102/4</h5>
-																									<p class="text-muted">20.0 ov</p>
+																								<div className="score-update">
+																									<h5>{match && match.team_b_scores ? match.team_b_scores : '00-0'}</h5>
+																									<p className="text-muted">{match && match.team_b_over ? match.team_b_over : '0.0'} ov.</p>
 																								</div>
 																							</div>
 																						</div>
 																					</div>
-																					<div class="custom-card-aside px-2 py-2">
-																						<a href="#" class="custom-left-btn cricnotch-btn btn-filled text-uppercase active">View Liveline</a>
-																						<a href="#" class="custom-right-btn cricnotch-btn btn-filled text-uppercase">Buy Astrology</a>
+																					<div className="custom-card-aside px-2 py-2">
+																						{match && match.astrology_status === 'enable' ?
+																						<>
+																							<a href={`/live-score-board/${match.match_id}`} className="custom-left-btn cricnotch-btn btn-filled text-uppercase active">View Liveline</a>
+																							<a href={`/match-astrology/${match.match_id}`} className="custom-right-btn cricnotch-btn btn-filled text-uppercase">{match.button_text}</a>
+																						</>
+																						: 
+																						<>
+																							<a href={`/live-score-board/${match.match_id}`} className="custom-left-btn cricnotch-btn btn-filled text-uppercase active">View Liveline</a>
+																						</>}
 																					</div>
 																				</div>
 																			</div>
@@ -557,41 +563,48 @@ const HomePage = () => {
 																	<div className='col-md-8'>
 																		{upcomingMatches && upcomingMatches.length > 0 && upcomingMatches.map((match, index) => (
 																			<div className='pt-3'>	
-																				<div class="score-card score-card-lg d-md-flex p-0">
-																					<div class="score-card-inner flex-grow-1 px-3 py-3">
-																						<div class="score-card-header mb-1">
-																							<strong class="text-red">{match.match_category}</strong>
+																				<div className="score-card score-card-lg d-md-flex p-0">
+																					<div className="score-card-inner flex-grow-1 px-3 py-3">
+																						<div className="score-card-header mb-1">
+																							<strong className="text-red">{match.match_category}</strong>
 																						</div>
-																						<div class="score-card-body">
-																							<div class="country-info">
-																								<div class="flag-avatar">
+																						<div className="score-card-body">
+																							<div className="country-info">
+																								<div className="flag-avatar">
 																									<figure>
-																										<img src="assets/images/flags/australia.png" alt="" />
+																										<img src={match && match.team_a_img ? match.team_a_img : 'assets/images/flags/australia.png'} alt="" />
 																									</figure>
-																									<span class="country-name">{match.team_a_short}</span>
+																									<span className="country-name">{match && match.team_a_short ? match.team_a_short : ''}</span>
 																								</div>
-																								<div class="score-update">
-																									<h5>146/6</h5>
-																									<p class="text-muted">20.0 ov.</p>
+																								<div className="score-update">
+																									<h5>{match && match.team_a_scores ? match.team_a_scores : '00-0'}</h5>
+																									<p className="text-muted">{match && match.team_a_over ? match.team_a_over : '0.0'} ov.</p>
 																								</div>
 																							</div>
-																							<div class="country-info flex-row-reverse">
-																								<div class="flag-avatar">
+																							<div className="country-info flex-row-reverse">
+																								<div className="flag-avatar">
 																									<figure>
-																										<img src="assets/images/flags/sri-lanka.png" alt="" />
+																										<img src={match && match.team_b_img ? match.team_b_img : 'assets/images/flags/australia.png'} alt="" />
 																									</figure>
-																									<span class="country-name">{match.team_b_short}</span>
+																									<span className="country-name">{match && match.team_b_short ? match.team_b_short : ''}</span>
 																								</div>
-																								<div class="score-update">
-																									<h5>102/4</h5>
-																									<p class="text-muted">20.0 ov</p>
+																								<div className="score-update">
+																									<h5>{match && match.team_b_scores ? match.team_b_scores : '00-0'}</h5>
+																									<p className="text-muted">{match && match.team_b_over ? match.team_b_over : '0.0'} ov.</p>
 																								</div>
 																							</div>
 																						</div>
 																					</div>
-																					<div class="custom-card-aside px-2 py-2">
-																						<a href="#" class="custom-left-btn cricnotch-btn btn-filled text-uppercase active">View Liveline</a>
-																						<a href="#" class="custom-right-btn cricnotch-btn btn-filled text-uppercase">Buy Astrology</a>
+																					<div className="custom-card-aside px-2 py-2">
+																						{match && match.astrology_status === 'enable' ?
+																						<>
+																							<a href={`/live-score-board/${match.match_id}`} className="custom-left-btn cricnotch-btn btn-filled text-uppercase active">View Liveline</a>
+																							<a href={`/match-astrology/${match.match_id}`} className="custom-right-btn cricnotch-btn btn-filled text-uppercase">{match.button_text}</a>
+																						</>
+																						: 
+																						<>
+																							<a href={`/live-score-board/${match.match_id}`} className="custom-left-btn cricnotch-btn btn-filled text-uppercase active">View Liveline</a>
+																						</>}
 																					</div>
 																				</div>
 																			</div>
@@ -664,42 +677,40 @@ const HomePage = () => {
 																<div className='row'>
 																	<div className='col-md-8'>
 																		{recentMatches && recentMatches.length > 0 && recentMatches.map((match, index) => (
-																			<div className='pt-3'>	
-																				<div class="score-card score-card-lg d-md-flex p-0">
-																					<div class="score-card-inner flex-grow-1 px-3 py-3">
-																						<div class="score-card-header mb-1">
-																							<strong class="text-red">{match.match_category}</strong>
-																						</div>
-																						<div class="score-card-body">
-																							<div class="country-info">
-																								<div class="flag-avatar">
-																									<figure>
-																										<img src="assets/images/flags/australia.png" alt="" />
-																									</figure>
-																									<span class="country-name">{match.team_a_short}</span>
-																								</div>
-																								<div class="score-update">
-																									<h5>146/6</h5>
-																									<p class="text-muted">20.0 ov.</p>
-																								</div>
+																			<div className="score-card score-card-lg d-md-flex p-0">
+																				<div className="score-card-inner flex-grow-1 px-3 py-3">
+																					<div className="score-card-header mb-1">
+																						<strong className="text-red">{match.match_category}</strong>
+																					</div>
+																					<div className="score-card-body">
+																						<div className="country-info">
+																							<div className="flag-avatar">
+																								<figure>
+																									<img src={match && match.team_a_img ? match.team_a_img : 'assets/images/flags/australia.png'} alt="" />
+																								</figure>
+																								<span className="country-name">{match && match.team_a_short ? match.team_a_short : ''}</span>
 																							</div>
-																							<div class="country-info flex-row-reverse">
-																								<div class="flag-avatar">
-																									<figure>
-																										<img src="assets/images/flags/sri-lanka.png" alt="" />
-																									</figure>
-																									<span class="country-name">{match.team_b_short}</span>
-																								</div>
-																								<div class="score-update">
-																									<h5>102/4</h5>
-																									<p class="text-muted">20.0 ov</p>
-																								</div>
+																							<div className="score-update">
+																								<h5>{match && match.team_a_scores ? match.team_a_scores : '00-0'}</h5>
+																								<p className="text-muted">{match && match.team_a_over ? match.team_a_over : '0.0'} ov.</p>
+																							</div>
+																						</div>
+																						<div className="country-info flex-row-reverse">
+																							<div className="flag-avatar">
+																								<figure>
+																									<img src={match && match.team_b_img ? match.team_b_img : 'assets/images/flags/australia.png'} alt="" />
+																								</figure>
+																								<span className="country-name">{match && match.team_b_short ? match.team_b_short : ''}</span>
+																							</div>
+																							<div className="score-update">
+																								<h5>{match && match.team_b_scores ? match.team_b_scores : '00-0'}</h5>
+																								<p className="text-muted">{match && match.team_b_over ? match.team_b_over : '0.0'} ov.</p>
 																							</div>
 																						</div>
 																					</div>
-																					<div class="custom-card-aside px-2 py-2">
-																						<a href="#" class="custom-left-btn cricnotch-btn btn-filled text-uppercase active">View Liveline</a>
-																					</div>
+																				</div>
+																				<div className="custom-card-aside px-2 py-2">
+																					<a href={`/live-score-board/${match.match_id}`} className="custom-left-btn cricnotch-btn btn-filled text-uppercase active">View Liveline</a>
 																				</div>
 																			</div>
 																		))}
@@ -708,7 +719,6 @@ const HomePage = () => {
 																	</div>
 																	<div className="col-md-4" style={{backgroundColor: '#ffffff'}}>
 																		<div>
-																			{/* <h3 className="widget-title">Astrological Fantasy Players</h3> */}
 																			<img src='/assets/images/fantacy-ground.png' className='pt-15 fantasy-ground'/>
 																		</div>
 

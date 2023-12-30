@@ -1126,6 +1126,44 @@ a.post-meta {
   margin-bottom: 5px;
 }
 
+.online-wrap {
+  width: auto;
+  border-radius: 50px;
+  display: inline-grid;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-right: 10px;
+  line-height: normal;
+}
+
+.online-amount {
+  color: lime;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.online-dot {
+  margin-right: 5px;
+  width: 11px;
+  height: 11px;
+  background-color: #00ff08; /* Green color for online status */
+  border-radius: 50%;
+  display: inline-block;
+  animation: pulse 0.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
 /**********************************
 * Content Card Style start
 *********************************/
@@ -2973,7 +3011,7 @@ span.p_class {
 }
 
 .spell-sum-box h5 span {
-  color: #ffffff;
+  color: #000000;
   font-weight: 400;
   -webkit-box-flex: 1;
       -ms-flex: 1;
@@ -5525,14 +5563,17 @@ span.p_class {
 .rrates-container {
   display: flex;
   justify-content: space-between;
+  background: #3b368a;
+  padding: 10px;
+  border-radius: 5px
 }
 
 .left-com {
-  border: 1px solid #575757;
+  border: 3px solid #ffffff;
   padding: 10px;
   height: 30px;
   width: 30px;
-  color: #000000;
+  color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -5546,12 +5587,13 @@ span.p_class {
 .home-page .card .nav {
   padding: 5px;
 }
+
 .right-com {
-  border: 1px solid #575757;
+  border: 3px solid #ffffff;
   padding: 10px;
   height: 30px;
   width: auto;
-  color: #000000;
+  color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
