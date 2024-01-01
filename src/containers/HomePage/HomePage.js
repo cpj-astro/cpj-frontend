@@ -493,11 +493,24 @@ const HomePage = () => {
 																							</div>
 																						</div>
 																					</div>
-																					<div className="custom-card-aside px-2 py-2">
+																					<div className="custom-card-aside px-2 py-2 pp-btn">
 																						{match && match.astrology_status === 'enable' ?
 																						<>
-																							<a href={`/live-score-board/${match.match_id}`} className="custom-left-btn cricnotch-btn btn-filled text-uppercase active">View Liveline</a>
-																							<a href={`/match-astrology/${match.match_id}`} className="custom-right-btn cricnotch-btn btn-filled text-uppercase">{match.button_text}</a>
+																							<a 
+																								href={`/live-score-board/${match.match_id}`} 
+																								className="custom-left-btn cricnotch-btn btn-filled text-uppercase"
+																							>View Liveline</a>
+																							{match.button_text.includes('Buy') ? 
+																								<a 
+																									href={`/match-astrology/${match.match_id}`} 
+																									className="custom-right-btn cricnotch-btn btn-filled text-uppercase buy-btn"
+																								>{match.button_text}</a>
+																								:
+																								<a 
+																									href={`/match-astrology/${match.match_id}`} 
+																									className="custom-right-btn cricnotch-btn btn-filled text-uppercase"
+																								>{match.button_text}</a>
+																							}
 																						</>
 																						: 
 																						<>
@@ -608,11 +621,24 @@ const HomePage = () => {
 																							</div>
 																						</div>
 																					</div>
-																					<div className="custom-card-aside px-2 py-2">
+																					<div className="custom-card-aside px-2 py-2 pp-btn">
 																						{match && match.astrology_status === 'enable' ?
 																						<>
-																							<a href={`/live-score-board/${match.match_id}`} className="custom-left-btn cricnotch-btn btn-filled text-uppercase active">View Liveline</a>
-																							<a href={`/match-astrology/${match.match_id}`} className="custom-right-btn cricnotch-btn btn-filled text-uppercase">{match.button_text}</a>
+																							<a 
+																								href={`/live-score-board/${match.match_id}`} 
+																								className="custom-left-btn cricnotch-btn btn-filled text-uppercase"
+																							>View Liveline</a>
+																							{match.button_text.includes('Buy') ? 
+																								<a 
+																									href={`/match-astrology/${match.match_id}`} 
+																									className="custom-right-btn cricnotch-btn btn-filled text-uppercase buy-btn"
+																								>{match.button_text}</a>
+																								:
+																								<a 
+																									href={`/match-astrology/${match.match_id}`} 
+																									className="custom-right-btn cricnotch-btn btn-filled text-uppercase"
+																								>{match.button_text}</a>
+																							}
 																						</>
 																						: 
 																						<>
