@@ -32,6 +32,8 @@ function LiveScoreBoard() {
     const [teams, setTeams] = useState([])
     const [seriesData, setSeriesData] = useState([])
     const [lastFewBalls, setLastFewBalls] = useState([])
+    const [visibleCount, setVisibleCount] = useState(5);
+    const [comData, setComData] = useState([]);
     const { speak } = useSpeechSynthesis();
     const { register, handleSubmit, setValue, getValues, watch, reset, formState, formState: { isSubmitSuccessful } } = useForm();
     
@@ -120,6 +122,32 @@ function LiveScoreBoard() {
         } 
         return '';
     }    
+
+    const loadCommentary = () => {
+        axios.post(process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/commentary` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/commentary`, { match_id: id }, apiConfig)
+        .then((res) => {
+            if (res && res.data.success) {
+                let n = res.data.data;
+                let data = [];
+                Object.keys(n).map((item, key) => {
+                    Object.keys(n[item]).map((ingItem, ingKey) => {
+                        (Object.keys(n[item][ingItem]).length > 0) &&
+                            n[item][ingItem].map((i, k) => {
+                                data.push(i);
+                            })
+                    })
+                })
+                setComData(data);
+            }
+        })
+        .catch((err) => {
+            console.error(err);
+        });
+    };
+
+    useEffect(() => {
+        loadCommentary();
+    }, []);
 
     useEffect(() => {
         if(accessToken) {
@@ -235,6 +263,11 @@ function LiveScoreBoard() {
             speak({ text: matchData.first_circle });
         }
     }, [matchData && matchData.first_circle]);
+
+    const loadMore = () => {
+        setVisibleCount((prevCount) => prevCount + 5);
+    };
+
     return (
 		<>
 			<div id="main" className="l_con main-container others">
@@ -389,7 +422,7 @@ function LiveScoreBoard() {
                                                                                                 </td>
                                                                                                 <td style={{padding: '0px'}}> 
                                                                                                     <div className='back-color bl-style'>
-                                                                                                        {matchData.first_circle.toLowerCase().split(' ').some((word) =>
+                                                                                                        {matchData && matchData.first_circle.toLowerCase().split(' ').some((word) =>
                                                                                                         ['rain', 'no ball', 'out', 'wicket', 'lbw', 'free', 'hit', '3rd umpire', 'third umpire',  'review', 'decision pending', 'catch checking', 'boundary check'].includes(word.toLowerCase())
                                                                                                         ) && (
                                                                                                             <div className='suspend-style'>SUSPENDED</div>
@@ -400,7 +433,7 @@ function LiveScoreBoard() {
                                                                                                 </td>
                                                                                                 <td style={{ padding: '0px' }}>
                                                                                                     <div className='lay-color bl-style'>
-                                                                                                        {matchData.first_circle.toLowerCase().split(' ').some((word) =>
+                                                                                                        {matchData && matchData.first_circle.toLowerCase().split(' ').some((word) =>
                                                                                                         ['rain', 'no ball', 'out', 'wicket', 'lbw', 'free', 'hit', '3rd umpire', 'third umpire',  'review', 'decision pending', 'catch checking', 'boundary check'].includes(word.toLowerCase())
                                                                                                         ) && (
                                                                                                             <div className='suspend-style'>SUSPENDED</div>
@@ -422,7 +455,7 @@ function LiveScoreBoard() {
                                                                                                         </td>
                                                                                                         <td style={{padding: '0px'}}> 
                                                                                                             <div className='back-color bl-style'>
-                                                                                                                {matchData.first_circle.toLowerCase().split(' ').some((word) =>
+                                                                                                                {matchData && matchData.first_circle.toLowerCase().split(' ').some((word) =>
                                                                                                                 ['rain', 'no ball', 'out', 'wicket', 'lbw', 'free', 'hit', '3rd umpire', 'third umpire',  'review', 'decision pending', 'catch checking', 'boundary check'].includes(word.toLowerCase())
                                                                                                                 ) && (
                                                                                                                     <div className='suspend-style'>SUSPENDED</div>
@@ -454,7 +487,7 @@ function LiveScoreBoard() {
                                                                                                 </td>
                                                                                                 <td style={{padding: '0px'}}> 
                                                                                                     <div className='back-color bl-style'>
-                                                                                                    {matchData.first_circle.toLowerCase().split(' ').some((word) =>
+                                                                                                    {matchData && matchData.first_circle.toLowerCase().split(' ').some((word) =>
                                                                                                     ['rain', 'no ball', 'out', 'wicket', 'lbw', 'free', 'hit', '3rd umpire', 'third umpire',  'review', 'decision pending', 'catch checking', 'boundary check'].includes(word.toLowerCase())
                                                                                                     ) && (
                                                                                                         <div className='suspend-style'>SUSPENDED</div>
@@ -465,7 +498,7 @@ function LiveScoreBoard() {
                                                                                                 </td>
                                                                                                 <td style={{ padding: '0px' }}>
                                                                                                     <div className='lay-color bl-style'>
-                                                                                                    {matchData.first_circle.toLowerCase().split(' ').some((word) =>
+                                                                                                    {matchData && matchData.first_circle.toLowerCase().split(' ').some((word) =>
                                                                                                     ['rain', 'no ball', 'out', 'wicket', 'lbw', 'free', 'hit', '3rd umpire', 'third umpire',  'review', 'decision pending', 'catch checking', 'boundary check'].includes(word.toLowerCase())
                                                                                                     ) && (
                                                                                                         <div className='suspend-style'>SUSPENDED</div>
@@ -952,7 +985,7 @@ function LiveScoreBoard() {
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div className='pb-10'>
+                                                            {/* <div className='pb-10'>
                                                                 <h3 className="widget-title">Squads</h3>
                                                                 <div className="widget widget-shop-categories widget-accordion">
                                                                     <div className="accordion" id="accordion">
@@ -1026,8 +1059,8 @@ function LiveScoreBoard() {
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                            <div className='pb-10'>
+                                                            </div> */}
+                                                            {/* <div className='pb-10'>
                                                                 <h3 className="widget-title">Team Form - Last 5 matches</h3>
                                                                 <table className='table-responsive'>
                                                                     <tr>
@@ -1093,7 +1126,7 @@ function LiveScoreBoard() {
                                                                         </td>
                                                                     </tr>
                                                                 </table>
-                                                            </div>
+                                                            </div> */}
                                                             <div className='pb-10'>
                                                                 <h3 className="widget-title">Venue Guide</h3>
                                                                 <div className="venue-wrapper">
@@ -1108,7 +1141,68 @@ function LiveScoreBoard() {
                                                         </div>
                                                         <div id="commentary" className="tab-pane fade">
                                                             <hr className='mb-0'/>
-                                                            <div className='mt-10 text-muted'>NO COMMENTARY YET</div>
+                                                            <div className="container mt-4">
+                                                                <div className="row">
+                                                                    <div className="col-12">
+                                                                        {!comData.length && (
+                                                                            <div className="text-center mt-4 mb-4">
+                                                                                No commentary available.
+                                                                            </div>
+                                                                        )}
+
+                                                                        {(comData.length > 0) && (
+                                                                            <div>
+                                                                                {comData.slice(0, visibleCount).map((item, index) => (
+                                                                                    <div key={index} className="mb-4">
+                                                                                        {item.type === 2 && (
+                                                                                            <div className="card">
+                                                                                                <div className="card-body">
+                                                                                                    <p className="card-title font-weight-bold">{item.data.title} ({item.data.runs} Runs)</p>
+                                                                                                    <div className="row">
+                                                                                                        <div className="col-4">
+                                                                                                            <p>{item.data.team_score ?? 0}-{item.data.team_wicket ?? 0}</p>
+                                                                                                            <p>{item.data.team ?? ""}</p>
+                                                                                                        </div>
+                                                                                                        <div className="col-8">
+                                                                                                            <p className="font-weight-bold">{item.data.batsman_1_name ?? ""}</p>
+                                                                                                            <p>{item.data.batsman_1_runs ?? 0}({item.data.batsman_1_balls ?? 0})</p>
+                                                                                                            <p className="font-weight-bold">{item.data.batsman_2_name ?? ""}</p>
+                                                                                                            <p>{item.data.batsman_2_runs ?? 0}({item.data.batsman_2_balls ?? 0})</p>
+                                                                                                            <p className="font-weight-bold">{item.data.bolwer_name ?? ""}</p>
+                                                                                                            <p>{item.data.bolwer_overs ?? 0}-{item.data.bolwer_wickets ?? 0}-{item.data.bolwer_runs ?? 0}-{item.data.bolwer_maidens ?? 0}</p>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        )}
+                                                                                        {item.type === 1 && (
+                                                                                            <div className="card mt-2">
+                                                                                                <div className="card-body">
+                                                                                                    <p>{item.data.overs ?? 0}</p>
+                                                                                                    <div className="row">
+                                                                                                        <div className="col-2">
+                                                                                                            <p>{item.data.runs ?? 0}</p>
+                                                                                                        </div>
+                                                                                                        <div className="col-10">
+                                                                                                            <p className="font-weight-bold">{item.data.title ?? "-"}</p>
+                                                                                                            <p>{item.data.description ?? "-"}</p>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        )}
+                                                                                    </div>
+                                                                                ))}
+                                                                                {comData.length > visibleCount && (
+                                                                                    <div class="text-center mt-15 mb-10">
+                                                                                        <button class="cricnotch-btn btn-filled bg-success loadMore-btn" onClick={loadMore}><i class="fas fa-spinner"></i>&nbsp;&nbsp;&nbsp; Load more</button>
+                                                                                    </div>
+                                                                                )}
+                                                                            </div>
+                                                                        )}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                         <div id="scorecard" className="tab-pane fade">
                                                             

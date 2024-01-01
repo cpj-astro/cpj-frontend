@@ -22,6 +22,7 @@ import Feedback from '../Feedback';
 import 'react-toastify/dist/ReactToastify.css';
 import 'owl.carousel/dist/assets/owl.carousel.min.css';
 import 'owl.carousel/dist/assets/owl.theme.default.min.css';
+import NewsDetails from '../NewsDetails/NewsDetails';
 
 const App = () => {
   return (
@@ -49,6 +50,7 @@ const App = () => {
 
             {/* Other Routes */}
             <Route path="/" element={<HomePage />} />
+            <Route path="/news-details/:id/:title/:pub_date" element={<NewsDetails />} />
             <Route path="/live-score-board/:id" element={<LiveScoreBoard />} />
             <Route path="/about-us" element={<AboutUs />} />
             <Route path="/feedback" element={<Feedback />} />

@@ -3243,7 +3243,7 @@ span.p_class {
   display: inline-block;
   font-size: 12px;
   line-height: 16px;
-  color: #ffffff;
+  color: #777;
 }
 
 .blog-details-header div.post-meta a:not(:last-of-type) {

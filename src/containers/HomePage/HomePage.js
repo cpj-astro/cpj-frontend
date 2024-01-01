@@ -17,7 +17,7 @@ import {
 } from 'firebase/firestore';
 import { db } from '../../authFiles/fbaseconfig';
 import Reviews from '../../components/Reviews';
-import newsData from '../../apiResponses/news.json';
+// import newsData from '../../apiResponses/news.json';
 
 const HomePage = () => {
 	const navigate = useNavigate();
@@ -28,6 +28,7 @@ const HomePage = () => {
 	const [recentMatches, setRecentMatches] = useState([]);
 	const [liveMatches, setLiveMatches] = useState([]);
 	const [ads, setAds] = useState([]);
+	const [newsData, setNewsData] = useState([]);
 	const [currentAds, setCurrentAds] = useState([]);
 	const [currentIndex, setCurrentIndex] = useState(0);
 	const [activeTab, setActiveTab] = useState('home');
@@ -126,6 +127,20 @@ const HomePage = () => {
 		.catch((error) => console.error('Error fetching ads:' + error));
 	};
 
+	const fetchNews = () => {
+		axios.get(
+		process.env.REACT_APP_DEV === 'true'
+			? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/news`
+			: `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/news`,
+		apiConfig
+		)
+		.then((response) => {
+			console.log(response.data.data); 
+			setNewsData(response.data.data);
+		})
+		.catch((error) => console.error('Error fetching ads:' + error));
+	}
+
 	const getRandomUniqueIndices = (max, count) => {
 		const indices = [];
 		while (indices.length < count) {
@@ -191,6 +206,7 @@ const HomePage = () => {
 		fetchLiveList();
 		fetchUpcomingList();
 		fetchRecentList();
+		fetchNews();
 		fetchDataFromGameZop();
 		fetchPrivateAds();
 	}, []);
@@ -208,15 +224,16 @@ const HomePage = () => {
 							<div className="container">
 								<OwlCarousel 
 									key={new Date().getTime()} 
-									className='owl-theme'
+									className="editors-pick owl-theme"
 									items={4}
 									margin={30}
 									dots={false}
+									autoPlay
 									responsive={responsiveOptions}
 								>
 								{matchesData && matchesData.length > 0 ? matchesData.map((match, index) => {
 									return (
-										<div className="score-card p-0" key={index} onClick={() => {navigate(`/live-score-board/${match.match_id}`)}}>
+										<div className="score-card p-0" key={index}>
 											<div className="score-card-inner">
 												<div className="score-card-header text-center">
 													<strong>{match.match_category}</strong>
@@ -350,9 +367,9 @@ const HomePage = () => {
 																			<h3 className="widget-title">Cricket News</h3>
 																			<section className="related-news p-0">
 																				<div className="row">
-																				{newsData.status ? (
+																				{newsData && newsData.length > 0 ? (
 																					<>
-																						{newsData.data.map((news) => (
+																						{newsData.map((news) => (
 																							<div className="col-md-6" key={news.news_id}>
 																								<div className="card card-shadow p-0">
 																									<div className="content-card news-card">
@@ -361,13 +378,9 @@ const HomePage = () => {
 																										</figure>
 																										<div className="content-block">
 																											<h3>
-																												<a href="#">{news.title.slice(0, maxTitleLength)}...</a>
+																												<a href={`/news-details/${news.news_id}/${news.title}/${news.pub_date}`}>{news.title.slice(0, maxTitleLength)}...</a>
 																											</h3>
-																											<div
-																											dangerouslySetInnerHTML={{
-																												__html: `${news.content[0].slice(0, maxContentLength)}...`,
-																											}}/>
-																											<a href="#" className="post-meta">02 hours ago</a>
+																											<span className="post-meta">{news.pub_date}</span>
 																										</div>
 																									</div>
 																								</div>
