@@ -58,8 +58,11 @@ function LiveScoreBoard() {
     }
     
     const fetchSeriesData = (s_id) => {
-        axios.post(process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/fetchSeriesData` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/fetchSeriesData`, s_id)
+        console.log("series data", s_id);
+        axios.post(process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/fetchSeriesData` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/fetchSeriesData`, {series_id : s_id})
         .then((response) => {
+            
+            console.log("response", response.data.data);
             if(response.data.success){
                 setSeriesData(response.data.data);
             }
@@ -162,9 +165,7 @@ function LiveScoreBoard() {
     }, [matchData && matchData.last4overs]);
 
     useEffect(() => {
-        if(matchData && matchData.series_id){
-            fetchSeriesData(matchData.series_id);
-        }
+        fetchSeriesData(matchData.series_id);
     }, [matchData && matchData.series_id]);
 
     useEffect(() => {
@@ -348,7 +349,7 @@ function LiveScoreBoard() {
                                     </div>
                                 </div>
                                 }
-                                <div className="row">
+                                <div className="row mt-2">
                                     <div className='col-md-12'>
                                         <aside className="sidebar right-sidebar">
                                             <div className="widget widget-upcoming-match">
@@ -360,12 +361,12 @@ function LiveScoreBoard() {
                                                         <li><a data-toggle="tab" href="#info">Info</a></li>
                                                         <li><a data-toggle="tab" href="#session">Session</a></li>
                                                         <li><a data-toggle="tab" href="#commentary">Commentary</a></li>
-                                                        <li><a data-toggle="tab" href="#scorecard">Scorecard</a></li>
-                                                        <li><a data-toggle="tab" href="#history">Odd History</a></li>
+                                                        {/* <li><a data-toggle="tab" href="#scorecard">Scorecard</a></li>
+                                                        <li><a data-toggle="tab" href="#history">Odd History</a></li> */}
                                                     </ul>
                                                     <div className="tab-content">
                                                         <div id="liveline" className="tab-pane fade in show active">
-                                                            <hr className='m-0'/>
+                                                            <hr className='m-2'/>
                                                             <div className="row">
                                                                 <div className="col-md-12">
                                                                     <div className="widget widget-rankings">
@@ -1204,7 +1205,7 @@ function LiveScoreBoard() {
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="scorecard" className="tab-pane fade">
+                                                        {/* <div id="scorecard" className="tab-pane fade">
                                                             
                                                         </div>
                                                         <div id="history" className="tab-pane fade">
@@ -1315,7 +1316,7 @@ function LiveScoreBoard() {
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
+                                                        </div> */}
                                                     </div>
                                                 </div>
                                             </div>
