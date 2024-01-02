@@ -341,11 +341,13 @@ function LiveScoreBoard() {
                                         {matchDetails.razorpay_payment_id ? 'View Astrology' : 'Buy Astrology'}
                                     </div>
                                 </span>
+                                {matchData && matchData.need_run_ball &&
                                 <div className="card mt-10 p-1">
                                     <div style={{fontSize: '12px',fontWeight: 'bold', textAlign: 'center'}}>
-                                        {matchData && matchData.need_run_ball ? matchData.need_run_ball : ''}
+                                        {matchData && matchData.need_run_ball ? matchData.need_run_ball : 'No Data'}
                                     </div>
                                 </div>
+                                }
                                 <div className="row">
                                     <div className='col-md-12'>
                                         <aside className="sidebar right-sidebar">
