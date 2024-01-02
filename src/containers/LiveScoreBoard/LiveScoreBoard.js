@@ -163,7 +163,6 @@ function LiveScoreBoard() {
 
     useEffect(() => {
         if(matchData && matchData.series_id){
-            console.log(matchData.series_id)
             fetchSeriesData(matchData.series_id);
         }
     }, [matchData && matchData.series_id]);
@@ -259,7 +258,7 @@ function LiveScoreBoard() {
     }, [matchData && matchData.match_tied && matchData.match_tied.t2_lay])
 
     useEffect(() => {
-        if(matchData.first_circle) {
+        if(matchData && matchData.first_circle) {
             speak({ text: matchData.first_circle });
         }
     }, [matchData && matchData.first_circle]);
@@ -267,7 +266,6 @@ function LiveScoreBoard() {
     const loadMore = () => {
         setVisibleCount((prevCount) => prevCount + 5);
     };
-
     return (
 		<>
 			<div id="main" className="l_con main-container others">
@@ -292,10 +290,10 @@ function LiveScoreBoard() {
                                 <div className='tv-container'>    
                                     <div className="tv">
                                         <div className='just-set'>
-                                            <strong className="text-red text-uppercase">{matchData && matchData.match_category ? matchData.match_category : 'N/A'}</strong>
+                                            <strong className="text-red text-uppercase">{matchData && matchData.match_category ? matchData.match_category : ''}</strong>
                                         </div>
                                         <div className="score">
-                                            {matchData && matchData.first_circle ? matchData.first_circle : 'N/A'}
+                                            {matchData && matchData.first_circle ? matchData.first_circle : ''}
                                         </div>
                                         <div className='card mb-0'>
                                             <div className="score-card-lg d-md-flex p-0">
@@ -304,14 +302,14 @@ function LiveScoreBoard() {
                                                     <div className="score-card-body">
                                                         <div className="country-info">
                                                             <div className="text-center">
-                                                                <span className="country-name">{matchData && matchData.team_a_short ? matchData.team_a_short : 'N/A'}</span>
+                                                                <span className="country-name">{matchData && matchData.team_a_short ? matchData.team_a_short : ''}</span>
                                                                 <span>{matchData && matchData.team_a_scores ? matchData.team_a_scores : '00-0'}</span> &nbsp;
                                                                 <span className="text-muted">{matchData && matchData.team_a_over ? matchData.team_a_over : '0.0'} ov.</span>
                                                             </div> 
                                                         </div>
                                                         <div className="country-info">
                                                             <div className="text-center">
-                                                                <span className="country-name">{matchData && matchData.team_b_short ? matchData.team_b_short : 'N/A'}</span>
+                                                                <span className="country-name">{matchData && matchData.team_b_short ? matchData.team_b_short : ''}</span>
                                                                 <span>{matchData && matchData.team_b_scores ? matchData.team_b_scores : '00-0'}</span> &nbsp;
                                                                 <span className="text-muted">{matchData && matchData.team_b_over ? matchData.team_b_over : '0.0'} ov.</span>
                                                             </div> 
@@ -320,14 +318,14 @@ function LiveScoreBoard() {
                                                     <div className="score-card-body">
                                                         <div className="country-info">
                                                             <div className="text-center">
-                                                                <span className="country-name">{matchData && matchData.team_b_short ? matchData.team_b_short : 'N/A'}</span>
+                                                                <span className="country-name">{matchData && matchData.team_b_short ? matchData.team_b_short : ''}</span>
                                                                 <span>{matchData && matchData.team_b_scores ? matchData.team_b_scores : '00-0'}</span> &nbsp;
                                                                 <span className="text-muted">{matchData && matchData.team_b_over ? matchData.team_b_over : '0.0'} ov.</span>
                                                             </div> 
                                                         </div>
                                                         <div className="country-info">
                                                             <div className="text-center">
-                                                                <span className="country-name">{matchData && matchData.team_a_short ? matchData.team_a_short : 'N/A '}</span>
+                                                                <span className="country-name">{matchData && matchData.team_a_short ? matchData.team_a_short : ' '}</span>
                                                                 <span>{matchData && matchData.team_a_scores ? matchData.team_a_scores : '00-0'}</span> &nbsp;
                                                                 <span className="text-muted">{matchData && matchData.team_a_over ? matchData.team_a_over : '0.0'} ov.</span>
                                                             </div> 
@@ -345,7 +343,7 @@ function LiveScoreBoard() {
                                 </span>
                                 <div className="card mt-10 p-1">
                                     <div style={{fontSize: '12px',fontWeight: 'bold', textAlign: 'center'}}>
-                                        {matchData && matchData.need_run_ball ? matchData.need_run_ball : 'N/A'}
+                                        {matchData && matchData.need_run_ball ? matchData.need_run_ball : ''}
                                     </div>
                                 </div>
                                 <div className="row">
@@ -361,7 +359,7 @@ function LiveScoreBoard() {
                                                         <li><a data-toggle="tab" href="#session">Session</a></li>
                                                         <li><a data-toggle="tab" href="#commentary">Commentary</a></li>
                                                         <li><a data-toggle="tab" href="#scorecard">Scorecard</a></li>
-                                                        <li><a data-toggle="tab" href="#history">History</a></li>
+                                                        <li><a data-toggle="tab" href="#history">Odd History</a></li>
                                                     </ul>
                                                     <div className="tab-content">
                                                         <div id="liveline" className="tab-pane fade in show active">
@@ -382,14 +380,14 @@ function LiveScoreBoard() {
                                                                                         </thead>
                                                                                         <tbody>
                                                                                             <tr>
-                                                                                                <td>{matchData && matchData.team_a ? matchData.team_a : 'N/A'}</td>
-                                                                                                <td className={'back-color bl-style ' + back1Style}>{matchData && matchData.back1 ? matchData.back1 : 'N/A'}</td>
-                                                                                                <td className={'lay-color bl-style ' + lay1Style}>{matchData && matchData.lay1 ? matchData.lay1 : 'N/A'}</td>
+                                                                                                <td>{matchData && matchData.team_a ? matchData.team_a : ''}</td>
+                                                                                                <td className={'back-color bl-style ' + back1Style}>{matchData && matchData.back1 ? matchData.back1 : '0'}</td>
+                                                                                                <td className={'lay-color bl-style ' + lay1Style}>{matchData && matchData.lay1 ? matchData.lay1 : '0'}</td>
                                                                                             </tr>
                                                                                             <tr>
-                                                                                                <td>{matchData && matchData.team_b ? matchData.team_b : 'N/A'}</td>
-                                                                                                <td className={'back-color bl-style ' + back2Style}>{matchData && matchData.back2 ? matchData.back2 : 'N/A'}</td>
-                                                                                                <td className={'lay-color bl-style ' + lay2Style}>{matchData && matchData.lay2 ? matchData.lay2 : 'N/A'}</td>
+                                                                                                <td>{matchData && matchData.team_b ? matchData.team_b : ''}</td>
+                                                                                                <td className={'back-color bl-style ' + back2Style}>{matchData && matchData.back2 ? matchData.back2 : '0'}</td>
+                                                                                                <td className={'lay-color bl-style ' + lay2Style}>{matchData && matchData.lay2 ? matchData.lay2 : '0'}</td>
                                                                                             </tr>
                                                                                         </tbody>
                                                                                     </table>
@@ -533,13 +531,13 @@ function LiveScoreBoard() {
                                                                                         <tbody>
                                                                                             <tr>
                                                                                                 <td>YES</td>
-                                                                                                <td className={'back-color bl-style ' + mcBack1Style}>{matchData && matchData.match_completed ? matchData.match_completed.t1_back : ''}</td>
-                                                                                                <td className={'lay-color bl-style ' + mcLay1Style}>{matchData && matchData.match_completed ? matchData.match_completed.t1_lay : ''}</td>
+                                                                                                <td className={'back-color bl-style ' + mcBack1Style}>{matchData && matchData.match_completed ? matchData.match_completed.t1_back : '0'}</td>
+                                                                                                <td className={'lay-color bl-style ' + mcLay1Style}>{matchData && matchData.match_completed ? matchData.match_completed.t1_lay : '0'}</td>
                                                                                             </tr>
                                                                                             <tr>
                                                                                                 <td>NO</td>
-                                                                                                <td className={'back-color bl-style ' + mcBack2Style}>{matchData && matchData.match_completed ? matchData.match_completed.t2_back : ''}</td>
-                                                                                                <td className={'lay-color bl-style ' + mcLay2Style}>{matchData && matchData.match_completed ? matchData.match_completed.t2_lay : ''}</td>
+                                                                                                <td className={'back-color bl-style ' + mcBack2Style}>{matchData && matchData.match_completed ? matchData.match_completed.t2_back : '0'}</td>
+                                                                                                <td className={'lay-color bl-style ' + mcLay2Style}>{matchData && matchData.match_completed ? matchData.match_completed.t2_lay : '0'}</td>
                                                                                             </tr>
                                                                                         </tbody>
                                                                                     </table>
@@ -567,13 +565,13 @@ function LiveScoreBoard() {
                                                                                         <tbody>
                                                                                             <tr>
                                                                                                 <td>YES</td>
-                                                                                                <td className={'back-color bl-style ' + mtBack1Style}>{matchData && matchData.match_tied ? matchData.match_tied.t1_back : ''}</td>
-                                                                                                <td className={'lay-color bl-style ' + mtLay1Style}>{matchData && matchData.match_tied ? matchData.match_tied.t1_lay : ''}</td>
+                                                                                                <td className={'back-color bl-style ' + mtBack1Style}>{matchData && matchData.match_tied ? matchData.match_tied.t1_back : '0'}</td>
+                                                                                                <td className={'lay-color bl-style ' + mtLay1Style}>{matchData && matchData.match_tied ? matchData.match_tied.t1_lay : '0'}</td>
                                                                                             </tr>
                                                                                             <tr>
                                                                                                 <td>NO</td>
-                                                                                                <td className={'back-color bl-style ' + mtBack2Style}>{matchData && matchData.match_tied ? matchData.match_tied.t2_back : ''}</td>
-                                                                                                <td className={'lay-color bl-style ' + mtLay2Style}>{matchData && matchData.match_tied ? matchData.match_tied.t2_lay : ''}</td>
+                                                                                                <td className={'back-color bl-style ' + mtBack2Style}>{matchData && matchData.match_tied ? matchData.match_tied.t2_back : '0'}</td>
+                                                                                                <td className={'lay-color bl-style ' + mtLay2Style}>{matchData && matchData.match_tied ? matchData.match_tied.t2_lay : '0'}</td>
                                                                                             </tr>
                                                                                         </tbody>
                                                                                     </table>
@@ -719,7 +717,7 @@ function LiveScoreBoard() {
                                                                                                         <figure className="avatar-28 p-0">
                                                                                                             <img src="/assets/images/user-logo.png" alt="" />
                                                                                                             {showTag(team, 1) !== '' && 
-                                                                                                                <span class="p_class">{showTag(team, 1)}</span>
+                                                                                                                <span className="p_class">{showTag(team, 1)}</span>
                                                                                                             }
                                                                                                         </figure>
                                                                                                     </div>
@@ -740,7 +738,7 @@ function LiveScoreBoard() {
                                                                                                         <figure className="avatar-28 p-0">
                                                                                                             <img src="/assets/images/user-logo.png" alt="" />
                                                                                                             {showTag(team, 2) !== '' && 
-                                                                                                                <span class="p_class">{showTag(team, 2)}</span>
+                                                                                                                <span className="p_class">{showTag(team, 2)}</span>
                                                                                                             }
                                                                                                         </figure>
                                                                                                     </div>
@@ -761,7 +759,7 @@ function LiveScoreBoard() {
                                                                                                         <figure className="avatar-28 p-0">
                                                                                                             <img src="/assets/images/user-logo.png" alt="" />
                                                                                                             {showTag(team, 3) !== '' && 
-                                                                                                                <span class="p_class">{showTag(team, 3)}</span>
+                                                                                                                <span className="p_class">{showTag(team, 3)}</span>
                                                                                                             }
                                                                                                         </figure>
                                                                                                     </div>
@@ -782,7 +780,7 @@ function LiveScoreBoard() {
                                                                                                         <figure className="avatar-28 p-0">
                                                                                                             <img src="/assets/images/user-logo.png" alt="" />
                                                                                                             {showTag(team, 4) !== '' && 
-                                                                                                                <span class="p_class">{showTag(team, 4)}</span>
+                                                                                                                <span className="p_class">{showTag(team, 4)}</span>
                                                                                                             }
                                                                                                         </figure>
                                                                                                     </div>
@@ -803,7 +801,7 @@ function LiveScoreBoard() {
                                                                                                         <figure className="avatar-28 p-0">
                                                                                                             <img src="/assets/images/user-logo.png" alt="" />
                                                                                                             {showTag(team, 5) !== '' && 
-                                                                                                                <span class="p_class">{showTag(team, 5)}</span>
+                                                                                                                <span className="p_class">{showTag(team, 5)}</span>
                                                                                                             }
                                                                                                         </figure>
                                                                                                     </div>
@@ -824,7 +822,7 @@ function LiveScoreBoard() {
                                                                                                         <figure className="avatar-28 p-0">
                                                                                                             <img src="/assets/images/user-logo.png" alt="" />
                                                                                                             {showTag(team, 6) !== '' && 
-                                                                                                                <span class="p_class">{showTag(team, 6)}</span>
+                                                                                                                <span className="p_class">{showTag(team, 6)}</span>
                                                                                                             }
                                                                                                         </figure>
                                                                                                     </div>
@@ -845,7 +843,7 @@ function LiveScoreBoard() {
                                                                                                         <figure className="avatar-28 p-0">
                                                                                                             <img src="/assets/images/user-logo.png" alt="" />
                                                                                                             {showTag(team, 7) !== '' && 
-                                                                                                                <span class="p_class">{showTag(team, 7)}</span>
+                                                                                                                <span className="p_class">{showTag(team, 7)}</span>
                                                                                                             }
                                                                                                         </figure>
                                                                                                     </div>
@@ -866,7 +864,7 @@ function LiveScoreBoard() {
                                                                                                         <figure className="avatar-28 p-0">
                                                                                                             <img src="/assets/images/user-logo.png" alt="" />
                                                                                                             {showTag(team, 8) !== '' && 
-                                                                                                                <span class="p_class">{showTag(team, 8)}</span>
+                                                                                                                <span className="p_class">{showTag(team, 8)}</span>
                                                                                                             }
                                                                                                         </figure>
                                                                                                     </div>
@@ -887,7 +885,7 @@ function LiveScoreBoard() {
                                                                                                         <figure className="avatar-28 p-0">
                                                                                                             <img src="/assets/images/user-logo.png" alt="" />
                                                                                                             {showTag(team, 9) !== '' && 
-                                                                                                                <span class="p_class">{showTag(team, 9)}</span>
+                                                                                                                <span className="p_class">{showTag(team, 9)}</span>
                                                                                                             }
                                                                                                         </figure>
                                                                                                     </div>
@@ -908,7 +906,7 @@ function LiveScoreBoard() {
                                                                                                         <figure className="avatar-28 p-0">
                                                                                                             <img src="/assets/images/user-logo.png" alt="" />
                                                                                                             {showTag(team, 10) !== '' && 
-                                                                                                                <span class="p_class">{showTag(team, 10)}</span>
+                                                                                                                <span className="p_class">{showTag(team, 10)}</span>
                                                                                                             }
                                                                                                         </figure>
                                                                                                     </div>
@@ -929,7 +927,7 @@ function LiveScoreBoard() {
                                                                                                         <figure className="avatar-28 p-0">
                                                                                                             <img src="/assets/images/user-logo.png" alt="" />
                                                                                                             {showTag(team, 11) !== '' && 
-                                                                                                                <span class="p_class">{showTag(team, 11)}</span>
+                                                                                                                <span className="p_class">{showTag(team, 11)}</span>
                                                                                                             }
                                                                                                         </figure>
                                                                                                     </div>
@@ -964,21 +962,21 @@ function LiveScoreBoard() {
                                                                             <ul className="list-striped mr-05">
                                                                                 <li>
                                                                                     <span>Series: </span>
-                                                                                    <p style={{fontSize: '11px'}}>{seriesData && seriesData.series_name ? seriesData.series_name : 'N/A'}</p>
+                                                                                    <p style={{fontSize: '11px'}}>{seriesData && seriesData.series_name ? seriesData.series_name : ''}</p>
                                                                                 </li>
                                                                                 <li>
                                                                                     <span>Match: </span>
-                                                                                    <p style={{fontSize: '11px'}}>{matchData && matchData.date_wise ? matchData.date_wise : 'N/A'}</p>
+                                                                                    <p style={{fontSize: '11px'}}>{matchData && matchData.date_wise ? matchData.date_wise : ''}</p>
                                                                                 </li>
                                                                             </ul>
                                                                             <ul className="list-striped">
                                                                                 <li>
                                                                                     <span>Date & Day: </span>
-                                                                                    <p style={{fontSize: '11px'}}>{seriesData && seriesData.series_date ? seriesData.series_date : 'N/A'}</p>
+                                                                                    <p style={{fontSize: '11px'}}>{seriesData && seriesData.series_date ? seriesData.series_date : ''}</p>
                                                                                 </li>
                                                                                 <li>
                                                                                     <span>Time: </span>
-                                                                                    <p>{matchData && matchData.match_time ? matchData.match_time : 'N/A'}</p>
+                                                                                    <p>{matchData && matchData.match_time ? matchData.match_time : ''}</p>
                                                                                 </li>
                                                                             </ul>
                                                                         </div>
@@ -1131,13 +1129,13 @@ function LiveScoreBoard() {
                                                                 <h3 className="widget-title">Venue Guide</h3>
                                                                 <div className="venue-wrapper">
                                                                     <i className='fa fa-map-pin'></i>
-                                                                    <span className="">{matchData && matchData.venue ? matchData.venue : 'N/A'}</span>
+                                                                    <span className="">{matchData && matchData.venue ? matchData.venue : ''}</span>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div id="session" className='tab-pane fade'>
                                                             <hr className='mb-0'/>
-                                                            <div className='text-session' dangerouslySetInnerHTML={{__html: matchData && matchData.session ? matchData.session : 'N/A'}} /> 
+                                                            <div className='text-session' dangerouslySetInnerHTML={{__html: matchData && matchData.session ? matchData.session : ''}} /> 
                                                         </div>
                                                         <div id="commentary" className="tab-pane fade">
                                                             <hr className='mb-0'/>
@@ -1194,8 +1192,8 @@ function LiveScoreBoard() {
                                                                                     </div>
                                                                                 ))}
                                                                                 {comData.length > visibleCount && (
-                                                                                    <div class="text-center mt-15 mb-10">
-                                                                                        <button class="cricnotch-btn btn-filled bg-success loadMore-btn" onClick={loadMore}><i class="fas fa-spinner"></i>&nbsp;&nbsp;&nbsp; Load more</button>
+                                                                                    <div className="text-center mt-15 mb-10">
+                                                                                        <button className="cricnotch-btn btn-filled bg-success loadMore-btn" onClick={loadMore}><i className="fas fa-spinner"></i>&nbsp;&nbsp;&nbsp; Load more</button>
                                                                                     </div>
                                                                                 )}
                                                                             </div>
