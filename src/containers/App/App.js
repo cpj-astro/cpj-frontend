@@ -23,6 +23,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import 'owl.carousel/dist/assets/owl.carousel.min.css';
 import 'owl.carousel/dist/assets/owl.theme.default.min.css';
 import NewsDetails from '../NewsDetails/NewsDetails';
+import PhonePeStatus from '../../components/PhonePeStatus';
 
 const App = () => {
   return (
@@ -46,6 +47,10 @@ const App = () => {
             <Route
               path="/player-profile/:id"
               element={<PrivateRoute><PlayerProfile /></PrivateRoute>}
+            />
+            <Route
+              path="/payment-status/:tid/:mid"
+              element={<PrivateRoute><PhonePeStatus /></PrivateRoute>}
             />
 
             {/* Other Routes */}

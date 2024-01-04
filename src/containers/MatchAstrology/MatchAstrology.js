@@ -7,6 +7,7 @@ import RazorpayIntegration from '../../components/RazorPayIntegration';
 import Loader from '../../components/Loader';
 import Header from '../../components/Header';
 import MatchKundli from '../../components/MatchKundli';
+import PhonePeIntegration from '../../components/PhonePeIntegration';
 
 function MatchAstrology() {
     const navigate = useNavigate();
@@ -360,7 +361,8 @@ function MatchAstrology() {
                                                 </div>
                                             </div>
                                             <div className=''>
-                                                <button className="mt-4 btn-astro-v1" onClick={() => {toast('We Will Show Payment Gateway On Buy Astrology Button')}}> Buy Astrology </button>
+                                                <PhonePeIntegration astroAmount={pandit.match_astrology_price}/>
+                                                {/* <button className="mt-4 btn-astro-v1" onClick={() => {toast('We Will Show Payment Gateway On Buy Astrology Button')}}> Buy Astrology </button> */}
                                                 {/* <RazorpayIntegration matchId={id} panditId={pandit.id} amount={pandit.match_astrology_price} moonSign={user.moon_sign} onPaymentSuccess={handlePaymentSuccess} onPaymentFail={handlePaymentFail} /> */}
                                             </div>
                                         </div>
