@@ -19,14 +19,15 @@ const PhonePeStatus = () => {
 
         try {
             const options = {
-            method: 'GET',
-            url: `https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/status/${mid}/${tid}`,
-            headers: {
-                accept: 'application/json',
-                'Content-Type': 'application/json',
-                'X-VERIFY': checksum,
-                'X-MERCHANT-ID': `${mid}`,
-            },
+                method: 'GET',
+                url: `https://api.preprod.phonepe.com/apis/hermes/pg/v1/status/${mid}/${tid}`,
+                // url: `https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/status/${mid}/${tid}`,
+                headers: {
+                    accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    'X-VERIFY': checksum,
+                    'X-MERCHANT-ID': `${mid}`,
+                },
             };
 
             const response = await axios.request(options);
