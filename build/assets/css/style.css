@@ -5946,10 +5946,8 @@ input:checked ~ .cover:before {
   animation: Gradient 4s ease infinite;
   text-decoration: none;
   cursor: pointer;
-  -webkit-animation: Gradient 4s ease infinite; /* Safari prefix */
-  -webkit-background-size: 400% 100%; /* Safari prefix */
-  -webkit-appearance: none; /* Safari prefix */
-  transform: translate3d(0, 0, 0); /* Force hardware acceleration */
+  -webkit-appearance: none; /* Reset default Safari button styles */
+  overflow: hidden; /* Prevent gradient overflow on Safari */
 }
 
 .btn-astro div {
@@ -5960,13 +5958,21 @@ input:checked ~ .cover:before {
   background-size: inherit;
   background-image: inherit;
   animation: Gradient 4s ease infinite;
-  -webkit-animation: Gradient 4s ease infinite; /* Safari prefix */
   position: relative;
   z-index: 1;
   mix-blend-mode: overlay;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+@keyframes Gradient {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .btn-astro-v1 {
