@@ -348,11 +348,9 @@ function LiveScoreBoard() {
                                         </div>
                                     </div>
                                 </div> 
-                                <span onClick={() => {navigate(`/match-astrology/${id}`)}} className="btn-astro">
-                                    <div>
-                                        {matchDetails.razorpay_payment_id ? 'View Astrology' : 'Buy Astrology'}
-                                    </div>
-                                </span>
+                                <button className="mt-4 btn-astro-v1" onClick={() => {navigate(`/match-astrology/${id}`)}}>     
+                                    {matchDetails.razorpay_payment_id ? 'View Astrology' : 'Buy Astrology'} 
+                                </button>
                                 {matchData && matchData.need_run_ball &&
                                 <div className="card mt-10 p-1">
                                     <div style={{fontSize: '12px',fontWeight: 'bold', textAlign: 'center'}}>
