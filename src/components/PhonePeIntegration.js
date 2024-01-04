@@ -8,7 +8,7 @@ const PhonePeIntegration = ({ astroAmount }) => {
     const transactionid = 'Tr-' + uuidv4().toString(36).slice(-6);
 
     const payload = {
-      merchantId: 'M22XL6S80H1I8', // Replace with your merchant ID
+      merchantId: 'PGTESTPAYUAT', // Replace with your merchant ID
       merchantTransactionId: transactionid,
       merchantUserId: 'MUID-' + uuidv4().toString(36).slice(-6),
       amount: astroAmount*100, // Set your amount here
@@ -24,11 +24,13 @@ const PhonePeIntegration = ({ astroAmount }) => {
     
     const dataPayload = JSON.stringify(payload);
     const dataBase64 = btoa(unescape(encodeURIComponent(dataPayload)));
-    const fullURL = dataBase64 + '/pg/v1/pay' + '07afb8d3-ec97-49c3-9ff0-f7b73942c08f'; // Replace with your salt key
+    const fullURL = dataBase64 + '/pg/v1/pay' + '099eb0cd-02cf-4e2a-8aca-3e6c6aff0399'; // Replace with your salt key
     const dataSha256 = sha256(fullURL);
     const checksum = dataSha256 + '###' + '1'; // Replace with your salt index
 
-    const UAT_PAY_API_URL = 'https://api.phonepe.com/apis/hermes';
+
+    const UAT_PAY_API_URL = "https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/pay";
+
 
     try {
       const response = await axios.post(
