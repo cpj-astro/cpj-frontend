@@ -348,7 +348,7 @@ function LiveScoreBoard() {
                                         </div>
                                     </div>
                                 </div> 
-                                <button className="mt-2 btn-astro-v1" onClick={() => {navigate(`/match-astrology/${id}`)}}>     
+                                <button className="btn-astro-v1" onClick={() => {navigate(`/match-astrology/${id}`)}}>     
                                     {matchDetails.razorpay_payment_id ? 'View Astrology' : 'Buy Astrology'} 
                                 </button>
                                 {matchData && matchData.need_run_ball &&
@@ -358,7 +358,7 @@ function LiveScoreBoard() {
                                     </div>
                                 </div>
                                 }
-                                <div className="row mt-2">
+                                <div className="row mt-3">
                                     <div className='col-md-12'>
                                         <aside className="sidebar right-sidebar">
                                             <div className="widget widget-upcoming-match">
