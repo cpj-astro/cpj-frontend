@@ -267,6 +267,17 @@ function LiveScoreBoard() {
     const loadMore = () => {
         setVisibleCount((prevCount) => prevCount + 5);
     };
+
+    const fetchSeriesById = () => {
+        console.log("add");
+        axios.post(process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/scorecardByMatchId` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/scorecardByMatchId`, { match_id: id }, apiConfig)
+        .then((res) => {
+            console.log("Scorecard: ", res);
+        })
+        .catch((err) => {
+            console.error(err);
+        });
+    }
     return (
 		<>
 			<div id="main" className="l_con main-container others">
@@ -361,8 +372,8 @@ function LiveScoreBoard() {
                                                         <li><a data-toggle="tab" href="#info">Info</a></li>
                                                         <li><a data-toggle="tab" href="#session">Session</a></li>
                                                         <li><a data-toggle="tab" href="#commentary">Commentary</a></li>
-                                                        {/* <li><a data-toggle="tab" href="#scorecard">Scorecard</a></li>
-                                                        <li><a data-toggle="tab" href="#history">Odd History</a></li> */}
+                                                        <li><a data-toggle="tab" href="#scorecard">Scorecard</a></li>
+                                                        <li><a data-toggle="tab" href="#history">Odd History</a></li>
                                                     </ul>
                                                     <div className="tab-content">
                                                         <div id="liveline" className="tab-pane fade in show active">
@@ -399,7 +410,7 @@ function LiveScoreBoard() {
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                {matchData && matchData.fancy_info && matchData.fancy_info.length > 0 && matchData.s_ovr != 0 ?  
+                                                                {(matchData && matchData.fancy_api) || (matchData && !matchData.fancy_api) ?
                                                                 <div className="col-md-12">
                                                                     <div className="widget widget-rankings">
                                                                         <div className="card px-0 py-0 odd-border">
@@ -414,7 +425,7 @@ function LiveScoreBoard() {
                                                                                             </tr>
                                                                                         </thead>
                                                                                         <tbody>
-                                                                                        {matchData && !matchData.fancy_api && matchData.s_ovr != 0 &&
+                                                                                        {matchData && matchData.fancy_api &&
                                                                                             <tr>
                                                                                                 <td> 
                                                                                                     <div>
@@ -445,38 +456,36 @@ function LiveScoreBoard() {
                                                                                                 </td>
                                                                                             </tr>
                                                                                         }
-                                                                                        {matchData && matchData.fancy_api && matchData.fancy_info && matchData.fancy_info.map((fancy, index) => 
-                                                                                            {
-                                                                                                fancy.s_over != 0 && (
-                                                                                                    <tr className={fancy.over ? '' : 'd-none'}>
-                                                                                                        <td> 
-                                                                                                            <div>
-                                                                                                                {fancy.s_over + ' over runs'}
-                                                                                                            </div> 
-                                                                                                        </td>
-                                                                                                        <td style={{padding: '0px'}}> 
-                                                                                                            <div className='back-color bl-style'>
-                                                                                                                {matchData && matchData.first_circle.toLowerCase().split(' ').some((word) =>
-                                                                                                                ['rain', 'no ball', 'out', 'wicket', 'lbw', 'free', 'hit', '3rd umpire', 'third umpire',  'review', 'decision pending', 'catch checking', 'boundary check'].includes(word.toLowerCase())
-                                                                                                                ) && (
-                                                                                                                    <div className='suspend-style'>SUSPENDED</div>
-                                                                                                                )}
-                                                                                                                <div className='fancy-t1'>{fancy.s_min}</div>
-                                                                                                                <div style={{color: 'black', fontSize: '9px', fontWeight: 'bold'}}>{fancy.s_min_rate}</div>
-                                                                                                            </div>
-                                                                                                        </td>
-                                                                                                        <td style={{ padding: '0px' }}>
-                                                                                                            <div className='lay-color bl-style'>
-                                                                                                                {fancy.suspend && 
-                                                                                                                    <div className='suspend-style'>SUSPENDED</div>
-                                                                                                                } 
-                                                                                                                <div className='fancy-t1'>{fancy.s_max}</div>
-                                                                                                                <div style={{color: 'black', fontSize: '9px', fontWeight: 'bold'}}>{fancy.s_max_rate}</div>
-                                                                                                            </div>
-                                                                                                        </td>
-                                                                                                    </tr>
-                                                                                                )
-                                                                                            }
+                                                                                        {matchData && !matchData.fancy_api && matchData.fancy_info && matchData.fancy_info.map((fancy, index) => 
+                                                                                            fancy.s_over != 0 && (
+                                                                                                <tr className={fancy.over ? '' : 'd-none'}>
+                                                                                                    <td> 
+                                                                                                        <div>
+                                                                                                            {fancy.s_over + ' over runs'}
+                                                                                                        </div> 
+                                                                                                    </td>
+                                                                                                    <td style={{padding: '0px'}}> 
+                                                                                                        <div className='back-color bl-style'>
+                                                                                                            {matchData && matchData.first_circle.toLowerCase().split(' ').some((word) =>
+                                                                                                            ['rain', 'no ball', 'out', 'wicket', 'lbw', 'free', 'hit', '3rd umpire', 'third umpire',  'review', 'decision pending', 'catch checking', 'boundary check'].includes(word.toLowerCase())
+                                                                                                            ) && (
+                                                                                                                <div className='suspend-style'>SUSPENDED</div>
+                                                                                                            )}
+                                                                                                            <div className='fancy-t1'>{fancy.s_min}</div>
+                                                                                                            <div style={{color: 'black', fontSize: '9px', fontWeight: 'bold'}}>{fancy.s_min_rate}</div>
+                                                                                                        </div>
+                                                                                                    </td>
+                                                                                                    <td style={{ padding: '0px' }}>
+                                                                                                        <div className='lay-color bl-style'>
+                                                                                                            {fancy.suspend && 
+                                                                                                                <div className='suspend-style'>SUSPENDED</div>
+                                                                                                            } 
+                                                                                                            <div className='fancy-t1'>{fancy.s_max}</div>
+                                                                                                            <div style={{color: 'black', fontSize: '9px', fontWeight: 'bold'}}>{fancy.s_max_rate}</div>
+                                                                                                        </div>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                            )
                                                                                         )}
                                                                                         {matchData.lambi_ovr && matchData.lambi_ovr != 0 && 
                                                                                         matchData.current_inning == 1 && matchData.lambi_ovr != matchData.s_ovr && matchData.lambi_ovr != 0 &&
@@ -517,6 +526,7 @@ function LiveScoreBoard() {
                                                                         </div>
                                                                     </div>
                                                                 </div> : <></>}
+                                                                
                                                                 {matchData && matchData.match_completed && matchData.match_completed.status &&
                                                                 <div className="col-md-12">
                                                                     <div className="widget widget-rankings">
@@ -1205,8 +1215,78 @@ function LiveScoreBoard() {
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        {/* <div id="scorecard" className="tab-pane fade">
-                                                            
+                                                        <div id="scorecard" className="tab-pane fade" onClick={() => fetchSeriesById()}>
+                                                            Team 1
+                                                            <div className="accordion" id="accordion">
+                                                                <div className="accordion-item mb-0">
+                                                                    <div id="bd_innings" className="collapse show" data-parent="#accordion">
+                                                                        <div className="acr-body">
+                                                                            <div className="card card-shadow p-0">
+                                                                                <div className="table-responsive">
+                                                                                    <table className="widget-table table table-striped table-medium no-border">
+                                                                                        <thead>
+                                                                                            <tr>
+                                                                                                <th scope="col">Batsmen</th>
+                                                                                                <th scope="col">r</th>
+                                                                                                <th scope="col">b</th>
+                                                                                                <th scope="col">4s</th>
+                                                                                                <th scope="col">6s</th>
+                                                                                                <th scope="col">sr</th>
+                                                                                            </tr>
+                                                                                        </thead>
+                                                                                        <tbody>
+                                                                                            {matchData && matchData.batsman && matchData.batsman.map((batsman, index) => (
+                                                                                                <tr>
+                                                                                                    <td>{batsman.name}</td>
+                                                                                                    <td><strong>{batsman.run}</strong></td>
+                                                                                                    <td>{batsman.ball}</td>
+                                                                                                    <td>{batsman.fours}</td>
+                                                                                                    <td>{batsman.sixes}</td>
+                                                                                                    <td>{batsman.strike_rate}</td>
+                                                                                                </tr>
+                                                                                            ))}
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div className="card card-shadow p-0">
+                                                                                <div className="table-responsive">
+                                                                                    <table className="widget-table table table-striped table-medium no-border">
+                                                                                        <thead>
+                                                                                            <tr>
+                                                                                                <th scope="col">Bowlers</th>
+                                                                                                <th scope="col">o</th>
+                                                                                                <th scope="col">r</th>
+                                                                                                <th scope="col">w</th>
+                                                                                                <th scope="col">econ</th>
+                                                                                            </tr>
+                                                                                        </thead>
+                                                                                        <tbody>
+                                                                                            <tr>
+                                                                                                <td>
+                                                                                                    <a href="#"><strong>{matchData && matchData.bolwer && matchData.bolwer.name ? matchData.bolwer.name : ''}</strong></a>
+                                                                                                </td>
+                                                                                                <td><strong>{matchData && matchData.bolwer && matchData.bolwer.over ? matchData.bolwer.over : ''}</strong></td>
+                                                                                                <td>{matchData && matchData.bolwer && matchData.bolwer.run ? matchData.bolwer.run : ''}</td>
+                                                                                                <td>{matchData && matchData.bolwer && matchData.bolwer.wicket ? matchData.bolwer.wicket : ''}</td>
+                                                                                                <td>{matchData && matchData.bolwer && matchData.bolwer.economy ? matchData.bolwer.economy : ''}</td>
+                                                                                            </tr>
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div className="spell-sum-box px-30 py-20">
+                                                                                <h5>Yet to bat: &nbsp;
+                                                                                    <span> 
+                                                                                    {matchData && matchData.yet_to_bet && 
+                                                                                    matchData.yet_to_bet.join(', ')}
+                                                                                    </span>
+                                                                                </h5>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                         <div id="history" className="tab-pane fade">
                                                             <hr className='mb-0'/>
@@ -1316,7 +1396,7 @@ function LiveScoreBoard() {
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div> */}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
