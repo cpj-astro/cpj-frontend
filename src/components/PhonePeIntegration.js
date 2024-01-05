@@ -2,8 +2,11 @@ import React from 'react';
 import sha256 from 'js-sha256';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
+import { useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const PhonePeIntegration = ({ astroAmount }) => {
+  const navigate = useNavigate();
   const makePayment = async () => {
     const transactionid = 'Tr-' + uuidv4().toString(36).slice(-6);
 
@@ -11,7 +14,7 @@ const PhonePeIntegration = ({ astroAmount }) => {
       merchantId: 'M22XL6S80H1I8', // Replace with your merchant ID
       merchantTransactionId: transactionid,
       merchantUserId: 'MUID-' + uuidv4().toString(36).slice(-6),
-      amount: astroAmount*100, // Set your amount here
+      amount: 1*100, // Set your amount here
       redirectUrl: `http://localhost:3000/payment-status/${transactionid}/M22XL6S80H1I8`,
       redirectMode: 'POST',
       callbackUrl: `http://localhost:3000/payment-status/${transactionid}/M22XL6S80H1I8`,
@@ -28,23 +31,31 @@ const PhonePeIntegration = ({ astroAmount }) => {
     const checksum = dataSha256 + '###' + '1'; // Replace with your salt index
 
     try {
-      const response = await axios.post(
-        // "https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/pay",
-        "https://api.phonepe.com/apis/hermes/pg/v1/pay",
-        {
-          request: dataBase64,
-        },
-        {
+      var accessToken = localStorage.getItem('client_token');
+      const apiConfig = {
           headers: {
-            accept: 'application/json',
-            'Content-Type': 'application/json',
-            'X-VERIFY': checksum,
-          },
+              Authorization: "Bearer " + accessToken,
+              'Content-Type': 'application/json',
+          }
+      };
+      
+      axios.post(process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/phonepe-pay` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/phonepe-pay`, payload, apiConfig)
+      .then((response) => {
+        if(response.data.status){
+          const redirect = response.data.url;
+          window.location.href = redirect;
+        } else {
+          toast.error('Request failed!, Please try again.');
         }
-      );
-
-      const redirect = response.data.data.instrumentResponse.redirectInfo.url;
-      window.location.href = redirect;
+      })
+      .catch((error) => {
+        if(error.response.data.status_code == 401){
+          localStorage.removeItem('client_token');
+          navigate('/sign-in');
+        } else {
+          console.log(error);
+        }
+      });
     } catch (error) {
       console.error('Payment failed:', error);
     }
