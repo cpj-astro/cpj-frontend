@@ -8,34 +8,37 @@ import { toast } from 'react-toastify';
 const PhonePeIntegration = ({ astroAmount }) => {
   const navigate = useNavigate();
   const makePayment = async () => {
-    const transactionid = 'Tr-' + uuidv4().toString(36).slice(-6);
-
+    const transactionid = 'T-CPJ-' + uuidv4().replace(/-/g, '').toUpperCase().slice(0, 21);
+    // const transactionid = 'CPJ' + uuidv4().toString(36).slice(-6);
+    const isDev = process.env.REACT_APP_DEV === 'true';
+    const liveUrl = process.env.REACT_APP_LIVE_URL;
+    const localUrl = process.env.REACT_APP_LOCAL_URL;
+    const merchantKey = process.env.REACT_APP_PHONEPE_MERCHANT_ID;
+    
     const payload = {
-      merchantId: 'M22XL6S80H1I8', // Replace with your merchant ID
+      merchantId: merchantKey, // Replace with your merchant ID
       merchantTransactionId: transactionid,
       merchantUserId: 'MUID-' + uuidv4().toString(36).slice(-6),
-      amount: 1*100, // Set your amount here
-      redirectUrl: `http://localhost:3000/payment-status/${transactionid}/M22XL6S80H1I8`,
+      amount: 1 * 100, // Set your amount here
+      redirectUrl: isDev
+        ? `${liveUrl}/payment-status/${transactionid}/${merchantKey}`
+        : `${localUrl}/payment-status/${transactionid}/${merchantKey}`,
       redirectMode: 'POST',
-      callbackUrl: `http://localhost:3000/payment-status/${transactionid}/M22XL6S80H1I8`,
-      mobileNumber: '9999999999', // Set mobile number here
+      callbackUrl: isDev
+        ? `${liveUrl}/payment-status/${transactionid}/${merchantKey}`
+        : `${localUrl}/payment-status/${transactionid}/${merchantKey}`,
+      mobileNumber: '6353152455', // Set mobile number here
       paymentInstrument: {
         type: 'PAY_PAGE',
       },
     };
 
-    const dataPayload = JSON.stringify(payload);
-    const dataBase64 = btoa(unescape(encodeURIComponent(dataPayload)));
-    const fullURL = dataBase64 + '/pg/v1/pay' + '07afb8d3-ec97-49c3-9ff0-f7b73942c08f'; // Replace with your salt key
-    const dataSha256 = sha256(fullURL);
-    const checksum = dataSha256 + '###' + '1'; // Replace with your salt index
-
     try {
       var accessToken = localStorage.getItem('client_token');
       const apiConfig = {
           headers: {
-              Authorization: "Bearer " + accessToken,
-              'Content-Type': 'application/json',
+            Authorization: "Bearer " + accessToken,
+            'Content-Type': 'application/json',
           }
       };
       

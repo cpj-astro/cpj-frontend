@@ -13,25 +13,34 @@ const PhonePeStatus = () => {
     })
     
     const checkPaymentStatus = async (tid, mid) => {
-        const st = `/pg/v1/status/${mid}/${tid}` + '07afb8d3-ec97-49c3-9ff0-f7b73942c08f'; // Replace with your actual salt key
-        const dataSha256 = sha256(st);
-        const checksum = dataSha256 + '###' + '1'; // Replace with your actual salt index
+        var accessToken = localStorage.getItem('client_token');
+        const apiConfig = {
+            headers: {
+              Authorization: "Bearer " + accessToken,
+              'Content-Type': 'application/json',
+            }
+        };
+
+        const payload = {
+            merchantId: mid,
+            transactionId: tid
+        }
 
         try {
-            const options = {
-                method: 'GET',
-                url: `https://api.preprod.phonepe.com/apis/hermes/pg/v1/status/${mid}/${tid}`,
-                // url: `https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/status/${mid}/${tid}`,
-                headers: {
-                    accept: 'application/json',
-                    'Content-Type': 'application/json',
-                    'X-VERIFY': checksum,
-                    'X-MERCHANT-ID': `${mid}`,
-                },
-            };
-
-            const response = await axios.request(options);
-            setStatus(response.data.code);
+            axios.get(process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/phonepe-status` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/phonepe-status`, payload, apiConfig)
+            .then((response) => {
+                if(response.data.status){
+                    console.log("Status Response", response);
+                }
+            })
+            .catch((error) => {
+                if(error.response.data.status_code == 401){
+                localStorage.removeItem('client_token');
+                    navigate('/sign-in');
+                } else {
+                    console.log(error);
+                }
+            });
         } catch (error) {
             console.error('Error checking payment status:', error);
             setStatus('Error');
