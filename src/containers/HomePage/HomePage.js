@@ -353,8 +353,6 @@ const HomePage = () => {
 																						</div>
 																					</div>
 																				</div>
-																				<div className='tv-line-horizontal'></div>
-																				<div className='tv-line-vertical'></div>
 																			</div> 
 																			{gameZop.game_link && gameZop.status &&
 																				<>

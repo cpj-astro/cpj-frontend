@@ -11,6 +11,7 @@ import axios from 'axios';
 import Ball from '../../components/Ball';
 import Header from '../../components/Header';
 import Scorecard from '../../components/ScoreCard';
+import OddHistory from '../../components/OddHistory';
 
 function LiveScoreBoard() {
     const navigate = useNavigate();
@@ -31,6 +32,8 @@ function LiveScoreBoard() {
     const [matchData, setMatchData] = useState([])
     const [matchDetails, setMatchDetails] = useState([])
     const [teams, setTeams] = useState([])
+    const [oddHistory, setOddHistory] = useState([])
+    const [volumeStatus, setVolumeStatus] = useState(true)
     const [seriesData, setSeriesData] = useState([])
     const [lastFewBalls, setLastFewBalls] = useState([])
     const [visibleCount, setVisibleCount] = useState(5);
@@ -48,11 +51,8 @@ function LiveScoreBoard() {
     };
     
     const fetchSeriesData = (s_id) => {
-        console.log("series data", s_id);
         axios.post(process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/fetchSeriesData` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/fetchSeriesData`, {series_id : s_id})
         .then((response) => {
-            
-            console.log("response", response.data.data);
             if(response.data.success){
                 setSeriesData(response.data.data);
             }
@@ -249,7 +249,7 @@ function LiveScoreBoard() {
     }, [matchData && matchData.match_tied && matchData.match_tied.t2_lay])
 
     useEffect(() => {
-        if(matchData && matchData.first_circle) {
+        if(matchData && matchData.first_circle && volumeStatus) {
             speak({ text: matchData.first_circle });
         }
     }, [matchData && matchData.first_circle]);
@@ -258,7 +258,7 @@ function LiveScoreBoard() {
         setVisibleCount((prevCount) => prevCount + 5);
     };
 
-    const fetchSeriesById = () => {
+    const fetchScorecardByMatchId = () => {
         axios.post(process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/scorecardByMatchId` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/scorecardByMatchId`, { match_id: id }, apiConfig)
         .then((res) => {
             setScoreCard(res.data.data);
@@ -268,10 +268,19 @@ function LiveScoreBoard() {
         });
     }
 
+    const fetchOddHistoryByMatchId = () => {
+        axios.post(process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/matchOddHistory` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/matchOddHistory`, { match_id: id }, apiConfig)
+        .then((res) => {
+            setOddHistory(res.data.data);
+        })
+        .catch((err) => {
+            console.error(err);
+        });
+    }
+
     const handleTabChange = (tab) => {
         setActiveTab(tab);
     };
-
 
     return (
 		<>
@@ -297,12 +306,17 @@ function LiveScoreBoard() {
                                 <div className='tv-container'>    
                                     <div className="tv">
                                         <div className='just-set'>
-                                            <strong className="text-red text-uppercase">{matchData && matchData.match_category ? matchData.match_category : ''}</strong>
+                                            <strong className="text-red text-uppercase p-3">{matchData && matchData.match_category ? matchData.match_category : ''}</strong>
+                                            <strong className="text-white" onClick={() => {setVolumeStatus(!volumeStatus)}}>
+                                                <div className='volume-icon-set'>
+                                                    {volumeStatus ? <i className='fa fa-volume-up'></i> : <i className='fa fa-volume-off'></i>}    
+                                                </div>    
+                                            </strong>
                                         </div>
                                         <div className="score">
                                             {matchData && matchData.first_circle ? matchData.first_circle : ''}
                                         </div>
-                                        <div className='card mb-0'>
+                                        <div className='card mb-0' style={{borderRadius: '0px 0px 4px 4px'}}>
                                             <div className="score-card-lg d-md-flex p-0">
                                                 <div className="flex-grow-1">
                                                     {matchData && matchData.batting_team == matchData.team_a_id ?
@@ -376,11 +390,11 @@ function LiveScoreBoard() {
                                                             <a onClick={() => handleTabChange('commentary')}>Commentary
                                                             </a>
                                                         </li>
-                                                        <li className={activeTab === 'scorecard' ? 'cursor-pointer active' : 'cursor-pointer'} onClick={() => {fetchSeriesById();}}>
+                                                        <li className={activeTab === 'scorecard' ? 'cursor-pointer active' : 'cursor-pointer'} onClick={() => {fetchScorecardByMatchId();}}>
                                                             <a onClick={() => handleTabChange('scorecard')}>Scorecard
                                                             </a>
                                                         </li>
-                                                        <li className={activeTab === 'history' ? 'cursor-pointer active' : 'cursor-pointer'}>
+                                                        <li className={activeTab === 'history' ? 'cursor-pointer active' : 'cursor-pointer'} onClick={() => {fetchOddHistoryByMatchId();}}>
                                                             <a onClick={() => handleTabChange('history')}>Odd History
                                                             </a>
                                                         </li>
@@ -444,9 +458,8 @@ function LiveScoreBoard() {
                                                                                                 </td>
                                                                                                 <td style={{padding: '0px'}}> 
                                                                                                     <div className='back-color bl-style'>
-                                                                                                        {matchData && matchData.first_circle.toLowerCase().split(' ').some((word) =>
-                                                                                                        ['rain', 'no ball', 'out', 'wicket', 'lbw', 'free', 'hit', '3rd umpire', 'third umpire',  'review', 'decision pending', 'catch checking', 'boundary check'].includes(word.toLowerCase())
-                                                                                                        ) && (
+                                                                                                        {matchData && ['rain', 'no ball', 'out', 'wicket', 'lbw', 'free hit', '3rd umpire', 'third umpire', 'review', 'decision pending', 'catch checking', 'boundary check', 'ball start', 'ball']
+                                                                                                        .some(phrase => matchData.first_circle.toLowerCase() === phrase.toLowerCase()) && (
                                                                                                             <div className='suspend-style'>SUSPENDED</div>
                                                                                                         )}
                                                                                                         <div className='fancy-t1'>{matchData.s_min}</div>
@@ -455,9 +468,8 @@ function LiveScoreBoard() {
                                                                                                 </td>
                                                                                                 <td style={{ padding: '0px' }}>
                                                                                                     <div className='lay-color bl-style'>
-                                                                                                        {matchData && matchData.first_circle.toLowerCase().split(' ').some((word) =>
-                                                                                                        ['rain', 'no ball', 'out', 'wicket', 'lbw', 'free', 'hit', '3rd umpire', 'third umpire',  'review', 'decision pending', 'catch checking', 'boundary check'].includes(word.toLowerCase())
-                                                                                                        ) && (
+                                                                                                        {matchData && ['rain', 'no ball', 'out', 'wicket', 'lbw', 'free hit', '3rd umpire', 'third umpire', 'review', 'decision pending', 'catch checking', 'boundary check', 'ball start', 'ball']
+                                                                                                        .some(phrase => matchData.first_circle.toLowerCase() === phrase.toLowerCase()) && (
                                                                                                             <div className='suspend-style'>SUSPENDED</div>
                                                                                                         )}
                                                                                                         <div className='fancy-t1'>{matchData.s_max}</div>
@@ -476,9 +488,8 @@ function LiveScoreBoard() {
                                                                                                     </td>
                                                                                                     <td style={{padding: '0px'}}> 
                                                                                                         <div className='back-color bl-style'>
-                                                                                                            {matchData && matchData.first_circle.toLowerCase().split(' ').some((word) =>
-                                                                                                            ['rain', 'no ball', 'out', 'wicket', 'lbw', 'free', 'hit', '3rd umpire', 'third umpire',  'review', 'decision pending', 'catch checking', 'boundary check'].includes(word.toLowerCase())
-                                                                                                            ) && (
+                                                                                                            {matchData && ['rain', 'no ball', 'out', 'wicket', 'lbw', 'free hit', '3rd umpire', 'third umpire', 'review', 'decision pending', 'catch checking', 'boundary check', 'ball start', 'ball']
+                                                                                                            .some(phrase => matchData.first_circle.toLowerCase() === phrase.toLowerCase()) && (
                                                                                                                 <div className='suspend-style'>SUSPENDED</div>
                                                                                                             )}
                                                                                                             <div className='fancy-t1'>{fancy.s_min}</div>
@@ -507,22 +518,20 @@ function LiveScoreBoard() {
                                                                                                 </td>
                                                                                                 <td style={{padding: '0px'}}> 
                                                                                                     <div className='back-color bl-style'>
-                                                                                                    {matchData && matchData.first_circle.toLowerCase().split(' ').some((word) =>
-                                                                                                    ['rain', 'no ball', 'out', 'wicket', 'lbw', 'free', 'hit', '3rd umpire', 'third umpire',  'review', 'decision pending', 'catch checking', 'boundary check'].includes(word.toLowerCase())
-                                                                                                    ) && (
-                                                                                                        <div className='suspend-style'>SUSPENDED</div>
-                                                                                                    )}
+                                                                                                        {matchData && ['rain', 'no ball', 'out', 'wicket', 'lbw', 'free hit', '3rd umpire', 'third umpire', 'review', 'decision pending', 'catch checking', 'boundary check', 'ball start', 'ball']
+                                                                                                        .some(phrase => matchData.first_circle.toLowerCase() === phrase.toLowerCase()) && (
+                                                                                                            <div className='suspend-style'>SUSPENDED</div>
+                                                                                                        )}
                                                                                                         <div className='fancy-t1'>{matchData.lambi_min}</div>
                                                                                                         <div style={{color: 'black', fontSize: '9px', fontWeight: 'bold'}}>{matchData.lambi_min_rate}</div>
                                                                                                     </div>
                                                                                                 </td>
                                                                                                 <td style={{ padding: '0px' }}>
                                                                                                     <div className='lay-color bl-style'>
-                                                                                                    {matchData && matchData.first_circle.toLowerCase().split(' ').some((word) =>
-                                                                                                    ['rain', 'no ball', 'out', 'wicket', 'lbw', 'free', 'hit', '3rd umpire', 'third umpire',  'review', 'decision pending', 'catch checking', 'boundary check'].includes(word.toLowerCase())
-                                                                                                    ) && (
-                                                                                                        <div className='suspend-style'>SUSPENDED</div>
-                                                                                                    )}
+                                                                                                        {matchData && ['rain', 'no ball', 'out', 'wicket', 'lbw', 'free hit', '3rd umpire', 'third umpire', 'review', 'decision pending', 'catch checking', 'boundary check', 'ball start', 'ball']
+                                                                                                        .some(phrase => matchData.first_circle.toLowerCase() === phrase.toLowerCase()) && (
+                                                                                                            <div className='suspend-style'>SUSPENDED</div>
+                                                                                                        )}
                                                                                                         <div className='fancy-t1'>{matchData.lambi_max}</div>
                                                                                                         <div style={{color: 'black', fontSize: '9px', fontWeight: 'bold'}}>{matchData.lambi_max_rate}</div>
                                                                                                     </div>
@@ -1230,113 +1239,8 @@ function LiveScoreBoard() {
                                                             {scoreCard ? <Scorecard scorecardData={scoreCard}/> : "Loading Scorecard..."}
                                                         </div>
                                                         <div id="history" className={`tab-pane fade in ${activeTab === 'history' ? 'show active' : ''}`}>
-                                                            <hr className='mb-0'/>
-                                                            <div className="widget widget-shop-categories widget-accordion">
-                                                                <div className="accordion" id="accordion">
-                                                                    <div className="accordion-item">
-                                                                        <h5 className="collapsed" data-toggle="collapse" data-target="#team_b" aria-expanded="false">1st Over (4-0)</h5>
-                                                                        <div id="team_b" className="collapse" data-parent="#accordion">
-                                                                            <div className="acr-body">
-                                                                                <section className="live-matches pt-0 pb-0">
-                                                                                    <div className="score-card-lg d-md-flex p-0 custom-runs">
-                                                                                        <div className="score-card-inner flex-grow-1 px-3 py-3">
-                                                                                            <div className="score-card-body">
-                                                                                                <div className="country-info">
-                                                                                                    <div className="flag-avatar">
-                                                                                                        <figure className="run-figure run-wide">
-                                                                                                            WD
-                                                                                                        </figure>
-                                                                                                        <span className="country-name">03:06 PM</span>
-                                                                                                    </div>
-                                                                                                    <div className="score-update ml-10 text-center">
-                                                                                                        <h5>151 - 7</h5>
-                                                                                                        <p className="text-muted">0.3</p>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                                
-                                                                                                <div className="">
-                                                                                                    <div className="d-flex custom-fancy-tags">
-                                                                                                        <div className="tag-1">PAK</div>
-                                                                                                        <div className="tag-2">12</div>
-                                                                                                        <div className="tag-3">15</div>
-                                                                                                    </div>
-                                                                                                    <div className="d-flex custom-fancy-tags mt-1">
-                                                                                                        <div className="tag-4">10 Over</div>
-                                                                                                        <div className='tag-2'>50</div>
-                                                                                                        <div className='tag-3'>53</div>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div className="score-card-lg d-md-flex p-0 custom-runs">
-                                                                                        <div className="score-card-inner flex-grow-1 px-3 py-3">
-                                                                                            <div className="score-card-body">
-                                                                                                <div className="country-info">
-                                                                                                    <div className="flag-avatar">
-                                                                                                        <figure className="run-figure run-4">
-                                                                                                            4
-                                                                                                        </figure>
-                                                                                                        <span className="country-name">03:06 PM</span>
-                                                                                                    </div>
-                                                                                                    <div className="score-update ml-10 text-center">
-                                                                                                        <h5>150 - 7</h5>
-                                                                                                        <p className="text-muted">0.3</p>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                                
-                                                                                                <div className="">
-                                                                                                    <div className="d-flex custom-fancy-tags">
-                                                                                                        <div className="tag-1">PAK</div>
-                                                                                                        <div className="tag-2">10</div>
-                                                                                                        <div className="tag-3">15</div>
-                                                                                                    </div>
-                                                                                                    <div className="d-flex custom-fancy-tags mt-1">
-                                                                                                        <div className="tag-4">10 Over</div>
-                                                                                                        <div className='tag-2'>51</div>
-                                                                                                        <div className='tag-3'>53</div>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div className="score-card-lg d-md-flex p-0 custom-runs">
-                                                                                        <div className="score-card-inner flex-grow-1 px-3 py-3">
-                                                                                            <div className="score-card-body">
-                                                                                                <div className="country-info">
-                                                                                                    <div className="flag-avatar">
-                                                                                                        <figure className="run-figure run-1">
-                                                                                                            1
-                                                                                                        </figure>
-                                                                                                        <span className="country-name">02:00 PM</span>
-                                                                                                    </div>
-                                                                                                    <div className="score-update ml-10 text-center">
-                                                                                                        <h5>146 - 6</h5>
-                                                                                                        <p className="text-muted">0.1</p>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                                
-                                                                                                <div className="">
-                                                                                                    <div className="d-flex custom-fancy-tags">
-                                                                                                        <div className="tag-1">PAK</div>
-                                                                                                        <div className="tag-2">10</div>
-                                                                                                        <div className="tag-3">11</div>
-                                                                                                    </div>
-                                                                                                    <div className="d-flex custom-fancy-tags mt-1">
-                                                                                                        <div className="tag-4">10 Over</div>
-                                                                                                        <div className='tag-2'>52</div>
-                                                                                                        <div className='tag-3'>53</div>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </section>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                                                            <hr />
+                                                            {oddHistory ? <OddHistory oddHistoryData={oddHistory}/> : "Loading Odd History..."}
                                                         </div>
                                                     </div>
                                                 </div>

@@ -3029,6 +3029,10 @@ span.p_class {
   margin-bottom: 0;
 }
 
+.spell-sum-box {
+  padding: 10px;
+}
+
 .spell-sum-box h5 {
   color: #000;
   font-size: 14px;
@@ -5577,14 +5581,47 @@ span.p_class {
   background-color: #000;
 }
 
+.fit-content {
+  width: fit-content;
+}
+
+.m-time-set {
+  border-top: 1px solid #d2d2d2;
+}
+
+.fancy-min {
+  color: #3cabff;
+}
+
+.fancy-max {
+  color: #ff4b6f;
+}
+
+.fancy-b-min {
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  justify-content: center;
+  background-color: #9bd4ff;
+}
+
+.fancy-b-max {
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  justify-content: center;
+  background-color: #f6a8b8;
+}
+
 .tv {
   background: #333;
   width: 100%;
   height: auto;
-  border: 10px solid #000;
   border-radius: 5px;
-  border-color: #000 #101010 #000 #101010;
   position: relative;
+  border: 1px solid #333;
 }
 
 .rrates-container {
@@ -5644,9 +5681,24 @@ span.p_class {
   line-height: 25px;
   color: #000;
 }
+
+.volume-icon-set {
+  cursor: pointer;
+  border: 2px solid #ffffff;
+  border-radius: 100%;
+  height: 30px;
+  width: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 5px;
+}
+
 .score {
-  padding-top: 15%;
-  padding-bottom: 15%;
+  padding-top: 10%;
+  padding-bottom: 10%;
+  padding-left: 15px;
+  padding-right: 15px;
   width: 100%;
   height: auto;
   color: #fff;
@@ -6150,7 +6202,7 @@ input:checked ~ .cover:before {
   background-color: #ffffff;
   width: 100%;
   padding: 3px 5px;
-  border-radius: 5px;
+  border-radius: 0px 0px 4px 4px;
 }
 
 .back-color {
