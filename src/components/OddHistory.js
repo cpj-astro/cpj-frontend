@@ -21,7 +21,6 @@ export default function OddHistory({ oddHistoryData }) {
         const v = n % 100;
         return n + (s[(v - 20) % 10] || s[v] || s[0]);
     }
-    console.log("SS", groupedByInnings);
     return (
         <>
            {Object.entries(groupedByInnings).map(([inning, items]) => {

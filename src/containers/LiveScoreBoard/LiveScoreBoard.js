@@ -12,6 +12,8 @@ import Ball from '../../components/Ball';
 import Header from '../../components/Header';
 import Scorecard from '../../components/ScoreCard';
 import OddHistory from '../../components/OddHistory';
+import Commentary from '../../components/Commentary';
+import PlayingXI from '../../components/PlayingXI';
 
 function LiveScoreBoard() {
     const navigate = useNavigate();
@@ -32,14 +34,15 @@ function LiveScoreBoard() {
     const [matchData, setMatchData] = useState([])
     const [matchDetails, setMatchDetails] = useState([])
     const [teams, setTeams] = useState([])
-    const [oddHistory, setOddHistory] = useState([])
+    const [oddHistory, setOddHistory] = useState(null)
+    const [playingXI, setPlayingXI] = useState(null)
     const [volumeStatus, setVolumeStatus] = useState(true)
     const [seriesData, setSeriesData] = useState([])
     const [lastFewBalls, setLastFewBalls] = useState([])
-    const [visibleCount, setVisibleCount] = useState(5);
-    const [comData, setComData] = useState([]);
+    const [comData, setComData] = useState(null);
     const { speak } = useSpeechSynthesis();
-    const [scoreCard, setScoreCard] = useState(null)
+    const [scoreCard, setScoreCard] = useState(null);
+    const [matchInfo, setMatchInfo] = useState([]);
     const { register, handleSubmit, setValue, getValues, watch, reset, formState, formState: { isSubmitSuccessful } } = useForm();
     
     var accessToken = localStorage.getItem('client_token');
@@ -127,7 +130,7 @@ function LiveScoreBoard() {
                         (Object.keys(n[item][ingItem]).length > 0) &&
                             n[item][ingItem].map((i, k) => {
                                 data.push(i);
-                            })
+                        })
                     })
                 })
                 setComData(data);
@@ -137,10 +140,6 @@ function LiveScoreBoard() {
             console.error(err);
         });
     };
-
-    useEffect(() => {
-        loadCommentary();
-    }, []);
 
     useEffect(() => {
         if(accessToken) {
@@ -155,7 +154,9 @@ function LiveScoreBoard() {
     }, [matchData && matchData.last4overs]);
 
     useEffect(() => {
-        fetchSeriesData(matchData.series_id);
+        if(matchData && matchData.series_id){
+            fetchSeriesData(matchData.series_id);
+        }
     }, [matchData && matchData.series_id]);
 
     useEffect(() => {
@@ -253,10 +254,17 @@ function LiveScoreBoard() {
             speak({ text: matchData.first_circle });
         }
     }, [matchData && matchData.first_circle]);
-
-    const loadMore = () => {
-        setVisibleCount((prevCount) => prevCount + 5);
-    };
+    
+    const fetchMatchInfoByMatchId = () => {
+        axios.post(process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/matchInfoByMatchId` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/matchInfoByMatchId`, { match_id: id }, apiConfig)
+        .then((res) => {
+            console.log(res.data.data);
+            setMatchInfo(res.data.data);
+        })
+        .catch((err) => {
+            console.error(err);
+        });
+    }
 
     const fetchScorecardByMatchId = () => {
         axios.post(process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/scorecardByMatchId` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/scorecardByMatchId`, { match_id: id }, apiConfig)
@@ -268,6 +276,16 @@ function LiveScoreBoard() {
         });
     }
 
+    const fetchPlayingXIByMatchId = () => {
+        axios.post(process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/playingXiByMatchId` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/playingXiByMatchId`, { match_id: id }, apiConfig)
+        .then((res) => {
+            setPlayingXI(res.data.data);
+        })
+        .catch((err) => {
+            console.error(err);
+        });
+    }
+    
     const fetchOddHistoryByMatchId = () => {
         axios.post(process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/matchOddHistory` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/matchOddHistory`, { match_id: id }, apiConfig)
         .then((res) => {
@@ -372,21 +390,22 @@ function LiveScoreBoard() {
                                         <aside className="sidebar right-sidebar">
                                             <div className="widget widget-upcoming-match">
                                                 <div className="card card-shadow">
-                                                    <ul className="nav nav-tabs">
+                                                    <ul className="nav nav-tabs custom-nav">
                                                         <li className={activeTab === 'liveline' ? 'cursor-pointer active' : 'cursor-pointer'}>
-                                                            <a onClick={() => handleTabChange('liveline')}>Liveline</a>
+                                                            <a onClick={() => handleTabChange('liveline')}>Live</a>
                                                         </li>
                                                         <li className={activeTab === 'liveastrology' ? 'cursor-pointer active' : 'cursor-pointer'}>
-                                                            <a onClick={() => handleTabChange('liveastrology')}>Live Astrology</a>
+                                                            <a onClick={() => handleTabChange('liveastrology')}>Astrology</a>
                                                         </li>
                                                         {/* <li><a data-toggle="tab" href="#fantasyteams">Fantasy Teams</a></li> */}
-                                                        <li className={activeTab === 'info' ? 'cursor-pointer active' : 'cursor-pointer'}>
+                                                        <li className={activeTab === 'info' ? 'cursor-pointer active' : 'cursor-pointer'} onClick={() => {fetchMatchInfoByMatchId();}}>
                                                             <a onClick={() => handleTabChange('info')}>Info</a>
                                                         </li>
-                                                        <li className={activeTab === 'session' ? 'cursor-pointer active' : 'cursor-pointer'}>
-                                                            <a onClick={() => handleTabChange('session')}>Session</a>
+                                                        <li className={activeTab === 'playingXI' ? 'cursor-pointer active' : 'cursor-pointer'} onClick={() => {fetchPlayingXIByMatchId();}}>
+                                                            <a onClick={() => handleTabChange('playingXI')}>PlayingXI
+                                                            </a>
                                                         </li>
-                                                        <li className={activeTab === 'commentary' ? 'cursor-pointer active' : 'cursor-pointer'}>
+                                                        <li className={activeTab === 'commentary' ? 'cursor-pointer active' : 'cursor-pointer'} onClick={() => {loadCommentary();}}>
                                                             <a onClick={() => handleTabChange('commentary')}>Commentary
                                                             </a>
                                                         </li>
@@ -395,7 +414,7 @@ function LiveScoreBoard() {
                                                             </a>
                                                         </li>
                                                         <li className={activeTab === 'history' ? 'cursor-pointer active' : 'cursor-pointer'} onClick={() => {fetchOddHistoryByMatchId();}}>
-                                                            <a onClick={() => handleTabChange('history')}>Odd History
+                                                            <a onClick={() => handleTabChange('history')}>History
                                                             </a>
                                                         </li>
                                                     </ul>
@@ -700,7 +719,7 @@ function LiveScoreBoard() {
                                                                                     </table>
                                                                                 </div>
                                                                             </div>
-                                                                            <div className="spell-sum-box px-30 py-20">
+                                                                            <div className="spell-sum-box px-30 pb-0">
                                                                                 <h5>Yet to bat: &nbsp;
                                                                                     <span> 
                                                                                     {matchData && matchData.yet_to_bet && 
@@ -712,6 +731,11 @@ function LiveScoreBoard() {
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            <hr/>
+                                                            <div className='text-center' style={{marginBottom: '-10px'}}>
+                                                                <h3>Session History</h3>
+                                                            </div>
+                                                            <div className='text-session' dangerouslySetInnerHTML={{__html: matchData && matchData.session ? matchData.session : ''}} /> 
                                                         </div>
                                                         <div id="liveastrology" className={`tab-pane fade in ${activeTab === 'liveastrology' ? 'show active' : ''}`}>
                                                             Time: 10:00 PM <br/>
@@ -994,245 +1018,83 @@ function LiveScoreBoard() {
                                                                             <ul className="list-striped mr-05">
                                                                                 <li>
                                                                                     <span>Series: </span>
-                                                                                    <p style={{fontSize: '11px'}}>{seriesData && seriesData.series_name ? seriesData.series_name : ''}</p>
+                                                                                    <p>{matchInfo && matchInfo.series ? matchInfo.series : ''}</p>
                                                                                 </li>
                                                                                 <li>
                                                                                     <span>Match: </span>
-                                                                                    <p style={{fontSize: '11px'}}>{matchData && matchData.date_wise ? matchData.date_wise : ''}</p>
-                                                                                </li>
-                                                                            </ul>
-                                                                            <ul className="list-striped">
-                                                                                <li>
-                                                                                    <span>Date & Day: </span>
-                                                                                    <p style={{fontSize: '11px'}}>{seriesData && seriesData.series_date ? seriesData.series_date : ''}</p>
+                                                                                    <p>{matchInfo && matchInfo.team_a && matchInfo.team_b ? matchInfo.team_a + ' vs ' + matchInfo.team_b + ' ' + matchInfo.matchs : ''}</p>
                                                                                 </li>
                                                                                 <li>
-                                                                                    <span>Time: </span>
-                                                                                    <p>{matchData && matchData.match_time ? matchData.match_time : ''}</p>
+                                                                                    <span>Date & Time: </span>
+                                                                                    <p>{matchInfo && matchInfo.match_time && matchInfo.match_date ? matchInfo.match_date + ' - ' + matchInfo.match_time : ''}</p>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <span>Venue: </span>
+                                                                                    <p>{matchInfo && matchInfo.venue ? matchInfo.venue : ''}</p>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <span>Toss: </span>
+                                                                                    <p>{matchInfo && matchInfo.toss ? matchInfo.toss : ''}</p>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <span>Umpire: </span>
+                                                                                    <p>{matchInfo && matchInfo.umpire ? matchInfo.umpire : ''}</p>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <span>3rd Umpire: </span>
+                                                                                    <p>{matchInfo && matchInfo.third_umpire ? matchInfo.third_umpire : ''}</p>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <span>Referee: </span>
+                                                                                    <p>{matchInfo && matchInfo.referee ? matchInfo.referee : ''}</p>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <span>Man of the Match: </span>
+                                                                                    <p>{matchInfo && matchInfo.man_of_match_player ? matchInfo.man_of_match_player : ''}</p>
                                                                                 </li>
                                                                             </ul>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            {/* <div className='pb-10'>
-                                                                <h3 className="widget-title">Squads</h3>
-                                                                <div className="widget widget-shop-categories widget-accordion">
-                                                                    <div className="accordion" id="accordion">
-                                                                        <div className="accordion-item">
-                                                                            <h5 className="collapsed" data-toggle="collapse" data-target="#team_a" aria-expanded="false">INDIA</h5>
-                                                                            <div id="team_a" className="collapse" data-parent="#accordion">
-                                                                                <div className="acr-body">
-                                                                                    <section className="pb-20 pt-0">
-                                                                                        <div className="row">
-                                                                                            {randomNumbers.map((number, index) => (
-                                                                                            <div className='col-md-6' key={index}>
-                                                                                                <div className="row">
-                                                                                                    <div className="col-md-6">
-                                                                                                        <div className='d-flex'>
-                                                                                                            <div className="mt-10">
-                                                                                                                <img src="/assets/images/shop/single-shop/thumbs/cart-1.jpg" alt="" className='player-avatar-img'/>
-                                                                                                            </div>
-                                                                                                            <div className="mt-10 pl-10">
-                                                                                                                <div className="content-block">
-                                                                                                                    <h3>
-                                                                                                                        <a href="#">Player Name</a>
-                                                                                                                    </h3>
-                                                                                                                    <div className="prod-info">
-                                                                                                                        <a href="#" className="post-meta category">Wicket Keeper</a>
-                                                                                                                    </div>
-                                                                                                                </div>
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            ))}
-                                                                                        </div>
-                                                                                    </section>
-                                                                                </div>
-                                                                            </div>
+                                                        <div className='match-head mx-2 mt-3 mb-2'>Weather Report ({matchInfo && matchInfo.place ? matchInfo.place : ''})</div>
+                                                        <div className='card'>
+                                                            <div className='card-body'>
+                                                                <div className='mt-2 display-s-set'>
+                                                                    <div>
+                                                                        <img src="https://cdn.weatherapi.com/weather/64x64/day/116.png" className='w-img-set'/>
+                                                                        <strong>{matchInfo && matchInfo.venue_weather && matchInfo.venue_weather.temp_c ? matchInfo.venue_weather.temp_c : ''}°c</strong>
+                                                                    </div>
+                                                                    <div className='d-flex text-right'>
+                                                                        <div className='mr-4'>
+                                                                            <div><strong>{matchInfo && matchInfo.venue_weather && matchInfo.venue_weather.wind_mph ? matchInfo.venue_weather.wind_mph : ''} m/h</strong></div>
+                                                                            <div>Wind Speed</div>
                                                                         </div>
-                                                                        <div className="accordion-item">
-                                                                            <h5 className="collapsed" data-toggle="collapse" data-target="#team_b" aria-expanded="false">PAKISTAN</h5>
-                                                                            <div id="team_b" className="collapse" data-parent="#accordion">
-                                                                            <div className="acr-body">
-                                                                                    <section className="pb-20 pt-0">
-                                                                                        <div className="row">
-                                                                                            {randomNumbers.map((number, index) => (
-                                                                                            <div className='col-md-6' key={index}>
-                                                                                                <div className="row">
-                                                                                                    <div className="col-md-6">
-                                                                                                        <div className='d-flex'>
-                                                                                                            <div className="mt-10">
-                                                                                                                <img src="/assets/images/shop/single-shop/thumbs/cart-1.jpg" alt="" className='player-avatar-img'/>
-                                                                                                            </div>
-                                                                                                            <div className="mt-10 pl-10">
-                                                                                                                <div className="content-block">
-                                                                                                                    <h3>
-                                                                                                                        <a href="#">Player Name</a>
-                                                                                                                    </h3>
-                                                                                                                    <div className="prod-info">
-                                                                                                                        <a href="#" className="post-meta category">Wicket Keeper</a>
-                                                                                                                    </div>
-                                                                                                                </div>
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            ))}
-                                                                                        </div>
-                                                                                    </section>
-                                                                                </div>
-                                                                            </div>
+                                                                        <div className='ml-4'>
+                                                                            <div><strong>{matchInfo && matchInfo.venue_weather && matchInfo.venue_weather.humidity ? matchInfo.venue_weather.humidity : ''}%</strong></div>
+                                                                            <div>Humidity</div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div> */}
-                                                            {/* <div className='pb-10'>
-                                                                <h3 className="widget-title">Team Form - Last 5 matches</h3>
-                                                                <table className='table-responsive'>
-                                                                    <tr>
-                                                                        <td>
-                                                                            <h5 className='mb-0'>INDIA: </h5>
-                                                                        </td>
-                                                                        <td>
-                                                                            <div className='spell-sum-box p-1'>
-                                                                                <div className="recent-spell">
-                                                                                    <ul>
-                                                                                        <li>
-                                                                                            <span>*</span>
-                                                                                        </li>
-                                                                                        <li>
-                                                                                            <span className="bg-success">W</span>
-                                                                                        </li>
-                                                                                        <li>
-                                                                                            <span className="bg-success">W</span>
-                                                                                        </li>
-                                                                                        <li>
-                                                                                            <span className="bg-danger">L</span>
-                                                                                        </li>
-                                                                                        <li>
-                                                                                            <span className="bg-danger">L</span>
-                                                                                        </li>
-                                                                                        <li>
-                                                                                            <span className="bg-danger">L</span>
-                                                                                        </li>
-                                                                                    </ul>
-                                                                                </div>
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>
-                                                                            <h5 className='mb-0'>PAKISTAN: </h5>
-                                                                        </td>
-                                                                        <td>
-                                                                            <div className='spell-sum-box p-1'>
-                                                                                <div className="recent-spell">
-                                                                                    <ul>
-                                                                                        <li>
-                                                                                            <span>*</span>
-                                                                                        </li>
-                                                                                        <li>
-                                                                                            <span className="bg-danger">L</span>
-                                                                                        </li>
-                                                                                        <li>
-                                                                                            <span className="bg-danger">L</span>
-                                                                                        </li>
-                                                                                        <li>
-                                                                                            <span className="bg-danger">L</span>
-                                                                                        </li>
-                                                                                        <li>
-                                                                                            <span className="bg-success">W</span>
-                                                                                        </li>
-                                                                                        <li>
-                                                                                            <span className="bg-danger">L</span>
-                                                                                        </li>
-                                                                                    </ul>
-                                                                                </div>
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-                                                            </div> */}
-                                                            <div className='pb-10'>
-                                                                <h3 className="widget-title">Venue Guide</h3>
-                                                                <div className="venue-wrapper">
-                                                                    <i className='fa fa-map-pin'></i>
-                                                                    <span className="">{matchData && matchData.venue ? matchData.venue : ''}</span>
+                                                                <div className='display-s-set text-right'>
+                                                                    <div>
+                                                                        <div><strong>{matchInfo && matchInfo.venue_weather && matchInfo.venue_weather.weather ? matchInfo.venue_weather.weather : ''}</strong></div>
+                                                                    </div>
+                                                                    <div>
+                                                                        <div><strong>{matchInfo && matchInfo.venue_weather && matchInfo.venue_weather.cloud ? matchInfo.venue_weather.cloud : ''}%</strong></div>
+                                                                        <div>Rain Change</div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="session" className={`tab-pane fade in ${activeTab === 'session' ? 'show active' : ''}`}>
+                                                        </div>
+                                                        <div id="playingXI" className={`tab-pane fade in ${activeTab === 'playingXI' ? 'show active' : ''}`}>
                                                             <hr className='mb-0'/>
-                                                            <div className='text-session' dangerouslySetInnerHTML={{__html: matchData && matchData.session ? matchData.session : ''}} /> 
+                                                            {playingXI ? <PlayingXI playingXIData={playingXI}/> : "Loading Playing XI..."}
                                                         </div>
                                                         <div id="commentary" className={`tab-pane fade in ${activeTab === 'commentary' ? 'show active' : ''}`}>
                                                             <hr className='mb-0'/>
-                                                            <div className="container mt-4">
-                                                                <div className="row">
-                                                                    <div className="col-12">
-                                                                        {!comData.length && (
-                                                                            <div className="text-center mt-4 mb-4">
-                                                                                No commentary available.
-                                                                            </div>
-                                                                        )}
-
-                                                                        {(comData.length > 0) && (
-                                                                            <div>
-                                                                                {comData.slice(0, visibleCount).map((item, index) => (
-                                                                                    <div key={index} className="mb-4">
-                                                                                        {item.type === 2 && (
-                                                                                            <div className="card">
-                                                                                                <div className="card-body">
-                                                                                                    <p className="card-title font-weight-bold">{item.data.title} ({item.data.runs} Runs)</p>
-                                                                                                    <div className="row">
-                                                                                                        <div className="col-4">
-                                                                                                            <p>{item.data.team_score ?? 0}-{item.data.team_wicket ?? 0}</p>
-                                                                                                            <p>{item.data.team ?? ""}</p>
-                                                                                                        </div>
-                                                                                                        <div className="col-8">
-                                                                                                            <p className="font-weight-bold">{item.data.batsman_1_name ?? ""}</p>
-                                                                                                            <p>{item.data.batsman_1_runs ?? 0}({item.data.batsman_1_balls ?? 0})</p>
-                                                                                                            <p className="font-weight-bold">{item.data.batsman_2_name ?? ""}</p>
-                                                                                                            <p>{item.data.batsman_2_runs ?? 0}({item.data.batsman_2_balls ?? 0})</p>
-                                                                                                            <p className="font-weight-bold">{item.data.bolwer_name ?? ""}</p>
-                                                                                                            <p>{item.data.bolwer_overs ?? 0}-{item.data.bolwer_wickets ?? 0}-{item.data.bolwer_runs ?? 0}-{item.data.bolwer_maidens ?? 0}</p>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        )}
-                                                                                        {item.type === 1 && (
-                                                                                            <div className="card mt-2">
-                                                                                                <div className="card-body">
-                                                                                                    <p>{item.data.overs ?? 0}</p>
-                                                                                                    <div className="row">
-                                                                                                        <div className="col-2">
-                                                                                                            <p>{item.data.runs ?? 0}</p>
-                                                                                                        </div>
-                                                                                                        <div className="col-10">
-                                                                                                            <p className="font-weight-bold">{item.data.title ?? "-"}</p>
-                                                                                                            <p>{item.data.description ?? "-"}</p>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        )}
-                                                                                    </div>
-                                                                                ))}
-                                                                                {comData.length > visibleCount && (
-                                                                                    <div className="text-center mt-15 mb-10">
-                                                                                        <button className="cricnotch-btn btn-filled bg-success loadMore-btn" onClick={loadMore}><i className="fas fa-spinner"></i>&nbsp;&nbsp;&nbsp; Load more</button>
-                                                                                    </div>
-                                                                                )}
-                                                                            </div>
-                                                                        )}
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                                                            {comData ? <Commentary commentaryData={comData}/> : "Loading comments..."}
                                                         </div>
                                                         <div id="scorecard" className={`tab-pane fade in ${activeTab === 'scorecard' ? 'show active' : ''}`}>
                                                             <hr/>
