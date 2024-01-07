@@ -110,7 +110,10 @@ const HomePage = () => {
 			: `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/${accessToken ? 'recentMatches': 'offlineRecentMatches'}`,
 			apiConfig
 			)
-			.then((response) => setRecentMatches(response.data.data))
+			.then((response) => {
+				console.log("recent matches", response.data.data);
+				setRecentMatches(response.data.data)
+			})
 			.catch((error) => console.error('Error fetching recent matches:' + error));
 	};
 	

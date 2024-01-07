@@ -217,7 +217,49 @@ function LiveScoreBoard() {
     const fetchMatchInfo = () => {
         axios.post(process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/matchInfo` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/matchInfo`, { match_id: id }, apiConfig)
         .then((res) => {
-            setMatchData(res.data.data);
+            let data = res.data.data;
+            if (data.team_a_short == data.fav_team) {
+                data.back1 = data.min_rate;
+                data.lay1 = data.max_rate;
+
+                if (data.back1 != "" && data.back1 != undefined) {
+                    data.back2 = (1 / (data.max_rate - 1)) + 1;
+                    data.back2 = data.back2.toFixed(2);
+
+                    data.lay2 = (1 / (data.min_rate - 1)) + 1;
+                    data.lay2 = data.lay2.toFixed(2);
+                }
+                else {
+                    data.back1 = "";
+                    data.back2 = 1000;
+                    data.lay2 = "";
+                }
+
+            }
+            else if (data.team_b_short == data.fav_team) {
+                data.back2 = data.min_rate;
+                data.lay2 = data.max_rate;
+
+                if (data.back2 != "" && data.back2 != undefined) {
+                    data.back1 = (1 / (data.max_rate - 1)) + 1;
+                    data.back1 = data.back1.toFixed(2);
+
+                    data.lay1 = (1 / (data.min_rate - 1)) + 1;
+                    data.lay1 = data.lay1.toFixed(2);
+                }
+                else {
+                    data.back2 = "";
+                    data.back1 = 1000;
+                    data.lay1 = "";
+                }
+            }
+            else {
+                data.back1 = 1.90;
+                data.back2 = 1.90;
+                data.lay1 = 2.00;
+                data.lay2 = 2.00;
+            }
+            setMatchData(data);
         })
         .catch((err) => {
             console.error(err);
@@ -413,6 +455,13 @@ function LiveScoreBoard() {
                                                                                                 <td className={'back-color bl-style ' + back2Style}>{matchData && matchData.back2 ? matchData.back2 : '0'}</td>
                                                                                                 <td className={'lay-color bl-style ' + lay2Style}>{matchData && matchData.lay2 ? matchData.lay2 : '0'}</td>
                                                                                             </tr>
+                                                                                            {matchData && matchData.match_type == "Test" &&
+                                                                                                <tr>
+                                                                                                    <td>The Draw</td>
+                                                                                                    <td className={'back-color bl-style ' + back2Style}>{matchData && matchData.min_rate_2 ? matchData.min_rate_2 : '0'}</td>
+                                                                                                    <td className={'lay-color bl-style ' + lay2Style}>{matchData && matchData.max_rate_2 ? matchData.max_rate_2 : '0'}</td>
+                                                                                                </tr>
+                                                                                            }
                                                                                         </tbody>
                                                                                     </table>
                                                                                 </div>
