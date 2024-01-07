@@ -637,15 +637,13 @@ function LiveScoreBoard() {
                                                                 {matchData && matchData.match_tied && matchData.match_tied.status &&
                                                                 <div className="col-md-12">
                                                                     <div className="widget widget-rankings">
-                                                                        <h3 className="widget-title">Match Tied</h3>
-
                                                                         <div className="card px-0 py-0 odd-border">
                                                                             <div id="test_rank_trs" className="tab-pane fade in show active">
                                                                                 <div className="table-responsive">
                                                                                     <table className="widget-table table table-striped no-border">
                                                                                         <thead>
                                                                                             <tr>
-                                                                                                <th scope="col">Team Name</th>
+                                                                                                <th scope="col">Match Tied</th>
                                                                                                 <th scope="col" style={{width: '10%', textAlign: 'center'}}>Back</th>
                                                                                                 <th scope="col" style={{width: '10%', textAlign: 'center'}}>Lay</th>
                                                                                             </tr>
