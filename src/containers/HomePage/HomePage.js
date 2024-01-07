@@ -17,7 +17,6 @@ import {
 } from 'firebase/firestore';
 import { db } from '../../authFiles/fbaseconfig';
 import Reviews from '../../components/Reviews';
-// import newsData from '../../apiResponses/news.json';
 
 const HomePage = () => {
 	const navigate = useNavigate();
@@ -33,7 +32,6 @@ const HomePage = () => {
 	const [currentIndex, setCurrentIndex] = useState(0);
 	const [activeTab, setActiveTab] = useState('home');
 	const accessToken = localStorage.getItem('client_token');
-	const maxContentLength = 100;
 	const maxTitleLength = 35;
 	const responsiveOptions = {
 		0: { items: 1 },
@@ -395,7 +393,6 @@ const HomePage = () => {
 																	</div>
 																	<div className="col-md-4" style={{backgroundColor: '#ffffff'}}>
 																		<div>
-																			{/* <h3 className="widget-title">Astrological Fantasy Players</h3> */}
 																			<img src='/assets/images/fantacy-ground.png' className='pt-15 fantasy-ground'/>
 																		</div>
 
@@ -407,7 +404,6 @@ const HomePage = () => {
 																						<div className="ad-slot" key={currentAds[0]?.id}>
 																							<h3>{currentAds[0]?.title}</h3>
 																							{renderMedia(currentAds[0]?.media_file)}
-																							{/* Add more details as needed */}
 																						</div>
 																					</div>
 																				</a>}

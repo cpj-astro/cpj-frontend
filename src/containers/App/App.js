@@ -9,7 +9,6 @@ import PlayerStats from '../PlayerStats/PlayerStats';
 import PlayerProfile from '../PlayerProfile/PlayerProfile';
 import LiveScoreBoard from '../LiveScoreBoard/LiveScoreBoard';
 import { ToastContainer } from 'react-toastify';
-import MatchAstrology from '../MatchAstrology/MatchAstrology';
 import Terms from '../Pages/Terms';
 import Privacy from '../Pages/Privacy';
 import Disclaimer from '../Pages/Disclaimer';
@@ -19,11 +18,12 @@ import ContactUs from '../ContactUs/ContactUs';
 import FAQs from '../FAQs/FAQs';
 import AboutUs from '../Pages/AboutUs';
 import Feedback from '../Feedback';
+import NewsDetails from '../NewsDetails/NewsDetails';
+import PhonePeStatus from '../../components/PhonePeStatus';
+import MatchReports from '../MatchReports/MatchReports';
 import 'react-toastify/dist/ReactToastify.css';
 import 'owl.carousel/dist/assets/owl.carousel.min.css';
 import 'owl.carousel/dist/assets/owl.theme.default.min.css';
-import NewsDetails from '../NewsDetails/NewsDetails';
-import PhonePeStatus from '../../components/PhonePeStatus';
 
 const App = () => {
   return (
@@ -41,8 +41,8 @@ const App = () => {
               element={<PrivateRoute><PlayerStats /></PrivateRoute>}
             />
             <Route
-              path="/match-astrology/:id"
-              element={<PrivateRoute><MatchAstrology /></PrivateRoute>}
+              path="/match-reports/:id"
+              element={<PrivateRoute><MatchReports /></PrivateRoute>}
             />
             <Route
               path="/player-profile/:id"

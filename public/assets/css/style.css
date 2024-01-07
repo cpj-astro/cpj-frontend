@@ -1700,7 +1700,14 @@ span.p_class {
 }
 
 .accordion .accordion-item .card:first-of-type {
-  border-radius: 0 0 10px 10px;
+  border-radius: 10px;
+}
+
+.info-icon-set {
+  position: absolute;
+  right: 5px;
+  font-size: large;
+  color: #aeaeae;
 }
 
 .accordion-2 .accordion-item {

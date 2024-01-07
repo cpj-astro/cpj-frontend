@@ -15,9 +15,9 @@ import Loader from '../../components/Loader';
 function Profile() {
     const navigate = useNavigate();
     const [showModal, setShowModal] = useState(false);
-    const [activeTab, setActiveTab] = useState('profile-details');
     const handleCloseModal = () => setShowModal(false);
     const handleShowModal = () => setShowModal(true);
+    const [activeTab, setActiveTab] = useState('profile-details');
     const [loader, setLoader] = useState(false);
     const { register, handleSubmit, setValue, getValues, watch, reset, formState, formState: { isSubmitSuccessful } } = useForm();
     const [user, setUserData] = useState([]);

@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-const PhonePeIntegration = ({ astroAmount }) => {
+const PhonePeIntegration = ({ btnText, astroAmount }) => {
   const navigate = useNavigate();
   const makePayment = async () => {
     const transactionid = 'T-CPJ-' + uuidv4().replace(/-/g, '').toUpperCase().slice(0, 21);
@@ -64,8 +64,12 @@ const PhonePeIntegration = ({ astroAmount }) => {
     }
   };
 
-  return (
-    <button className="mt-4 btn-astro-v1" onClick={makePayment}> Buy Astrology </button>
+  return ( 
+    <>
+      <button className="mt-2 btn-astro-v1" onClick={makePayment}> 
+        {btnText}
+      </button>
+    </>
   );
 };
 
