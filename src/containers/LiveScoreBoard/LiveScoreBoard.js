@@ -198,9 +198,30 @@ function LiveScoreBoard() {
         }, 200);
     }, [matchData && matchData.match_tied && matchData.match_tied.t2_lay])
 
+    const getCricketTermDescription = (term) => {
+        const termsMap = {
+            'ball': 'ball start',
+            '0': 'Dot Ball',
+            '1': 'Single Single',
+            '2': 'Double Double',
+            '3': 'Triple Triple',
+            '4': 'Four Four Four',
+            'four': 'Four Four Four',
+            'six': 'Six Six Sixer',
+            '5': '5 Runs',
+            '6': 'Six Six Six',
+            'wide': 'Wide Ball',
+            'over': 'Over complete'
+        };
+    
+        const lowerCaseTerm = term.toLowerCase();
+        return termsMap[lowerCaseTerm] || term
+    }
+
     useEffect(() => {
         if(matchData && matchData.first_circle && volumeStatus) {
-            speak({ text: matchData.first_circle });
+            const description = getCricketTermDescription(matchData.first_circle);
+            speak({ text: description });
         }
     }, [matchData && matchData.first_circle]);
     
@@ -303,7 +324,6 @@ function LiveScoreBoard() {
     useEffect(() => {
         onSnapshot(doc(db, "matchdata", id), (doc) => {
             if(doc.data()) {
-                console.log(doc.data());
                 setMatchData(doc.data()); 
             } else {
                 fetchMatchInfo();
@@ -385,9 +405,10 @@ function LiveScoreBoard() {
                                         </div>
                                     </div>
                                 </div> 
+                                {matchData.astrology_status === 'enable' &&
                                 <button className="btn-astro-v1" onClick={() => {navigate(`/match-astrology/${id}`)}}>     
                                     {matchDetails.razorpay_payment_id ? 'View Reports' : 'Buy Reports'} 
-                                </button>
+                                </button>}
                                 {matchData && matchData.need_run_ball &&
                                 <div className="card mt-10 p-1">
                                     <div style={{fontSize: '12px',fontWeight: 'bold', textAlign: 'center'}}>
@@ -748,10 +769,13 @@ function LiveScoreBoard() {
                                                                 </div>
                                                             </div>
                                                             <hr/>
-                                                            <div className='text-center' style={{marginBottom: '-10px'}}>
-                                                                <h3>Session History</h3>
-                                                            </div>
-                                                            <div className='text-session' dangerouslySetInnerHTML={{__html: matchData && matchData.session ? matchData.session : ''}} /> 
+                                                            {matchData && matchData.session ?
+                                                            <>
+                                                                <div className='text-center' style={{marginBottom: '-10px'}}>
+                                                                    <h3>Session History</h3>
+                                                                </div>
+                                                                <div className='text-session' dangerouslySetInnerHTML={{__html: matchData && matchData.session ? matchData.session : ''}} /> 
+                                                            </> : <></>}
                                                         </div>
                                                         <div id="liveastrology" className={`tab-pane fade in ${activeTab === 'liveastrology' ? 'show active' : ''}`}>
                                                             Time: 10:00 PM <br/>
@@ -849,6 +873,7 @@ function LiveScoreBoard() {
                                                         </div>
                                                         <div id="scorecard" className={`tab-pane fade in ${activeTab === 'scorecard' ? 'show active' : ''}`}>
                                                             <hr/>
+                                                            {scoreCard && scoreCard.length == 0 && 'No Data Available'}
                                                             {scoreCard ? <Scorecard scorecardData={scoreCard}/> : "Loading Scorecard..."}
                                                         </div>
                                                         <div id="history" className={`tab-pane fade in ${activeTab === 'history' ? 'show active' : ''}`}>

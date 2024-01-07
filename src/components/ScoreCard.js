@@ -1,7 +1,12 @@
 import React from 'react';
 
 const Scorecard = ({ scorecardData }) => {
-    const scorecardValues = Object.values(scorecardData.scorecard);
+    const scorecardValues = null;
+    if(scorecardData && scorecardData.scorecard) {
+        scorecardValues = Object.values(scorecardData.scorecard);
+    } else {
+        return
+    }
     return (
         <>
             {scorecardValues && scorecardValues.length > 0 && scorecardValues.map((data, index) => (
