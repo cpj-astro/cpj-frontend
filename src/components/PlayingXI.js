@@ -14,7 +14,7 @@ export default function PlayingXI({ playingXIData }) {
                             <div className="acr-body">
                                 {playingXIData[teamKey].player.map((player, idx) => (
                                 <div key={idx} style={{ display: 'flex', alignItems: 'center', marginTop: '3px', marginBottom: '3px', padding: '0px 10px'}}>
-                                    <img src={player.image} alt={player.name} style={{ width: '35px', height: '35px', marginRight: '10px', borderRadius: '100%', border:"2px solid #d5d5d5" }} />
+                                    <img src={process.env.REACT_APP_IMG_FIX+player.image} alt={player.name} style={{ width: '35px', height: '35px', marginRight: '10px', borderRadius: '100%', border:"2px solid #d5d5d5" }} />
                                     <div>
                                     <div><strong>{player.name}</strong></div>
                                     <div className='outby-set'>{player.play_role}</div>

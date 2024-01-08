@@ -47,7 +47,7 @@ export default function NewsDetails() {
                         <section className="blog-details pt-20">
                             <div className="image-card mb-2">
                                 <figure>
-                                    <img src={newsData && newsData.image ? newsData.image : ''} alt="" />
+                                    <img src={newsData && newsData.image ? process.env.REACT_APP_IMG_FIX+newsData.image : ''} alt="" />
                                 </figure>
                             </div>
                             <div className="card card-shadow">

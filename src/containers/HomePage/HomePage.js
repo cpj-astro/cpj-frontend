@@ -244,7 +244,7 @@ const HomePage = () => {
 													<div className="country-info">
 														<div className="flag-avatar">
 															<figure>
-																<img src={match && match.team_a_img ? match.team_a_img : '/assets/images/flags/bangladesh.png'} alt="" />
+																<img src={match && match.team_a_img ? process.env.REACT_APP_IMG_FIX+match.team_a_img : '/assets/images/flags/bangladesh.png'} alt="" />
 															</figure>
 															<span className="country-name">{match && match.team_a_short ? match.team_a_short : ''}</span>
 														</div>
@@ -256,7 +256,7 @@ const HomePage = () => {
 													<div className="country-info flex-row-reverse">
 														<div className="flag-avatar ml-05">
 															<figure>
-																<img src={match && match.team_b_img ? match.team_b_img : '/assets/images/flags/bangladesh.png'} alt="" />
+																<img src={match && match.team_b_img ? process.env.REACT_APP_IMG_FIX+match.team_b_img : '/assets/images/flags/bangladesh.png'} alt="" />
 															</figure>
 															<span className="country-name">{match.team_b_short}</span>
 														</div>
@@ -323,76 +323,75 @@ const HomePage = () => {
 															<div className="container">
 																<div className="row">
 																	<div className="col-md-8" style={{backgroundColor: '#ffffff'}}>
-																		{matchData && matchData.team_a ? (
-																			<h3 className="widget-title">Live Line Of {matchData.team_a + ' Vs ' + matchData.team_b} </h3>
-																		) : (
-																			<h3 className="widget-title">No Data</h3>
-																		)}
-																		
-																		<div className=''>
-																			<div className='tv-container'>    
-																				<div className="tv">
-																					<div className="score">
-																						{matchData && matchData.first_circle ? matchData.first_circle : 'No Data'}
-																					</div>
-																					<div className='tv-score'>
-																						<div className="score-card-body">
-																							<div className="country-info">
-																								<div className="text-center">
-																									<span className="country-name">{matchData && matchData.team_a_short ? matchData.team_a_short : 'N/A'}</span>
-																									<span>{matchData && matchData.team_a_scores ? matchData.team_a_scores : '00-0'}</span> &nbsp;
-																									<span className="text-muted">{matchData && matchData.team_a_over ? matchData.team_a_over : '0.0'} ov.</span>
-																								</div>
+																		{matchData && matchData.team_a && (
+																			<>
+																				<h3 className="widget-title">Live Line Of {matchData.team_a + ' Vs ' + matchData.team_b} </h3>
+																				<div className=''>
+																					<div className='tv-container'>    
+																						<div className="tv">
+																							<div className="score">
+																								{matchData && matchData.first_circle ? matchData.first_circle : 'No Data'}
 																							</div>
-																							<div className="country-info">
-																								<div className="text-center">
-																									<span className="country-name">{matchData && matchData.team_b_short ? matchData.team_b_short : 'N/A'}</span>
-																									<span>{matchData && matchData.team_b_scores ? matchData.team_b_scores : '00-0'}</span> &nbsp;
-																									<span className="text-muted">{matchData && matchData.team_b_over ? matchData.team_b_over : '0.0'} ov.</span>
-																								</div>
-																							</div>
-																						</div>
-																					</div>
-																				</div>
-																			</div> 
-																			{gameZop.game_link && gameZop.status &&
-																				<>
-																					<h3 className="widget-title">Games & More</h3>
-																					<a href={gameZop.game_link} target='_blank'>
-																						<img src='assets/images/gamezop-banner.png' className='gamezop-image'/>
-																					</a>
-																				</>
-																			}
-																			<h3 className="widget-title">Cricket News</h3>
-																			<section className="related-news p-0">
-																				<div className="row">
-																				{newsData && newsData.length > 0 ? (
-																					<>
-																						{newsData.map((news) => (
-																							<div className="col-md-6" key={news.news_id}>
-																								<div className="card card-shadow p-0">
-																									<div className="content-card news-card">
-																										<figure>
-																											<img src={'https://wsrv.nl/?url='+news.image} alt="" />
-																										</figure>
-																										<div className="content-block">
-																											<h3>
-																												<a href={`/news-details/${news.news_id}/${news.title}/${news.pub_date}`}>{news.title.slice(0, maxTitleLength)}...</a>
-																											</h3>
-																											<span className="post-meta">{news.pub_date}</span>
+																							<div className='tv-score'>
+																								<div className="score-card-body">
+																									<div className="country-info">
+																										<div className="text-center">
+																											<span className="country-name">{matchData && matchData.team_a_short ? matchData.team_a_short : 'N/A'}</span>
+																											<span>{matchData && matchData.team_a_scores ? matchData.team_a_scores : '00-0'}</span> &nbsp;
+																											<span className="text-muted">{matchData && matchData.team_a_over ? matchData.team_a_over : '0.0'} ov.</span>
+																										</div>
+																									</div>
+																									<div className="country-info">
+																										<div className="text-center">
+																											<span className="country-name">{matchData && matchData.team_b_short ? matchData.team_b_short : 'N/A'}</span>
+																											<span>{matchData && matchData.team_b_scores ? matchData.team_b_scores : '00-0'}</span> &nbsp;
+																											<span className="text-muted">{matchData && matchData.team_b_over ? matchData.team_b_over : '0.0'} ov.</span>
 																										</div>
 																									</div>
 																								</div>
 																							</div>
-																						))}
-																					</>
-																				) : (
-																					<p>No data available</p>
-																				)}
+																						</div>
+																					</div> 
+																					{gameZop.game_link && gameZop.status &&
+																						<>
+																							<h3 className="widget-title">Games & More</h3>
+																							<a href={gameZop.game_link} target='_blank'>
+																								<img src='assets/images/gamezop-banner.png' className='gamezop-image'/>
+																							</a>
+																						</>
+																					}
+																					<h3 className="widget-title">Cricket News</h3>
+																					<section className="related-news p-0">
+																						<div className="row">
+																						{newsData && newsData.length > 0 ? (
+																							<>
+																								{newsData.map((news) => (
+																									<div className="col-md-6" key={news.news_id}>
+																										<div className="card card-shadow p-0">
+																											<div className="content-card news-card">
+																												<figure>
+																													<img src={process.env.REACT_APP_IMG_FIX+news.image} alt="" />
+																												</figure>
+																												<div className="content-block">
+																													<h3>
+																														<a href={`/news-details/${news.news_id}/${news.title}/${news.pub_date}`}>{news.title.slice(0, maxTitleLength)}...</a>
+																													</h3>
+																													<span className="post-meta">{news.pub_date}</span>
+																												</div>
+																											</div>
+																										</div>
+																									</div>
+																								))}
+																							</>
+																						) : (
+																							<p>No data available</p>
+																						)}
+																						</div>
+																					</section>
+																					<Reviews/>
 																				</div>
-																			</section>
-																			<Reviews/>
-																		</div>
+																			</>
+																		)}
 																	</div>
 																	<div className="col-md-4" style={{backgroundColor: '#ffffff'}}>
 																		<div>
@@ -467,7 +466,7 @@ const HomePage = () => {
 																							<div className="country-info">
 																								<div className="flag-avatar">
 																									<figure>
-																										<img src={match && match.team_a_img ? match.team_a_img : 'assets/images/flags/australia.png'} alt="" />
+																										<img src={match && match.team_a_img ? process.env.REACT_APP_IMG_FIX+match.team_a_img : 'assets/images/flags/australia.png'} alt="" />
 																									</figure>
 																									<span className="country-name">{match && match.team_a_short ? match.team_a_short : ''}</span>
 																								</div>
@@ -479,7 +478,7 @@ const HomePage = () => {
 																							<div className="country-info flex-row-reverse">
 																								<div className="flag-avatar">
 																									<figure>
-																										<img src={match && match.team_b_img ? match.team_b_img : 'assets/images/flags/australia.png'} alt="" />
+																										<img src={match && match.team_b_img ? process.env.REACT_APP_IMG_FIX+match.team_b_img : 'assets/images/flags/australia.png'} alt="" />
 																									</figure>
 																									<span className="country-name">{match && match.team_b_short ? match.team_b_short : ''}</span>
 																								</div>
@@ -595,7 +594,7 @@ const HomePage = () => {
 																							<div className="country-info">
 																								<div className="flag-avatar">
 																									<figure>
-																										<img src={match && match.team_a_img ? match.team_a_img : 'assets/images/flags/australia.png'} alt="" />
+																										<img src={match && match.team_a_img ? process.env.REACT_APP_IMG_FIX+match.team_a_img : 'assets/images/flags/australia.png'} alt="" />
 																									</figure>
 																									<span className="country-name">{match && match.team_a_short ? match.team_a_short : ''}</span>
 																								</div>
@@ -607,7 +606,7 @@ const HomePage = () => {
 																							<div className="country-info flex-row-reverse">
 																								<div className="flag-avatar">
 																									<figure>
-																										<img src={match && match.team_b_img ? match.team_b_img : 'assets/images/flags/australia.png'} alt="" />
+																										<img src={match && match.team_b_img ? process.env.REACT_APP_IMG_FIX+match.team_b_img : 'assets/images/flags/australia.png'} alt="" />
 																									</figure>
 																									<span className="country-name">{match && match.team_b_short ? match.team_b_short : ''}</span>
 																								</div>
@@ -722,7 +721,7 @@ const HomePage = () => {
 																						<div className="country-info">
 																							<div className="flag-avatar">
 																								<figure>
-																									<img src={match && match.team_a_img ? match.team_a_img : 'assets/images/flags/australia.png'} alt="" />
+																									<img src={match && match.team_a_img ? process.env.REACT_APP_IMG_FIX+match.team_a_img : 'assets/images/flags/australia.png'} alt="" />
 																								</figure>
 																								<span className="country-name">{match && match.team_a_short ? match.team_a_short : ''}</span>
 																							</div>
@@ -734,7 +733,7 @@ const HomePage = () => {
 																						<div className="country-info flex-row-reverse">
 																							<div className="flag-avatar">
 																								<figure>
-																									<img src={match && match.team_b_img ? match.team_b_img : 'assets/images/flags/australia.png'} alt="" />
+																									<img src={match && match.team_b_img ? process.env.REACT_APP_IMG_FIX+match.team_b_img : 'assets/images/flags/australia.png'} alt="" />
 																								</figure>
 																								<span className="country-name">{match && match.team_b_short ? match.team_b_short : ''}</span>
 																							</div>
