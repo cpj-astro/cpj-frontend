@@ -222,10 +222,6 @@ function LiveScoreBoard() {
         if(matchData && matchData.first_circle && volumeStatus) {
             const description = getCricketTermDescription(matchData.first_circle);
             speak({ text: description });
-            const msg = new SpeechSynthesisUtterance()
-            msg.text = "Hello World"
-
-            window.speechSynthesis.speak(msg)
         }
     }, [matchData && matchData.first_circle]);
     
