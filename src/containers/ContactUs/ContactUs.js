@@ -4,10 +4,12 @@ import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
+import { useNavigate } from 'react-router-dom';
 
 export default function ContactUs() {
     const { register, handleSubmit, setValue, getValues, watch, reset, formState, formState: { isSubmitSuccessful } } = useForm();
     const [loader, setLoader] = useState(false);
+    const navigate = useNavigate();
 
     var accessToken = localStorage.getItem('client_token');
     const apiConfig = {
@@ -33,7 +35,13 @@ export default function ContactUs() {
             }).catch((error) => {
                 setLoader(false);
                 reset();
-				console.log(error);
+				if(error.response.data.status_code == 401){
+                    localStorage.removeItem('client_token');
+                    toast.error('Session Expired!, Please Re-login.')
+                    navigate('/sign-in');
+                } else {
+                    console.log(error);
+                }
             });
 		} catch (error) {
             reset();

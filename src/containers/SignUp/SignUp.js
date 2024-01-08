@@ -62,8 +62,13 @@ function SignUp() {
 						navigate('/sign-up');
 					}
 				}).catch((error) => {
-					navigate('/sign-up');
-					console.error(error);
+					if(error.response.data.status_code == 401){
+						localStorage.removeItem('client_token');
+						toast.error('Session Expired!, Please Re-login.')
+						navigate('/sign-in');
+					} else {
+						console.log(error);
+					}
 				});
 			} catch (error) {
 				console.error(error);

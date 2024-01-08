@@ -95,10 +95,11 @@ function MatchReports() {
             setLoader(false);
             if(error.response.data.status_code == 401){
                 localStorage.removeItem('client_token');
-				navigate('/sign-in');
-			} else {
-                toast.error(error.code);
-			}
+                toast.error('Session Expired!, Please Re-login.')
+                navigate('/sign-in');
+            } else {
+                console.log(error);
+            }
         });
 	}
 
@@ -111,11 +112,12 @@ function MatchReports() {
             }
         }).catch((error) => {
             if(error.response.data.status_code == 401){
-				localStorage.removeItem('client_token');
-				navigate('/sign-in');
-			} else {
-                toast.error(error.code);
-			}
+                localStorage.removeItem('client_token');
+                toast.error('Session Expired!, Please Re-login.')
+                navigate('/sign-in');
+            } else {
+                console.log(error);
+            }
         });
     }
 
@@ -129,11 +131,12 @@ function MatchReports() {
         }).catch((error) => {
             setLoader(false);
             if(error.response.data.status_code == 401){
-				localStorage.removeItem('client_token');
-				navigate('/sign-in');
-			} else {
-                toast.error(error.code);
-			}
+                localStorage.removeItem('client_token');
+                toast.error('Session Expired!, Please Re-login.')
+                navigate('/sign-in');
+            } else {
+                console.log(error);
+            }
         });
     }
 
@@ -728,8 +731,8 @@ function MatchReports() {
                 }
                 <div className='row'>
                     <div className='col-md-12'>
-                        <div class="disclaimer-container mt-0 p-3">
-                            <div class="disclaimer">
+                        <div className="disclaimer-container mt-0 p-3">
+                            <div className="disclaimer">
                                 <p>
                                     <h3>
                                     🌟 Explore Our Astrologers! 🌟

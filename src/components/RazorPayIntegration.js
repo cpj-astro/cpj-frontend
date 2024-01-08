@@ -78,10 +78,10 @@ function RazorpayIntegration({ matchId, panditId, amount, moonSign, onPaymentSuc
       }).catch((error) => {
         if(error.response.data.status_code == 401){
           localStorage.removeItem('client_token');
-          toast.error("Unexpected Error, Please try again later.");
+          toast.error('Session Expired!, Please Re-login.')
           navigate('/sign-in');
         } else {
-          toast.error(error.code);
+          console.log(error);
         }
       });
     } catch (error) {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import sha256 from 'js-sha256';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const PhonePeStatus = () => {
@@ -35,9 +35,10 @@ const PhonePeStatus = () => {
             })
             .catch((error) => {
                 if(error.response.data.status_code == 401){
-                localStorage.removeItem('client_token');
+                    localStorage.removeItem('client_token');
+                    toast.error('Session Expired!, Please Re-login.')
                     navigate('/sign-in');
-                } else {
+                  } else {
                     console.log(error);
                 }
             });

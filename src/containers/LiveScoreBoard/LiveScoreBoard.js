@@ -59,7 +59,13 @@ function LiveScoreBoard() {
                 setSeriesData(response.data.data);
             }
         }).catch((error) => {
-            toast.error(error.code);
+            if(error.response.data.status_code == 401){
+                localStorage.removeItem('client_token');
+                toast.error('Session Expired!, Please Re-login.')
+                navigate('/sign-in');
+            } else {
+                console.log(error);
+            }
         });
     }
     
@@ -97,8 +103,14 @@ function LiveScoreBoard() {
                 setComData(data);
             }
         })
-        .catch((err) => {
-            console.error(err);
+        .catch((error) => {
+            if(error.response.data.status_code == 401){
+                localStorage.removeItem('client_token');
+                toast.error('Session Expired!, Please Re-login.')
+                navigate('/sign-in');
+            } else {
+                console.log(error);
+            }
         });
     };
 
@@ -230,8 +242,14 @@ function LiveScoreBoard() {
         .then((res) => {
             setMatchInfo(res.data.data);
         })
-        .catch((err) => {
-            console.error(err);
+        .catch((error) => {
+            if(error.response.data.status_code == 401){
+                localStorage.removeItem('client_token');
+                toast.error('Session Expired!, Please Re-login.')
+                navigate('/sign-in');
+            } else {
+                console.log(error);
+            }
         });
     }
 
@@ -282,8 +300,14 @@ function LiveScoreBoard() {
             }
             setMatchData(data);
         })
-        .catch((err) => {
-            console.error(err);
+        .catch((error) => {
+            if(error.response.data.status_code == 401){
+                localStorage.removeItem('client_token');
+                toast.error('Session Expired!, Please Re-login.')
+                navigate('/sign-in');
+            } else {
+                console.log(error);
+            }
         });
     }
 
@@ -292,8 +316,14 @@ function LiveScoreBoard() {
         .then((res) => {
             setScoreCard(res.data.data);
         })
-        .catch((err) => {
-            console.error(err);
+        .catch((error) => {
+            if(error.response.data.status_code == 401){
+                localStorage.removeItem('client_token');
+                toast.error('Session Expired!, Please Re-login.')
+                navigate('/sign-in');
+            } else {
+                console.log(error);
+            }
         });
     }
 
@@ -302,8 +332,14 @@ function LiveScoreBoard() {
         .then((res) => {
             setPlayingXI(res.data.data);
         })
-        .catch((err) => {
-            console.error(err);
+        .catch((error) => {
+            if(error.response.data.status_code == 401){
+                localStorage.removeItem('client_token');
+                toast.error('Session Expired!, Please Re-login.')
+                navigate('/sign-in');
+            } else {
+                console.log(error);
+            }
         });
     }
     
@@ -312,8 +348,14 @@ function LiveScoreBoard() {
         .then((res) => {
             setOddHistory(res.data.data);
         })
-        .catch((err) => {
-            console.error(err);
+        .catch((error) => {
+            if(error.response.data.status_code == 401){
+                localStorage.removeItem('client_token');
+                toast.error('Session Expired!, Please Re-login.')
+                navigate('/sign-in');
+            } else {
+                console.log(error);
+            }
         });
     }
 

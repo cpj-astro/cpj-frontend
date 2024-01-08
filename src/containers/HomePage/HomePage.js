@@ -17,6 +17,7 @@ import {
 } from 'firebase/firestore';
 import { db } from '../../authFiles/fbaseconfig';
 import Reviews from '../../components/Reviews';
+import MatchCard from '../../components/MatchCard';
 
 const HomePage = () => {
 	const navigate = useNavigate();
@@ -33,6 +34,12 @@ const HomePage = () => {
 	const [activeTab, setActiveTab] = useState('home');
 	const accessToken = localStorage.getItem('client_token');
 	const maxTitleLength = 35;
+	const [newsCount, setNewsCount] = useState(5);
+
+    const newsloadMore = () => {
+        setNewsCount((prevCount) => prevCount + 5);
+    };
+
 	const responsiveOptions = {
 		0: { items: 1 },
 		300: { items: 1 },
@@ -59,7 +66,13 @@ const HomePage = () => {
 			}
 		})
 		.catch((error) => {
-			toast.error("Oh Snap!" + error.code);
+			if(error.response.data.status_code == 401){
+				localStorage.removeItem('client_token');
+				toast.error('Session Expired!, Please Re-login.')
+				navigate('/sign-in');
+			} else {
+				console.log(error);
+			}
 		});
 	};
 
@@ -77,7 +90,13 @@ const HomePage = () => {
 			}
 		})
 		.catch((error) => {
-			console.log(error);
+			if(error.response.data.status_code == 401){
+				localStorage.removeItem('client_token');
+				toast.error('Session Expired!, Please Re-login.')
+				navigate('/sign-in');
+			} else {
+				console.log(error);
+			}
 		});
 	};
 
@@ -89,7 +108,15 @@ const HomePage = () => {
 		apiConfig
 		)
 		.then((response) => setAds(response.data.data))
-		.catch((error) => console.error('Error fetching ads:' + error));
+		.catch((error) => {
+			if(error.response.data.status_code == 401){
+				localStorage.removeItem('client_token');
+				toast.error('Session Expired!, Please Re-login.')
+				navigate('/sign-in');
+			} else {
+				console.log(error);
+			}
+		});
 	};
 	
 	const fetchUpcomingList = () => {
@@ -100,7 +127,15 @@ const HomePage = () => {
 		apiConfig
 		)
 		.then((response) => setUpcomingMatches(response.data.data))
-		.catch((error) => console.error('Error fetching upcoming matches:' + error));
+		.catch((error) => {
+			if(error.response.data.status_code == 401){
+				localStorage.removeItem('client_token');
+				toast.error('Session Expired!, Please Re-login.')
+				navigate('/sign-in');
+			} else {
+				console.log(error);
+			}
+		});
 	};
 	
 	const fetchRecentList = () => {
@@ -111,10 +146,17 @@ const HomePage = () => {
 			apiConfig
 			)
 			.then((response) => {
-				console.log("recent matches", response.data.data);
 				setRecentMatches(response.data.data)
 			})
-			.catch((error) => console.error('Error fetching recent matches:' + error));
+			.catch((error) => {
+				if(error.response.data.status_code == 401){
+                    localStorage.removeItem('client_token');
+                    toast.error('Session Expired!, Please Re-login.')
+                    navigate('/sign-in');
+                } else {
+                    console.log(error);
+                }
+			});
 	};
 	
 	const fetchLiveList = () => {
@@ -125,7 +167,15 @@ const HomePage = () => {
 		apiConfig
 		)
 		.then((response) => setLiveMatches(response.data.data))
-		.catch((error) => console.error('Error fetching ads:' + error));
+		.catch((error) => {
+			if(error.response.data.status_code == 401){
+				localStorage.removeItem('client_token');
+				toast.error('Session Expired!, Please Re-login.')
+				navigate('/sign-in');
+			} else {
+				console.log(error);
+			}
+		});
 	};
 
 	const fetchNews = () => {
@@ -136,10 +186,17 @@ const HomePage = () => {
 		apiConfig
 		)
 		.then((response) => {
-			console.log(response.data.data); 
 			setNewsData(response.data.data);
 		})
-		.catch((error) => console.error('Error fetching ads:' + error));
+		.catch((error) => {
+			if(error.response.data.status_code == 401){
+				localStorage.removeItem('client_token');
+				toast.error('Session Expired!, Please Re-login.')
+				navigate('/sign-in');
+			} else {
+				console.log(error);
+			}
+		});
 	}
 
 	const getRandomUniqueIndices = (max, count) => {
@@ -229,55 +286,12 @@ const HomePage = () => {
 									items={4}
 									margin={30}
 									dots={false}
-									autoPlay
+									// autoPlay
 									responsive={responsiveOptions}
 								>
-								{matchesData && matchesData.length > 0 ? matchesData.map((match, index) => {
+								{matchesData && matchesData.length > 0 ? matchesData.map((m, i) => {
 									return (
-										<div className="score-card p-0" key={index}>
-											<div className="score-card-inner">
-												<div className="score-card-header text-center">
-													<strong>{match.match_category}</strong>
-													<span>{match.matchs}</span>
-												</div>
-												<div className="score-card-body">
-													<div className="country-info">
-														<div className="flag-avatar">
-															<figure>
-																<img src={match && match.team_a_img ? process.env.REACT_APP_IMG_FIX+match.team_a_img : '/assets/images/flags/bangladesh.png'} alt="" />
-															</figure>
-															<span className="country-name">{match && match.team_a_short ? match.team_a_short : ''}</span>
-														</div>
-														<div className="score-update">
-															<h5>{match && match.team_a_scores ? match.team_a_scores : '00-0'}</h5>
-															<p className="text-muted">{match && match.team_a_over ? match.team_a_over : '00-0'} ov.</p>
-														</div>
-													</div>
-													<div className="country-info flex-row-reverse">
-														<div className="flag-avatar ml-05">
-															<figure>
-																<img src={match && match.team_b_img ? process.env.REACT_APP_IMG_FIX+match.team_b_img : '/assets/images/flags/bangladesh.png'} alt="" />
-															</figure>
-															<span className="country-name">{match.team_b_short}</span>
-														</div>
-														<div className="score-update">
-															<h5>{match && match.team_b_scores ? match.team_b_scores : '00-0'}</h5>
-															<p className="text-muted">{match && match.team_b_over ? match.team_b_over : '00-0'} ov.</p>
-														</div>
-													</div>
-												</div>
-											</div>
-											{match.astrology_status === 'enable' ?
-											<div className="button-container">
-												<button className="theme-button-1" onClick={() => {navigate(`/live-score-board/${match.match_id}`)}}>View Liveline</button>
-
-												<button className={match.button_class} onClick={() => {navigate(`/match-reports/${match.match_id}`)}}>{match.button_text}</button>
-											</div>
-											: 
-											<div className="button-container">
-												<button className="theme-button-1" onClick={() => {navigate(`/live-score-board/${match.match_id}`)}}>View Liveline</button>
-											</div>}
-										</div>
+											<MatchCard match={m} index={i}/>
 										);
 									}
 								) : null}
@@ -290,14 +304,14 @@ const HomePage = () => {
 					</div>
 				</section>
 			</header>
-			<div id="main" className="main-container home-page" style={{padding:'0px'}}>
+			<div id="main" className="main-container home-page p-0">
 				<div className="row">
 					<div className="col-md-2">
 
 					</div>
-					<div className="col-md-8">	
+					<div className="col-md-8 bg-white">	
 						<div className="widget">
-							<div className="mt-3 card p-0">
+							<div className="card p-0">
 								<div className="checkout-form p-0">
 									<div className="row">
 										<div className='col-md-12'>
@@ -317,85 +331,83 @@ const HomePage = () => {
 															<a onClick={() => handleTabChange('recent-matches')}>Finished</a>
 														</li>
 													</ul>
-													<hr className='mt-3 mb-1'/>
-													<div className="tab-content">
+													<div className="mt-2 tab-content">
 														<div id="home" className={`tab-pane fade in ${activeTab === 'home' ? 'show active' : ''}`}>
 															<div className="container">
 																<div className="row">
 																	<div className="col-md-8" style={{backgroundColor: '#ffffff'}}>
 																		{matchData && matchData.team_a && (
 																			<>
-																				<h3 className="widget-title">Live Line Of {matchData.team_a + ' Vs ' + matchData.team_b} </h3>
-																				<div className=''>
-																					<div className='tv-container'>    
-																						<div className="tv">
-																							<div className="score">
-																								{matchData && matchData.first_circle ? matchData.first_circle : 'No Data'}
-																							</div>
-																							<div className='tv-score'>
-																								<div className="score-card-body">
-																									<div className="country-info">
-																										<div className="text-center">
-																											<span className="country-name">{matchData && matchData.team_a_short ? matchData.team_a_short : 'N/A'}</span>
-																											<span>{matchData && matchData.team_a_scores ? matchData.team_a_scores : '00-0'}</span> &nbsp;
-																											<span className="text-muted">{matchData && matchData.team_a_over ? matchData.team_a_over : '0.0'} ov.</span>
-																										</div>
+																				<h3 className="widget-title">Live Line Of </h3>
+																				<div className='tv-container'>    
+																					<div className="tv">
+																						<div className="score">
+																							{matchData && matchData.first_circle ? matchData.first_circle : 'No Data'}
+																						</div>
+																						<div className='tv-score'>
+																							<div className="score-card-body">
+																								<div className="country-info">
+																									<div className="text-center">
+																										<span className="country-name">{matchData && matchData.team_a_short ? matchData.team_a_short : 'Team A'}</span>
+																										<span>{matchData && matchData.team_a_scores ? matchData.team_a_scores : '00-0'}</span> &nbsp;
+																										<span className="text-muted">{matchData && matchData.team_a_over ? matchData.team_a_over : '0.0'} ov.</span>
 																									</div>
-																									<div className="country-info">
-																										<div className="text-center">
-																											<span className="country-name">{matchData && matchData.team_b_short ? matchData.team_b_short : 'N/A'}</span>
-																											<span>{matchData && matchData.team_b_scores ? matchData.team_b_scores : '00-0'}</span> &nbsp;
-																											<span className="text-muted">{matchData && matchData.team_b_over ? matchData.team_b_over : '0.0'} ov.</span>
-																										</div>
+																								</div>
+																								<div className="country-info">
+																									<div className="text-center">
+																										<span className="country-name">{matchData && matchData.team_b_short ? matchData.team_b_short : 'Team B'}</span>
+																										<span>{matchData && matchData.team_b_scores ? matchData.team_b_scores : '00-0'}</span> &nbsp;
+																										<span className="text-muted">{matchData && matchData.team_b_over ? matchData.team_b_over : '0.0'} ov.</span>
 																									</div>
 																								</div>
 																							</div>
 																						</div>
-																					</div> 
-																					{gameZop.game_link && gameZop.status &&
-																						<>
-																							<h3 className="widget-title">Games & More</h3>
-																							<a href={gameZop.game_link} target='_blank'>
-																								<img src='assets/images/gamezop-banner.png' className='gamezop-image'/>
-																							</a>
-																						</>
-																					}
-																					<h3 className="widget-title">Cricket News</h3>
-																					<section className="related-news p-0">
-																						<div className="row">
-																						{newsData && newsData.length > 0 ? (
-																							<>
-																								{newsData.map((news) => (
-																									<div className="col-md-6" key={news.news_id}>
-																										<div className="card card-shadow p-0">
-																											<div className="content-card news-card">
-																												<figure>
-																													<img src={process.env.REACT_APP_IMG_FIX+news.image} alt="" />
-																												</figure>
-																												<div className="content-block">
-																													<h3>
-																														<a href={`/news-details/${news.news_id}/${news.title}/${news.pub_date}`}>{news.title.slice(0, maxTitleLength)}...</a>
-																													</h3>
-																													<span className="post-meta">{news.pub_date}</span>
-																												</div>
-																											</div>
-																										</div>
-																									</div>
-																								))}
-																							</>
-																						) : (
-																							<p>No data available</p>
-																						)}
-																						</div>
-																					</section>
-																					<Reviews/>
-																				</div>
+																					</div>
+																				</div> 
 																			</>
 																		)}
+																		{gameZop.game_link && gameZop.status &&
+																			<>
+																				<h3 className="widget-title">Games & More</h3>
+																				<a href={gameZop.game_link} target='_blank'>
+																					<img src='assets/images/gamezop-banner.png' className='gamezop-image'/>
+																				</a>
+																			</>
+																		}
+																		<h3 className="widget-title">Cricket News</h3>
+																		<section className="related-news p-0">
+																		{(newsData && newsData.length > 0) && (
+																			<div className="row">
+																				{newsData.slice(0, newsCount).map((news, index) => (
+																					<div className="col-md-6" key={news.news_id}>
+																						<div className="card card-shadow p-0">
+																							<div className="content-card news-card">
+																								<figure>
+																									<img src={process.env.REACT_APP_IMG_FIX+news.image} alt="" />
+																								</figure>
+																								<div className="content-block">
+																									<h3>
+																										<a href={`/news-details/${news.news_id}/${news.title}/${news.pub_date}`}>{news.title.slice(0, maxTitleLength)}...</a>
+																									</h3>
+																									<span className="post-meta">{news.pub_date}</span>
+																								</div>
+																							</div>
+																						</div>
+																					</div>
+																				))}
+																			</div>
+																		)}
+																		{newsData.length > newsCount && (
+																			<div className="text-center mb-10">
+																				<button className="cricnotch-btn btn-filled loadMore-btn" onClick={newsloadMore}><i className="fas fa-spinner"></i>&nbsp;&nbsp;&nbsp; Load more</button>
+																			</div>
+																		)}
+																		</section>
+																		<Reviews/>
 																	</div>
 																	<div className="col-md-4" style={{backgroundColor: '#ffffff'}}>
 																		<div>
-																			<img src='/assets/images/fantacy-ground.png' className='pt-15 fantasy-ground'/>
+																			<img src='/assets/images/fantacy-ground.png' className='mt-30 fantasy-ground'/>
 																		</div>
 
 																		<aside className="sidebar right-sidebar">
@@ -455,66 +467,8 @@ const HomePage = () => {
 															<div className='container'>
 																<div className='row'>
 																	<div className='col-md-8'>
-																		{liveMatches && liveMatches.length > 0 && liveMatches.map((match, index) => (
-																			<div className='pt-3'>	
-																				<div className="score-card score-card-lg d-md-flex p-0">
-																					<div className="score-card-inner flex-grow-1 px-3 py-3">
-																						<div className="score-card-header mb-1">
-																							<strong className="text-red">{match.match_category}</strong>
-																						</div>
-																						<div className="score-card-body">
-																							<div className="country-info">
-																								<div className="flag-avatar">
-																									<figure>
-																										<img src={match && match.team_a_img ? process.env.REACT_APP_IMG_FIX+match.team_a_img : 'assets/images/flags/australia.png'} alt="" />
-																									</figure>
-																									<span className="country-name">{match && match.team_a_short ? match.team_a_short : ''}</span>
-																								</div>
-																								<div className="score-update">
-																									<h5>{match && match.team_a_scores ? match.team_a_scores : '00-0'}</h5>
-																									<p className="text-muted">{match && match.team_a_over ? match.team_a_over : '0.0'} ov.</p>
-																								</div>
-																							</div>
-																							<div className="country-info flex-row-reverse">
-																								<div className="flag-avatar">
-																									<figure>
-																										<img src={match && match.team_b_img ? process.env.REACT_APP_IMG_FIX+match.team_b_img : 'assets/images/flags/australia.png'} alt="" />
-																									</figure>
-																									<span className="country-name">{match && match.team_b_short ? match.team_b_short : ''}</span>
-																								</div>
-																								<div className="score-update">
-																									<h5>{match && match.team_b_scores ? match.team_b_scores : '00-0'}</h5>
-																									<p className="text-muted">{match && match.team_b_over ? match.team_b_over : '0.0'} ov.</p>
-																								</div>
-																							</div>
-																						</div>
-																					</div>
-																					<div className="custom-card-aside px-2 py-2 pp-btn">
-																						{match && match.astrology_status === 'enable' ?
-																						<>
-																							<a 
-																								href={`/live-score-board/${match.match_id}`} 
-																								className="custom-left-btn cricnotch-btn btn-filled text-uppercase"
-																							>View Liveline</a>
-																							{match.button_text.includes('Buy') ? 
-																								<a 
-																									href={`/match-reports/${match.match_id}`} 
-																									className="custom-right-btn cricnotch-btn btn-filled text-uppercase buy-btn"
-																								>{match.button_text}</a>
-																								:
-																								<a 
-																									href={`/match-reports/${match.match_id}`} 
-																									className="custom-right-btn cricnotch-btn btn-filled text-uppercase"
-																								>{match.button_text}</a>
-																							}
-																						</>
-																						: 
-																						<>
-																							<a href={`/live-score-board/${match.match_id}`} className="custom-left-btn cricnotch-btn btn-filled text-uppercase active">View Liveline</a>
-																						</>}
-																					</div>
-																				</div>
-																			</div>
+																		{liveMatches && liveMatches.length > 0 && liveMatches.map((m, i) => (
+																			<MatchCard match={m} index={i}/>
 																		))}
 																		{liveMatches && liveMatches.length == 0 && 
 																		<div>No Live Matches</div>}
@@ -522,7 +476,7 @@ const HomePage = () => {
 																	<div className="col-md-4" style={{backgroundColor: '#ffffff'}}>
 																		<div>
 																			{/* <h3 className="widget-title">Astrological Fantasy Players</h3> */}
-																			<img src='/assets/images/fantacy-ground.png' className='pt-15 fantasy-ground'/>
+																			<img src='/assets/images/fantacy-ground.png' className='mt-30 fantasy-ground'/>
 																		</div>
 
 																		<aside className="sidebar right-sidebar">
@@ -583,66 +537,8 @@ const HomePage = () => {
 															<div className='container'>
 																<div className='row'>
 																	<div className='col-md-8'>
-																		{upcomingMatches && upcomingMatches.length > 0 && upcomingMatches.map((match, index) => (
-																			<div className='pt-3'>	
-																				<div className="score-card score-card-lg d-md-flex p-0">
-																					<div className="score-card-inner flex-grow-1 px-3 py-3">
-																						<div className="score-card-header mb-1">
-																							<strong className="text-red">{match.match_category}</strong>
-																						</div>
-																						<div className="score-card-body">
-																							<div className="country-info">
-																								<div className="flag-avatar">
-																									<figure>
-																										<img src={match && match.team_a_img ? process.env.REACT_APP_IMG_FIX+match.team_a_img : 'assets/images/flags/australia.png'} alt="" />
-																									</figure>
-																									<span className="country-name">{match && match.team_a_short ? match.team_a_short : ''}</span>
-																								</div>
-																								<div className="score-update">
-																									<h5>{match && match.team_a_scores ? match.team_a_scores : '00-0'}</h5>
-																									<p className="text-muted">{match && match.team_a_over ? match.team_a_over : '0.0'} ov.</p>
-																								</div>
-																							</div>
-																							<div className="country-info flex-row-reverse">
-																								<div className="flag-avatar">
-																									<figure>
-																										<img src={match && match.team_b_img ? process.env.REACT_APP_IMG_FIX+match.team_b_img : 'assets/images/flags/australia.png'} alt="" />
-																									</figure>
-																									<span className="country-name">{match && match.team_b_short ? match.team_b_short : ''}</span>
-																								</div>
-																								<div className="score-update">
-																									<h5>{match && match.team_b_scores ? match.team_b_scores : '00-0'}</h5>
-																									<p className="text-muted">{match && match.team_b_over ? match.team_b_over : '0.0'} ov.</p>
-																								</div>
-																							</div>
-																						</div>
-																					</div>
-																					<div className="custom-card-aside px-2 py-2 pp-btn">
-																						{match && match.astrology_status === 'enable' ?
-																						<>
-																							<a 
-																								href={`/live-score-board/${match.match_id}`} 
-																								className="custom-left-btn cricnotch-btn btn-filled text-uppercase"
-																							>View Liveline</a>
-																							{match.button_text.includes('Buy') ? 
-																								<a 
-																									href={`/match-reports/${match.match_id}`} 
-																									className="custom-right-btn cricnotch-btn btn-filled text-uppercase buy-btn"
-																								>{match.button_text}</a>
-																								:
-																								<a 
-																									href={`/match-reports/${match.match_id}`} 
-																									className="custom-right-btn cricnotch-btn btn-filled text-uppercase"
-																								>{match.button_text}</a>
-																							}
-																						</>
-																						: 
-																						<>
-																							<a href={`/live-score-board/${match.match_id}`} className="custom-left-btn cricnotch-btn btn-filled text-uppercase active">View Liveline</a>
-																						</>}
-																					</div>
-																				</div>
-																			</div>
+																		{upcomingMatches && upcomingMatches.length > 0 && upcomingMatches.map((m, i) => (
+																			<MatchCard match={m} index={i}/>
 																		))}
 																		{upcomingMatches && upcomingMatches.length == 0 && 
 																		<div>No Upcoming Matches</div>}
@@ -650,7 +546,7 @@ const HomePage = () => {
 																	<div className="col-md-4" style={{backgroundColor: '#ffffff'}}>
 																		<div>
 																			{/* <h3 className="widget-title">Astrological Fantasy Players</h3> */}
-																			<img src='/assets/images/fantacy-ground.png' className='pt-15 fantasy-ground'/>
+																			<img src='/assets/images/fantacy-ground.png' className='mt-30 fantasy-ground'/>
 																		</div>
 
 																		<aside className="sidebar right-sidebar">
@@ -711,50 +607,15 @@ const HomePage = () => {
 															<div className='container'>
 																<div className='row'>
 																	<div className='col-md-8'>
-																		{recentMatches && recentMatches.length > 0 && recentMatches.map((match, index) => (
-																			<div className="score-card score-card-lg d-md-flex p-0">
-																				<div className="score-card-inner flex-grow-1 px-3 py-3">
-																					<div className="score-card-header mb-1">
-																						<strong className="text-red">{match.match_category}</strong>
-																					</div>
-																					<div className="score-card-body">
-																						<div className="country-info">
-																							<div className="flag-avatar">
-																								<figure>
-																									<img src={match && match.team_a_img ? process.env.REACT_APP_IMG_FIX+match.team_a_img : 'assets/images/flags/australia.png'} alt="" />
-																								</figure>
-																								<span className="country-name">{match && match.team_a_short ? match.team_a_short : ''}</span>
-																							</div>
-																							<div className="score-update">
-																								<h5>{match && match.team_a_scores ? match.team_a_scores : '00-0'}</h5>
-																								<p className="text-muted">{match && match.team_a_over ? match.team_a_over : '0.0'} ov.</p>
-																							</div>
-																						</div>
-																						<div className="country-info flex-row-reverse">
-																							<div className="flag-avatar">
-																								<figure>
-																									<img src={match && match.team_b_img ? process.env.REACT_APP_IMG_FIX+match.team_b_img : 'assets/images/flags/australia.png'} alt="" />
-																								</figure>
-																								<span className="country-name">{match && match.team_b_short ? match.team_b_short : ''}</span>
-																							</div>
-																							<div className="score-update">
-																								<h5>{match && match.team_b_scores ? match.team_b_scores : '00-0'}</h5>
-																								<p className="text-muted">{match && match.team_b_over ? match.team_b_over : '0.0'} ov.</p>
-																							</div>
-																						</div>
-																					</div>
-																				</div>
-																				<div className="custom-card-aside px-2 py-2">
-																					<a href={`/live-score-board/${match.match_id}`} className="custom-left-btn cricnotch-btn btn-filled text-uppercase active">View Liveline</a>
-																				</div>
-																			</div>
+																		{recentMatches && recentMatches.length > 0 && recentMatches.map((m, i) => (
+																			<MatchCard match={m} index={i}/>
 																		))}
 																		{recentMatches && recentMatches.length == 0 && 
 																		<div>No Recent Matches</div>}
 																	</div>
 																	<div className="col-md-4" style={{backgroundColor: '#ffffff'}}>
 																		<div>
-																			<img src='/assets/images/fantacy-ground.png' className='pt-15 fantasy-ground'/>
+																			<img src='/assets/images/fantacy-ground.png' className='mt-30 fantasy-ground'/>
 																		</div>
 
 																		<aside className="sidebar right-sidebar">

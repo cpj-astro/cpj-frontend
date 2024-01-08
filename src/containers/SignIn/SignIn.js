@@ -25,8 +25,13 @@ function SignIn() {
 					toast.error(response.data.message);
 				}
             }).catch((error) => {
-				console.log(error);
-                navigate('/sign-in');
+				if(error.response.data.status_code == 401){
+                    localStorage.removeItem('client_token');
+                    toast.error('Session Expired!, Please Re-login.')
+                    navigate('/sign-in');
+                } else {
+                    console.log(error);
+                }
             });
 		} catch (error) {
 			// Handle sign-in error

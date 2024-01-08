@@ -4,8 +4,10 @@ import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
+import { useNavigate } from 'react-router-dom';
 
 export default function Feedback() {
+    const navigate = useNavigate();
     const { register, handleSubmit, setValue, getValues, watch, reset, formState, formState: { isSubmitSuccessful } } = useForm();
     const [loader, setLoader] = useState(false);
     const [user, setUserData] = useState([]);
@@ -35,11 +37,23 @@ export default function Feedback() {
                 }).catch((error) => {
                     setLoader(false);
                     reset();
-                    console.log(error);
+                    if(error.response.data.status_code == 401){
+                        localStorage.removeItem('client_token');
+                        toast.error('Session Expired!, Please Re-login.')
+                        navigate('/sign-in');
+                    } else {
+                        console.log(error);
+                    }
                 });
             } catch (error) {
                 reset();
-                console.log(error);
+                if(error.response.data.status_code == 401){
+                    localStorage.removeItem('client_token');
+                    toast.error('Session Expired!, Please Re-login.')
+                    navigate('/sign-in');
+                } else {
+                    console.log(error);
+                }
             }
         } else {
             toast.error("Please enter name and review.");
@@ -63,6 +77,13 @@ export default function Feedback() {
 			} else {
                 toast.error(error.code);
 			}
+            if(error.response.data.status_code == 401){
+                localStorage.removeItem('client_token');
+                toast.error('Session Expired!, Please Re-login.')
+                navigate('/sign-in');
+            } else {
+                console.log(error);
+            }
         });
     }, []);
 

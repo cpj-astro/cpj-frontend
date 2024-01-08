@@ -15,7 +15,7 @@ export default function Commentary({ commentaryData }) {
                 </div>
             )}
     
-            {(commentaryData.length > 0) && (
+            {(commentaryData && commentaryData.length > 0) && (
                 <div>
                     {commentaryData.slice(0, visibleCount).map((item, index) => (
                         <div key={index} className={item.type === 2 && 'c-type-2-set mb-3'}>
@@ -54,9 +54,9 @@ export default function Commentary({ commentaryData }) {
                             )}
                         </div>
                     ))}
-                    {commentaryData.length > visibleCount && (
+                    {commentaryData && commentaryData.length > visibleCount && (
                         <div className="text-center mt-15 mb-10">
-                            <button className="cricnotch-btn btn-filled bg-success loadMore-btn" onClick={loadMore}><i className="fas fa-spinner"></i>&nbsp;&nbsp;&nbsp; Load more</button>
+                            <button className="cricnotch-btn btn-filled loadMore-btn" onClick={loadMore}><i className="fas fa-spinner"></i>&nbsp;&nbsp;&nbsp; Load more</button>
                         </div>
                     )}
                 </div>

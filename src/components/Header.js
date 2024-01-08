@@ -41,7 +41,13 @@ export default function Header() {
                 setVisitors(updatedValue);
             }
         } catch (error) {
-          console.log('Oh Snap!' + error);
+            if(error.response.data.status_code == 401){
+                localStorage.removeItem('client_token');
+                toast.error('Session Expired!, Please Re-login.')
+                navigate('/sign-in');
+            } else {
+            console.log(error);
+            }
         }
     };
     const formatNumber = (number) => {
@@ -63,11 +69,11 @@ export default function Header() {
                     <div className="col-sm-6">
                         <div className="topbar-right">
                             <div className='online-wrap'>
-                                <div class="online-amount"><span className="online-dot"></span>{formatNumber(visitors)}</div>
+                                <div className="online-amount"><span className="online-dot"></span>{formatNumber(visitors)}</div>
                             </div>
                             <div className="logged-user">
                                 <span className='cursor-pointer' onClick={toggleLoggedUserDropdown}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24">
                                         <g id="Account" transform="translate(-1367.51 -13.509)">
                                             <rect width="24" height="24" rx="12" transform="translate(1367.51 13.509)" opacity="0.15" />
                                             <g transform="translate(1371.569 20.299)">

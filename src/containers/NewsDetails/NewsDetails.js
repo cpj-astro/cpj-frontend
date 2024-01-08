@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export default function NewsDetails() {    
+    const navigate = useNavigate();
     const {id, title,  pub_date} = useParams();
     const [newsData, setNewsData] = useState([]);
     var accessToken = localStorage.getItem('client_token');
@@ -19,7 +21,13 @@ export default function NewsDetails() {
                 setNewsData(response.data.data);
             }
         }).catch((error) => {
-            console.log(error);
+            if(error.response.data.status_code == 401){
+                localStorage.removeItem('client_token');
+                toast.error('Session Expired!, Please Re-login.')
+                navigate('/sign-in');
+            } else {
+                console.log(error);
+            }
         });
     }, [id]);
 
