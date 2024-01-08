@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Scorecard = ({ scorecardData }) => {
-    const scorecardValues = null;
+    let scorecardValues = null;
     if(scorecardData && scorecardData.scorecard) {
         scorecardValues = Object.values(scorecardData.scorecard);
     } else {

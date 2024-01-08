@@ -373,7 +373,7 @@ const HomePage = () => {
 																								<div className="card card-shadow p-0">
 																									<div className="content-card news-card">
 																										<figure>
-																											<img src={news.image} alt="" />
+																											<img src={'https://wsrv.nl/?url='+news.image} alt="" />
 																										</figure>
 																										<div className="content-block">
 																											<h3>
