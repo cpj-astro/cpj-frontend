@@ -222,6 +222,10 @@ function LiveScoreBoard() {
         if(matchData && matchData.first_circle && volumeStatus) {
             const description = getCricketTermDescription(matchData.first_circle);
             speak({ text: description });
+            const msg = new SpeechSynthesisUtterance()
+            msg.text = "Hello World"
+
+            window.speechSynthesis.speak(msg)
         }
     }, [matchData && matchData.first_circle]);
     
@@ -406,7 +410,7 @@ function LiveScoreBoard() {
                                     </div>
                                 </div> 
                                 {matchData.astrology_status === 'enable' &&
-                                <button className="btn-astro-v1" onClick={() => {navigate(`/match-astrology/${id}`)}}>     
+                                <button className="btn-astro-v1" onClick={() => {navigate(`/match-reports/${id}`)}}>     
                                     {matchDetails.razorpay_payment_id ? 'View Reports' : 'Buy Reports'} 
                                 </button>}
                                 {matchData && matchData.need_run_ball &&

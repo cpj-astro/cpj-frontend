@@ -271,7 +271,7 @@ const HomePage = () => {
 											<div className="button-container">
 												<button className="theme-button-1" onClick={() => {navigate(`/live-score-board/${match.match_id}`)}}>View Liveline</button>
 
-												<button className={match.button_class} onClick={() => {navigate(`/match-astrology/${match.match_id}`)}}>{match.button_text}</button>
+												<button className={match.button_class} onClick={() => {navigate(`/match-reports/${match.match_id}`)}}>{match.button_text}</button>
 											</div>
 											: 
 											<div className="button-container">
@@ -498,12 +498,12 @@ const HomePage = () => {
 																							>View Liveline</a>
 																							{match.button_text.includes('Buy') ? 
 																								<a 
-																									href={`/match-astrology/${match.match_id}`} 
+																									href={`/match-reports/${match.match_id}`} 
 																									className="custom-right-btn cricnotch-btn btn-filled text-uppercase buy-btn"
 																								>{match.button_text}</a>
 																								:
 																								<a 
-																									href={`/match-astrology/${match.match_id}`} 
+																									href={`/match-reports/${match.match_id}`} 
 																									className="custom-right-btn cricnotch-btn btn-filled text-uppercase"
 																								>{match.button_text}</a>
 																							}
@@ -626,12 +626,12 @@ const HomePage = () => {
 																							>View Liveline</a>
 																							{match.button_text.includes('Buy') ? 
 																								<a 
-																									href={`/match-astrology/${match.match_id}`} 
+																									href={`/match-reports/${match.match_id}`} 
 																									className="custom-right-btn cricnotch-btn btn-filled text-uppercase buy-btn"
 																								>{match.button_text}</a>
 																								:
 																								<a 
-																									href={`/match-astrology/${match.match_id}`} 
+																									href={`/match-reports/${match.match_id}`} 
 																									className="custom-right-btn cricnotch-btn btn-filled text-uppercase"
 																								>{match.button_text}</a>
 																							}
