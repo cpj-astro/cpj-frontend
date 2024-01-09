@@ -18,6 +18,7 @@ import {
 import { db } from '../../authFiles/fbaseconfig';
 import Reviews from '../../components/Reviews';
 import MatchCard from '../../components/MatchCard';
+import moment from 'moment';
 
 const HomePage = () => {
 	const navigate = useNavigate();
@@ -260,7 +261,7 @@ const HomePage = () => {
 	}, [localStorage.getItem('match_id')]);
 	
 	useEffect(() => {
-		fetchAllMatches();
+		// fetchAllMatches();
 		fetchLiveList();
 		fetchUpcomingList();
 		fetchRecentList();
@@ -268,6 +269,25 @@ const HomePage = () => {
 		fetchDataFromGameZop();
 		fetchPrivateAds();
 	}, []);
+	
+	const matchDataRef = collection(db, "matchdata");
+
+	useEffect(() => {
+        // Listen for real-time updates on all documents in the "matchdata" collection
+		onSnapshot(matchDataRef, (snapshot) => {
+			const allMatches = [];
+			snapshot.forEach((doc) => {
+				let data = doc.data();
+				data.dateLive = moment().format("DD-MM-YY")
+				data.match_category = 'live';
+				data.series_name = data.match_type;
+				allMatches.push(data);
+			});
+			setMatchesData(allMatches);
+		}, (error) => {
+			console.error("Error fetching data:", error);
+		});
+    }, []);
 
 	return (
 		<>
@@ -286,12 +306,27 @@ const HomePage = () => {
 									// autoPlay
 									responsive={responsiveOptions}
 								>
-								{matchesData && matchesData.length > 0 ? matchesData.map((m, i) => {
-									return (
+								{(matchesData && matchesData.length > 0) && (
+									<>
+										{matchesData.map((m, i) => (
 											<MatchCard match={m} index={i}/>
-										);
-									}
-								) : null}
+										))}
+									</>
+								)}
+								{(upcomingMatches && upcomingMatches.length > 0) && (
+									<>
+										{upcomingMatches.slice(0, 5).map((m, i) => (
+											<MatchCard match={m} index={i}/>
+										))}
+									</>
+								)}
+								{(recentMatches && recentMatches.length > 0) && (
+									<>
+										{recentMatches.slice(0, 5).map((m, i) => (
+											<MatchCard match={m} index={i}/>
+										))}
+									</>
+								)}
 								</OwlCarousel>
 							</div>
 						</div>

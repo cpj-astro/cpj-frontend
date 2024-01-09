@@ -40,9 +40,15 @@ export default function MatchCard({match, index}) {
                     </div>
                 </div>
                 <div className='match-dtr-set'>
-                    <div className='country-name'>
-                        {match.match_date}, {match.match_time}
-                    </div>
+                    {match && match.dateLive ?
+                        <div className='country-name'>
+                            {match.dateLive}
+                        </div>
+                    :
+                        <div className='country-name'>
+                            {match.match_date ? match.match_date + ', ' : ''} {match.match_time ? match.match_time : ''}
+                        </div>
+                    }
                     <div>
                         <span className='country-name mr-3'>{match.fav_team}</span>
                         <span className='min-r-set'>{match && match.min_rate ? match.min_rate : '0.0'}</span>
