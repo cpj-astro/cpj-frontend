@@ -1105,6 +1105,7 @@ a.post-meta {
 
 .card .nav li a {
   width: 100%;
+  min-width: 92.5px;
   background-color: #eff0f5;
   display: inline-block;
   font-size: 14px;
@@ -5729,7 +5730,7 @@ span.p_class {
   width: 100%;
   height: auto;
   color: #fff;
-  min-height: 140px;
+  min-height: 154.4px;
   font-size: 30px;
   text-transform: capitalize;
   align-items: center;
