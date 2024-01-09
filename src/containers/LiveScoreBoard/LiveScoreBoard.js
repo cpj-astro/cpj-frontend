@@ -374,7 +374,7 @@ function LiveScoreBoard() {
     }, []);
     return (
 		<>
-			<div id="main" className="l_con main-container others">
+			<div id="main" className="l_con main-container others live-score-board">
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-9">
@@ -462,37 +462,36 @@ function LiveScoreBoard() {
                                     <div className='col-md-12'>
                                         <aside className="sidebar right-sidebar">
                                             <div className="widget widget-upcoming-match">
+                                                <ul className="nav nav-tabs custom-nav">
+                                                    <li className={activeTab === 'liveline' ? 'cursor-pointer active' : 'cursor-pointer'}>
+                                                        <a onClick={() => handleTabChange('liveline')}>Live</a>
+                                                    </li>
+                                                    {/* <li className={activeTab === 'liveastrology' ? 'cursor-pointer active' : 'cursor-pointer'}>
+                                                        <a onClick={() => handleTabChange('liveastrology')}>Astrology</a>
+                                                    </li> */}
+                                                    <li className={activeTab === 'info' ? 'cursor-pointer active' : 'cursor-pointer'} onClick={() => {fetchMatchInfoByMatchId();}}>
+                                                        <a onClick={() => handleTabChange('info')}>Info</a>
+                                                    </li>
+                                                    <li className={activeTab === 'playingXI' ? 'cursor-pointer active' : 'cursor-pointer'} onClick={() => {fetchPlayingXIByMatchId();}}>
+                                                        <a onClick={() => handleTabChange('playingXI')}>PlayingXI
+                                                        </a>
+                                                    </li>
+                                                    <li className={activeTab === 'commentary' ? 'cursor-pointer active' : 'cursor-pointer'} onClick={() => {loadCommentary();}}>
+                                                        <a onClick={() => handleTabChange('commentary')}>Commentary
+                                                        </a>
+                                                    </li>
+                                                    <li className={activeTab === 'scorecard' ? 'cursor-pointer active' : 'cursor-pointer'} onClick={() => {fetchScorecardByMatchId();}}>
+                                                        <a onClick={() => handleTabChange('scorecard')}>Scorecard
+                                                        </a>
+                                                    </li>
+                                                    <li className={activeTab === 'history' ? 'cursor-pointer active' : 'cursor-pointer'} onClick={() => {fetchOddHistoryByMatchId();}}>
+                                                        <a onClick={() => handleTabChange('history')}>History
+                                                        </a>
+                                                    </li>
+                                                </ul>
                                                 <div className="card card-shadow">
-                                                    <ul className="nav nav-tabs custom-nav">
-                                                        <li className={activeTab === 'liveline' ? 'cursor-pointer active' : 'cursor-pointer'}>
-                                                            <a onClick={() => handleTabChange('liveline')}>Live</a>
-                                                        </li>
-                                                        <li className={activeTab === 'liveastrology' ? 'cursor-pointer active' : 'cursor-pointer'}>
-                                                            <a onClick={() => handleTabChange('liveastrology')}>Astrology</a>
-                                                        </li>
-                                                        <li className={activeTab === 'info' ? 'cursor-pointer active' : 'cursor-pointer'} onClick={() => {fetchMatchInfoByMatchId();}}>
-                                                            <a onClick={() => handleTabChange('info')}>Info</a>
-                                                        </li>
-                                                        <li className={activeTab === 'playingXI' ? 'cursor-pointer active' : 'cursor-pointer'} onClick={() => {fetchPlayingXIByMatchId();}}>
-                                                            <a onClick={() => handleTabChange('playingXI')}>PlayingXI
-                                                            </a>
-                                                        </li>
-                                                        <li className={activeTab === 'commentary' ? 'cursor-pointer active' : 'cursor-pointer'} onClick={() => {loadCommentary();}}>
-                                                            <a onClick={() => handleTabChange('commentary')}>Commentary
-                                                            </a>
-                                                        </li>
-                                                        <li className={activeTab === 'scorecard' ? 'cursor-pointer active' : 'cursor-pointer'} onClick={() => {fetchScorecardByMatchId();}}>
-                                                            <a onClick={() => handleTabChange('scorecard')}>Scorecard
-                                                            </a>
-                                                        </li>
-                                                        <li className={activeTab === 'history' ? 'cursor-pointer active' : 'cursor-pointer'} onClick={() => {fetchOddHistoryByMatchId();}}>
-                                                            <a onClick={() => handleTabChange('history')}>History
-                                                            </a>
-                                                        </li>
-                                                    </ul>
                                                     <div className="tab-content">
                                                         <div id="liveline" className={`tab-pane fade in ${activeTab === 'liveline' ? 'show active' : ''}`}>
-                                                            <hr className='m-2'/>
                                                             <div className="row">
                                                                 <div className="col-md-12">
                                                                     <div className="widget widget-rankings">
@@ -817,14 +816,13 @@ function LiveScoreBoard() {
                                                                 <div className='text-session' dangerouslySetInnerHTML={{__html: matchData && matchData.session ? matchData.session : ''}} /> 
                                                             </> : <></>}
                                                         </div>
-                                                        <div id="liveastrology" className={`tab-pane fade in ${activeTab === 'liveastrology' ? 'show active' : ''}`}>
+                                                        {/* <div id="liveastrology" className={`tab-pane fade in ${activeTab === 'liveastrology' ? 'show active' : ''}`}>
                                                             Time: 10:00 PM <br/>
                                                             Description: Lorem Ipsum <br/>
                                                             Zodiac/Rashi: Lorem Ipsum Dorem <br/>
                                                             Special Recommendation: Lorem Ipsum <br/>
-                                                        </div>
+                                                        </div> */}
                                                         <div id="info" className={`tab-pane fade in ${activeTab === 'info' ? 'show active' : ''}`}>
-                                                            <hr className='mb-0'/>
                                                             <div className='status-bar-fill'>{matchData && matchData.result ? matchData.result : 'No Result' }</div>
                                                             <div className="pt-0 pb-10">
                                                                 <div className="player-profile">
@@ -904,20 +902,16 @@ function LiveScoreBoard() {
                                                         </div>
                                                         </div>
                                                         <div id="playingXI" className={`tab-pane fade in ${activeTab === 'playingXI' ? 'show active' : ''}`}>
-                                                            <hr className='mb-0'/>
                                                             {playingXI ? <PlayingXI playingXIData={playingXI}/> : "Loading Playing XI..."}
                                                         </div>
                                                         <div id="commentary" className={`tab-pane fade in ${activeTab === 'commentary' ? 'show active' : ''}`}>
-                                                            <hr className='mb-0'/>
                                                             {comData ? <Commentary commentaryData={comData}/> : "Loading comments..."}
                                                         </div>
                                                         <div id="scorecard" className={`tab-pane fade in ${activeTab === 'scorecard' ? 'show active' : ''}`}>
-                                                            <hr/>
                                                             {scoreCard && scoreCard.length == 0 && 'No Data Available'}
                                                             {scoreCard ? <Scorecard scorecardData={scoreCard}/> : "Loading Scorecard..."}
                                                         </div>
                                                         <div id="history" className={`tab-pane fade in ${activeTab === 'history' ? 'show active' : ''}`}>
-                                                            <hr />
                                                             {oddHistory ? <OddHistory oddHistoryData={oddHistory}/> : "Loading Odd History..."}
                                                         </div>
                                                     </div>
