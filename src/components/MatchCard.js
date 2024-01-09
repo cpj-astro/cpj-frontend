@@ -23,6 +23,9 @@ export default function MatchCard({match, index}) {
                             <p className="text-muted">{match && match.team_a_over ? match.team_a_over : '00-0'} ov.</p>
                         </div>
                     </div>
+                    <div className='vs-style'>
+                        <span>VS</span>
+                    </div>
                     <div className="country-info flex-row-reverse">
                         <div className="flag-avatar ml-05">
                             <figure>

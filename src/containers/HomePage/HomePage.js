@@ -338,7 +338,7 @@ const HomePage = () => {
 																	<div className="col-md-8" style={{backgroundColor: '#ffffff'}}>
 																		{matchData && matchData.team_a && (
 																			<>
-																				<h3 className="widget-title">Live Line Of </h3>
+																				<h3 className="widget-title">Live Line Of {matchData.team_a_short + ' (vs) ' + matchData.team_b_short}</h3>
 																				<div className='tv-container'>    
 																					<div className="tv">
 																						<div className="score">
@@ -467,6 +467,7 @@ const HomePage = () => {
 															<div className='container'>
 																<div className='row'>
 																	<div className='col-md-8'>
+																		<h3 className="widget-title">Live Matches</h3>
 																		{liveMatches && liveMatches.length > 0 && liveMatches.map((m, i) => (
 																			<MatchCard match={m} index={i}/>
 																		))}
@@ -537,6 +538,7 @@ const HomePage = () => {
 															<div className='container'>
 																<div className='row'>
 																	<div className='col-md-8'>
+																		<h3 className="widget-title">Upcoming Matches</h3>
 																		{upcomingMatches && upcomingMatches.length > 0 && upcomingMatches.map((m, i) => (
 																			<MatchCard match={m} index={i}/>
 																		))}
@@ -607,6 +609,7 @@ const HomePage = () => {
 															<div className='container'>
 																<div className='row'>
 																	<div className='col-md-8'>
+																		<h3 className="widget-title">Recent Matches</h3>
 																		{recentMatches && recentMatches.length > 0 && recentMatches.map((m, i) => (
 																			<MatchCard match={m} index={i}/>
 																		))}
