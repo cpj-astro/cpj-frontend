@@ -374,26 +374,13 @@ function LiveScoreBoard() {
     }, []);
     return (
 		<>
-			<div id="main" className="l_con main-container others live-score-board">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-lg-9">
-                            <div className='rrates-container mb-2'>
-                                <a href={"/"} className="left-com">
-                                    <i className='fa fa-arrow-left'></i>
-                                </a>
-                                {accessToken ?
-                                    <a href={"/profile"} className="right-com">
-                                        <span className=''>My Profile</span>
-                                    </a>
-                                : 
-                                    <a href={"/sign-in"} className="right-com">
-                                        <span className=''>Sign In</span>
-                                    </a>
-                                }
-                            </div>
-                            <section className="live-matches p-0">
-                                <div className='tv-container'>    
+            <Header/>
+            <header className="header">
+                <section className="header-middle">
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-md-12">
+                                <div className='tv-container mt-3 mb-0'>    
                                     <div className="tv">
                                         <div className='just-set'>
                                             <strong className="text-red text-uppercase p-3">{matchData && matchData.match_category ? matchData.match_category : ''}</strong>
@@ -447,50 +434,60 @@ function LiveScoreBoard() {
                                         </div>
                                     </div>
                                 </div> 
-                                {matchData.astrology_status === 'enable' &&
-                                <button className="btn-astro-v1" onClick={() => {navigate(`/match-reports/${id}`)}}>     
-                                    {matchDetails.razorpay_payment_id ? 'View Reports' : 'Buy Reports'} 
-                                </button>}
-                                {matchData && matchData.need_run_ball &&
-                                <div className="card mt-10 p-1">
-                                    <div style={{fontSize: '12px',fontWeight: 'bold', textAlign: 'center'}}>
-                                        {matchData && matchData.need_run_ball ? matchData.need_run_ball : 'No Data'}
-                                    </div>
-                                </div>
-                                }
-                                <div className="row mt-3">
-                                    <div className='col-md-12'>
-                                        <aside className="sidebar right-sidebar">
-                                            <div className="widget widget-upcoming-match">
-                                                <ul className="nav nav-tabs custom-nav">
-                                                    <li className={activeTab === 'liveline' ? 'cursor-pointer active' : 'cursor-pointer'}>
-                                                        <a onClick={() => handleTabChange('liveline')}>Live</a>
-                                                    </li>
-                                                    {/* <li className={activeTab === 'liveastrology' ? 'cursor-pointer active' : 'cursor-pointer'}>
-                                                        <a onClick={() => handleTabChange('liveastrology')}>Astrology</a>
-                                                    </li> */}
-                                                    <li className={activeTab === 'info' ? 'cursor-pointer active' : 'cursor-pointer'} onClick={() => {fetchMatchInfoByMatchId();}}>
-                                                        <a onClick={() => handleTabChange('info')}>Info</a>
-                                                    </li>
-                                                    <li className={activeTab === 'playingXI' ? 'cursor-pointer active' : 'cursor-pointer'} onClick={() => {fetchPlayingXIByMatchId();}}>
-                                                        <a onClick={() => handleTabChange('playingXI')}>PlayingXI
-                                                        </a>
-                                                    </li>
-                                                    <li className={activeTab === 'commentary' ? 'cursor-pointer active' : 'cursor-pointer'} onClick={() => {loadCommentary();}}>
-                                                        <a onClick={() => handleTabChange('commentary')}>Commentary
-                                                        </a>
-                                                    </li>
-                                                    <li className={activeTab === 'scorecard' ? 'cursor-pointer active' : 'cursor-pointer'} onClick={() => {fetchScorecardByMatchId();}}>
-                                                        <a onClick={() => handleTabChange('scorecard')}>Scorecard
-                                                        </a>
-                                                    </li>
-                                                    <li className={activeTab === 'history' ? 'cursor-pointer active' : 'cursor-pointer'} onClick={() => {fetchOddHistoryByMatchId();}}>
-                                                        <a onClick={() => handleTabChange('history')}>History
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                                <div className="card card-shadow">
-                                                    <div className="tab-content">
+                            </div>	
+                        </div>
+                    </div>
+                </section>
+            </header>
+            {matchData.astrology_status === 'enable' &&
+            <button className="btn-astro-v1" onClick={() => {navigate(`/match-reports/${id}`)}}>     
+                {matchDetails.razorpay_payment_id ? 'View Reports' : 'Buy Reports'} 
+            </button>}
+            {matchData && matchData.need_run_ball &&
+            <div className="card mt-10 p-1">
+                <div style={{fontSize: '12px',fontWeight: 'bold', textAlign: 'center'}}>
+                    {matchData && matchData.need_run_ball ? matchData.need_run_ball : 'No Data'}
+                </div>
+            </div>
+            }
+            <div className='container'>
+                <div className="row">
+                    <div className="col-md-12 bg-white">	
+                        <div className="widget">
+                            <div className="card p-0">
+                                <div className="checkout-form p-0">
+                                    <div className="row">
+                                        <div className='col-md-12'>
+                                            <aside className="sidebar right-sidebar">
+                                                <div className="widget widget-upcoming-match">
+                                                    <ul className="nav nav-tabs custom-nav" style={{overflowX: 'auto'}}>
+                                                        <li className={activeTab === 'liveline' ? 'cursor-pointer active' : 'cursor-pointer'}>
+                                                            <a onClick={() => handleTabChange('liveline')}>Live</a>
+                                                        </li>
+                                                        {/* <li className={activeTab === 'liveastrology' ? 'cursor-pointer active' : 'cursor-pointer'}>
+                                                            <a onClick={() => handleTabChange('liveastrology')}>Astrology</a>
+                                                        </li> */}
+                                                        <li className={activeTab === 'info' ? 'cursor-pointer active' : 'cursor-pointer'} onClick={() => {fetchMatchInfoByMatchId();}}>
+                                                            <a onClick={() => handleTabChange('info')}>Info</a>
+                                                        </li>
+                                                        <li className={activeTab === 'playingXI' ? 'cursor-pointer active' : 'cursor-pointer'} onClick={() => {fetchPlayingXIByMatchId();}}>
+                                                            <a onClick={() => handleTabChange('playingXI')}>PlayingXI
+                                                            </a>
+                                                        </li>
+                                                        <li className={activeTab === 'commentary' ? 'cursor-pointer active' : 'cursor-pointer'} onClick={() => {loadCommentary();}}>
+                                                            <a onClick={() => handleTabChange('commentary')}>Commentary
+                                                            </a>
+                                                        </li>
+                                                        <li className={activeTab === 'scorecard' ? 'cursor-pointer active' : 'cursor-pointer'} onClick={() => {fetchScorecardByMatchId();}}>
+                                                            <a onClick={() => handleTabChange('scorecard')}>Scorecard
+                                                            </a>
+                                                        </li>
+                                                        <li className={activeTab === 'history' ? 'cursor-pointer active' : 'cursor-pointer'} onClick={() => {fetchOddHistoryByMatchId();}}>
+                                                            <a onClick={() => handleTabChange('history')}>History
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                    <div className="mt-4 tab-content">
                                                         <div id="liveline" className={`tab-pane fade in ${activeTab === 'liveline' ? 'show active' : ''}`}>
                                                             <div className="row">
                                                                 <div className="col-md-12">
@@ -737,84 +734,78 @@ function LiveScoreBoard() {
                                                                     </ul>
                                                                 </div>
                                                             </div>
-                                                            <div className="accordion" id="accordion">
-                                                                <div className="accordion-item mb-0">
-                                                                    <div id="bd_innings" className="collapse show" data-parent="#accordion">
-                                                                        <div className="acr-body">
-                                                                            <div className="card card-shadow p-0">
-                                                                                <div className="table-responsive">
-                                                                                    <table className="widget-table table table-striped table-medium no-border">
-                                                                                        <thead>
-                                                                                            <tr>
-                                                                                                <th scope="col">Batsmen</th>
-                                                                                                <th scope="col">r</th>
-                                                                                                <th scope="col">b</th>
-                                                                                                <th scope="col">4s</th>
-                                                                                                <th scope="col">6s</th>
-                                                                                                <th scope="col">sr</th>
-                                                                                            </tr>
-                                                                                        </thead>
-                                                                                        <tbody>
-                                                                                            {matchData && matchData.batsman && matchData.batsman.map((batsman, index) => (
-                                                                                                <tr>
-                                                                                                    <td>{batsman.name}</td>
-                                                                                                    <td><strong>{batsman.run}</strong></td>
-                                                                                                    <td>{batsman.ball}</td>
-                                                                                                    <td>{batsman.fours}</td>
-                                                                                                    <td>{batsman.sixes}</td>
-                                                                                                    <td>{batsman.strike_rate}</td>
-                                                                                                </tr>
-                                                                                            ))}
-                                                                                        </tbody>
-                                                                                    </table>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div className="card card-shadow p-0">
-                                                                                <div className="table-responsive">
-                                                                                    <table className="widget-table table table-striped table-medium no-border">
-                                                                                        <thead>
-                                                                                            <tr>
-                                                                                                <th scope="col">Bowlers</th>
-                                                                                                <th scope="col">o</th>
-                                                                                                <th scope="col">r</th>
-                                                                                                <th scope="col">w</th>
-                                                                                                <th scope="col">econ</th>
-                                                                                            </tr>
-                                                                                        </thead>
-                                                                                        <tbody>
-                                                                                            <tr>
-                                                                                                <td>
-                                                                                                    <a href="#"><strong>{matchData && matchData.bolwer && matchData.bolwer.name ? matchData.bolwer.name : ''}</strong></a>
-                                                                                                </td>
-                                                                                                <td><strong>{matchData && matchData.bolwer && matchData.bolwer.over ? matchData.bolwer.over : ''}</strong></td>
-                                                                                                <td>{matchData && matchData.bolwer && matchData.bolwer.run ? matchData.bolwer.run : ''}</td>
-                                                                                                <td>{matchData && matchData.bolwer && matchData.bolwer.wicket ? matchData.bolwer.wicket : ''}</td>
-                                                                                                <td>{matchData && matchData.bolwer && matchData.bolwer.economy ? matchData.bolwer.economy : ''}</td>
-                                                                                            </tr>
-                                                                                        </tbody>
-                                                                                    </table>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div className="spell-sum-box px-30 pb-0">
-                                                                                <h5>Yet to bat: &nbsp;
-                                                                                    <span> 
-                                                                                    {matchData && matchData.yet_to_bet && 
-                                                                                    matchData.yet_to_bet.join(', ')}
-                                                                                    </span>
-                                                                                </h5>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
+                                                            <div className="card card-shadow p-0">
+                                                                <div className="table-responsive">
+                                                                    <table className="widget-table table table-striped table-medium no-border">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th scope="col">Batsmen</th>
+                                                                                <th scope="col">r</th>
+                                                                                <th scope="col">b</th>
+                                                                                <th scope="col">4s</th>
+                                                                                <th scope="col">6s</th>
+                                                                                <th scope="col">sr</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            {matchData && matchData.batsman && matchData.batsman.map((batsman, index) => (
+                                                                                <tr>
+                                                                                    <td>{batsman.name}</td>
+                                                                                    <td><strong>{batsman.run}</strong></td>
+                                                                                    <td>{batsman.ball}</td>
+                                                                                    <td>{batsman.fours}</td>
+                                                                                    <td>{batsman.sixes}</td>
+                                                                                    <td>{batsman.strike_rate}</td>
+                                                                                </tr>
+                                                                            ))}
+                                                                        </tbody>
+                                                                    </table>
                                                                 </div>
                                                             </div>
-                                                            <hr/>
+                                                            <div className="card card-shadow p-0">
+                                                                <div className="table-responsive">
+                                                                    <table className="widget-table table table-striped table-medium no-border">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th scope="col">Bowlers</th>
+                                                                                <th scope="col">o</th>
+                                                                                <th scope="col">r</th>
+                                                                                <th scope="col">w</th>
+                                                                                <th scope="col">econ</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td>
+                                                                                    <a href="#"><strong>{matchData && matchData.bolwer && matchData.bolwer.name ? matchData.bolwer.name : ''}</strong></a>
+                                                                                </td>
+                                                                                <td><strong>{matchData && matchData.bolwer && matchData.bolwer.over ? matchData.bolwer.over : ''}</strong></td>
+                                                                                <td>{matchData && matchData.bolwer && matchData.bolwer.run ? matchData.bolwer.run : ''}</td>
+                                                                                <td>{matchData && matchData.bolwer && matchData.bolwer.wicket ? matchData.bolwer.wicket : ''}</td>
+                                                                                <td>{matchData && matchData.bolwer && matchData.bolwer.economy ? matchData.bolwer.economy : ''}</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                            <div className='card card-shadow p-0'>
+                                                                <div className="spell-sum-box px-30 pb-0">
+                                                                    <h5>Yet to bat: &nbsp;
+                                                                        <span> 
+                                                                        {matchData && matchData.yet_to_bet && 
+                                                                        matchData.yet_to_bet.join(', ')}
+                                                                        </span>
+                                                                    </h5>
+                                                                </div>
+                                                            </div>
+                                                            
                                                             {matchData && matchData.session ?
-                                                            <>
+                                                            <div className='card card-shadow'>
                                                                 <div className='text-center' style={{marginBottom: '-10px'}}>
                                                                     <h3>Session History</h3>
                                                                 </div>
                                                                 <div className='text-session' dangerouslySetInnerHTML={{__html: matchData && matchData.session ? matchData.session : ''}} /> 
-                                                            </> : <></>}
+                                                            </div> : <></>}
                                                         </div>
                                                         {/* <div id="liveastrology" className={`tab-pane fade in ${activeTab === 'liveastrology' ? 'show active' : ''}`}>
                                                             Time: 10:00 PM <br/>
@@ -916,19 +907,15 @@ function LiveScoreBoard() {
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </aside>
+                                            </aside>
+                                        </div>
                                     </div>
                                 </div>
-                            </section>
-                        </div>
-                        <div className="col-lg-3">
-                            
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            {/* <Footer/> */}
 		</>
     );
 }
