@@ -39,7 +39,7 @@ export default function Feedback() {
                     reset();
                     if(error.response.data.status_code == 401){
                         localStorage.removeItem('client_token');
-                        toast.error('Session Expired!, Please Re-login.')
+                        
                         navigate('/sign-in');
                     } else {
                         console.log(error);
@@ -49,7 +49,7 @@ export default function Feedback() {
                 reset();
                 if(error.response.data.status_code == 401){
                     localStorage.removeItem('client_token');
-                    toast.error('Session Expired!, Please Re-login.')
+                    
                     navigate('/sign-in');
                 } else {
                     console.log(error);
@@ -79,7 +79,7 @@ export default function Feedback() {
 			}
             if(error.response.data.status_code == 401){
                 localStorage.removeItem('client_token');
-                toast.error('Session Expired!, Please Re-login.')
+                
                 navigate('/sign-in');
             } else {
                 console.log(error);

@@ -18,9 +18,11 @@ import {
 import { db } from '../../authFiles/fbaseconfig';
 import Reviews from '../../components/Reviews';
 import MatchCard from '../../components/MatchCard';
+import MatchLoader from '../../components/MatchLoader';
 import moment from 'moment';
 
 const HomePage = () => {
+	const [loader, setLoader] = useState(false)
 	const navigate = useNavigate();
 	const [matchesData, setMatchesData] = useState([]);
 	const [matchData, setMatchData] = useState([]);
@@ -34,8 +36,8 @@ const HomePage = () => {
 	const [currentIndex, setCurrentIndex] = useState(0);
 	const [activeTab, setActiveTab] = useState('home');
 	const accessToken = localStorage.getItem('client_token');
-	const maxTitleLength = 35;
-	const [newsCount, setNewsCount] = useState(5);
+	const maxTitleLength = 30;
+	const [newsCount, setNewsCount] = useState(6);
 
     const newsloadMore = () => {
         setNewsCount((prevCount) => prevCount + 5);
@@ -69,7 +71,7 @@ const HomePage = () => {
 		.catch((error) => {
 			if(error.response.data.status_code == 401){
 				localStorage.removeItem('client_token');
-				toast.error('Session Expired!, Please Re-login.')
+				
 				navigate('/sign-in');
 			} else {
 				console.log(error);
@@ -77,29 +79,29 @@ const HomePage = () => {
 		});
 	};
 
-	const fetchAllMatches = () => {
-		axios.get(
-		process.env.REACT_APP_DEV === 'true'
-			? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/${accessToken ? 'allMatchesOnline': 'allMatchesOffline'}`
-			: `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/${accessToken ? 'allMatchesOnline': 'allMatchesOffline'}`,
-		apiConfig
-		)
-		.then((response) => {
-			if (response.data.success) {
-				localStorage.setItem('match_id', response.data.data[0].match_id);
-				setMatchesData(response.data.data);
-			}
-		})
-		.catch((error) => {
-			if(error.response.data.status_code == 401){
-				localStorage.removeItem('client_token');
-				toast.error('Session Expired!, Please Re-login.')
-				navigate('/sign-in');
-			} else {
-				console.log(error);
-			}
-		});
-	};
+	// const fetchAllMatches = () => {
+	// 	axios.get(
+	// 	process.env.REACT_APP_DEV === 'true'
+	// 		? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/${accessToken ? 'allMatchesOnline': 'allMatchesOffline'}`
+	// 		: `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/${accessToken ? 'allMatchesOnline': 'allMatchesOffline'}`,
+	// 	apiConfig
+	// 	)
+	// 	.then((response) => {
+	// 		if (response.data.success) {
+	// 			localStorage.setItem('match_id', response.data.data[0].match_id);
+	// 			setMatchesData(response.data.data);
+	// 		}
+	// 	})
+	// 	.catch((error) => {
+	// 		if(error.response.data.status_code == 401){
+	// 			localStorage.removeItem('client_token');
+	// 			
+	// 			navigate('/sign-in');
+	// 		} else {
+	// 			console.log(error);
+	// 		}
+	// 	});
+	// };
 
 	const fetchPrivateAds = () => {
 		axios.get(
@@ -112,26 +114,28 @@ const HomePage = () => {
 		.catch((error) => {
 			if(error.response.data.status_code == 401){
 				localStorage.removeItem('client_token');
-				toast.error('Session Expired!, Please Re-login.')
+				
 				navigate('/sign-in');
 			} else {
 				console.log(error);
 			}
 		});
+		setLoader(false)
 	};
 	
 	const fetchUpcomingList = () => {
+		setLoader(true);
 		axios.get(
 		process.env.REACT_APP_DEV === 'true'
 			? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/${accessToken ? 'upcomingMatches': 'offlineUpcomingMatches'}`
 			: `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/${accessToken ? 'upcomingMatches': 'offlineUpcomingMatches'}`,
 		apiConfig
 		)
-		.then((response) => setUpcomingMatches(response.data.data))
+		.then((response) => {setLoader(false); setUpcomingMatches(response.data.data);})
 		.catch((error) => {
 			if(error.response.data.status_code == 401){
 				localStorage.removeItem('client_token');
-				toast.error('Session Expired!, Please Re-login.')
+				
 				navigate('/sign-in');
 			} else {
 				console.log(error);
@@ -140,6 +144,7 @@ const HomePage = () => {
 	};
 	
 	const fetchRecentList = () => {
+		setLoader(true);
 		axios.get(
 			process.env.REACT_APP_DEV === 'true'
 			? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/${accessToken ? 'recentMatches': 'offlineRecentMatches'}`
@@ -147,12 +152,13 @@ const HomePage = () => {
 			apiConfig
 			)
 			.then((response) => {
+				setLoader(false);
 				setRecentMatches(response.data.data)
 			})
 			.catch((error) => {
 				if(error.response.data.status_code == 401){
                     localStorage.removeItem('client_token');
-                    toast.error('Session Expired!, Please Re-login.')
+                    
                     navigate('/sign-in');
                 } else {
                     console.log(error);
@@ -161,17 +167,18 @@ const HomePage = () => {
 	};
 	
 	const fetchLiveList = () => {
+		setLoader(true);
 		axios.get(
 		process.env.REACT_APP_DEV === 'true'
 			? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/${accessToken ? 'liveMatches': 'offlineLiveMatches'}`
 			: `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/${accessToken ? 'liveMatches': 'offlineLiveMatches'}`,
 		apiConfig
 		)
-		.then((response) => setLiveMatches(response.data.data))
+		.then((response) => {setLoader(false); setLiveMatches(response.data.data)})
 		.catch((error) => {
 			if(error.response.data.status_code == 401){
 				localStorage.removeItem('client_token');
-				toast.error('Session Expired!, Please Re-login.')
+				
 				navigate('/sign-in');
 			} else {
 				console.log(error);
@@ -192,7 +199,7 @@ const HomePage = () => {
 		.catch((error) => {
 			if(error.response.data.status_code == 401){
 				localStorage.removeItem('client_token');
-				toast.error('Session Expired!, Please Re-login.')
+				
 				navigate('/sign-in');
 			} else {
 				console.log(error);
@@ -273,6 +280,7 @@ const HomePage = () => {
 	const matchDataRef = collection(db, "matchdata");
 
 	useEffect(() => {
+		setLoader(true);
         // Listen for real-time updates on all documents in the "matchdata" collection
 		onSnapshot(matchDataRef, (snapshot) => {
 			const allMatches = [];
@@ -283,7 +291,11 @@ const HomePage = () => {
 				data.series_name = data.match_type;
 				allMatches.push(data);
 			});
+			if(allMatches && allMatches.length > 0) {
+				localStorage.setItem('match_id', allMatches[0].match_id);
+			}
 			setMatchesData(allMatches);
+			setLoader(false);
 		}, (error) => {
 			console.error("Error fetching data:", error);
 		});
@@ -306,27 +318,33 @@ const HomePage = () => {
 									// autoPlay
 									responsive={responsiveOptions}
 								>
-								{(matchesData && matchesData.length > 0) && (
+								{(matchesData && matchesData.length > 0 && !loader) ? (
 									<>
 										{matchesData.map((m, i) => (
 											<MatchCard match={m} index={i}/>
 										))}
 									</>
-								)}
-								{(upcomingMatches && upcomingMatches.length > 0) && (
+								) : 
+									<MatchLoader/>
+								}
+								{(upcomingMatches && upcomingMatches.length > 0) ? (
 									<>
 										{upcomingMatches.slice(0, 5).map((m, i) => (
 											<MatchCard match={m} index={i}/>
 										))}
 									</>
-								)}
-								{(recentMatches && recentMatches.length > 0) && (
+								) : 
+									<MatchLoader/>
+								}
+								{(recentMatches && recentMatches.length > 0) ? (
 									<>
 										{recentMatches.slice(0, 5).map((m, i) => (
 											<MatchCard match={m} index={i}/>
 										))}
 									</>
-								)}
+								) : 
+									<MatchLoader/>
+								}
 								</OwlCarousel>
 							</div>
 						</div>

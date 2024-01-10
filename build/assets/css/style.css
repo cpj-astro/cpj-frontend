@@ -1105,14 +1105,14 @@ a.post-meta {
 
 .card .nav li a {
   width: 100%;
-  min-width: 92.5px;
-  background-color: #eff0f5;
+  min-width: 75px;
+  background-color: #0d042f;
   display: inline-block;
   font-size: 14px;
   text-align: center;
   font-weight: 500;
-  color: #393157;
-  border: 1px solid #4c416630;
+  color: #ffffff;
+  border: 2px solid #4c4166bd;
   padding: 10px;
 }
 
@@ -1343,6 +1343,7 @@ a.post-meta {
   border-radius: 10px;
   overflow: hidden;
   padding: 10px;
+  min-height: 185.4px;
 }
 
 .score-card-inner {
@@ -3568,7 +3569,7 @@ span.p_class {
   line-height: 21px;
   text-transform: uppercase;
   color: #fff;
-  background: #442F61ff;
+  background: #0d042f;
   padding: 14px 40px;
 }
 
@@ -6350,4 +6351,26 @@ input:checked ~ .cover:before {
   margin: 0 auto;
   color: #333;
   font-size: 16px;
+}
+
+.skeleton-loader-gradient {
+  width: 100%;
+  height: 15px;
+  display: block;
+  background: linear-gradient(	  
+      to right,
+      rgba(255, 255, 255, 0),
+      rgba(255, 255, 255, 0.5) 50%,
+      rgba(255, 255, 255, 0) 80%
+    ),
+    lightgray;
+  background-repeat: repeat-y;
+  background-size: 50px 500px;
+  background-position: 0 0;
+  animation: shine 1s infinite;	  
+}
+@keyframes shine {	
+  to {
+    background-position: 100% 0, /* move highlight to right */ 0 0;
+  }
 }

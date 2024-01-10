@@ -54,7 +54,7 @@ const PhonePeIntegration = ({ btnText, astroAmount }) => {
       .catch((error) => {
         if(error.response.data.status_code == 401){
           localStorage.removeItem('client_token');
-          toast.error('Session Expired!, Please Re-login.')
+          
           navigate('/sign-in');
         } else {
           console.log(error);
