@@ -212,7 +212,7 @@ function LiveScoreBoard() {
 
     const getCricketTermDescription = (term) => {
         const termsMap = {
-            'ball': 'ball start',
+            'ball': 'Ball Start',
             '0': 'Dot Ball',
             '1': 'Single Single',
             '2': 'Double Double',
@@ -221,14 +221,44 @@ function LiveScoreBoard() {
             'four': 'Four Four Four',
             'six': 'Six Six Sixer',
             '5': '5 Runs',
-            '6': 'Six Six Six',
+            '6': 'Six Six Sixer',
             'wide': 'Wide Ball',
-            'over': 'Over complete'
+            'over': 'Over Complete'
         };
     
         const lowerCaseTerm = term.toLowerCase();
         return termsMap[lowerCaseTerm] || term
     }
+    
+    const getDisplayContent = (firstCircle) => {
+        if (!firstCircle) return '';
+        switch(firstCircle.toLowerCase()) {
+            case 'ball start':
+                return <img src={"/assets/images/liveline/ball-start.gif"} className="fc-img-style" alt="Ball Start" />;
+            case 'dot ball':
+                return <img src={"/assets/images/liveline/0.gif"} className="fc-img-style" alt="Dot Ball" />;
+            case 'single single':
+                return <img src={"/assets/images/liveline/1.gif"} className="fc-img-style" alt="Single Single" />;
+            case 'double double':
+                return <img src={"/assets/images/liveline/2.gif"} className="fc-img-style" alt="Double Double" />;
+            case 'triple triple':
+                return <img src={"/assets/images/liveline/3.gif"} className="fc-img-style" alt="Triple Triple" />;
+            case 'four four four':
+                return <img src={"/assets/images/liveline/4.gif"} className="fc-img-style" alt="Four Four Four" />;
+            case '5 runs':
+                return <img src={"/assets/images/liveline/5.gif"} className="fc-img-style" alt="5 runs" />;
+            case 'six six sixer':
+                return <img src={"/assets/images/liveline/6.gif"} className="fc-img-style" alt="Six Six Sixer" />;
+            case 'wide ball':
+                return <img src={"/assets/images/liveline/4.gif"} className="fc-img-style" alt="Wide Ball" />;
+            case 'out':
+                return <img src={"/assets/images/liveline/out.gif"} className="fc-img-style" alt="Wide Ball" />;
+            case 'wicket':
+                return <img src={"/assets/images/liveline/out.gif"} className="fc-img-style" alt="Wide Ball" />;
+            default:
+                return firstCircle; // Default to showing text
+        }
+    };
 
     useEffect(() => {
         if(matchData && matchData.first_circle && volumeStatus) {
@@ -391,7 +421,7 @@ function LiveScoreBoard() {
                                             </strong>
                                         </div>
                                         <div className="score">
-                                            {matchData && matchData.first_circle ? matchData.first_circle : ''}
+                                            {matchData && matchData.first_circle ? getDisplayContent(getCricketTermDescription(matchData.first_circle)) : ''}
                                         </div>
                                         <div className='card mb-0' style={{borderRadius: '0px 0px 4px 4px'}}>
                                             <div className="score-card-lg d-md-flex p-0">
@@ -439,22 +469,26 @@ function LiveScoreBoard() {
                     </div>
                 </section>
             </header>
-            {matchData.astrology_status === 'enable' &&
-            <button className="btn-astro-v1" onClick={() => {navigate(`/match-reports/${id}`)}}>     
-                {matchDetails.razorpay_payment_id ? 'View Reports' : 'Buy Reports'} 
-            </button>}
-            {matchData && matchData.need_run_ball &&
-            <div className="card mt-10 p-1">
-                <div style={{fontSize: '12px',fontWeight: 'bold', textAlign: 'center'}}>
-                    {matchData && matchData.need_run_ball ? matchData.need_run_ball : 'No Data'}
-                </div>
-            </div>
-            }
             <div className='container'>
                 <div className="row">
                     <div className="col-md-12 bg-white">	
                         <div className="widget">
                             <div className="card p-0">
+                                {matchData.astrology_status === 'enable' &&
+                                <button className="btn-astro-v1 mt-3" onClick={() => {navigate(`/match-reports/${id}`)}}>     
+                                  {matchDetails.razorpay_payment_id ? 'View Reports' : 'Buy Reports'} 
+                                </button>}
+                                {matchData && matchData.need_run_ball &&
+                                    <div className='card card-shadow p-0 mt-3'>
+                                        <div className="spell-sum-box px-30 pb-0 pt-0">
+                                            <h5 className='text-center mb-0'>
+                                                <marquee behavior="scroll" direction="left" scrollamount="10" style={{fontWeight: '600'}}> 
+                                                {matchData && matchData.need_run_ball ? matchData.need_run_ball : 'No Data'}
+                                                </marquee>
+                                            </h5>
+                                        </div>
+                                    </div>
+                                }
                                 <div className="checkout-form p-0">
                                     <div className="row">
                                         <div className='col-md-12'>
@@ -492,7 +526,7 @@ function LiveScoreBoard() {
                                                             <div className="row">
                                                                 <div className="col-md-12">
                                                                     <div className="widget widget-rankings">
-                                                                        <div className="card px-0 py-0 odd-border">
+                                                                        <div className="card shadow px-0 py-0 odd-border">
                                                                             <div id="test_rank_trs" className="tab-pane fade in show active">
                                                                                 <div className="table-responsive">
                                                                                     <table className="widget-table table table-striped no-border">
@@ -531,107 +565,83 @@ function LiveScoreBoard() {
                                                                 {(matchData && matchData.fancy_api) || (matchData && !matchData.fancy_api) ?
                                                                 <div className="col-md-12">
                                                                     <div className="widget widget-rankings">
-                                                                        <div className="card px-0 py-0 odd-border">
+                                                                        <div className="card shadow px-0 py-0 odd-border">
                                                                             <div id="test_rank_trs" className="tab-pane fade in show active">
                                                                                 <div className="table-responsive">
                                                                                     <table className="widget-table table table-striped no-border">
                                                                                         <thead>
                                                                                             <tr>
                                                                                                 <th scope="col">Fancy Info</th>
-                                                                                                <th scope="col" style={{width: '10%', textAlign: 'center'}}>No</th>
-                                                                                                <th scope="col" style={{width: '10%', textAlign: 'center'}}>Yes</th>
+                                                                                                <th scope="col">No</th>
+                                                                                                <th scope="col">Yes</th>
                                                                                             </tr>
                                                                                         </thead>
                                                                                         <tbody>
-                                                                                        {matchData && matchData.fancy_api &&
-                                                                                            <tr>
-                                                                                                <td> 
-                                                                                                    <div>
-                                                                                                        {matchData.s_ovr + ' over runs'}
-                                                                                                    </div> 
-                                                                                                </td>
-                                                                                                <td style={{padding: '0px'}}> 
-                                                                                                    <div className='back-color bl-style'>
+                                                                                            {matchData && matchData.fancy_api &&
+                                                                                                <tr>
+                                                                                                    <td>{matchData.s_ovr + ' over runs'}</td>
+                                                                                                    <td className={'back-color bl-style ' + back1Style}>
                                                                                                         {matchData && ['rain', 'no ball', 'out', 'wicket', 'lbw', 'free hit', '3rd umpire', 'third umpire', 'review', 'decision pending', 'catch checking', 'boundary check', 'ball start', 'ball']
                                                                                                         .some(phrase => matchData.first_circle.toLowerCase() === phrase.toLowerCase()) && (
                                                                                                             <div className='suspend-style'>SUSPENDED</div>
                                                                                                         )}
                                                                                                         <div className='fancy-t1'>{matchData.s_min}</div>
                                                                                                         <div style={{color: 'black', fontSize: '9px', fontWeight: 'bold'}}>{matchData.s_min_rate}</div>
-                                                                                                    </div>
-                                                                                                </td>
-                                                                                                <td style={{ padding: '0px' }}>
-                                                                                                    <div className='lay-color bl-style'>
+                                                                                                    </td>
+                                                                                                    <td className={'lay-color bl-style ' + lay1Style}>
                                                                                                         {matchData && ['rain', 'no ball', 'out', 'wicket', 'lbw', 'free hit', '3rd umpire', 'third umpire', 'review', 'decision pending', 'catch checking', 'boundary check', 'ball start', 'ball']
                                                                                                         .some(phrase => matchData.first_circle.toLowerCase() === phrase.toLowerCase()) && (
                                                                                                             <div className='suspend-style'>SUSPENDED</div>
                                                                                                         )}
                                                                                                         <div className='fancy-t1'>{matchData.s_max}</div>
                                                                                                         <div style={{color: 'black', fontSize: '9px', fontWeight: 'bold'}}>{matchData.s_max_rate}</div>
-                                                                                                    </div>
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                        }
-                                                                                        {matchData && !matchData.fancy_api && matchData.fancy_info && matchData.fancy_info.map((fancy, index) => 
-                                                                                            fancy.s_over != 0 && (
-                                                                                                <tr className={fancy.over ? '' : 'd-none'}>
-                                                                                                    <td> 
-                                                                                                        <div>
-                                                                                                            {fancy.s_over + ' over runs'}
-                                                                                                        </div> 
-                                                                                                    </td>
-                                                                                                    <td style={{padding: '0px'}}> 
-                                                                                                        <div className='back-color bl-style'>
-                                                                                                            {matchData && ['rain', 'no ball', 'out', 'wicket', 'lbw', 'free hit', '3rd umpire', 'third umpire', 'review', 'decision pending', 'catch checking', 'boundary check', 'ball start', 'ball']
-                                                                                                            .some(phrase => matchData.first_circle.toLowerCase() === phrase.toLowerCase()) && (
-                                                                                                                <div className='suspend-style'>SUSPENDED</div>
-                                                                                                            )}
-                                                                                                            <div className='fancy-t1'>{fancy.s_min}</div>
-                                                                                                            <div style={{color: 'black', fontSize: '9px', fontWeight: 'bold'}}>{fancy.s_min_rate}</div>
-                                                                                                        </div>
-                                                                                                    </td>
-                                                                                                    <td style={{ padding: '0px' }}>
-                                                                                                        <div className='lay-color bl-style'>
-                                                                                                            {fancy.suspend && 
-                                                                                                                <div className='suspend-style'>SUSPENDED</div>
-                                                                                                            } 
-                                                                                                            <div className='fancy-t1'>{fancy.s_max}</div>
-                                                                                                            <div style={{color: 'black', fontSize: '9px', fontWeight: 'bold'}}>{fancy.s_max_rate}</div>
-                                                                                                        </div>
                                                                                                     </td>
                                                                                                 </tr>
-                                                                                            )
-                                                                                        )}
-                                                                                        {matchData.lambi_ovr && matchData.lambi_ovr != 0 && 
-                                                                                        matchData.current_inning == 1 && matchData.lambi_ovr != matchData.s_ovr && matchData.lambi_ovr != 0 &&
-                                                                                            <tr>
-                                                                                                <td> 
-                                                                                                    <div>
-                                                                                                        {matchData.lambi_ovr + ' over runs (LAMBI)'}
-                                                                                                    </div> 
-                                                                                                </td>
-                                                                                                <td style={{padding: '0px'}}> 
-                                                                                                    <div className='back-color bl-style'>
+                                                                                            }
+                                                                                            {matchData && !matchData.fancy_api && matchData.fancy_info && matchData.fancy_info.map((fancy, index) => 
+                                                                                                fancy.s_over != 0 && (
+                                                                                                <tr className={fancy.over ? '' : 'd-none'}>
+                                                                                                    <td>{matchData.s_over + ' over runs'}</td>
+                                                                                                    <td className={'back-color bl-style ' + back1Style}>
+                                                                                                        {matchData && ['rain', 'no ball', 'out', 'wicket', 'lbw', 'free hit', '3rd umpire', 'third umpire', 'review', 'decision pending', 'catch checking', 'boundary check', 'ball start', 'ball']
+                                                                                                        .some(phrase => matchData.first_circle.toLowerCase() === phrase.toLowerCase()) && (
+                                                                                                            <div className='suspend-style'>SUSPENDED</div>
+                                                                                                        )}
+                                                                                                        <div className='fancy-t1'>{fancy.s_min}</div>
+                                                                                                        <div style={{color: 'black', fontSize: '9px', fontWeight: 'bold'}}>{fancy.s_min_rate}</div>
+                                                                                                    </td>
+                                                                                                    <td className={'lay-color bl-style ' + lay1Style}>
+                                                                                                        {fancy.suspend && 
+                                                                                                            <div className='suspend-style'>SUSPENDED</div>
+                                                                                                        } 
+                                                                                                        <div className='fancy-t1'>{fancy.s_max}</div>
+                                                                                                        <div style={{color: 'black', fontSize: '9px', fontWeight: 'bold'}}>{fancy.s_max_rate}</div>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                                )
+                                                                                            )}
+                                                                                            {matchData.lambi_ovr && matchData.lambi_ovr != 0 && 
+                                                                                            matchData.current_inning == 1 && matchData.lambi_ovr != matchData.s_ovr && matchData.lambi_ovr != 0 &&
+                                                                                                <tr>
+                                                                                                    <td>{matchData.lambi_ovr + ' over runs (LAMBI)'}</td>
+                                                                                                    <td className={'back-color bl-style ' + back1Style}>
                                                                                                         {matchData && ['rain', 'no ball', 'out', 'wicket', 'lbw', 'free hit', '3rd umpire', 'third umpire', 'review', 'decision pending', 'catch checking', 'boundary check', 'ball start', 'ball']
                                                                                                         .some(phrase => matchData.first_circle.toLowerCase() === phrase.toLowerCase()) && (
                                                                                                             <div className='suspend-style'>SUSPENDED</div>
                                                                                                         )}
                                                                                                         <div className='fancy-t1'>{matchData.lambi_min}</div>
                                                                                                         <div style={{color: 'black', fontSize: '9px', fontWeight: 'bold'}}>{matchData.lambi_min_rate}</div>
-                                                                                                    </div>
-                                                                                                </td>
-                                                                                                <td style={{ padding: '0px' }}>
-                                                                                                    <div className='lay-color bl-style'>
+                                                                                                    </td>
+                                                                                                    <td className={'lay-color bl-style ' + lay1Style}>
                                                                                                         {matchData && ['rain', 'no ball', 'out', 'wicket', 'lbw', 'free hit', '3rd umpire', 'third umpire', 'review', 'decision pending', 'catch checking', 'boundary check', 'ball start', 'ball']
                                                                                                         .some(phrase => matchData.first_circle.toLowerCase() === phrase.toLowerCase()) && (
                                                                                                             <div className='suspend-style'>SUSPENDED</div>
                                                                                                         )}
                                                                                                         <div className='fancy-t1'>{matchData.lambi_max}</div>
                                                                                                         <div style={{color: 'black', fontSize: '9px', fontWeight: 'bold'}}>{matchData.lambi_max_rate}</div>
-                                                                                                    </div>
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                        }
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                            }
                                                                                         </tbody>
                                                                                     </table>
                                                                                 </div>
@@ -643,7 +653,7 @@ function LiveScoreBoard() {
                                                                 {matchData && matchData.match_completed && matchData.match_completed.status &&
                                                                 <div className="col-md-12">
                                                                     <div className="widget widget-rankings">
-                                                                        <div className="card px-0 py-0 odd-border">
+                                                                        <div className="card shadow px-0 py-0 odd-border">
                                                                             <div id="test_rank_trs" className="tab-pane fade in show active">
                                                                                 <div className="table-responsive">
                                                                                     <table className="widget-table table table-striped no-border">
@@ -675,7 +685,7 @@ function LiveScoreBoard() {
                                                                 {matchData && matchData.match_tied && matchData.match_tied.status &&
                                                                 <div className="col-md-12">
                                                                     <div className="widget widget-rankings">
-                                                                        <div className="card px-0 py-0 odd-border">
+                                                                        <div className="card shadow px-0 py-0 odd-border">
                                                                             <div id="test_rank_trs" className="tab-pane fade in show active">
                                                                                 <div className="table-responsive">
                                                                                     <table className="widget-table table table-striped no-border">
@@ -705,7 +715,7 @@ function LiveScoreBoard() {
                                                                     </div>
                                                                 </div>}
                                                             </div>
-                                                            <div className="spell-sum-box">
+                                                            <div className="spell-sum-box shadow mb-3">
                                                                 <div className="recent-spell" style={{overflow: 'auto'}}>
                                                                     <ul style={{display: 'flex'}}>
                                                                     {
@@ -784,6 +794,7 @@ function LiveScoreBoard() {
                                                                                 <td>{matchData && matchData.bolwer && matchData.bolwer.wicket ? matchData.bolwer.wicket : ''}</td>
                                                                                 <td>{matchData && matchData.bolwer && matchData.bolwer.economy ? matchData.bolwer.economy : ''}</td>
                                                                             </tr>
+                                                                            <tr><td colSpan={5}></td></tr>
                                                                         </tbody>
                                                                     </table>
                                                                 </div>

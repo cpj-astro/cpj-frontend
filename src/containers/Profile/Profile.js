@@ -261,7 +261,7 @@ function Profile() {
                                                     <div className='col-md-12'>
                                                         <aside className="sidebar right-sidebar">
                                                             <div className="widget widget-upcoming-match">
-                                                                 <ul className="nav nav-tabs custom-nav">
+                                                                 <ul className="nav nav-tabs custom-nav" style={{overflowX: 'auto'}}>
                                                                     <li className={activeTab === 'profile-details' ? 'cursor-pointer active' : 'cursor-pointer'}>
                                                                         <a onClick={() => handleTabChange('profile-details')}>Personal Details</a>
                                                                     </li>

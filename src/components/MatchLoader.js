@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function MatchLoader() {
   return (
-    <div className="score-card card-shadow p-0 mt-3">
+    <div className="score-card card-shadow p-0 mt-3 mb-5">
         <div className="score-card-inner">
             <div className="score-card-header text-center">
                 <span class="skeleton-loader-gradient"></span>

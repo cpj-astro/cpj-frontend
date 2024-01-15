@@ -960,6 +960,10 @@ a.post-meta {
   text-align: center;
 }
 
+.content-align-center {
+  align-items: center;
+}
+
 .vs-circle {
   -webkit-box-align: center;
       -ms-flex-align: center;
@@ -1040,7 +1044,7 @@ a.post-meta {
 }
 
 .bb-1x-solid {
-  border-bottom: 1px solid #eff0f5;
+  border-bottom: 1px solid #cccccc;
 }
 
 .gutters-7-half {
@@ -1064,6 +1068,14 @@ a.post-meta {
 
 .widget-title {
   font-size: 16px;
+  font-weight: 600;
+  line-height: 22px;
+  color: #000;
+  margin-bottom: 8px;
+}
+
+.widget-title-intro {
+  font-size: 18px;
   font-weight: 600;
   line-height: 22px;
   color: #000;
@@ -1112,8 +1124,17 @@ a.post-meta {
   text-align: center;
   font-weight: 500;
   color: #ffffff;
-  border: 2px solid #4c4166bd;
+  border: 1.5px solid #4c4166bd;
   padding: 10px;
+}
+
+.pandit-intro-img {
+  height: 130px;
+  width: 130px;
+  border-width: 10px;
+  background: linear-gradient(white, white) padding-box, linear-gradient(to right, rgba(2,0,36,1), rgba(172,62,205,1)) border-box;
+  border-radius: 1em;
+  border: 8px solid transparent;
 }
 
 .card .nav li a.active {
@@ -1142,6 +1163,25 @@ a.post-meta {
   line-height: normal;
 }
 
+.btn-close {
+  --bs-btn-close-color: #000;
+  --bs-btn-close-bg: url(https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-close-512.png);
+  --bs-btn-close-opacity: 0.5;
+  --bs-btn-close-hover-opacity: 0.75;
+  --bs-btn-close-focus-shadow: 0 0 0 0.25rem #0d6efd40;
+  --bs-btn-close-focus-opacity: 1;
+  --bs-btn-close-disabled-opacity: 0.25;
+  --bs-btn-close-white-filter: invert(1) grayscale(100%) brightness(200%);
+  background: #0000 var(--bs-btn-close-bg) center/1em auto no-repeat;
+  border: 0;
+  border-radius: 0.375rem;
+  box-sizing: initial;
+  height: 1em;
+  opacity: var(--bs-btn-close-opacity);
+  padding: 0.25em;
+  width: 1em;
+}
+
 .online-amount {
   color: lime;
   font-size: 14px;
@@ -1159,6 +1199,15 @@ a.post-meta {
   border-radius: 50%;
   display: inline-block;
   animation: pulse 0.5s infinite;
+}
+
+.online-red-dot {
+  margin-right: 5px;
+  width: 10px;
+  height: 10px;
+  background-color: #ff0000; /* Green color for online status */
+  border-radius: 50%;
+  animation: pulse 1s infinite;
 }
 
 @keyframes pulse {
@@ -1388,7 +1437,7 @@ a.post-meta {
 }
 
 .score-card-footer {
-  background-color: #eff0f5;
+  background-color: #cccccc;
   padding: 6px;
 }
 
@@ -1634,7 +1683,7 @@ span.p_class {
   -ms-flex-preferred-size: 100%;
       flex-basis: 100%;
   width: 100%;
-  border-left: 1px solid #eff0f5;
+  border-left: 1px solid #cccccc;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1650,7 +1699,7 @@ span.p_class {
 @media screen and (max-width: 767px) {
   .card-aside {
     border-left: none;
-    border-top: 1px solid #eff0f5;
+    border-top: 1px solid #cccccc;
     max-width: 100%;
   }
   .custom-card-aside {
@@ -1797,7 +1846,7 @@ span.p_class {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  border: 3px solid #eff0f5;
+  border: 3px solid #cccccc;
   -webkit-transition: all 300ms ease-in-out;
   transition: all 300ms ease-in-out;
 }
@@ -1912,8 +1961,7 @@ span.p_class {
 }
 
 .fancy-t1 {
-  font-size: 16px;
-  padding-top: 4px;
+  font-size: 1.4rem;
 }
 
 .topbar-right {
@@ -2531,7 +2579,7 @@ span.p_class {
 }
 
 .table-striped tbody td a.cricnotch-btn {
-  background: #eff0f5;
+  background: #cccccc;
   color: #000;
 }
 
@@ -2633,7 +2681,7 @@ span.p_class {
 }
 
 .table-medium td {
-  font-size: 11px !important;
+  /* font-size: 11px !important; */
   font-weight: 400;
   line-height: normal !important;
 }
@@ -2652,7 +2700,7 @@ span.p_class {
 .main-container {
   padding: 30px 0 20px;
   position: relative;
-  background: #eff0f5;
+  background: #cccccc;
 }
 
 /**********************************
@@ -2757,7 +2805,7 @@ span.p_class {
 }
 
 .widget-social .card {
-  background: #eff0f5;
+  background: #cccccc;
 }
 
 .social-card {
@@ -2860,7 +2908,7 @@ span.p_class {
 
 .widget-newsletter input {
   width: 100%;
-  border: 1px solid #eff0f5;
+  border: 1px solid #cccccc;
   -webkit-box-shadow: none;
           box-shadow: none;
   background: #f6f7fb;
@@ -3079,6 +3127,9 @@ span.p_class {
 
 .spell-sum-box {
   padding: 10px;
+  font-weight: 600;
+  border: 1px solid #ccc;
+  border-radius: 10px;
 }
 
 .spell-sum-box h5 {
@@ -3260,7 +3311,7 @@ span.p_class {
   display: inline-flex;
   width: 30px;
   height: 30px;
-  background: #eff0f5;
+  background: #cccccc;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
@@ -4109,7 +4160,7 @@ span.p_class {
 }
 
 .widget-accordion ul li:not(:last-child) {
-  border-bottom: 1px solid #eff0f5;
+  border-bottom: 1px solid #cccccc;
 }
 
 .widget-accordion ul li a {
@@ -4123,7 +4174,7 @@ span.p_class {
 
 .color-filters {
   position: relative;
-  border-bottom: 1px solid #eff0f5;
+  border-bottom: 1px solid #cccccc;
   margin-bottom: 15px;
   padding-bottom: 15px;
 }
@@ -4165,7 +4216,7 @@ span.p_class {
 }
 
 .size-filters {
-  border-bottom: 1px solid #eff0f5;
+  border-bottom: 1px solid #cccccc;
   margin-bottom: 15px;
   padding-bottom: 15px;
 }
@@ -4173,7 +4224,7 @@ span.p_class {
 .size-filters a {
   background-color: #f6f7fb;
   display: inline-block;
-  border: 1px solid #eff0f5;
+  border: 1px solid #cccccc;
   font-size: 14px;
   font-weight: 400;
   line-height: 20px;
@@ -4201,7 +4252,7 @@ span.p_class {
 }
 
 .price-filter .ui-widget-content {
-  background: #eff0f5;
+  background: #cccccc;
   border: none;
 }
 
@@ -4379,7 +4430,7 @@ span.p_class {
 }
 
 .sponsors-sec .content-block {
-  border-left: 1px solid #eff0f5;
+  border-left: 1px solid #cccccc;
   padding-left: 30px;
 }
 
@@ -4603,7 +4654,7 @@ span.p_class {
 
 .sort-by select {
   background-color: #f6f7fb;
-  border: 1px solid #eff0f5;
+  border: 1px solid #cccccc;
   border-radius: 50px;
   color: #ffffff;
   outline: 0;
@@ -4842,13 +4893,13 @@ span.p_class {
 }
 
 .cart-table thead th {
-  background-color: #eff0f5;
+  background-color: #cccccc;
   text-transform: uppercase;
   font-weight: 600;
 }
 
 .cart-table tbody tr:nth-child(even) {
-  background-color: #eff0f5;
+  background-color: #cccccc;
 }
 
 .cart-table tbody tr:nth-child(odd) {
@@ -5000,7 +5051,7 @@ span.p_class {
 .cart-total {
   position: relative;
   padding: 20px 30px;
-  background: #eff0f5;
+  background: #cccccc;
 }
 
 .cart-total p {
@@ -5579,6 +5630,18 @@ span.p_class {
   font-size: small;
 }
 
+.theme-button-4 {
+  padding: 5px;
+  width: 100%;
+  background: rgb(2,0,36);
+  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(172,62,205,1) 35%, rgba(0,212,255,1) 100%);
+  color: #fff;
+  border: 1px solid #dbdbdb;
+  cursor: pointer;
+  border-radius: 5px;
+  text-transform: uppercase;
+}
+
 .theme-button-2 {
   padding: 5px;
   width: 100%;
@@ -5647,13 +5710,18 @@ span.p_class {
   background-color: #f6a8b8;
 }
 
+.fc-img-style {
+  height: 80px;
+  width: auto;
+}
+
 .tv {
-  background: #333;
+  background: #000;
   width: 100%;
   height: auto;
-  border-radius: 5px;
+  border-radius: 8px;
   position: relative;
-  border: 1.5px solid #d0cfda;
+  border: 2px solid #d0cfda;
 }
 
 .rrates-container {
@@ -5732,7 +5800,7 @@ span.p_class {
   height: auto;
   color: #fff;
   min-height: 154.4px;
-  font-size: 30px;
+  font-size: 28px;
   text-transform: capitalize;
   align-items: center;
   display: flex;
@@ -5785,7 +5853,7 @@ input:checked ~ .cover:before {
 }
 
 .odd-border {
-  border: 1px solid #eff0f5;
+  border: 1px solid #cccccc;
 }
 
 .status-bar-fill {
@@ -5822,7 +5890,7 @@ input:checked ~ .cover:before {
 }
 
 .custom-runs {
-  border: 1px solid #eff0f5;
+  border: 1px solid #cccccc;
   border-radius: 5px;
   margin-top: 10px;
 }
@@ -5882,7 +5950,7 @@ input:checked ~ .cover:before {
 }
 
 .custom-fancy-tags {
-  border: 1px solid #eff0f5;
+  border: 1px solid #cccccc;
   width: 150px;
   padding: 3px;
   border-radius: 3px;
@@ -6304,13 +6372,15 @@ input:checked ~ .cover:before {
 .back-color {
   background-color: #9bd4ff;
   border: 2px solid #fff !important;
-  font-weight: 600;
+  font-weight: 600 !important;
+  border-radius: 8px;
 }
 
 .lay-color {
   background-color: #f6a8b8;
   border: 2px solid #ffff !important;
-  font-weight: 600;
+  font-weight: 600 !important;
+  border-radius: 8px;
 }
 
 .custom-review {

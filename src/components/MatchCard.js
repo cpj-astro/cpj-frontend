@@ -8,7 +8,12 @@ export default function MatchCard({match, index}) {
             <div className="score-card-inner">
                 <div className="score-card-header text-center">
                     <span>{match.series_name}</span>
-                    <strong>{match.match_category}</strong>
+                    <div className='text-center owl-it' style={{display:'flex', alignItems: 'center', justifyContent:'center'}}>
+                        {match.match_category == 'live' && <span className='online-red-dot'></span>}
+                        <strong>
+                            {match.match_category}
+                        </strong>
+                    </div>
                 </div>
                 <div className="score-card-body">
                     <div className="country-info">
@@ -59,8 +64,12 @@ export default function MatchCard({match, index}) {
             {match.astrology_status === 'enable' ?
             <div className="button-container">
                 <button className="theme-button-1" onClick={() => {navigate(`/live-score-board/${match.match_id}`)}}>View Liveline</button>
-
-                <button className={match.button_class} onClick={() => {navigate(`/match-reports/${match.match_id}`)}}>{match.button_text}</button>
+                {match.match_category == 'recent' && match.payment_id && 
+                    <button className={match.button_class} onClick={() => {navigate(`/match-reports/${match.match_id}`)}}>View Astrology</button>
+                }
+                {match.match_category !== 'recent' &&
+                    <button className={match.button_class} onClick={() => {navigate(`/match-reports/${match.match_id}`)}}>{match.button_text}</button>
+                }
             </div>
             : 
             <div className="button-container">

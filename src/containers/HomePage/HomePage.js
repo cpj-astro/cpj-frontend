@@ -4,7 +4,6 @@ import OwlCarousel from 'react-owl-carousel';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Header from '../../components/Header';
-import { toast } from 'react-toastify';
 import {
   setDoc,
   getDoc,
@@ -20,9 +19,13 @@ import Reviews from '../../components/Reviews';
 import MatchCard from '../../components/MatchCard';
 import MatchLoader from '../../components/MatchLoader';
 import moment from 'moment';
+import { Modal, Button } from 'react-bootstrap';
+import IntroCard from '../../components/IntroCard';
 
 const HomePage = () => {
 	const [loader, setLoader] = useState(false)
+	const [matchLoader, setMatchLoader] = useState(false)
+    const [showModal, setShowModal] = useState(false);
 	const navigate = useNavigate();
 	const [matchesData, setMatchesData] = useState([]);
 	const [matchData, setMatchData] = useState([]);
@@ -38,7 +41,9 @@ const HomePage = () => {
 	const accessToken = localStorage.getItem('client_token');
 	const maxTitleLength = 30;
 	const [newsCount, setNewsCount] = useState(6);
-
+	const handleCloseModal = () => setShowModal(false);
+    const handleShowModal = () => setShowModal(true);
+	
     const newsloadMore = () => {
         setNewsCount((prevCount) => prevCount + 5);
     };
@@ -79,30 +84,6 @@ const HomePage = () => {
 		});
 	};
 
-	// const fetchAllMatches = () => {
-	// 	axios.get(
-	// 	process.env.REACT_APP_DEV === 'true'
-	// 		? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/${accessToken ? 'allMatchesOnline': 'allMatchesOffline'}`
-	// 		: `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/${accessToken ? 'allMatchesOnline': 'allMatchesOffline'}`,
-	// 	apiConfig
-	// 	)
-	// 	.then((response) => {
-	// 		if (response.data.success) {
-	// 			localStorage.setItem('match_id', response.data.data[0].match_id);
-	// 			setMatchesData(response.data.data);
-	// 		}
-	// 	})
-	// 	.catch((error) => {
-	// 		if(error.response.data.status_code == 401){
-	// 			localStorage.removeItem('client_token');
-	// 			
-	// 			navigate('/sign-in');
-	// 		} else {
-	// 			console.log(error);
-	// 		}
-	// 	});
-	// };
-
 	const fetchPrivateAds = () => {
 		axios.get(
 		process.env.REACT_APP_DEV === 'true'
@@ -124,14 +105,17 @@ const HomePage = () => {
 	};
 	
 	const fetchUpcomingList = () => {
-		setLoader(true);
+		setMatchLoader(true);
 		axios.get(
 		process.env.REACT_APP_DEV === 'true'
 			? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/${accessToken ? 'upcomingMatches': 'offlineUpcomingMatches'}`
 			: `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/${accessToken ? 'upcomingMatches': 'offlineUpcomingMatches'}`,
-		apiConfig
+			apiConfig
 		)
-		.then((response) => {setLoader(false); setUpcomingMatches(response.data.data);})
+		.then((response) => {
+			setMatchLoader(false); 
+			setUpcomingMatches(response.data.data);
+		})
 		.catch((error) => {
 			if(error.response.data.status_code == 401){
 				localStorage.removeItem('client_token');
@@ -144,37 +128,17 @@ const HomePage = () => {
 	};
 	
 	const fetchRecentList = () => {
-		setLoader(true);
+		setMatchLoader(true);
 		axios.get(
 			process.env.REACT_APP_DEV === 'true'
 			? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/${accessToken ? 'recentMatches': 'offlineRecentMatches'}`
 			: `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/${accessToken ? 'recentMatches': 'offlineRecentMatches'}`,
 			apiConfig
-			)
-			.then((response) => {
-				setLoader(false);
-				setRecentMatches(response.data.data)
-			})
-			.catch((error) => {
-				if(error.response.data.status_code == 401){
-                    localStorage.removeItem('client_token');
-                    
-                    navigate('/sign-in');
-                } else {
-                    console.log(error);
-                }
-			});
-	};
-	
-	const fetchLiveList = () => {
-		setLoader(true);
-		axios.get(
-		process.env.REACT_APP_DEV === 'true'
-			? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/${accessToken ? 'liveMatches': 'offlineLiveMatches'}`
-			: `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/${accessToken ? 'liveMatches': 'offlineLiveMatches'}`,
-		apiConfig
 		)
-		.then((response) => {setLoader(false); setLiveMatches(response.data.data)})
+		.then((response) => {
+			setMatchLoader(false);
+			setRecentMatches(response.data.data)
+		})
 		.catch((error) => {
 			if(error.response.data.status_code == 401){
 				localStorage.removeItem('client_token');
@@ -268,8 +232,6 @@ const HomePage = () => {
 	}, [localStorage.getItem('match_id')]);
 	
 	useEffect(() => {
-		// fetchAllMatches();
-		fetchLiveList();
 		fetchUpcomingList();
 		fetchRecentList();
 		fetchNews();
@@ -286,7 +248,7 @@ const HomePage = () => {
 			const allMatches = [];
 			snapshot.forEach((doc) => {
 				let data = doc.data();
-				data.dateLive = moment().format("DD-MM-YY")
+				data.dateLive = moment().format("DD-MMM, HH:mm A")
 				data.match_category = 'live';
 				data.series_name = data.match_type;
 				allMatches.push(data);
@@ -300,23 +262,45 @@ const HomePage = () => {
 			console.error("Error fetching data:", error);
 		});
     }, []);
-
+	
+	useEffect(() => {
+		// Check if the 'visited' flag is set in sessionStorage
+		const hasVisited = sessionStorage.getItem('visited');
+	
+		if (!hasVisited) {
+		  // Show the modal if the user hasn't visited before
+		  setShowModal(true);
+		  // Set the 'visited' flag in sessionStorage
+		  sessionStorage.setItem('visited', 'true');
+		}
+	}, []);
+	
 	return (
 		<>
 			<Header/>
+			<Modal show={showModal} scrollable={true} size="lg" onHide={handleCloseModal}  style={{paddingLeft: '0px'}}>
+				<Modal.Header closeButton>
+					<Modal.Title>
+						<h1 className='widget-title-intro'>Welcome to <a href='/'>CricketPanditji.com</a> – Where Astrology meets Cricket!</h1>
+					</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					<IntroCard />
+				</Modal.Body>
+            </Modal>
 			<header className="header">
-				<section className="header-middle">
+				<section className="header-middle" style={{paddingBottom: '0px'}}>
 					<div className="container">
 						<div className="row">
 							<div className="col-md-12">	
 								<OwlCarousel 
-									key={new Date().getTime()} 
-									className="editors-pick owl-theme"
-									items={4}
+									items={4} 
+									dots={true} 
+									arrows={false} 
+									key={new Date().getTime()}
 									margin={30}
-									dots={false}
-									// autoPlay
 									responsive={responsiveOptions}
+									className="editors-pick owl-theme"
 								>
 								{(matchesData && matchesData.length > 0 && !loader) ? (
 									<>
@@ -327,7 +311,7 @@ const HomePage = () => {
 								) : 
 									<MatchLoader/>
 								}
-								{(upcomingMatches && upcomingMatches.length > 0) ? (
+								{(upcomingMatches && upcomingMatches.length > 0 && !matchLoader) ? (
 									<>
 										{upcomingMatches.slice(0, 5).map((m, i) => (
 											<MatchCard match={m} index={i}/>
@@ -336,7 +320,7 @@ const HomePage = () => {
 								) : 
 									<MatchLoader/>
 								}
-								{(recentMatches && recentMatches.length > 0) ? (
+								{(recentMatches && recentMatches.length > 0 && !matchLoader) ? (
 									<>
 										{recentMatches.slice(0, 5).map((m, i) => (
 											<MatchCard match={m} index={i}/>
@@ -369,10 +353,10 @@ const HomePage = () => {
 															<a onClick={() => handleTabChange('live-matches')}>Live</a>
 														</li>
 														<li className={activeTab === 'upcoming-matches' ? 'cursor-pointer active' : 'cursor-pointer'}>
-															<a onClick={() => handleTabChange('upcoming-matches')}>Upcoming</a>
+															<a onClick={() => { handleTabChange('upcoming-matches'); fetchUpcomingList();}}>Upcoming</a>
 														</li>
 														<li className={activeTab === 'recent-matches' ? 'cursor-pointer active' : 'cursor-pointer'}>
-															<a onClick={() => handleTabChange('recent-matches')}>Finished</a>
+															<a onClick={() => { handleTabChange('recent-matches'); fetchRecentList();}}>Finished</a>
 														</li>
 													</ul>
 													<div className="mt-2 tab-content">
@@ -509,15 +493,14 @@ const HomePage = () => {
 															<div className='row'>
 																<div className='col-md-8'>
 																	<h3 className="widget-title">Live Matches</h3>
-																	{liveMatches && liveMatches.length > 0 && liveMatches.map((m, i) => (
+																	{matchesData && matchesData.length > 0 && matchesData.map((m, i) => (
 																		<MatchCard match={m} index={i}/>
 																	))}
-																	{liveMatches && liveMatches.length == 0 && 
+																	{matchesData && matchesData.length == 0 && 
 																	<div>No Live Matches</div>}
 																</div>
 																<div className="col-md-4" style={{backgroundColor: '#ffffff'}}>
 																	<div>
-																		{/* <h3 className="widget-title">Astrological Fantasy Players</h3> */}
 																		<img src='/assets/images/fantacy-ground.png' className='mt-30 fantasy-ground'/>
 																	</div>
 
@@ -578,15 +561,20 @@ const HomePage = () => {
 															<div className='row'>
 																<div className='col-md-8'>
 																	<h3 className="widget-title">Upcoming Matches</h3>
-																	{upcomingMatches && upcomingMatches.length > 0 && upcomingMatches.map((m, i) => (
+																	{!matchLoader && upcomingMatches && upcomingMatches.length > 0 ? upcomingMatches.map((m, i) => (
 																		<MatchCard match={m} index={i}/>
-																	))}
+																	)) : 
+																		<>
+																			<MatchLoader/>
+																			<MatchLoader/>
+																			<MatchLoader/>
+																		</>
+																	}
 																	{upcomingMatches && upcomingMatches.length == 0 && 
 																	<div>No Upcoming Matches</div>}
 																</div>
 																<div className="col-md-4" style={{backgroundColor: '#ffffff'}}>
 																	<div>
-																		{/* <h3 className="widget-title">Astrological Fantasy Players</h3> */}
 																		<img src='/assets/images/fantacy-ground.png' className='mt-30 fantasy-ground'/>
 																	</div>
 
@@ -647,9 +635,15 @@ const HomePage = () => {
 															<div className='row'>
 																<div className='col-md-8'>
 																	<h3 className="widget-title">Recent Matches</h3>
-																	{recentMatches && recentMatches.length > 0 && recentMatches.map((m, i) => (
+																	{!matchLoader && recentMatches && recentMatches.length > 0 ? recentMatches.map((m, i) => (
 																		<MatchCard match={m} index={i}/>
-																	))}
+																	)) : 
+																		<>
+																			<MatchLoader/>
+																			<MatchLoader/>
+																			<MatchLoader/>
+																		</>
+																	}
 																	{recentMatches && recentMatches.length == 0 && 
 																	<div>No Recent Matches</div>}
 																</div>
