@@ -1044,7 +1044,7 @@ a.post-meta {
 }
 
 .bb-1x-solid {
-  border-bottom: 1px solid #eff0f5;
+  border-bottom: 1px solid #cccccc;
 }
 
 .gutters-7-half {
@@ -1437,7 +1437,7 @@ a.post-meta {
 }
 
 .score-card-footer {
-  background-color: #eff0f5;
+  background-color: #cccccc;
   padding: 6px;
 }
 
@@ -1683,7 +1683,7 @@ span.p_class {
   -ms-flex-preferred-size: 100%;
       flex-basis: 100%;
   width: 100%;
-  border-left: 1px solid #eff0f5;
+  border-left: 1px solid #cccccc;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1699,7 +1699,7 @@ span.p_class {
 @media screen and (max-width: 767px) {
   .card-aside {
     border-left: none;
-    border-top: 1px solid #eff0f5;
+    border-top: 1px solid #cccccc;
     max-width: 100%;
   }
   .custom-card-aside {
@@ -1846,7 +1846,7 @@ span.p_class {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  border: 3px solid #eff0f5;
+  border: 3px solid #cccccc;
   -webkit-transition: all 300ms ease-in-out;
   transition: all 300ms ease-in-out;
 }
@@ -1961,8 +1961,7 @@ span.p_class {
 }
 
 .fancy-t1 {
-  font-size: 16px;
-  padding-top: 4px;
+  font-size: 1.4rem;
 }
 
 .topbar-right {
@@ -2580,7 +2579,7 @@ span.p_class {
 }
 
 .table-striped tbody td a.cricnotch-btn {
-  background: #eff0f5;
+  background: #cccccc;
   color: #000;
 }
 
@@ -2682,7 +2681,7 @@ span.p_class {
 }
 
 .table-medium td {
-  font-size: 11px !important;
+  /* font-size: 11px !important; */
   font-weight: 400;
   line-height: normal !important;
 }
@@ -2701,7 +2700,7 @@ span.p_class {
 .main-container {
   padding: 30px 0 20px;
   position: relative;
-  background: #eff0f5;
+  background: #cccccc;
 }
 
 /**********************************
@@ -2806,7 +2805,7 @@ span.p_class {
 }
 
 .widget-social .card {
-  background: #eff0f5;
+  background: #cccccc;
 }
 
 .social-card {
@@ -2909,7 +2908,7 @@ span.p_class {
 
 .widget-newsletter input {
   width: 100%;
-  border: 1px solid #eff0f5;
+  border: 1px solid #cccccc;
   -webkit-box-shadow: none;
           box-shadow: none;
   background: #f6f7fb;
@@ -3128,6 +3127,9 @@ span.p_class {
 
 .spell-sum-box {
   padding: 10px;
+  font-weight: 600;
+  border: 1px solid #ccc;
+  border-radius: 10px;
 }
 
 .spell-sum-box h5 {
@@ -3309,7 +3311,7 @@ span.p_class {
   display: inline-flex;
   width: 30px;
   height: 30px;
-  background: #eff0f5;
+  background: #cccccc;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
@@ -4158,7 +4160,7 @@ span.p_class {
 }
 
 .widget-accordion ul li:not(:last-child) {
-  border-bottom: 1px solid #eff0f5;
+  border-bottom: 1px solid #cccccc;
 }
 
 .widget-accordion ul li a {
@@ -4172,7 +4174,7 @@ span.p_class {
 
 .color-filters {
   position: relative;
-  border-bottom: 1px solid #eff0f5;
+  border-bottom: 1px solid #cccccc;
   margin-bottom: 15px;
   padding-bottom: 15px;
 }
@@ -4214,7 +4216,7 @@ span.p_class {
 }
 
 .size-filters {
-  border-bottom: 1px solid #eff0f5;
+  border-bottom: 1px solid #cccccc;
   margin-bottom: 15px;
   padding-bottom: 15px;
 }
@@ -4222,7 +4224,7 @@ span.p_class {
 .size-filters a {
   background-color: #f6f7fb;
   display: inline-block;
-  border: 1px solid #eff0f5;
+  border: 1px solid #cccccc;
   font-size: 14px;
   font-weight: 400;
   line-height: 20px;
@@ -4250,7 +4252,7 @@ span.p_class {
 }
 
 .price-filter .ui-widget-content {
-  background: #eff0f5;
+  background: #cccccc;
   border: none;
 }
 
@@ -4428,7 +4430,7 @@ span.p_class {
 }
 
 .sponsors-sec .content-block {
-  border-left: 1px solid #eff0f5;
+  border-left: 1px solid #cccccc;
   padding-left: 30px;
 }
 
@@ -4652,7 +4654,7 @@ span.p_class {
 
 .sort-by select {
   background-color: #f6f7fb;
-  border: 1px solid #eff0f5;
+  border: 1px solid #cccccc;
   border-radius: 50px;
   color: #ffffff;
   outline: 0;
@@ -4891,13 +4893,13 @@ span.p_class {
 }
 
 .cart-table thead th {
-  background-color: #eff0f5;
+  background-color: #cccccc;
   text-transform: uppercase;
   font-weight: 600;
 }
 
 .cart-table tbody tr:nth-child(even) {
-  background-color: #eff0f5;
+  background-color: #cccccc;
 }
 
 .cart-table tbody tr:nth-child(odd) {
@@ -5049,7 +5051,7 @@ span.p_class {
 .cart-total {
   position: relative;
   padding: 20px 30px;
-  background: #eff0f5;
+  background: #cccccc;
 }
 
 .cart-total p {
@@ -5851,7 +5853,7 @@ input:checked ~ .cover:before {
 }
 
 .odd-border {
-  border: 1px solid #eff0f5;
+  border: 1px solid #cccccc;
 }
 
 .status-bar-fill {
@@ -5888,7 +5890,7 @@ input:checked ~ .cover:before {
 }
 
 .custom-runs {
-  border: 1px solid #eff0f5;
+  border: 1px solid #cccccc;
   border-radius: 5px;
   margin-top: 10px;
 }
@@ -5948,7 +5950,7 @@ input:checked ~ .cover:before {
 }
 
 .custom-fancy-tags {
-  border: 1px solid #eff0f5;
+  border: 1px solid #cccccc;
   width: 150px;
   padding: 3px;
   border-radius: 3px;
