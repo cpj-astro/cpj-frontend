@@ -25,10 +25,11 @@ const PhonePeStatus = () => {
             merchantId: mid,
             transactionId: tid
         }
-
+        
         try {
-            axios.get(process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/phonepe-status` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/phonepe-status`, payload, apiConfig)
+            axios.post(process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/phonepe-status` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/phonepe-status`, payload, apiConfig)
             .then((response) => {
+                console.log(response);
                 if(response.data.status){
                     console.log("Status Response", response);
                 }

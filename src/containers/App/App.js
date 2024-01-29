@@ -50,7 +50,7 @@ const App = () => {
             />
             <Route
               path="/payment-status/:tid/:mid"
-              element={<PrivateRoute><PhonePeStatus /></PrivateRoute>}
+              element={<PhonePeStatus />}
             />
 
             {/* Other Routes */}

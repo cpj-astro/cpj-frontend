@@ -480,7 +480,7 @@ function LiveScoreBoard() {
                                 </button>}
                                 {matchData && matchData.need_run_ball &&
                                     <div className='card card-shadow p-0 mt-3'>
-                                        <div className="spell-sum-box px-30 pb-0 pt-0">
+                                        <div className="spell-sum-box px-3 pb-0 pt-0">
                                             <h5 className='text-center mb-0'>
                                                 <marquee behavior="scroll" direction="left" scrollamount="10" style={{fontWeight: '600'}}> 
                                                 {matchData && matchData.need_run_ball ? matchData.need_run_ball : 'No Data'}

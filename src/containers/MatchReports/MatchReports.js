@@ -217,7 +217,7 @@ function MatchReports() {
                 <div className='row'>
                     <div className='col-md-12'>
                         <div className="text-center card card-shadow">
-                            <h3>🌟 Buy (<i>{match && match.team_a_short ? match.team_a_short : 'N/A'} VS  {match && match.team_b_short ? match.team_b_short : 'N/A'}</i>)'s Match Reports 🌟</h3>
+                            <h3>🌟 Buy (<i>{match && match.team_a_short ? match.team_a_short : 'N/A'} VS {match && match.team_b_short ? match.team_b_short : 'N/A'}</i>)'s Match Astrology Reports 🌟</h3>
                         </div>
                     </div>
                 </div>

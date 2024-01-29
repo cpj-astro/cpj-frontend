@@ -11,22 +11,17 @@ const PhonePeIntegration = ({ btnText, astroAmount }) => {
     const transactionid = 'T-CPJ-' + uuidv4().replace(/-/g, '').toUpperCase().slice(0, 21);
     // const transactionid = 'CPJ' + uuidv4().toString(36).slice(-6);
     const isDev = process.env.REACT_APP_DEV === 'true';
-    const liveUrl = process.env.REACT_APP_LIVE_URL;
-    const localUrl = process.env.REACT_APP_LOCAL_URL;
-    const merchantKey = process.env.REACT_APP_PHONEPE_MERCHANT_ID;
+    const url = isDev ? process.env.REACT_APP_LIVE_URL : process.env.REACT_APP_LOCAL_URL;
+    const merchantKey = isDev ? process.env.REACT_APP_DEV_PHONEPE_MERCHANT_ID : process.env.REACT_APP_SANDBOX_PHONEPE_MERCHANT_ID;
     
     const payload = {
       merchantId: merchantKey, // Replace with your merchant ID
       merchantTransactionId: transactionid,
       merchantUserId: 'MUID-' + uuidv4().toString(36).slice(-6),
       amount: 1 * 100, // Set your amount here
-      redirectUrl: isDev
-        ? `${liveUrl}/payment-status/${transactionid}/${merchantKey}`
-        : `${localUrl}/payment-status/${transactionid}/${merchantKey}`,
+      redirectUrl: `${url}/payment-status/${transactionid}/${merchantKey}`,
+      callbackUrl: `${url}/payment-status/${transactionid}/${merchantKey}`,
       redirectMode: 'POST',
-      callbackUrl: isDev
-        ? `${liveUrl}/payment-status/${transactionid}/${merchantKey}`
-        : `${localUrl}/payment-status/${transactionid}/${merchantKey}`,
       mobileNumber: '6353152455', // Set mobile number here
       paymentInstrument: {
         type: 'PAY_PAGE',
@@ -44,9 +39,9 @@ const PhonePeIntegration = ({ btnText, astroAmount }) => {
       
       axios.post(process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/phonepe-pay` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/phonepe-pay`, payload, apiConfig)
       .then((response) => {
+        console.log(response);
         if(response.data.status){
-          const redirect = response.data.url;
-          window.location.href = redirect;
+          window.location.href = response.data.url;
         } else {
           toast.error('Request failed!, Please try again.');
         }

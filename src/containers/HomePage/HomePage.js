@@ -42,7 +42,6 @@ const HomePage = () => {
 	const maxTitleLength = 30;
 	const [newsCount, setNewsCount] = useState(6);
 	const handleCloseModal = () => setShowModal(false);
-    const handleShowModal = () => setShowModal(true);
 	
     const newsloadMore = () => {
         setNewsCount((prevCount) => prevCount + 5);
@@ -287,6 +286,11 @@ const HomePage = () => {
 				<Modal.Body>
 					<IntroCard />
 				</Modal.Body>
+				<Modal.Footer>
+					<Button variant="secondary" onClick={handleCloseModal}>
+						Close
+					</Button>
+				</Modal.Footer>
             </Modal>
 			<header className="header">
 				<section className="header-middle" style={{paddingBottom: '0px'}}>
@@ -366,7 +370,7 @@ const HomePage = () => {
 																	{matchData && matchData.team_a && (
 																		<>
 																			<h3 className="widget-title">Live Line Of {matchData.team_a_short + ' (vs) ' + matchData.team_b_short}</h3>
-																			<div className='tv-container'>    
+																			<div className='tv-container' onClick={() => {navigate(`/live-score-board/${matchData.match_id}`)}}>    
 																				<div className="tv">
 																					<div className="score">
 																						{matchData && matchData.first_circle ? matchData.first_circle : 'No Data'}
