@@ -20,6 +20,7 @@ function SignIn() {
             .then((response) => {
                 if(response.data.status == true) {
 					localStorage.setItem('client_token', response.data.token);
+					localStorage.setItem('user_data', response.data.user.id);
 					navigate('/');
                 } else {
 					toast.error(response.data.message);
@@ -27,6 +28,7 @@ function SignIn() {
             }).catch((error) => {
 				if(error.response.data.status_code == 401){
                     localStorage.removeItem('client_token');
+					localStorage.removeItem('user_data');
                     
                     navigate('/sign-in');
                 } else {

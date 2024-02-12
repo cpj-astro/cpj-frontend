@@ -20,7 +20,8 @@ export default function Header() {
 
 	const logout = () => {
 		localStorage.removeItem('client_token');
-		navigate('sign-in/');
+        localStorage.removeItem('user_data');
+		navigate('/sign-in');
 	}
 
     const fetchVisitorList = async () => {
@@ -43,6 +44,7 @@ export default function Header() {
         } catch (error) {
             if(error.response.data.status_code == 401){
                 localStorage.removeItem('client_token');
+localStorage.removeItem('user_data');
                 
                 navigate('/sign-in');
             } else {

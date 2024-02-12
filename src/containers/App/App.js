@@ -49,7 +49,7 @@ const App = () => {
               element={<PrivateRoute><PlayerProfile /></PrivateRoute>}
             />
             <Route
-              path="/payment-status/:tid/:mid"
+              path="/payment-status/:tid"
               element={<PhonePeStatus />}
             />
 

@@ -38,6 +38,7 @@ function ResetPassword() {
             }).catch((error) => {
 				if(error.response.data.status_code == 401){
                     localStorage.removeItem('client_token');
+					localStorage.removeItem('user_data');
                     
                     navigate('/sign-in');
                 } else {

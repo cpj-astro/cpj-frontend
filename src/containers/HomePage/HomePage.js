@@ -75,6 +75,7 @@ const HomePage = () => {
 		.catch((error) => {
 			if(error.response.data.status_code == 401){
 				localStorage.removeItem('client_token');
+				localStorage.removeItem('user_data');
 				
 				navigate('/sign-in');
 			} else {
@@ -94,6 +95,7 @@ const HomePage = () => {
 		.catch((error) => {
 			if(error.response.data.status_code == 401){
 				localStorage.removeItem('client_token');
+				localStorage.removeItem('user_data');
 				
 				navigate('/sign-in');
 			} else {
@@ -118,6 +120,7 @@ const HomePage = () => {
 		.catch((error) => {
 			if(error.response.data.status_code == 401){
 				localStorage.removeItem('client_token');
+				localStorage.removeItem('user_data');
 				
 				navigate('/sign-in');
 			} else {
@@ -141,6 +144,7 @@ const HomePage = () => {
 		.catch((error) => {
 			if(error.response.data.status_code == 401){
 				localStorage.removeItem('client_token');
+				localStorage.removeItem('user_data');
 				
 				navigate('/sign-in');
 			} else {
@@ -162,6 +166,7 @@ const HomePage = () => {
 		.catch((error) => {
 			if(error.response.data.status_code == 401){
 				localStorage.removeItem('client_token');
+				localStorage.removeItem('user_data');
 				
 				navigate('/sign-in');
 			} else {
@@ -183,15 +188,15 @@ const HomePage = () => {
 	
 	const renderMedia = (mediaFile) => {
 		if (mediaFile) {
-		const fileExtension = mediaFile.split('.').pop().toLowerCase();
-		const imageExtensions = ['jpg', 'jpeg', 'png', 'gif'];
-		const videoExtensions = ['mp4', 'webm', 'ogg'];
+			const fileExtension = mediaFile.split('.').pop().toLowerCase();
+			const imageExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+			const videoExtensions = ['mp4', 'webm', 'ogg'];
 
-		if (imageExtensions.includes(fileExtension)) {
-			return <img src={mediaFile} alt="Ad" />;
-		} else if (videoExtensions.includes(fileExtension)) {
-			return <video src={mediaFile} muted controls width="100%" height="auto" />;
-		}
+			if (imageExtensions.includes(fileExtension)) {
+				return <img src={mediaFile} alt="Ad" />;
+			} else if (videoExtensions.includes(fileExtension)) {
+				return <video src={mediaFile} muted controls width="100%" height="auto" />;
+			}
 		}
 		return null;
 	};

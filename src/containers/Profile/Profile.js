@@ -64,6 +64,7 @@ function Profile() {
         }).catch((error) => {
             if(error.response.data.status_code == 401){
                 localStorage.removeItem('client_token');
+                localStorage.removeItem('user_data');
                 
                 navigate('/sign-in');
             } else {
@@ -107,6 +108,16 @@ function Profile() {
         } catch (error) {
             setLoader(false);
             handleCloseModal()
+        }
+    }
+
+    const statusSet = (status) => {
+        if(status === 'success') {
+            return 'badge badge-success'
+        } else if(status === 'pending') {
+            return 'badge badge-warning'
+        } else {
+            return 'badge badge-danger'
         }
     }
 
@@ -271,9 +282,9 @@ function Profile() {
                                                                     <li className={activeTab === 'astrology-reports' ? 'cursor-pointer active' : 'cursor-pointer'}>
                                                                         <a onClick={() => handleTabChange('astrology-reports')}>Payments & Reports</a>
                                                                     </li>
-                                                                    <li className={activeTab === 'account-settings' ? 'cursor-pointer active' : 'cursor-pointer'}>
+                                                                    {/* <li className={activeTab === 'account-settings' ? 'cursor-pointer active' : 'cursor-pointer'}>
                                                                         <a onClick={() => handleTabChange('account-settings')}>Account Settings</a>
-                                                                    </li>
+                                                                    </li> */}
                                                                 </ul>
                                                                 <hr/>
 
@@ -316,10 +327,10 @@ function Profile() {
                                                                                     <input id="birth_place" type="text" name="birth_place" placeholder="Birth Place" required value={user.birth_place} {...register('birth_place')}/>
                                                                                 </div>
                                                                             </div>
-                                                                            <div className="col-md-12">
+                                                                            {/* <div className="col-md-12">
                                                                                 <hr/>
                                                                                 <button type="submit" className="cricnotch-btn btn-filled radius-5">Save Changes</button>
-                                                                            </div>
+                                                                            </div> */}
                                                                         </div>
                                                                     </div>
                                                                     <div id="view-kundli" className={`tab-pane fade ${activeTab === 'view-kundli' ? 'show active' : ''}`}>
@@ -338,63 +349,62 @@ function Profile() {
                                                                         </div>
                                                                     </div>
                                                                     <div id="astrology-reports" className={`tab-pane fade ${activeTab === 'astrology-reports' ? 'show active' : ''}`}>
-                                                                        <div className="table-responsive">
-                                                                            <table className="widget-table table table-striped no-border">
-                                                                                <thead>
-                                                                                    <tr>
-                                                                                        <th scope="col" className="text-12">Payment ID</th>
-                                                                                        <th scope="col" className="text-12">Price</th>
-                                                                                        <th scope="col" className="text-12">Status</th>
-                                                                                        <th scope="col" className="text-12">Match</th>
-                                                                                        <th scope="col" className="text-12">Opponents</th>
-                                                                                        <th scope="col" className="text-12">Date</th>
-                                                                                        <th scope="col" className="text-12">Time</th>
-                                                                                        <th scope="col" className="text-12">Venue</th>
-                                                                                        <th scope="col" className="text-12">Pandit Name</th>
-                                                                                        <th scope="col" className="text-12">Astrology Report</th>
-                                                                                    </tr>
-                                                                                </thead>
-                                                                                <tbody>
-                                                                                {(payments && payments.length > 0) ? payments.map((payment, index) => (
-                                                                                    <tr key={index}>
-                                                                                        <td className='text-capitalize'>{payment && payment.razorpay_payment_id}</td>
-                                                                                        <td className='text-capitalize'>₹ {payment && payment.amount}</td>
-                                                                                        <td className='text-capitalize'><span className='badge badge-success'>Paid</span></td>
-                                                                                        <td className='text-capitalize'>{payment && payment.match && payment.match.matchs}</td>
-                                                                                        <td>
-                                                                                            <div className="country-info text-capitalize">
-                                                                                                <span className="country-name text-13">{payment && payment.match && payment.match.team_a_short}</span>
-                                                                                                <span className="country-name text-12 mx-2">VS</span>
-                                                                                                <span className="country-name text-13">{payment && payment.match && payment.match.team_b_short}</span>
-                                                                                            </div>
-                                                                                        </td>
-                                                                                        <td>{payment && payment.match && payment.match.match_date}</td>
-                                                                                        <td>{payment && payment.match && payment.match.match_time}</td>
-                                                                                        <td>{payment && payment.match && payment.match.venue}</td>
-                                                                                        <td>Report By: <b>{payment && payment.pandit && payment.pandit.name}</b></td>
-                                                                                        <td className='text-center'>
-                                                                                            {payment && payment.match_id ?
-                                                                                            <span className="cricnotch-btn btn-filled py-05 cursor-pointer" onClick={() => navigate(`/match-astrology/${payment.match_id}`)}>
-                                                                                                <i className='fa fa-eye'></i> View Report
-                                                                                            </span>
-                                                                                            : 
-                                                                                            <span>
-                                                                                                No Report
-                                                                                            </span>}
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                )) : 
+                                                                        <table className="table table-responsive no-border">
+                                                                            <thead>
                                                                                 <tr>
-                                                                                    <td colSpan={10}>No Reports Yet</td>    
-                                                                                </tr>}
-                                                                                </tbody>
-                                                                            </table>
-                                                                        </div>
+                                                                                    <th scope="col" className="text-12">CPJ ID</th>
+                                                                                    <th scope="col" className="text-12">Transaction ID</th>
+                                                                                    <th scope="col" className="text-12">Price</th>
+                                                                                    <th scope="col" className="text-12">Status</th>
+                                                                                    <th scope="col" className="text-12">Match</th>
+                                                                                    <th scope="col" className="text-12">Opponents</th>
+                                                                                    <th scope="col" className="text-12">Date</th>
+                                                                                    <th scope="col" className="text-12">Time</th>
+                                                                                    <th scope="col" className="text-12">Venue</th>
+                                                                                    <th scope="col" className="text-12">Pandit Name</th>
+                                                                                    <th scope="col" className="text-12">Astrology Report</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                            {(payments && payments.length > 0) ? payments.map((payment, index) => (
+                                                                                <tr key={index}>
+                                                                                    <td className='text-capitalize'>{payment && payment.merchant_transaction_id}</td>
+                                                                                    <td className='text-capitalize'>{(payment && payment.transaction_id) ?? 'N/A'}</td>
+                                                                                    <td className='text-capitalize'>₹ {payment && payment.amount}</td>
+                                                                                    <td className='text-capitalize'><span className={statusSet(payment.status)}>{payment && payment.status}</span></td>
+                                                                                    <td className='text-capitalize'>{payment && payment.match && payment.match.matchs}</td>
+                                                                                    <td>
+                                                                                        <div className="country-info text-capitalize">
+                                                                                            <span className="country-name text-13">{payment && payment.match && payment.match.team_a_short}</span>
+                                                                                            <span className="country-name text-12 mx-2">VS</span>
+                                                                                            <span className="country-name text-13">{payment && payment.match && payment.match.team_b_short}</span>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>{payment && payment.match && payment.match.match_date}</td>
+                                                                                    <td>{payment && payment.match && payment.match.match_time}</td>
+                                                                                    <td>{payment && payment.match && payment.match.venue}</td>
+                                                                                    <td>Report By: <b>{payment && payment.pandit && payment.pandit.name}</b></td>
+                                                                                    <td className='text-center'>
+                                                                                        {payment && payment.match_id && payment.match_astrology_details ?
+                                                                                        <span style={{width: '130px'}} className="cricnotch-btn btn-filled py-05 cursor-pointer" onClick={() => navigate(`/match-reports/${payment.match_id}`)}>
+                                                                                            <i className='fa fa-eye'></i> View Report
+                                                                                        </span>
+                                                                                        : 
+                                                                                        <span>
+                                                                                            No Report
+                                                                                        </span>}
+                                                                                    </td>
+                                                                                </tr>
+                                                                            )) : 
+                                                                            <tr>
+                                                                                <td colSpan={10}>No Reports Yet</td>    
+                                                                            </tr>}
+                                                                            </tbody>
+                                                                        </table>
                                                                     </div>
-                                                                    <div id="account-settings" className={`tab-pane fade ${activeTab === 'account-settings' ? 'show active' : ''}`}>
+                                                                    {/* <div id="account-settings" className={`tab-pane fade ${activeTab === 'account-settings' ? 'show active' : ''}`}>
                                                                         Put Settings Here
-                                                                        {/* ... (existing code for Account Settings) */}
-                                                                    </div>
+                                                                    </div> */}
                                                                 </div>
                                                             </div>
                                                         </aside>
