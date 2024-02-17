@@ -1607,8 +1607,9 @@ span.p_class {
 }
 
 .flag-avatar figure img {
-  height: 40px;
-  max-width: 40px;
+  height: 35px;
+  width: 35px;
+  max-width: 35px;
   border-radius: 50%;
 }
 

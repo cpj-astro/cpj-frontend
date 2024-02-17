@@ -260,7 +260,7 @@ function Profile() {
                     </div>
                     <h2>Profile</h2>
                 </div>
-                <section className="product-checkout-sec pt-0">
+                <section className="product-checkout-sec pt-0" style={{marginBottom: '250px'}}>
                     <div className="container">
                         <div className="row">
                             <div className="col-lg-12">
@@ -385,7 +385,7 @@ function Profile() {
                                                                                     <td>{payment && payment.match && payment.match.venue}</td>
                                                                                     <td>Report By: <b>{payment && payment.pandit && payment.pandit.name}</b></td>
                                                                                     <td className='text-center'>
-                                                                                        {payment && payment.match_id && payment.match_astrology_details ?
+                                                                                        {payment && payment.match_id && payment.transaction_id ?
                                                                                         <span style={{width: '130px'}} className="cricnotch-btn btn-filled py-05 cursor-pointer" onClick={() => navigate(`/match-reports/${payment.match_id}`)}>
                                                                                             <i className='fa fa-eye'></i> View Report
                                                                                         </span>
@@ -402,9 +402,6 @@ function Profile() {
                                                                             </tbody>
                                                                         </table>
                                                                     </div>
-                                                                    {/* <div id="account-settings" className={`tab-pane fade ${activeTab === 'account-settings' ? 'show active' : ''}`}>
-                                                                        Put Settings Here
-                                                                    </div> */}
                                                                 </div>
                                                             </div>
                                                         </aside>

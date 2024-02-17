@@ -8,6 +8,7 @@ import Loader from '../../components/Loader';
 import Header from '../../components/Header';
 import MatchKundli from '../../components/MatchKundli';
 import PhonePeIntegration from '../../components/PhonePeIntegration';
+// import * as AWS from "@aws-sdk/client-translate";
 
 function MatchReports() {
     const navigate = useNavigate();
@@ -143,6 +144,7 @@ function MatchReports() {
                 if(response.data.success){
                     let report = JSON.parse(response.data.data.astrology_data);
                     setReportData(report);
+                    fetchMatchData();
                     setLoader(false);
                 } else {
                     setLoader(false);
@@ -163,7 +165,6 @@ function MatchReports() {
             setLoader(false);
             toast.error(error.response.data.error);
           }
-        
     }
 
 	useEffect(() => {
@@ -286,6 +287,7 @@ function MatchReports() {
                         </div>
                     </>
                 }
+                
                 {/* Generate Button */}
                 {match && match.transaction_id && match.transaction_id && match.payment_status == 'success' && !match.astrology_data && (
                     <div className='row'>
@@ -309,15 +311,25 @@ function MatchReports() {
                         </div>
                     </div>
                 )}
+                
                 {/* Report Section */}
                 {match && match.transaction_id && match.payment_status == 'success' && reportData && reportData.length > 0 && (
-                    <div id="main" className="main-container">
+                    <div id="main" className="main-container pt-0">
                         <div className="container breadcrumb-area">
                             <div className="breadcrumb">
                                 <a href="/">Home</a>
                                 <span>Match Astrology Report</span>
                             </div>
                             <h2>Match Astrology Report</h2>
+                            <div className='row mt-3'>
+                                <div className='col-md-12'>
+                                <label htmlFor="languageSelect">Select Language: </label>
+                                <select className='form-control' id="languageSelect">
+                                    <option value="english">English</option>
+                                    <option value="hindi">Hindi</option>
+                                </select>
+                                </div>
+                            </div>
                         </div>
                         <div className="container pt-20">
                             <div className="row">
@@ -356,6 +368,7 @@ function MatchReports() {
                         </div>
                     </div>
                 )}
+
                 {/* Teams Buy section */}
                 {teams && teams.length > 0 && match && match.transaction_id && match.payment_status == 'success' &&
                 <div className="accordion" id={`accordion${2}`}>
