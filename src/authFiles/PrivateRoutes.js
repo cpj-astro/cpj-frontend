@@ -9,7 +9,7 @@ const PrivateRoute = ({ children }) => {
     children
   ) : (
     // If not authenticated, navigate to the sign-in page
-    <Navigate to="/sign-in" replace />
+    <Navigate to="/sign-up" replace />
   );
 };
 

@@ -445,11 +445,13 @@ function LiveScoreBoard() {
                                             {matchData && matchData.match_category && matchData.match_category !== 'live' &&
                                                 <strong className="text-red text-uppercase p-3">{matchData.match_category}</strong>
                                             }
-                                            {astroStatus ?
-                                                <div className="match-astro-btn text-uppercase p-2" onClick={() => {navigate(`/match-reports/${id}`)}}>View Astrology</div>
-                                            :
-                                                <div className="match-astro-btn text-uppercase p-2" onClick={() => {navigate(`/match-reports/${id}`)}}>Buy Astrology</div>
-                                            }
+                                            {matchData.match_category === 'live' && (
+                                                astroStatus ? (
+                                                    <div className="match-astro-btn text-uppercase p-2" onClick={() => {navigate(`/match-reports/${id}`)}}>View Astrology</div>
+                                                ) : (
+                                                    <div className="match-astro-btn text-uppercase p-2" onClick={() => {navigate(`/match-reports/${id}`)}}>Buy Astrology</div>
+                                                )
+                                            )}
                                             <strong className="text-white" onClick={() => {setVolumeStatus(!volumeStatus)}}>
                                                 <div className='volume-icon-set'>
                                                     {volumeStatus ? <i className='fa fa-volume-up'></i> : <i className='fa fa-volume-off'></i>}    

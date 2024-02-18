@@ -25,7 +25,6 @@ const PhonePeStatus = () => {
 
             try {
                 const response = await axios.post(process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/phonepe-status` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/phonepe-status`, payload, apiConfig);
-                console.log(response);
 
                 if (response.data.status) {
                     setStatus(JSON.stringify(response.data));
@@ -33,7 +32,7 @@ const PhonePeStatus = () => {
             } catch (error) {
                 if (error.response && error.response.status === 401) {
                     localStorage.removeItem('client_token');
-localStorage.removeItem('user_data');
+                    localStorage.removeItem('user_data');
                     navigate('/sign-in');
                 } else {
                     console.error('Error checking payment status:', error);
