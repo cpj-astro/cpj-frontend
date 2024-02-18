@@ -66,6 +66,7 @@ localStorage.removeItem('user_data');
                     <div className="col-sm-6">
                         <a href="/" className="logo">
                             <img src="/assets/images/logo.png" alt="logo" />
+                            {/* <span className='logo-tag'>Where Astrology Meets Cricket</span> */}
                         </a>
                     </div>
                     <div className="col-sm-6">

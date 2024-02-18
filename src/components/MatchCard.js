@@ -5,7 +5,7 @@ export default function MatchCard({match, index}) {
     const navigate = useNavigate();
     return (
         <div className="score-card card-shadow p-0 mt-3" key={index}>
-            <div className="score-card-inner">
+            <div className="score-card-inner"  onClick={() => {navigate(`/live-score-board/${match.match_id}`)}}>
                 <div className="score-card-header text-center">
                     <span>{match.series_name}</span>
                     <div className='text-center owl-it' style={{display:'flex', alignItems: 'center', justifyContent:'center'}}>

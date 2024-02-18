@@ -36,6 +36,7 @@ function LiveScoreBoard() {
     const [oddHistory, setOddHistory] = useState(null)
     const [playingXI, setPlayingXI] = useState(null)
     const [volumeStatus, setVolumeStatus] = useState(true)
+    const [astroStatus, setAstroStatus] = useState(true)
     const [seriesData, setSeriesData] = useState([])
     const [lastFewBalls, setLastFewBalls] = useState([])
     const [comData, setComData] = useState(null);
@@ -107,7 +108,7 @@ function LiveScoreBoard() {
         .catch((error) => {
             if(error.response.data.status_code == 401){
                 localStorage.removeItem('client_token');
-localStorage.removeItem('user_data');
+                localStorage.removeItem('user_data');
                 
                 navigate('/sign-in');
             } else {
@@ -277,7 +278,7 @@ localStorage.removeItem('user_data');
         .catch((error) => {
             if(error.response.data.status_code == 401){
                 localStorage.removeItem('client_token');
-localStorage.removeItem('user_data');
+                localStorage.removeItem('user_data');
                 
                 navigate('/sign-in');
             } else {
@@ -336,7 +337,7 @@ localStorage.removeItem('user_data');
         .catch((error) => {
             if(error.response.data.status_code == 401){
                 localStorage.removeItem('client_token');
-localStorage.removeItem('user_data');
+                localStorage.removeItem('user_data');
                 
                 navigate('/sign-in');
             } else {
@@ -353,7 +354,7 @@ localStorage.removeItem('user_data');
         .catch((error) => {
             if(error.response.data.status_code == 401){
                 localStorage.removeItem('client_token');
-localStorage.removeItem('user_data');
+                localStorage.removeItem('user_data');
                 
                 navigate('/sign-in');
             } else {
@@ -370,7 +371,7 @@ localStorage.removeItem('user_data');
         .catch((error) => {
             if(error.response.data.status_code == 401){
                 localStorage.removeItem('client_token');
-localStorage.removeItem('user_data');
+                localStorage.removeItem('user_data');
                 
                 navigate('/sign-in');
             } else {
@@ -387,7 +388,7 @@ localStorage.removeItem('user_data');
         .catch((error) => {
             if(error.response.data.status_code == 401){
                 localStorage.removeItem('client_token');
-localStorage.removeItem('user_data');
+                localStorage.removeItem('user_data');
                 
                 navigate('/sign-in');
             } else {
@@ -400,6 +401,27 @@ localStorage.removeItem('user_data');
         setActiveTab(tab);
     };
 
+    useEffect(() => {
+        axios.post(process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/matchInfo` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/matchInfo`, { match_id: id }, apiConfig)
+        .then((res) => {
+            if(res && res.data && res.data.data && res.data.data.payment_id) {
+                setAstroStatus(true);
+            } else {
+                setAstroStatus(false);
+            }
+        })
+        .catch((error) => {
+            if(error.response.data.status_code == 401){
+                localStorage.removeItem('client_token');
+                localStorage.removeItem('user_data');
+                
+                navigate('/sign-in');
+            } else {
+                console.log(error);
+            }
+        });
+    }, [])
+    
     useEffect(() => {
         onSnapshot(doc(db, "matchdata", id), (doc) => {
             if(doc.data()) {
@@ -420,7 +442,14 @@ localStorage.removeItem('user_data');
                                 <div className='tv-container mt-3 mb-0'>    
                                     <div className="tv">
                                         <div className='just-set'>
-                                            <strong className="text-red text-uppercase p-3">{matchData && matchData.match_category ? matchData.match_category : ''}</strong>
+                                            {matchData && matchData.match_category && matchData.match_category !== 'live' &&
+                                                <strong className="text-red text-uppercase p-3">{matchData.match_category}</strong>
+                                            }
+                                            {astroStatus ?
+                                                <div className="match-astro-btn text-uppercase p-2" onClick={() => {navigate(`/match-reports/${id}`)}}>View Astrology</div>
+                                            :
+                                                <div className="match-astro-btn text-uppercase p-2" onClick={() => {navigate(`/match-reports/${id}`)}}>Buy Astrology</div>
+                                            }
                                             <strong className="text-white" onClick={() => {setVolumeStatus(!volumeStatus)}}>
                                                 <div className='volume-icon-set'>
                                                     {volumeStatus ? <i className='fa fa-volume-up'></i> : <i className='fa fa-volume-off'></i>}    
@@ -481,10 +510,6 @@ localStorage.removeItem('user_data');
                     <div className="col-md-12 bg-white">	
                         <div className="widget">
                             <div className="card p-0">
-                                {matchData.astrology_status === 'enable' &&
-                                <button className="btn-astro-v1 mt-3" onClick={() => {navigate(`/match-reports/${id}`)}}>     
-                                  {matchDetails.razorpay_payment_id ? 'View Reports' : 'Buy Reports'} 
-                                </button>}
                                 {matchData && matchData.need_run_ball &&
                                     <div className='card card-shadow p-0 mt-3'>
                                         <div className="spell-sum-box px-3 pb-0 pt-0">
@@ -569,7 +594,7 @@ localStorage.removeItem('user_data');
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                {(matchData && matchData.fancy_api) || (matchData && !matchData.fancy_api) ?
+                                                                {((matchData && matchData.fancy_api) || (matchData && !matchData.fancy_api)) && ((matchData && matchData.s_ovr ? matchData.s_ovr != 0 : '') || (matchData && matchData.s_over ? matchData.s_over != 0 : '')) ?
                                                                 <div className="col-md-12">
                                                                     <div className="widget widget-rankings">
                                                                         <div className="card shadow px-0 py-0 odd-border">

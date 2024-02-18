@@ -321,7 +321,7 @@ function MatchReports() {
                                 <span>Match Astrology Report</span>
                             </div>
                             <h2>Match Astrology Report</h2>
-                            <div className='row mt-3'>
+                            {/* <div className='row mt-3'>
                                 <div className='col-md-12'>
                                 <label htmlFor="languageSelect">Select Language: </label>
                                 <select className='form-control' id="languageSelect">
@@ -329,7 +329,7 @@ function MatchReports() {
                                     <option value="hindi">Hindi</option>
                                 </select>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                         <div className="container pt-20">
                             <div className="row">
