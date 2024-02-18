@@ -6462,3 +6462,19 @@ input:checked ~ .cover:before {
     background-position: 100% 0, /* move highlight to right */ 0 0;
   }
 }
+
+.match-astro-btn {
+  color: #fff;
+  border: 2px solid;
+  margin: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.logo-tag {
+  color: white;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-left: 3px;
+}
