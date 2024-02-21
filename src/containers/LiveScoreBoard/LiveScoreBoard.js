@@ -340,6 +340,11 @@ function LiveScoreBoard() {
                 data.lay2 = 2.00;
             }
             setMatchData(data);
+            if(res && res.data && res.data.data && res.data.data.payment_id) {
+                setAstroStatus(true);
+            } else {
+                setAstroStatus(false);
+            }
         })
         .catch((error) => {
             if(error.response.data.status_code == 401){

@@ -61,7 +61,7 @@ export default function MatchCard({match, index}) {
                     </div>
                 </div>
             </div>
-            {match.astrology_status === 'enable' && match.astrology_data ?
+            {match.astrology_status === 'enable' ?
             <div className="button-container">
                 <button className="theme-button-1" onClick={() => {navigate(`/live-score-board/${match.match_id}`)}}>View Liveline</button>
                 {match.match_category == 'recent' && match.payment_id && 
