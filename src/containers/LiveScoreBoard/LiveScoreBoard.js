@@ -288,7 +288,7 @@ function LiveScoreBoard() {
     }
 
     const fetchMatchInfo = () => {
-        axios.post(process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/matchInfo` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/matchInfo`, { match_id: id }, apiConfig)
+        axios.post(process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/matchInfo` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/offlineMatchInfo`, { match_id: id }, apiConfig)
         .then((res) => {
             let data = res.data.data;
             if (data.team_a_short == data.fav_team) {
@@ -401,27 +401,6 @@ function LiveScoreBoard() {
         setActiveTab(tab);
     };
 
-    useEffect(() => {
-        axios.post(process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/matchInfo` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/matchInfo`, { match_id: id }, apiConfig)
-        .then((res) => {
-            if(res && res.data && res.data.data && res.data.data.payment_id) {
-                setAstroStatus(true);
-            } else {
-                setAstroStatus(false);
-            }
-        })
-        .catch((error) => {
-            if(error.response.data.status_code == 401){
-                localStorage.removeItem('client_token');
-                localStorage.removeItem('user_data');
-                
-                navigate('/sign-in');
-            } else {
-                console.log(error);
-            }
-        });
-    }, [])
-    
     useEffect(() => {
         onSnapshot(doc(db, "matchdata", id), (doc) => {
             if(doc.data()) {
