@@ -410,6 +410,9 @@ const HomePage = () => {
 																			</a>
 																		</>
 																	}
+																	
+																	<Reviews/>
+																	
 																	<h3 className="widget-title">Cricket News</h3>
 																	<section className="related-news p-0">
 																	{(newsData && newsData.length > 0) && (
@@ -439,7 +442,6 @@ const HomePage = () => {
 																		</div>
 																	)}
 																	</section>
-																	<Reviews/>
 																</div>
 																<div className="col-md-4" style={{backgroundColor: '#ffffff'}}>
 																	<div>
