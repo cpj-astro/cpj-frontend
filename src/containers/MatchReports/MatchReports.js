@@ -21,6 +21,7 @@ function MatchReports() {
     const [match, setMatch] = useState(null);
     const [teams, setTeams] = useState([])
     const [loader, setLoader] = useState(false);
+    const [astroAuth, setAstroAuth] = useState(false);
     const [reportData, setReportData] = useState(null);
 
     var accessToken = localStorage.getItem('client_token');
@@ -118,7 +119,28 @@ function MatchReports() {
     }    
 
     useEffect(() => {
-        if(match && match.astrology_data) {
+        const params = {
+            match_id : id,
+        }
+        axios.post(process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/checkAstrology` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/checkAstrology`, params, apiConfig)
+        .then((response) => {
+            if (response.data.success) {
+                setAstroAuth(true);
+            } else {
+                navigate('/');
+                toast.error("No Astrology found for this match!")
+            }
+        })
+        .catch((error) => {
+            if (error.response && error.response.data && error.response.data.status_code === 401) {
+                localStorage.removeItem('client_token');
+                localStorage.removeItem('user_data');
+                navigate('/sign-in');
+            } else {
+                console.log(error);
+            }
+        });
+        if(match && match.astrology_data && astroAuth) {
             reportSet(match.astrology_data);
         }
         fetchUserData();
