@@ -21,7 +21,7 @@ export default function Header() {
 	const logout = () => {
 		localStorage.removeItem('client_token');
         localStorage.removeItem('user_data');
-		navigate('/sign-in');
+		navigate('/');
 	}
 
     const fetchVisitorList = async () => {
