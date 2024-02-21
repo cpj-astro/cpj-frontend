@@ -77,40 +77,6 @@ function Profile() {
         setActiveTab(tab);
     };
 
-    const reportSet = (reportData) => {
-        handleShowModal();
-        setLoader(true);
-        try {
-            const data = reportData.astrology_data.split('|').map((item) => item.trim());
-            setReportData({
-                MatchName: reportData.team_a + ' Vs ' + reportData.team_b,
-                MatchStart: reportData.match_date,
-                Weather: reportData.weather,
-                ProfileName: user.first_name + ' ' + user.last_name,
-                SignName: user.sign_name,
-                MatchAstrology: data[0],
-                VenueWiseZodiac: data[1],
-                LuckyColors: data[2],
-                LuckyNumbers: data[3],
-                SpecialRecommendation: data[4],
-                AstroFavPlayers: data[5],
-                MatchBetSessionFancy: data[6],
-                VenueFavZodiac: data[7],
-                FavTeams: data[8],
-                FancyBet6Ovrs: data[9],
-                FancyBet20Ovrs: data[10],
-                Suggestion: data[11],
-                AstrologicalBettingTime: data[12],
-                OverallBettingForMatch: data[13],
-                Direction: data[14],
-                Mantras: data[15],
-            });
-        } catch (error) {
-            setLoader(false);
-            handleCloseModal()
-        }
-    }
-
     const statusSet = (status) => {
         if(status === 'success') {
             return 'badge badge-success'

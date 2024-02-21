@@ -27,7 +27,6 @@ const HomePage = () => {
 	const [matchLoader, setMatchLoader] = useState(false)
     const [showModal, setShowModal] = useState(false);
 	const navigate = useNavigate();
-	const [matchesData, setMatchesData] = useState([]);
 	const [matchData, setMatchData] = useState([]);
 	const [gameZop, setGameZop] = useState([]);
 	const [upcomingMatches, setUpcomingMatches] = useState([]);
@@ -260,7 +259,7 @@ const HomePage = () => {
 			if(allMatches && allMatches.length > 0) {
 				localStorage.setItem('match_id', allMatches[0].match_id);
 			}
-			setMatchesData(allMatches);
+			setLiveMatches(allMatches);
 			setLoader(false);
 		}, (error) => {
 			console.error("Error fetching data:", error);
@@ -311,9 +310,9 @@ const HomePage = () => {
 									responsive={responsiveOptions}
 									className="editors-pick owl-theme"
 								>
-								{(matchesData && matchesData.length > 0 && !loader) ? (
+								{(liveMatches && liveMatches.length > 0 && !loader) ? (
 									<>
-										{matchesData.map((m, i) => (
+										{liveMatches.map((m, i) => (
 											<MatchCard match={m} index={i}/>
 										))}
 									</>
@@ -509,10 +508,10 @@ const HomePage = () => {
 															<div className='row'>
 																<div className='col-md-8'>
 																	<h3 className="widget-title">Live Matches</h3>
-																	{matchesData && matchesData.length > 0 && matchesData.map((m, i) => (
+																	{liveMatches && liveMatches.length > 0 && liveMatches.map((m, i) => (
 																		<MatchCard match={m} index={i}/>
 																	))}
-																	{matchesData && matchesData.length == 0 && 
+																	{liveMatches && liveMatches.length == 0 && 
 																	<div>No Live Matches</div>}
 																</div>
 																<div className="col-md-4" style={{backgroundColor: '#ffffff'}}>

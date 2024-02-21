@@ -2493,7 +2493,7 @@ span.p_class {
 .logged-user-dropdown {
   display: none;
   position: absolute;
-  right: 15px;
+  right: 0px;
   background: #fff;
   padding: 15px 0;
   border-radius: 10px;
@@ -5720,12 +5720,12 @@ span.p_class {
 }
 
 .tv {
-  background: #000;
+  background: #2a2a2a;
   width: 100%;
   height: auto;
-  border-radius: 8px;
+  border-radius: 10px;
   position: relative;
-  border: 2px solid #d0cfda;
+  border: 10px solid #000000;
 }
 
 .rrates-container {
@@ -6413,7 +6413,7 @@ input:checked ~ .cover:before {
 }
 
 .fantasy-ground {
-  border: 1.5px solid #ddd;
+  border: 1.5px solid #858585;
   border-radius: 15px;
   height: auto;
   width: 100%;

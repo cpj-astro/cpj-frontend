@@ -63,13 +63,13 @@ export default function Header() {
         <section className="topbar">
             <div className="container">
                 <div className="display-set">
-                    <div className="col-sm-6">
+                    <div className="pl-0 col-sm-6">
                         <a href="/" className="logo">
                             <img src="/assets/images/logo.png" alt="logo" />
                             {/* <span className='logo-tag'>Where Astrology Meets Cricket</span> */}
                         </a>
                     </div>
-                    <div className="col-sm-6">
+                    <div className="pr-0 col-sm-6">
                         <div className="topbar-right">
                             <div className='online-wrap'>
                                 <div className="online-amount"><span className="online-dot"></span>{formatNumber(visitors)}</div>

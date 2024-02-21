@@ -288,7 +288,14 @@ function LiveScoreBoard() {
     }
 
     const fetchMatchInfo = () => {
-        axios.post(process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/matchInfo` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/offlineMatchInfo`, { match_id: id }, apiConfig)
+        const authenticated = localStorage.getItem('client_token');
+        let url = null;
+        if(authenticated) {
+            url = process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/matchInfo` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/matchInfo`;
+        } else {
+            url = process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/offlineMatchInfo` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/offlineMatchInfo`
+        }
+        axios.post(url, { match_id: id }, apiConfig)
         .then((res) => {
             let data = res.data.data;
             if (data.team_a_short == data.fav_team) {

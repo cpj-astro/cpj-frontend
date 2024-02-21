@@ -24,6 +24,7 @@ function FPSendLink() {
                 if(response.data.status == true) {
                     toast.success(response.data.message);
                     reset();
+					navigate('/sign-in');
                 } 
             }).catch((error) => {
 				if(error.response.data.status_code == 401){

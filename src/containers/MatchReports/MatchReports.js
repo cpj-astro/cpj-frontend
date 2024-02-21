@@ -22,7 +22,8 @@ function MatchReports() {
     const [teams, setTeams] = useState([])
     const [loader, setLoader] = useState(false);
     const [astroAuth, setAstroAuth] = useState(false);
-    const [reportData, setReportData] = useState(null);
+    const [reportData, setReportData] = useState(null); 
+    const [payments, setPaymentsDetails] = useState([]);
 
     var accessToken = localStorage.getItem('client_token');
     const apiConfig = {
@@ -62,6 +63,7 @@ function MatchReports() {
             setLoader(false);
             if(response.data.success){
                 setUserData(response.data.data);
+                setPaymentsDetails(response.data.payment_details[0]);
             }
         }).catch((error) => {
             if(error.response.data.status_code == 401){
@@ -147,8 +149,6 @@ function MatchReports() {
     }, [match])
 
     const reportSet = (astrologyData) => {
-        console.log(astrologyData);
-
         setReportData(JSON.parse(astrologyData));
     }
 
@@ -359,14 +359,58 @@ function MatchReports() {
                                     <section className='card player-contact'>
                                         <div className='player-profile'>
                                             <div className="player-info">
-                                                <div className="country-info align-items-center">
-                                                    <h1>Astrology Details</h1>
-                                                </div>
-                                                <hr className="mt-0"/>
                                                 <div className='row'>
                                                     <div className='col-md-4'>
                                                         <div className='display-set'>
                                                             <MatchKundli housesData={user && user.kundli_data ? user.kundli_data : []} />
+                                                        </div>
+                                                    </div>
+                                                    <div className='col-md-8'>
+                                                        <div class="info-body">
+                                                            <ul class="list-striped mr-05">
+                                                                <li>
+                                                                    <span>Name</span>
+                                                                    <p>{user.first_name + " " + user.last_name}</p>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Birth place</span>
+                                                                    <p>{user.birth_place}</p>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Birth date</span>
+                                                                    <p>{user.birth_date}</p>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Birth Time</span>
+                                                                    <p>{user.birth_time}</p>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Longitude</span>
+                                                                    <p>{user.latitude}</p>
+                                                                </li>
+                                                            </ul>
+                                                            <ul class="list-striped">
+                                                                <li>
+                                                                    <span>Longitude</span>
+                                                                    <p>{user.longitude}</p>
+                                                                </li>
+                                                                <li>
+                                                                    <span>House Number</span>
+                                                                    <p>{user.moon_sign}</p>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Moon Sign</span>
+                                                                    <p>{user.sign_name}</p>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Transaction Id</span>
+                                                                    <p>{payments.transaction_id}</p>
+                                                                </li>
+                                                                <li>
+                                                                    <span>Pandit</span>
+                                                                    <p>{payments.pandit && payments.pandit.name ? payments.pandit.name : 'N/A'}</p>
+                                                                </li>
+                                                            </ul>
                                                         </div>
                                                     </div>
                                                 </div>
