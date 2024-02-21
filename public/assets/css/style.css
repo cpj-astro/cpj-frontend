@@ -5822,6 +5822,15 @@ span.p_class {
   box-shadow: 0 5px 10px rgba(58, 90, 229, 0.15);
 }
 
+.banner-1-image {
+  margin-bottom: 10px;
+  height: 300px;
+  width: 100%;
+  max-width: 100%;
+  border-radius: 15px;
+  box-shadow: 0 5px 10px rgba(58, 90, 229, 0.15);
+}
+
 input:checked ~ .cover:before {
   animation: turn-on 0.15s ease 0s 1, turned-on 1s ease 0.15s infinite;
 }
@@ -6404,9 +6413,12 @@ input:checked ~ .cover:before {
 }
 
 .fantasy-ground {
+  border: 1.5px solid #ddd;
   border-radius: 15px;
   height: auto;
   width: 100%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
 }
 
 .disclaimer-container {

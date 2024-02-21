@@ -402,6 +402,11 @@ const HomePage = () => {
 																			</div> 
 																		</>
 																	)}
+
+																	<div>
+																		<img src='assets/images/banner-1.jpg' className='banner-1-image'/>
+																	</div>
+
 																	{gameZop.game_link && gameZop.status &&
 																		<>
 																			<h3 className="widget-title">Games & More</h3>
@@ -445,7 +450,7 @@ const HomePage = () => {
 																</div>
 																<div className="col-md-4" style={{backgroundColor: '#ffffff'}}>
 																	<div>
-																		<img src='/assets/images/fantacy-ground.png' className='mt-30 fantasy-ground'/>
+																		<img src='/assets/images/play-banner-1.jpg' className='mt-30 fantasy-ground'/>
 																	</div>
 
 																	<aside className="sidebar right-sidebar">
