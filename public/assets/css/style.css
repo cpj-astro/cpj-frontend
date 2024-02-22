@@ -1104,6 +1104,7 @@ a.post-meta {
 .card .nav {
   border: none;
   white-space: nowrap;
+  overflow: auto;
 }
 
 .card .nav li {

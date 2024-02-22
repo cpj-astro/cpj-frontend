@@ -257,7 +257,7 @@ function MatchReports() {
                                                                     <div className='ml-3'>
                                                                         <div className='mt-2'>
                                                                             <h4>Name: {pandit.name}</h4>
-                                                                            <h4>Experience : {pandit.experience}</h4>
+                                                                            <h4>Experience : {pandit.experience == 1 ? pandit.experience + ' Year' : pandit.experience + ' Years'}</h4>
                                                                             <h4>Rating : 
                                                                                 {Array.from({ length: pandit.rating }, (_, index) => (
                                                                                     <i key={index} className="fa fa-star text-warning ml-1"></i>

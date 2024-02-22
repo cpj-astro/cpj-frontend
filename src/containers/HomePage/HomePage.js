@@ -40,6 +40,7 @@ const HomePage = () => {
 	const accessToken = localStorage.getItem('client_token');
 	const maxTitleLength = 30;
 	const [newsCount, setNewsCount] = useState(6);
+    const [panditData, setPanditData] = useState([]);
 	const handleCloseModal = () => setShowModal(false);
 	
     const newsloadMore = () => {
@@ -266,7 +267,21 @@ const HomePage = () => {
 		});
     }, []);
 	
+	const fetchPanditsList = () => {
+        axios.get(process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/pandits` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/pandits`, apiConfig)
+        .then((response) => {
+            setLoader(false);
+            if(response.data.success){
+                setPanditData(response.data.data);
+            }
+        }).catch((error) => {
+            setLoader(false);
+			console.error(error);
+        });
+    }
+	
 	useEffect(() => {
+        fetchPanditsList();
 		// Check if the 'visited' flag is set in sessionStorage
 		const hasVisited = sessionStorage.getItem('visited');
 	
@@ -366,12 +381,15 @@ const HomePage = () => {
 														<li className={activeTab === 'recent-matches' ? 'cursor-pointer active' : 'cursor-pointer'}>
 															<a onClick={() => { handleTabChange('recent-matches'); fetchRecentList();}}>Finished</a>
 														</li>
+														<li className={activeTab === 'cricket-news' ? 'cursor-pointer active' : 'cursor-pointer'}>
+															<a onClick={() => { handleTabChange('cricket-news');}}>News</a>
+														</li>
 													</ul>
 													<div className="mt-2 tab-content">
 														<div id="home" className={`tab-pane fade in ${activeTab === 'home' ? 'show active' : ''}`}>
 															<div className="row">
 																<div className="col-md-8" style={{backgroundColor: '#ffffff'}}>
-																	{matchData && matchData.team_a && (
+																	{/* {matchData && matchData.team_a && (
 																		<>
 																			<h3 className="widget-title">Live Line Of {matchData.team_a_short + ' (vs) ' + matchData.team_b_short}</h3>
 																			<div className='tv-container' onClick={() => {navigate(`/live-score-board/${matchData.match_id}`)}}>    
@@ -400,11 +418,48 @@ const HomePage = () => {
 																				</div>
 																			</div> 
 																		</>
-																	)}
+																	)} */}
 
 																	<div>
+																		<h3 className="widget-title">Cricket Panditji (Astrology & Fantasy Reports)</h3>
 																		<img src='assets/images/banner-1.jpg' className='banner-1-image'/>
 																	</div>
+
+																	<section className="player-contact pt-0 pb-0">
+																		<h3 className="widget-title">Cricket Panditji (Pandits)</h3>
+																		<div className='row'>
+																		{(panditData && panditData.length > 0) ? panditData.map((pandit, index) => (
+																			<div className='col-md-12'>
+																				<div className='card card-shadow cursor-pointer'>
+																					<div className='d-flex'>
+																						<div className=''>
+																							<img src={`/assets/images/pandits/${pandit.avatar_image}`} alt className='pandit-img'/>
+																						</div>
+																						<div className='ml-3'>
+																							<div className='mt-2'>
+																								<h4>Name: {pandit.name}</h4>
+																								<h4>Experience : {pandit.experience == 1 ? pandit.experience + ' Year' : pandit.experience + ' Years'}</h4>
+																								<h4>Rating : 
+																									{Array.from({ length: pandit.rating }, (_, index) => (
+																										<i key={index} className="fa fa-star text-warning ml-1"></i>
+																									))}
+																								</h4>
+																								<h4>Astrology: ₹ {pandit.match_astrology_price}</h4>
+																							</div>
+																						</div>
+																					</div>
+																				</div>
+																			</div>
+																			)) 
+																			: 
+																			<div className='col-md-12'>
+																				<div className='card card-shadow'>
+																					<h2>No Pandits To Show</h2>
+																				</div>
+																			</div> 
+																		}
+																		</div>
+																	</section>
 
 																	{gameZop.game_link && gameZop.status &&
 																		<>
@@ -414,38 +469,13 @@ const HomePage = () => {
 																			</a>
 																		</>
 																	}
+
+																	<div>
+																		<h3 className="widget-title">Janam Chart</h3>
+																		<img src='assets/images/banner-2.png' className='banner-1-image'/>
+																	</div>
 																	
 																	<Reviews/>
-																	
-																	<h3 className="widget-title">Cricket News</h3>
-																	<section className="related-news p-0">
-																	{(newsData && newsData.length > 0) && (
-																		<div className="row">
-																			{newsData.slice(0, newsCount).map((news, index) => (
-																				<div className="col-md-6" key={news.news_id}>
-																					<div className="card card-shadow p-0">
-																						<div className="content-card news-card">
-																							<figure>
-																								<img src={process.env.REACT_APP_IMG_FIX+news.image} alt="" />
-																							</figure>
-																							<div className="content-block">
-																								<h3>
-																									<a href={`/news-details/${news.news_id}/${news.title}/${news.pub_date}`}>{news.title.slice(0, maxTitleLength)}...</a>
-																								</h3>
-																								<span className="post-meta">{news.pub_date}</span>
-																							</div>
-																						</div>
-																					</div>
-																				</div>
-																			))}
-																		</div>
-																	)}
-																	{newsData.length > newsCount && (
-																		<div className="text-center mb-10">
-																			<button className="cricnotch-btn btn-filled loadMore-btn" onClick={newsloadMore}><i className="fas fa-spinner"></i>&nbsp;&nbsp;&nbsp; Load more</button>
-																		</div>
-																	)}
-																	</section>
 																</div>
 																<div className="col-md-4" style={{backgroundColor: '#ffffff'}}>
 																	<div>
@@ -661,6 +691,97 @@ const HomePage = () => {
 																	}
 																	{recentMatches && recentMatches.length == 0 && 
 																	<div>No Recent Matches</div>}
+																</div>
+																<div className="col-md-4" style={{backgroundColor: '#ffffff'}}>
+																	<div>
+																		<img src='/assets/images/fantacy-ground.png' className='mt-30 fantasy-ground'/>
+																	</div>
+
+																	<aside className="sidebar right-sidebar">
+																		<div className="widget widget-upcoming-match">
+																			{currentAds[0]?.status == 1 && 
+																			<a href={currentAds[0]?.link} target='_blank'>
+																				<div className="card card-shadow">
+																					<div className="ad-slot" key={currentAds[0]?.id}>
+																						<h3>{currentAds[0]?.title}</h3>
+																						{renderMedia(currentAds[0]?.media_file)}
+																						{/* Add more details as needed */}
+																					</div>
+																				</div>
+																			</a>}
+																		</div>
+																		<div className="widget widget-upcoming-match">
+																			{currentAds[1]?.status == 1 && 
+																			<a href={currentAds[1]?.link} target='_blank'>
+																				<div className="card card-shadow">
+																					<div className="ad-slot" key={currentAds[1]?.id}>
+																						<h3>{currentAds[1]?.title}</h3>
+																						{renderMedia(currentAds[1]?.media_file)}
+																						{/* Add more details as needed */}
+																					</div>
+																				</div>
+																			</a>}
+																		</div>
+																		<div className="widget widget-upcoming-match">
+																			{currentAds[2]?.status == 1 && 
+																			<a href={currentAds[2]?.link} target='_blank'>
+																				<div className="card card-shadow">
+																					<div className="ad-slot" key={currentAds[2]?.id}>
+																						<h3>{currentAds[2]?.title}</h3>
+																						{renderMedia(currentAds[2]?.media_file)}
+																						{/* Add more details as needed */}
+																					</div>
+																				</div>
+																			</a>}
+																		</div>
+																		<div className="widget widget-upcoming-match">
+																			{currentAds[3]?.status == 1 && 
+																			<a href={currentAds[3]?.link} target='_blank'>
+																				<div className="card card-shadow">
+																					<div className="ad-slot" key={currentAds[3]?.id}>
+																						<h3>{currentAds[3]?.title}</h3>
+																						{renderMedia(currentAds[3]?.media_file)}
+																						{/* Add more details as needed */}
+																					</div>
+																				</div>
+																			</a>}
+																		</div>
+																	</aside>
+																</div>
+															</div>
+														</div>
+														<div id="cricket-news" className={`tab-pane fade ${activeTab === 'cricket-news' ? 'show active' : ''}`}>
+															<div className='row'>
+																<div className='col-md-8'>
+																	<h3 className="widget-title">Cricket News</h3>
+																	<section className="related-news p-0">
+																		{(newsData && newsData.length > 0) && (
+																			<div className="row">
+																				{newsData.slice(0, newsCount).map((news, index) => (
+																					<div className="col-md-6" key={news.news_id}>
+																						<div className="card card-shadow p-0">
+																							<div className="content-card news-card">
+																								<figure>
+																									<img src={process.env.REACT_APP_IMG_FIX+news.image} alt="" />
+																								</figure>
+																								<div className="content-block">
+																									<h3>
+																										<a href={`/news-details/${news.news_id}/${news.title}/${news.pub_date}`}>{news.title.slice(0, maxTitleLength)}...</a>
+																									</h3>
+																									<span className="post-meta">{news.pub_date}</span>
+																								</div>
+																							</div>
+																						</div>
+																					</div>
+																				))}
+																			</div>
+																		)}
+																		{newsData.length > newsCount && (
+																			<div className="text-center mb-10">
+																				<button className="cricnotch-btn btn-filled loadMore-btn" onClick={newsloadMore}><i className="fas fa-spinner"></i>&nbsp;&nbsp;&nbsp; Load more</button>
+																			</div>
+																		)}
+																	</section>
 																</div>
 																<div className="col-md-4" style={{backgroundColor: '#ffffff'}}>
 																	<div>
