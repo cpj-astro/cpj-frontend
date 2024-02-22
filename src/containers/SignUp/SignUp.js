@@ -59,6 +59,7 @@ function SignUp() {
 						toast.success('Your account has been created successfully, Please sign in');
 						navigate('/sign-in');
 					} else {
+						toast.error(response.data.message);
 						navigate('/sign-up');
 					}
 				}).catch((error) => {
@@ -72,7 +73,6 @@ function SignUp() {
 					}
 				});
 			} catch (error) {
-				console.error(error);
 				navigate('/sign-up');
 			}
 		} else {
