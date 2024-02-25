@@ -129,7 +129,7 @@ function MatchReports() {
             if (response.data.success) {
                 setAstroAuth(true);
             } else {
-                navigate('/');
+                navigate(`/live-score-board/${id}`);
                 toast.error("No Astrology found for this match!")
             }
         })
