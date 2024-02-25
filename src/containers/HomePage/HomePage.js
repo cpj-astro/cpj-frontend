@@ -397,7 +397,7 @@ const HomePage = () => {
 
 																	<section className="player-contact pt-0 pb-0">
 																		<h3 className="widget-title">Cricket Panditji (Pandits)</h3>
-																		<OwlCarousel className='owl-theme' dots={true} arrows={false} items={1} key={new Date().getTime()} >
+																		<OwlCarousel autoplay={true} autoplayTimeout={3000} loop={true} className='owl-theme' dots={true} arrows={false} items={1} key={new Date().getTime()} >
 																			{(panditData && panditData.length > 0) && panditData.map((pandit, index) => (
 																				<div class="pandit-container">
 																					<div class="pandit-card">

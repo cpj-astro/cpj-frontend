@@ -36,7 +36,8 @@ function LiveScoreBoard() {
     const [oddHistory, setOddHistory] = useState(null)
     const [playingXI, setPlayingXI] = useState(null)
     const [volumeStatus, setVolumeStatus] = useState(true)
-    const [astroStatus, setAstroStatus] = useState(true)
+    const [astroStatus, setAstroStatus] = useState(false)
+    const [isEnableAstro, setIsEnableAstro] = useState(false)
     const [seriesData, setSeriesData] = useState([])
     const [lastFewBalls, setLastFewBalls] = useState([])
     const [comData, setComData] = useState(null);
@@ -418,10 +419,13 @@ function LiveScoreBoard() {
         }
         axios.post(url, { match_id: id }, apiConfig)
         .then((res) => {
-            if(res && res.data && res.data.data && res.data.data.payment_id) {
-                setAstroStatus(true);
-            } else {
-                setAstroStatus(false);
+            if (res && res.data && res.data.data && res.data.data.astrology_data) {
+                setIsEnableAstro(true);
+                if(res && res.data && res.data.data && res.data.data.astrology_data && res.data.data.payment_id) {
+                    setAstroStatus(true);
+                } else if (res && res.data && res.data.data && res.data.data.astrology_data && !res.data.data.payment_id) {
+                    setAstroStatus(false);
+                }
             }
         })
         .catch((error) => {
@@ -511,7 +515,7 @@ function LiveScoreBoard() {
                                 </div> 
                             </div>	
                         </div>
-                        {(matchData.match_category === 'live' || matchData.match_category === 'upcoming') && (
+                        {(matchData.match_category !== 'recent' && isEnableAstro) && (
                             astroStatus ? (
                                 <button className="mt-15 btn-astro-v1" onClick={() => {navigate(`/match-reports/${id}`)}}> 
                                     View Astrology
@@ -521,6 +525,11 @@ function LiveScoreBoard() {
                                     Buy Astrology
                                 </button>
                             )
+                        )}
+                        {(matchData.match_category == 'recent' && isEnableAstro) && (
+                            <button className="mt-15 btn-astro-v1" onClick={() => {navigate(`/match-reports/${id}`)}}> 
+                                View Astrology
+                            </button>
                         )}
                     </div>
                 </section>
