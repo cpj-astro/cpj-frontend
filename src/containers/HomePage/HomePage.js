@@ -21,17 +21,19 @@ import MatchLoader from '../../components/MatchLoader';
 import moment from 'moment';
 import { Modal, Button } from 'react-bootstrap';
 import IntroCard from '../../components/IntroCard';
+import Feedback from '../Feedback';
 
 const HomePage = () => {
+	const [upcomingMatches, setUpcomingMatches] = useState([]);
+	const [recentMatches, setRecentMatches] = useState([]);
+	const [liveMatches, setLiveMatches] = useState([]);
+	const [matches, setMatches] = useState([]); 
 	const [loader, setLoader] = useState(false)
 	const [matchLoader, setMatchLoader] = useState(false)
     const [showModal, setShowModal] = useState(false);
 	const navigate = useNavigate();
 	const [matchData, setMatchData] = useState([]);
 	const [gameZop, setGameZop] = useState([]);
-	const [upcomingMatches, setUpcomingMatches] = useState([]);
-	const [recentMatches, setRecentMatches] = useState([]);
-	const [liveMatches, setLiveMatches] = useState([]);
 	const [ads, setAds] = useState([]);
 	const [newsData, setNewsData] = useState([]);
 	const [currentAds, setCurrentAds] = useState([]);
@@ -77,7 +79,7 @@ const HomePage = () => {
 				localStorage.removeItem('client_token');
 				localStorage.removeItem('user_data');
 				
-				navigate('/sign-in');
+				navigate('/');
 			} else {
 				console.log(error);
 			}
@@ -97,7 +99,7 @@ const HomePage = () => {
 				localStorage.removeItem('client_token');
 				localStorage.removeItem('user_data');
 				
-				navigate('/sign-in');
+				navigate('/');
 			} else {
 				console.log(error);
 			}
@@ -122,7 +124,7 @@ const HomePage = () => {
 				localStorage.removeItem('client_token');
 				localStorage.removeItem('user_data');
 				
-				navigate('/sign-in');
+				navigate('/');
 			} else {
 				console.log(error);
 			}
@@ -146,7 +148,7 @@ const HomePage = () => {
 				localStorage.removeItem('client_token');
 				localStorage.removeItem('user_data');
 				
-				navigate('/sign-in');
+				navigate('/');
 			} else {
 				console.log(error);
 			}
@@ -168,7 +170,7 @@ const HomePage = () => {
 				localStorage.removeItem('client_token');
 				localStorage.removeItem('user_data');
 				
-				navigate('/sign-in');
+				navigate('/');
 			} else {
 				console.log(error);
 			}
@@ -247,7 +249,6 @@ const HomePage = () => {
 
 	useEffect(() => {
 		setLoader(true);
-        // Listen for real-time updates on all documents in the "matchdata" collection
 		onSnapshot(matchDataRef, (snapshot) => {
 			const allMatches = [];
 			snapshot.forEach((doc) => {
@@ -389,37 +390,6 @@ const HomePage = () => {
 														<div id="home" className={`tab-pane fade in ${activeTab === 'home' ? 'show active' : ''}`}>
 															<div className="row">
 																<div className="col-md-8" style={{backgroundColor: '#ffffff'}}>
-																	{/* {matchData && matchData.team_a && (
-																		<>
-																			<h3 className="widget-title">Live Line Of {matchData.team_a_short + ' (vs) ' + matchData.team_b_short}</h3>
-																			<div className='tv-container' onClick={() => {navigate(`/live-score-board/${matchData.match_id}`)}}>    
-																				<div className="tv">
-																					<div className="score">
-																						{matchData && matchData.first_circle ? matchData.first_circle : 'No Data'}
-																					</div>
-																					<div className='tv-score'>
-																						<div className="score-card-body">
-																							<div className="country-info">
-																								<div className="text-center">
-																									<span className="country-name">{matchData && matchData.team_a_short ? matchData.team_a_short : 'Team A'}</span>
-																									<span>{matchData && matchData.team_a_scores ? matchData.team_a_scores : '00-0'}</span> &nbsp;
-																									<span className="text-muted">{matchData && matchData.team_a_over ? matchData.team_a_over : '0.0'} ov.</span>
-																								</div>
-																							</div>
-																							<div className="country-info">
-																								<div className="text-center">
-																									<span className="country-name">{matchData && matchData.team_b_short ? matchData.team_b_short : 'Team B'}</span>
-																									<span>{matchData && matchData.team_b_scores ? matchData.team_b_scores : '00-0'}</span> &nbsp;
-																									<span className="text-muted">{matchData && matchData.team_b_over ? matchData.team_b_over : '0.0'} ov.</span>
-																								</div>
-																							</div>
-																						</div>
-																					</div>
-																				</div>
-																			</div> 
-																		</>
-																	)} */}
-
 																	<div>
 																		<h3 className="widget-title">Cricket Panditji (Astrology & Fantasy Reports)</h3>
 																		<img src='assets/images/banner-1.jpg' className='banner-1-image'/>
@@ -427,39 +397,42 @@ const HomePage = () => {
 
 																	<section className="player-contact pt-0 pb-0">
 																		<h3 className="widget-title">Cricket Panditji (Pandits)</h3>
-																		<div className='row'>
-																		{(panditData && panditData.length > 0) ? panditData.map((pandit, index) => (
-																			<div className='col-md-12'>
-																				<div className='card card-shadow cursor-pointer'>
-																					<div className='d-flex'>
-																						<div className=''>
-																							<img src={`/assets/images/pandits/${pandit.avatar_image}`} alt className='pandit-img'/>
-																						</div>
-																						<div className='ml-3'>
-																							<div className='mt-2'>
-																								<h4>Name: {pandit.name}</h4>
-																								<h4>Experience : {pandit.experience == 1 ? pandit.experience + ' Year' : pandit.experience + ' Years'}</h4>
-																								<h4>Rating : 
-																									{Array.from({ length: pandit.rating }, (_, index) => (
-																										<i key={index} className="fa fa-star text-warning ml-1"></i>
-																									))}
-																								</h4>
-																								<h4>Astrology: ₹ {pandit.match_astrology_price}</h4>
+																		<OwlCarousel className='owl-theme' dots={true} arrows={false} items={1} key={new Date().getTime()} >
+																			{(panditData && panditData.length > 0) && panditData.map((pandit, index) => (
+																				<div class="pandit-container">
+																					<div class="pandit-card">
+																						<div class="pandit-header">
+																							<img src={`/assets/images/pandits/${pandit.avatar_image}`} alt={pandit.name} class="pandit-avatar" />
+																							<div class="pandit-details">
+																								<div class="pandit-name">
+																									{pandit.name}
+																								</div>
+																								<div class="pandit-status">
+																								Experience : {pandit.experience == 1 ? pandit.experience + ' Year' : pandit.experience + ' Years'}
+																								</div>
+																								<div class="pandit-status">
+																								Astrology: ₹ {pandit.match_astrology_price}
+																								</div>
 																							</div>
+																						</div>
+																						<h4 className='mt-4'>Rating : 
+																							{Array.from({ length: pandit.rating }, (_, index) => (
+																								<i key={index} className="fa fa-star text-warning ml-1"></i>
+																							))} ({pandit.rating} out of 5 stars)
+																						</h4>
+																						<div class="pandit-quote">
+																							{pandit.description}
 																						</div>
 																					</div>
 																				</div>
-																			</div>
-																			)) 
-																			: 
-																			<div className='col-md-12'>
-																				<div className='card card-shadow'>
-																					<h2>No Pandits To Show</h2>
-																				</div>
-																			</div> 
-																		}
-																		</div>
+																			))}
+																		</OwlCarousel>
 																	</section>
+																	
+																	<div>
+																		<h3 className="widget-title">Buy Our Reports</h3>
+																		<img src='assets/images/report.png' className='report-1-image'/>
+																	</div>
 
 																	{gameZop.game_link && gameZop.status &&
 																		<>
@@ -474,6 +447,10 @@ const HomePage = () => {
 																		<h3 className="widget-title">Janam Chart</h3>
 																		<img src='assets/images/banner-2.png' className='banner-1-image'/>
 																	</div>
+
+																	<h3 className="widget-title">Reviews & Ratings</h3>
+																	
+																	<Feedback/>
 																	
 																	<Reviews/>
 																</div>

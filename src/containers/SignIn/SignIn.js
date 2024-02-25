@@ -30,14 +30,14 @@ function SignIn() {
                     localStorage.removeItem('client_token');
 					localStorage.removeItem('user_data');
                     
-                    navigate('/sign-in');
+                    navigate('/');
                 } else {
                     console.log(error);
                 }
             });
 		} catch (error) {
 			// Handle sign-in error
-			navigate('/sign-in');
+			navigate('/');
 		}
 	};
     return (

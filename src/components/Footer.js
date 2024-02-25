@@ -17,7 +17,7 @@ function Footer() {
 					</div>
 					<div className="col-md-6">
 						<span className='ml-5 text-white'><a href="/contact-us">Contact us</a></span>
-						<span className='ml-5 text-white'><a href="/feedback">Feedback</a></span>
+						{/* <span className='ml-5 text-white'><a href="/feedback">Feedback</a></span> */}
 						<span className='ml-5 text-white'><a href="/disclaimer">Disclaimer</a></span>
 						<span className='ml-5 text-white'><a href="/terms">Terms & Conditions</a></span>
 						<span className='ml-5 text-white'><a href="/privacy">Privacy Policy</a></span>

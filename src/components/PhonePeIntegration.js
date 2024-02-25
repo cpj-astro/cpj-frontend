@@ -49,7 +49,7 @@ const PhonePeIntegration = ({ btnText, astroAmount, matchId, panditId}) => {
           localStorage.removeItem('client_token');
           localStorage.removeItem('user_data');
           
-          navigate('/sign-in');
+          navigate('/');
         } else {
           console.log(error);
         }

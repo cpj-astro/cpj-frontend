@@ -25,7 +25,7 @@ export default function NewsDetails() {
                 localStorage.removeItem('client_token');
                 localStorage.removeItem('user_data');
                 
-                navigate('/sign-in');
+                navigate('/');
             } else {
                 console.log(error);
             }

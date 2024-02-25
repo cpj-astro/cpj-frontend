@@ -64,7 +64,7 @@ function LiveScoreBoard() {
                 localStorage.removeItem('client_token');
                 localStorage.removeItem('user_data');
                 
-                navigate('/sign-in');
+                navigate('/');
             } else {
                 console.log(error);
             }
@@ -110,7 +110,7 @@ function LiveScoreBoard() {
                 localStorage.removeItem('client_token');
                 localStorage.removeItem('user_data');
                 
-                navigate('/sign-in');
+                navigate('/');
             } else {
                 console.log(error);
             }
@@ -280,7 +280,7 @@ function LiveScoreBoard() {
                 localStorage.removeItem('client_token');
                 localStorage.removeItem('user_data');
                 
-                navigate('/sign-in');
+                navigate('/');
             } else {
                 console.log(error);
             }
@@ -340,18 +340,13 @@ function LiveScoreBoard() {
                 data.lay2 = 2.00;
             }
             setMatchData(data);
-            if(res && res.data && res.data.data && res.data.data.payment_id) {
-                setAstroStatus(true);
-            } else {
-                setAstroStatus(false);
-            }
         })
         .catch((error) => {
             if(error.response.data.status_code == 401){
                 localStorage.removeItem('client_token');
                 localStorage.removeItem('user_data');
                 
-                navigate('/sign-in');
+                navigate('/');
             } else {
                 console.log(error);
             }
@@ -368,7 +363,7 @@ function LiveScoreBoard() {
                 localStorage.removeItem('client_token');
                 localStorage.removeItem('user_data');
                 
-                navigate('/sign-in');
+                navigate('/');
             } else {
                 console.log(error);
             }
@@ -385,7 +380,7 @@ function LiveScoreBoard() {
                 localStorage.removeItem('client_token');
                 localStorage.removeItem('user_data');
                 
-                navigate('/sign-in');
+                navigate('/');
             } else {
                 console.log(error);
             }
@@ -402,7 +397,7 @@ function LiveScoreBoard() {
                 localStorage.removeItem('client_token');
                 localStorage.removeItem('user_data');
                 
-                navigate('/sign-in');
+                navigate('/');
             } else {
                 console.log(error);
             }
@@ -412,6 +407,34 @@ function LiveScoreBoard() {
     const handleTabChange = (tab) => {
         setActiveTab(tab);
     };
+
+    useEffect(() => {
+        const authenticated = localStorage.getItem('client_token');
+        let url = null;
+        if(authenticated) {
+            url = process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/matchInfo` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/matchInfo`;
+        } else {
+            url = process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/offlineMatchInfo` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/offlineMatchInfo`
+        }
+        axios.post(url, { match_id: id }, apiConfig)
+        .then((res) => {
+            if(res && res.data && res.data.data && res.data.data.payment_id) {
+                setAstroStatus(true);
+            } else {
+                setAstroStatus(false);
+            }
+        })
+        .catch((error) => {
+            if(error.response.data.status_code == 401){
+                localStorage.removeItem('client_token');
+                localStorage.removeItem('user_data');
+                
+                navigate('/');
+            } else {
+                console.log(error);
+            }
+        });
+    }, [id]);
 
     useEffect(() => {
         onSnapshot(doc(db, "matchdata", id), (doc) => {
@@ -433,16 +456,9 @@ function LiveScoreBoard() {
                                 <div className='tv-container mt-3 mb-0'>    
                                     <div className="tv">
                                         <div className='just-set'>
-                                            {matchData && matchData.match_category && matchData.match_category !== 'live' &&
+                                            {matchData && matchData.match_category && 
                                                 <strong className="text-red text-uppercase p-3">{matchData.match_category}</strong>
                                             }
-                                            {matchData.match_category === 'live' && (
-                                                astroStatus ? (
-                                                    <div className="match-astro-btn text-uppercase p-2" onClick={() => {navigate(`/match-reports/${id}`)}}>View Astrology</div>
-                                                ) : (
-                                                    <div className="match-astro-btn text-uppercase p-2" onClick={() => {navigate(`/match-reports/${id}`)}}>Buy Astrology</div>
-                                                )
-                                            )}
                                             <strong className="text-white" onClick={() => {setVolumeStatus(!volumeStatus)}}>
                                                 <div className='volume-icon-set'>
                                                     {volumeStatus ? <i className='fa fa-volume-up'></i> : <i className='fa fa-volume-off'></i>}    
@@ -495,6 +511,17 @@ function LiveScoreBoard() {
                                 </div> 
                             </div>	
                         </div>
+                        {(matchData.match_category === 'live' || matchData.match_category === 'upcoming') && (
+                            astroStatus ? (
+                                <button className="mt-15 btn-astro-v1" onClick={() => {navigate(`/match-reports/${id}`)}}> 
+                                    View Astrology
+                                </button>
+                            ) : (
+                                <button className="mt-15 btn-astro-v1" onClick={() => {navigate(`/match-reports/${id}`)}}> 
+                                    Buy Astrology
+                                </button>
+                            )
+                        )}
                     </div>
                 </section>
             </header>

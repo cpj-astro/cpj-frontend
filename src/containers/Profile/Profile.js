@@ -66,7 +66,7 @@ function Profile() {
                 localStorage.removeItem('client_token');
                 localStorage.removeItem('user_data');
                 
-                navigate('/sign-in');
+                navigate('/');
             } else {
                 console.log(error);
             }

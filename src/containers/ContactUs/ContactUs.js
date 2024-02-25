@@ -39,7 +39,7 @@ export default function ContactUs() {
                     localStorage.removeItem('client_token');
                     localStorage.removeItem('user_data');
                     
-                    navigate('/sign-in');
+                    navigate('/');
                 } else {
                     console.log(error);
                 }
@@ -67,7 +67,7 @@ export default function ContactUs() {
                         <div className="col-md-12">
                             <div className="comment-form p-0">
                             <p className="mb-20">
-                                Office Address <p><strong>1ST, B-102, VASANT VIHAR TOWNSHIP, Magdalla Road, Bhatar, Surat, Gujarat, 395007</strong></p>
+                                {/* Office Address <p><strong>1ST, B-102, VASANT VIHAR TOWNSHIP, Magdalla Road, Bhatar, Surat, Gujarat, 395007</strong></p> */}
                                 Our Office timings are <p><strong>Mondays to Fridays: 9:00am to 12:00pm </strong></p>
                                 Email Us <p><strong>cricketpanditji.astro@gmail.com </strong></p>
                             </p>

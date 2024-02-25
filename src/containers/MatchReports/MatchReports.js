@@ -50,7 +50,7 @@ function MatchReports() {
                 localStorage.removeItem('client_token');
                 localStorage.removeItem('user_data');
                 
-                navigate('/sign-in');
+                navigate('/');
             } else {
                 console.log(error);
             }
@@ -70,7 +70,7 @@ function MatchReports() {
                 localStorage.removeItem('client_token');
                 localStorage.removeItem('user_data');
                 
-                navigate('/sign-in');
+                navigate('/');
             } else {
                 console.log(error);
             }
@@ -90,7 +90,7 @@ function MatchReports() {
                 localStorage.removeItem('client_token');
                 localStorage.removeItem('user_data');
                 
-                navigate('/sign-in');
+                navigate('/');
             } else {
                 console.log(error);
             }
@@ -137,7 +137,7 @@ function MatchReports() {
             if (error.response && error.response.data && error.response.data.status_code === 401) {
                 localStorage.removeItem('client_token');
                 localStorage.removeItem('user_data');
-                navigate('/sign-in');
+                navigate('/');
             } else {
                 console.log(error);
             }
@@ -178,7 +178,7 @@ function MatchReports() {
                     localStorage.removeItem('client_token');
                     localStorage.removeItem('user_data');
                     
-                    navigate('/sign-in');
+                    navigate('/');
                 } else {
                     console.log(error);
                 }

@@ -80,7 +80,7 @@ function RazorpayIntegration({ matchId, panditId, amount, moonSign, onPaymentSuc
           localStorage.removeItem('client_token');
           localStorage.removeItem('user_data');
           
-          navigate('/sign-in');
+          navigate('/');
         } else {
           console.log(error);
         }

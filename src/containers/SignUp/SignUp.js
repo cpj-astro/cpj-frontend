@@ -57,7 +57,7 @@ function SignUp() {
 					console.log(response);
 					if(response.data.status == true) {
 						toast.success('Your account has been created successfully, Please sign in');
-						navigate('/sign-in');
+						navigate('/');
 					} else {
 						toast.error(response.data.message);
 						navigate('/sign-up');
@@ -67,7 +67,7 @@ function SignUp() {
 						localStorage.removeItem('client_token');
 						localStorage.removeItem('user_data');
 						
-						navigate('/sign-in');
+						navigate('/');
 					} else {
 						console.log(error);
 					}

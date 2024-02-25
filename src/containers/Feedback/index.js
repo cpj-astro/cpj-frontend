@@ -41,21 +41,13 @@ export default function Feedback() {
                         localStorage.removeItem('client_token');
                         localStorage.removeItem('user_data');
                         
-                        navigate('/sign-in');
+                        navigate('/');
                     } else {
                         console.log(error);
                     }
                 });
             } catch (error) {
                 reset();
-                if(error.response.data.status_code == 401){
-                    localStorage.removeItem('client_token');
-                    localStorage.removeItem('user_data');
-                    
-                    navigate('/sign-in');
-                } else {
-                    console.log(error);
-                }
             }
         } else {
             toast.error("Please enter name and review.");
@@ -79,82 +71,57 @@ export default function Feedback() {
 			} else {
                 toast.error(error.code);
 			}
-            if(error.response.data.status_code == 401){
-                localStorage.removeItem('client_token');
-                localStorage.removeItem('user_data');
-                
-                navigate('/sign-in');
-            } else {
-                console.log(error);
-            }
         });
     }, []);
 
     return (
-        <>
-            <Header/>
-            <div id="main" className="main-container contactus">
-                <div className="container breadcrumb-area">
-                    <div className="breadcrumb">
-                        <a href="/">Home</a>
-                        <span>Feedback</span>
-                    </div>
-                    <h2>Feedback</h2>
-                </div>
-                <section className="contact-sec pt-15">
-                    <div className="container">
-                    <div className="card card-shadow px-30 py-30 checkout-form">
-                        <div className="row">
-                        <div className="col-md-12">
-                            <div className="comment-form p-0">
-                            <p className="mb-20">
-                                <strong>Help Us Improve – Your Opinion Matters!</strong>
-                            </p>
-                            <hr/>
-                            <form onSubmit={handleSubmit(onSubmit)}>
-                                <input type="hidden" {...register("id")} value={null}/>    
-                                <div className="form-row">
-                                    <div className="col-md-6">
-                                        <div className="input-field">
-                                        <label htmlFor="name">Your name</label>
-                                        {user && user.first_name ?
-                                            (
-                                                <input id="name" type="text" name="name" placeholder="Enter name" required {...register("name")} disabled/>
-                                            )
-                                            :
-                                            (
-                                                <input id="name" type="text" name="name" placeholder="Enter name" required {...register("name")} />   
-                                            )
-                                        }
-                                        </div>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <div className="input-field">
-                                            <label htmlFor="rating">Rating</label>
-                                            <select {...register("rating")} required>   
-                                                <option value={5} key="2">5</option>
-                                                <option value={4} key="3">4</option>
-                                                <option value={3} key="4">3</option>
-                                                <option value={2} key="5">2</option>
-                                                <option value={1} key="6">1</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="input-field textarea">
-                                <label htmlFor="review">Review</label>
-                                <textarea id="review" name="review" placeholder="Write your review" defaultValue={""} {...register("review")}/>
-                                </div>
-                                <button type="submit" className="cricnotch-btn btn-filled radius-5">{loader ? 'Processing Your Request...' : 'Submit Review'}</button>
-                            </form>
+        <div className="card card-shadow px-30 py-30 checkout-form">
+            <div className="row">
+            <div className="col-md-12">
+                <div className="comment-form p-0">
+                <p className="mb-20">
+                    <strong>Help Us Improve – Your Opinion Matters!</strong>
+                </p>
+                <hr/>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <input type="hidden" {...register("id")} value={null}/>    
+                    <div className="form-row">
+                        <div className="col-md-6">
+                            <div className="input-field">
+                            <label htmlFor="name">Your name</label>
+                            {user && user.first_name ?
+                                (
+                                    <input id="name" type="text" name="name" placeholder="Enter name" required {...register("name")} disabled/>
+                                )
+                                :
+                                (
+                                    <input id="name" type="text" name="name" placeholder="Enter name" required {...register("name")} />   
+                                )
+                            }
                             </div>
                         </div>
+                        <div className="col-md-6">
+                            <div className="input-field">
+                                <label htmlFor="rating">Rating</label>
+                                <select {...register("rating")} required>   
+                                    <option value={5} key="2">5</option>
+                                    <option value={4} key="3">4</option>
+                                    <option value={3} key="4">3</option>
+                                    <option value={2} key="5">2</option>
+                                    <option value={1} key="6">1</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
+                    <div className="input-field textarea">
+                    <label htmlFor="review">Review</label>
+                    <textarea id="review" name="review" placeholder="Write your review" defaultValue={""} {...register("review")}/>
                     </div>
-                </section>
+                    <button type="submit" className="cricnotch-btn btn-filled radius-5">{loader ? 'Processing Your Request...' : 'Submit Review'}</button>
+                </form>
+                </div>
             </div>
-            <Footer/>
-        </>
+            </div>
+        </div>
     )
 }

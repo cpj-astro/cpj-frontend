@@ -28,7 +28,7 @@ export default function Reviews() {
                 localStorage.removeItem('client_token');
                 localStorage.removeItem('user_data');
                 
-                navigate('/sign-in');
+                navigate('/');
             } else {
                 console.log(error);
             }
@@ -52,8 +52,7 @@ export default function Reviews() {
         <div>
             <div className='row'>
                 <div className='col-md-12'>
-                    <h3 className="widget-title">Reviews & Ratings</h3>
-                    <OwlCarousel className='owl-theme' autoplay={true} autoplayTimeout={3000} loop={true} dots={true} arrows={false} items={1} margin={10} key={new Date().getTime()} >
+                    <OwlCarousel className='owl-theme' autoplay={false} autoplayTimeout={3000} loop={true} dots={true} arrows={false} items={1} margin={10} key={new Date().getTime()} >
                     {reviews && reviews.length > 0 && reviews.map((review, index) => {
                         return(
                             <div className="card card-shadow text-center custom-review" key={index}>

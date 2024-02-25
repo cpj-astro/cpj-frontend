@@ -24,22 +24,22 @@ function FPSendLink() {
                 if(response.data.status == true) {
                     toast.success(response.data.message);
                     reset();
-					navigate('/sign-in');
+					navigate('/');
                 } 
             }).catch((error) => {
 				if(error.response.data.status_code == 401){
                     localStorage.removeItem('client_token');
 					localStorage.removeItem('user_data');
                     
-                    navigate('/sign-in');
+                    navigate('/');
                 } else {
                     console.log(error);
                 }
-                navigate('/sign-in');
+                navigate('/');
             });
 		} catch (error) {
 			// Handle sign-in error
-			navigate('/sign-in');
+			navigate('/');
 		}
 	};
     return (

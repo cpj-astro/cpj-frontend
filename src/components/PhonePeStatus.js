@@ -33,7 +33,7 @@ const PhonePeStatus = () => {
                 if (error.response && error.response.status === 401) {
                     localStorage.removeItem('client_token');
                     localStorage.removeItem('user_data');
-                    navigate('/sign-in');
+                    navigate('/');
                 } else {
                     console.error('Error checking payment status:', error);
                     setStatus('Error');
