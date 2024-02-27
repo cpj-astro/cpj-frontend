@@ -5819,9 +5819,10 @@ span.p_class {
   box-shadow: 0 5px 10px rgba(58, 90, 229, 0.15);
 }
 
+
 .banner-1-image {
   margin-bottom: 10px;
-  height: 300px;
+  height: 250px;
   width: 100%;
   max-width: 100%;
   border-radius: 15px;
@@ -6403,7 +6404,8 @@ input:checked ~ .cover:before {
 }
 
 .custom-review {
-  border: 1px solid #ddd;
+  color: #fff;
+  background-color: #7541C8;
 }
 
 .text-white a {
@@ -6418,7 +6420,7 @@ input:checked ~ .cover:before {
 }
 
 .fantasy-ground {
-  border: 1.5px solid #858585;
+  border: 1.5px solid #d3d3d3;
   border-radius: 15px;
   height: auto;
   width: 100%;
@@ -6510,7 +6512,7 @@ input:checked ~ .cover:before {
     border-radius: 10px;
 }
 
-.pandit-card .pandit-header {
+.pandit-card .pandit-z {
     display: flex;
     height: 50px;
     align-items: center;
@@ -6522,7 +6524,7 @@ input:checked ~ .cover:before {
     line-height: 1.5;
 }
 
-.pandit-card .pandit-header .pandit-name {
+.pandit-card .pandit-z .pandit-name {
     font-size: 1.2em;
 }
 
@@ -6571,4 +6573,57 @@ input:checked ~ .cover:before {
         display: flex;
         flex-direction: column;
     }
+}
+
+.custom-intro {
+  height: 235px;
+  overflow-x: auto;
+  min-height: 235px;
+}
+
+/* Scroll bar stylings */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: var(--lightestgrey); 
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #a4a4a4; 
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #808080; 
+}
+
+.help {
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+  font: 32px Arial, sans-serif;
+  color: white;
+  cursor: pointer;
+  background: radial-gradient(#3c3059, #221d42);
+  box-shadow: rgba(255, 255, 255, 0.27) 0px 0px 0.25em, rgba(255, 255, 255, 0.05) 0px 0.25em 1em;
+  border-radius: 50%;
+  padding: 8px;
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  z-index: 9;
+}
+
+.help-card {
+  width: 265px;
+  position: fixed;
+  bottom: 60px;
+  right: 15px;
+  z-index: 9;
 }

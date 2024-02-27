@@ -297,7 +297,7 @@ const HomePage = () => {
 	return (
 		<>
 			<Header/>
-			<Modal show={showModal} scrollable={true} size="lg" onHide={handleCloseModal}  style={{paddingLeft: '0px'}}>
+			{/* <Modal show={showModal} scrollable={true} size="lg" onHide={handleCloseModal}  style={{paddingLeft: '0px'}}>
 				<Modal.Header closeButton>
 					<Modal.Title>
 						<h1 className='widget-title-intro'>Welcome to <a href='/'>CricketPanditji.com</a> – Where Astrology meets Cricket!</h1>
@@ -311,7 +311,7 @@ const HomePage = () => {
 						Close
 					</Button>
 				</Modal.Footer>
-            </Modal>
+            </Modal> */}
 			<header className="header">
 				<section className="header-middle" style={{paddingBottom: '0px'}}>
 					<div className="container">
@@ -390,6 +390,10 @@ const HomePage = () => {
 														<div id="home" className={`tab-pane fade in ${activeTab === 'home' ? 'show active' : ''}`}>
 															<div className="row">
 																<div className="col-md-8" style={{backgroundColor: '#ffffff'}}>
+																	<div>
+																		<h3 className="widget-title">Who we are?</h3>
+																		<IntroCard />
+																	</div>
 																	<div>
 																		<h3 className="widget-title">Cricket Panditji (Astrology & Fantasy Reports)</h3>
 																		<img src='assets/images/banner-1.jpg' className='banner-1-image'/>

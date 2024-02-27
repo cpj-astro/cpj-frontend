@@ -515,22 +515,17 @@ function LiveScoreBoard() {
                                 </div> 
                             </div>	
                         </div>
-                        {(matchData.match_category !== 'recent' && isEnableAstro) && (
-                            astroStatus ? (
+                        {matchData.astrology_status === 'enable' &&
+                        <div className="button-container">
+                            {matchData.match_category == 'recent' && matchData.payment_id && 
                                 <button className="mt-15 btn-astro-v1" onClick={() => {navigate(`/match-reports/${id}`)}}> 
                                     View Astrology
                                 </button>
-                            ) : (
-                                <button className="mt-15 btn-astro-v1" onClick={() => {navigate(`/match-reports/${id}`)}}> 
-                                    Buy Astrology
-                                </button>
-                            )
-                        )}
-                        {(matchData.match_category == 'recent' && isEnableAstro) && (
-                            <button className="mt-15 btn-astro-v1" onClick={() => {navigate(`/match-reports/${id}`)}}> 
-                                View Astrology
-                            </button>
-                        )}
+                            }
+                            {matchData.match_category !== 'recent' &&
+                                <button className="mt-15 btn-astro-v1" onClick={() => {navigate(`/match-reports/${id}`)}}>{matchData.button_text}</button>
+                            }
+                        </div>}
                     </div>
                 </section>
             </header>

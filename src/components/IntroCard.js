@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function IntroCard() {
     return (
-        <div className=''>
+        <div className='card card-shadow p-3 custom-intro'>
             <div class="content-card card-grid content-align-center">
                 <img src="/assets/images/intro-pandit.png" alt="" className='pandit-intro-img mb-3'/>
                 
