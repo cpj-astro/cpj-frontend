@@ -27,7 +27,6 @@ const HomePage = () => {
 	const [upcomingMatches, setUpcomingMatches] = useState([]);
 	const [recentMatches, setRecentMatches] = useState([]);
 	const [liveMatches, setLiveMatches] = useState([]);
-	const [matches, setMatches] = useState([]); 
 	const [loader, setLoader] = useState(false)
 	const [matchLoader, setMatchLoader] = useState(false)
     const [showModal, setShowModal] = useState(false);
@@ -253,14 +252,17 @@ const HomePage = () => {
 			const allMatches = [];
 			snapshot.forEach((doc) => {
 				let data = doc.data();
-				data.dateLive = moment().format("DD-MMM, HH:mm A")
-				data.match_category = 'live';
-				data.series_name = data.match_type;
-				allMatches.push(data);
+				if(data && data.match_category) {
+					data.dateLive = moment().format("DD-MMM, HH:mm A")
+					data.match_category = 'live';
+					data.series_name = data.match_type;
+					allMatches.push(data);
+				}
 			});
 			if(allMatches && allMatches.length > 0) {
 				localStorage.setItem('match_id', allMatches[0].match_id);
 			}
+			console.log('match live', allMatches);
 			setLiveMatches(allMatches);
 			setLoader(false);
 		}, (error) => {
@@ -326,15 +328,14 @@ const HomePage = () => {
 									responsive={responsiveOptions}
 									className="editors-pick owl-theme"
 								>
-								{(liveMatches && liveMatches.length > 0 && !loader) ? (
+								{(liveMatches && liveMatches.length > 0 && !loader) && (
 									<>
 										{liveMatches.map((m, i) => (
 											<MatchCard match={m} index={i}/>
 										))}
 									</>
-								) : 
-									<MatchLoader/>
-								}
+								)}
+								
 								{(upcomingMatches && upcomingMatches.length > 0 && !matchLoader) ? (
 									<>
 										{upcomingMatches.slice(0, 5).map((m, i) => (

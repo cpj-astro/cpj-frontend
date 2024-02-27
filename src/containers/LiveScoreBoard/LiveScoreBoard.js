@@ -411,10 +411,40 @@ function LiveScoreBoard() {
         setActiveTab(tab);
     };
 
+    // useEffect(() => {
+    //     const authenticated = localStorage.getItem('client_token');
+    //     let url = null;
+    //     if(authenticated) {
+    //         url = process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/matchInfo` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/matchInfo`;
+    //     } else {
+    //         url = process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/offlineMatchInfo` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/offlineMatchInfo`
+    //     }
+    //     axios.post(url, { match_id: id }, apiConfig)
+    //     .then((res) => {
+    //         if (res && res.data && res.data.data && res.data.data.astrology_data) {
+    //             setIsEnableAstro(true);
+    //             if(res && res.data && res.data.data && res.data.data.astrology_data && res.data.data.payment_id) {
+    //                 setAstroStatus(true);
+    //             } else if (res && res.data && res.data.data && res.data.data.astrology_data && !res.data.data.payment_id) {
+    //                 setAstroStatus(false);
+    //             }
+    //         }
+    //     })
+    //     .catch((error) => {
+    //         if(error.response.data.status_code == 401){
+    //             localStorage.removeItem('client_token');
+    //             localStorage.removeItem('user_data');
+                
+    //             navigate('/');
+    //         } else {
+    //             console.log(error);
+    //         }
+    //     });
+    // }, [id]);
+
     useEffect(() => {
         onSnapshot(doc(db, "matchdata", id), (doc) => {
             if(doc.data()) {
-                console.log("Doc Data", doc.data());
                 setMatchData(doc.data()); 
             } else {
                 fetchMatchInfo();
@@ -498,6 +528,22 @@ function LiveScoreBoard() {
                                 <button className="mt-15 btn-astro-v1" onClick={() => {navigate(`/match-reports/${id}`)}}>{matchData.button_text}</button>
                             }
                         </div>}
+                        {/* {(matchData.match_category !== 'recent' && isEnableAstro) && (
+                            astroStatus ? (
+                                <button className="mt-15 btn-astro-v1" onClick={() => {navigate(`/match-reports/${id}`)}}> 
+                                    View Astrology
+                                </button>
+                            ) : (
+                                <button className="mt-15 btn-astro-v1" onClick={() => {navigate(`/match-reports/${id}`)}}> 
+                                    Buy Astrology
+                                </button>
+                            )
+                        )}
+                        {(matchData.match_category == 'recent' && isEnableAstro) && (
+                            <button className="mt-15 btn-astro-v1" onClick={() => {navigate(`/match-reports/${id}`)}}> 
+                                View Astrology
+                            </button>
+                        )} */}
                     </div>
                 </section>
             </header>
