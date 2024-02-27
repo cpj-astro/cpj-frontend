@@ -298,6 +298,8 @@ function LiveScoreBoard() {
         }
         axios.post(url, { match_id: id }, apiConfig)
         .then((res) => {
+            console.log("Else Data", res);
+            console.log("Astrology Status", res.data.data.astrology_status);
             let data = res.data.data;
             if (data.team_a_short == data.fav_team) {
                 data.back1 = data.min_rate;
@@ -410,39 +412,9 @@ function LiveScoreBoard() {
     };
 
     useEffect(() => {
-        const authenticated = localStorage.getItem('client_token');
-        let url = null;
-        if(authenticated) {
-            url = process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/matchInfo` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/matchInfo`;
-        } else {
-            url = process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/offlineMatchInfo` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/offlineMatchInfo`
-        }
-        axios.post(url, { match_id: id }, apiConfig)
-        .then((res) => {
-            if (res && res.data && res.data.data && res.data.data.astrology_data) {
-                setIsEnableAstro(true);
-                if(res && res.data && res.data.data && res.data.data.astrology_data && res.data.data.payment_id) {
-                    setAstroStatus(true);
-                } else if (res && res.data && res.data.data && res.data.data.astrology_data && !res.data.data.payment_id) {
-                    setAstroStatus(false);
-                }
-            }
-        })
-        .catch((error) => {
-            if(error.response.data.status_code == 401){
-                localStorage.removeItem('client_token');
-                localStorage.removeItem('user_data');
-                
-                navigate('/');
-            } else {
-                console.log(error);
-            }
-        });
-    }, [id]);
-
-    useEffect(() => {
         onSnapshot(doc(db, "matchdata", id), (doc) => {
             if(doc.data()) {
+                console.log("Doc Data", doc.data());
                 setMatchData(doc.data()); 
             } else {
                 fetchMatchInfo();
@@ -515,7 +487,7 @@ function LiveScoreBoard() {
                                 </div> 
                             </div>	
                         </div>
-                        {matchData.astrology_status === 'enable' &&
+                        {matchData.astrology_status == 'enable' &&
                         <div className="button-container">
                             {matchData.match_category == 'recent' && matchData.payment_id && 
                                 <button className="mt-15 btn-astro-v1" onClick={() => {navigate(`/match-reports/${id}`)}}> 
