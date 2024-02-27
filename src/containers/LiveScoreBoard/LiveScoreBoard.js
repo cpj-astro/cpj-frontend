@@ -254,7 +254,7 @@ function LiveScoreBoard() {
             case 'six six sixer':
                 return <img src={"/assets/images/liveline/6.gif"} className="fc-img-style" alt="Six Six Sixer" />;
             case 'wide ball':
-                return <img src={"/assets/images/liveline/4.gif"} className="fc-img-style" alt="Wide Ball" />;
+                return <img src={"/assets/images/liveline/wide.gif"} className="fc-img-style" alt="Wide Ball" />;
             case 'out':
                 return <img src={"/assets/images/liveline/out.gif"} className="fc-img-style" alt="Wide Ball" />;
             case 'wicket':
