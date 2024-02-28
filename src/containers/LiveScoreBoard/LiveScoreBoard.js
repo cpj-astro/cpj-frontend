@@ -421,6 +421,7 @@ function LiveScoreBoard() {
         }
         axios.post(url, { match_id: id }, apiConfig)
         .then((res) => {
+            console.log(res.data.data);
             if (res.data && res.data.data && res.data.data.match_category == 'live') {
                 setMatchDetails(res.data.data);
             } 
@@ -516,7 +517,7 @@ function LiveScoreBoard() {
                                 <button className="mt-15 btn-astro-v1" onClick={() => {navigate(`/match-reports/${id}`)}}>{matchData.button_text}</button>
                             }
                         </div>}
-                        {matchDetails && matchDetails.length > 0 && 
+                        {matchDetails && matchDetails.astrology_status == 'enable' &&
                         <div className="button-container">
                             {matchDetails.match_category == 'recent' && matchDetails.payment_id && 
                                 <button className="mt-15 btn-astro-v1" onClick={() => {navigate(`/match-reports/${id}`)}}> 
