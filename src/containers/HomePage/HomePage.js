@@ -249,6 +249,7 @@ const HomePage = () => {
 	useEffect(() => {
 		setLoader(true);
 		onSnapshot(matchDataRef, (snapshot) => {
+			console.log("snapshot", snapshot);
 			const allMatches = [];
 			snapshot.forEach((doc) => {
 				let data = doc.data();
