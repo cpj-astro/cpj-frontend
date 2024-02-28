@@ -252,7 +252,7 @@ const HomePage = () => {
 			const allMatches = [];
 			snapshot.forEach((doc) => {
 				let data = doc.data();
-				if(data && data.match_category) {
+				if(data && data.result == "") {
 					data.dateLive = moment().format("DD-MMM, HH:mm A")
 					data.match_category = 'live';
 					data.series_name = data.match_type;
