@@ -298,8 +298,6 @@ function LiveScoreBoard() {
         }
         axios.post(url, { match_id: id }, apiConfig)
         .then((res) => {
-            console.log("Else Data", res);
-            console.log("Astrology Status", res.data.data.astrology_status);
             let data = res.data.data;
             if (data.team_a_short == data.fav_team) {
                 data.back1 = data.min_rate;
@@ -421,7 +419,6 @@ function LiveScoreBoard() {
         }
         axios.post(url, { match_id: id }, apiConfig)
         .then((res) => {
-            console.log(res.data.data);
             if (res.data && res.data.data && res.data.data.match_category == 'live') {
                 setMatchDetails(res.data.data);
             } 

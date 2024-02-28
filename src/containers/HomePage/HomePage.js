@@ -249,7 +249,6 @@ const HomePage = () => {
 	useEffect(() => {
 		setLoader(true);
 		onSnapshot(matchDataRef, (snapshot) => {
-			console.log("snapshot", snapshot);
 			const allMatches = [];
 			snapshot.forEach((doc) => {
 				let data = doc.data();
@@ -263,7 +262,6 @@ const HomePage = () => {
 			if(allMatches && allMatches.length > 0) {
 				localStorage.setItem('match_id', allMatches[0].match_id);
 			}
-			console.log('match live', allMatches);
 			setLiveMatches(allMatches);
 			setLoader(false);
 		}, (error) => {

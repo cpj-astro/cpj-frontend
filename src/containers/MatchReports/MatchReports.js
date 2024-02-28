@@ -129,7 +129,6 @@ function MatchReports() {
             if (response.data.success) {
                 setAstroAuth(true);
             } else {
-                navigate(`/live-score-board/${id}`);
                 toast.error("No Astrology found for this match!")
             }
         })
@@ -196,7 +195,8 @@ function MatchReports() {
     return (
         <>
             <Header/>
-            {loader ? <Loader/> :
+            {loader && <Loader/>}
+            {!loader && astroAuth &&
             <div className='container mt-3' style={{minHeight: '100vh'}}>
                 <Modal show={showModal} onHide={handleCloseModal} size="lg">
                     <Modal.Body>
@@ -709,8 +709,21 @@ function MatchReports() {
                         </div>
                     </div>
                 </div>}
-            </div>
-            }
+            </div>}
+            {!astroAuth && 
+            <div className='row' style={{height: '100vh'}}>
+                <div className='col-md-12'>
+                    <div className="disclaimer-container mt-0 p-3">
+                        <div className="disclaimer">
+                            <p>
+                                <h3>
+                                No Data Found! Please Go Back.
+                                </h3>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>}
             <Footer/>
         </>
     );

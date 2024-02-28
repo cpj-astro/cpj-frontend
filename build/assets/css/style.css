@@ -6627,3 +6627,18 @@ input:checked ~ .cover:before {
   right: 15px;
   z-index: 9;
 }
+
+.match-astro-span {
+  background: #ee0979;
+  background: -webkit-linear-gradient(to right, #ff6a00, #ee0979);
+  background: linear-gradient(to right, #ff6a00, #ee0979);
+  width: 35%;
+  padding: 5px;
+  text-align: center;
+  font-weight: 500;
+  font-size: small;
+  text-transform: uppercase;
+  color: #ffffff;
+  border-radius: 10px 0px;
+  position: absolute;
+}
