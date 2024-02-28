@@ -426,14 +426,7 @@ function LiveScoreBoard() {
             } 
         })
         .catch((error) => {
-            if(error.response.data.status_code == 401){
-                localStorage.removeItem('client_token');
-                localStorage.removeItem('user_data');
-                
-                navigate('/');
-            } else {
-                console.log(error);
-            }
+            console.log(error);
         });
     }, [id]);
 
