@@ -6636,7 +6636,7 @@ input:checked ~ .cover:before {
   padding: 4px;
   text-align: center;
   font-weight: 500;
-  font-size: 9px;
+  font-size: 10px;
   text-transform: uppercase;
   color: #ffffff;
   border-radius: 10px 0px;

@@ -998,6 +998,7 @@ function LiveScoreBoard() {
                     </div>
                 </div>
             </div>
+            <Footer/>
 		</>
     );
 }
