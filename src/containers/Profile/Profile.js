@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import Kundli from '../../components/Kundli';
 import { Modal, Button } from 'react-bootstrap';
+import moment from 'moment';
 import MatchKundli from '../../components/MatchKundli';
 import Loader from '../../components/Loader';
 
@@ -22,6 +23,7 @@ function Profile() {
     const { register, handleSubmit, setValue, getValues, watch, reset, formState, formState: { isSubmitSuccessful } } = useForm();
     const [user, setUserData] = useState([]);
     const [payments, setPaymentsDetails] = useState([]);
+    const [questions, setQuestions] = useState([]);
     const [reportData, setReportData] = useState({
         MatchName:'',
         MatchStart:'',
@@ -60,6 +62,7 @@ function Profile() {
             if(response.data.success){
                 setUserData(response.data.data);
                 setPaymentsDetails(response.data.payment_details);
+                setQuestions(response.data.questions);
             }
         }).catch((error) => {
             if(error.response.data.status_code == 401){
@@ -248,9 +251,9 @@ function Profile() {
                                                                     <li className={activeTab === 'astrology-reports' ? 'cursor-pointer active' : 'cursor-pointer'}>
                                                                         <a onClick={() => handleTabChange('astrology-reports')}>Payments & Reports</a>
                                                                     </li>
-                                                                    {/* <li className={activeTab === 'account-settings' ? 'cursor-pointer active' : 'cursor-pointer'}>
-                                                                        <a onClick={() => handleTabChange('account-settings')}>Account Settings</a>
-                                                                    </li> */}
+                                                                    <li className={activeTab === 'asked-questions' ? 'cursor-pointer active' : 'cursor-pointer'}>
+                                                                        <a onClick={() => handleTabChange('asked-questions')}>Asked Questions</a>
+                                                                    </li>
                                                                 </ul>
                                                                 <hr/>
 
@@ -315,7 +318,7 @@ function Profile() {
                                                                         </div>
                                                                     </div>
                                                                     <div id="astrology-reports" className={`tab-pane fade ${activeTab === 'astrology-reports' ? 'show active' : ''}`}>
-                                                                        <table className="table table-responsive no-border">
+                                                                        <table className="table table-responsive">
                                                                             <thead>
                                                                                 <tr>
                                                                                     <th scope="col" className="text-12">CPJ ID</th>
@@ -364,6 +367,31 @@ function Profile() {
                                                                             )) : 
                                                                             <tr>
                                                                                 <td colSpan={10}>No Reports Yet</td>    
+                                                                            </tr>}
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                    <div id="asked-questions" className={`tab-pane fade ${activeTab === 'asked-questions' ? 'show active' : ''}`}>
+                                                                        <table className="table table-responsive">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th scope="col" className="text-12">Phone Number</th>
+                                                                                    <th scope="col" className="text-12">Question</th>
+                                                                                    <th scope="col" className="text-12">Answer</th>
+                                                                                    <th scope="col" className="text-12">Date</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                            {(questions && questions.length > 0) ? questions.map((question, index) => (
+                                                                                <tr key={index}>
+                                                                                    <td className='text-capitalize'>{question && question.wtsp_number}</td>
+                                                                                    <td className='text-capitalize'>{question && question.question}</td>
+                                                                                    <td className='text-capitalize'>{(question && question.answer) ?? 'N/A'}</td>
+                                                                                    <td className='text-capitalize'>{moment(question.created_at).format('MMM Do YY, h:mm:ss') ?? 'N/A'}</td>
+                                                                                </tr>
+                                                                            )) : 
+                                                                            <tr>
+                                                                                <td colSpan={10}>No Questions Yet</td>    
                                                                             </tr>}
                                                                             </tbody>
                                                                         </table>
