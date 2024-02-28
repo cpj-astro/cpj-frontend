@@ -15,6 +15,8 @@ import Loader from '../../components/Loader';
 
 function Profile() {
     const navigate = useNavigate();
+    const [showAnswer, setShowAnswer] = useState(null);
+    const [showQuestion, setShowQuestion] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const handleCloseModal = () => setShowModal(false);
     const handleShowModal = () => setShowModal(true);
@@ -372,6 +374,14 @@ function Profile() {
                                                                         </table>
                                                                     </div>
                                                                     <div id="asked-questions" className={`tab-pane fade ${activeTab === 'asked-questions' ? 'show active' : ''}`}>
+                                                                        <div>
+                                                                            <u>Show Question : {showQuestion}</u> <br/>
+                                                                            {showQuestion && <span className='badge badge-primary cursor-pointer' onClick={()=>setShowQuestion(null)}><i class="fa fa-trash"></i>clear</span>}
+                                                                        </div>
+                                                                        <div>
+                                                                            <u>Show Answer : {showAnswer}</u> <br/>
+                                                                            {showAnswer && <span className='badge badge-primary cursor-pointer' onClick={()=>setShowAnswer(null)}><i class="fa fa-trash"></i>clear</span>}
+                                                                        </div>
                                                                         <table className="table table-responsive">
                                                                             <thead>
                                                                                 <tr>
@@ -385,8 +395,21 @@ function Profile() {
                                                                             {(questions && questions.length > 0) ? questions.map((question, index) => (
                                                                                 <tr key={index}>
                                                                                     <td className='text-capitalize'>{question && question.wtsp_number}</td>
-                                                                                    <td className='text-capitalize'>{question && question.question}</td>
-                                                                                    <td className='text-capitalize'>{(question && question.answer) ?? 'N/A'}</td>
+                                                                                    <td className='text-capitalize'>
+                                                                                        {question && question.question && question.question.length > 100 ? 
+                                                                                        <span onClick={()=>setShowQuestion(question.question)}>
+                                                                                            <span className='badge badge-primary cursor-pointer'><i class="fa fa-eye"></i></span>
+                                                                                        </span> : question.question}</td>
+                                                                                    <td className='text-capitalize'>
+                                                                                        {question && !question.answer && (
+                                                                                        <span>
+                                                                                            N/A
+                                                                                        </span>)}
+                                                                                        {question && question.answer && question.answer.length > 100 ? 
+                                                                                        <span onClick={()=>setShowAnswer(question.answer)}>
+                                                                                            <span className='badge badge-primary cursor-pointer'><i class="fa fa-eye"></i></span>
+                                                                                        </span> : question.answer}
+                                                                                    </td>
                                                                                     <td className='text-capitalize'>{moment(question.created_at).format('MMM Do YY, h:mm:ss') ?? 'N/A'}</td>
                                                                                 </tr>
                                                                             )) : 
