@@ -421,15 +421,9 @@ function LiveScoreBoard() {
         }
         axios.post(url, { match_id: id }, apiConfig)
         .then((res) => {
-            console.log('Match found', res.data.data);
-            if (res && res.data && res.data.data && res.data.data.astrology_data) {
-                setIsEnableAstro(true);
-                if(res && res.data && res.data.data && res.data.data.astrology_data && res.data.data.payment_id) {
-                    setAstroStatus(true);
-                } else if (res && res.data && res.data.data && res.data.data.astrology_data && !res.data.data.payment_id) {
-                    setAstroStatus(false);
-                }
-            }
+            if (res.data && res.data.data && res.data.data.match_category == 'live') {
+                setMatchDetails(res.data.data);
+            } 
         })
         .catch((error) => {
             if(error.response.data.status_code == 401){
@@ -518,7 +512,7 @@ function LiveScoreBoard() {
                                 </div> 
                             </div>	
                         </div>
-                        {matchData.astrology_status == 'enable' &&
+                        {matchData.astrology_status == 'enable' && matchDetails && matchDetails.length == 0 &&
                         <div className="button-container">
                             {matchData.match_category == 'recent' && matchData.payment_id && 
                                 <button className="mt-15 btn-astro-v1" onClick={() => {navigate(`/match-reports/${id}`)}}> 
@@ -527,6 +521,17 @@ function LiveScoreBoard() {
                             }
                             {matchData.match_category !== 'recent' &&
                                 <button className="mt-15 btn-astro-v1" onClick={() => {navigate(`/match-reports/${id}`)}}>{matchData.button_text}</button>
+                            }
+                        </div>}
+                        {matchDetails && matchDetails.length > 0 && 
+                        <div className="button-container">
+                            {matchDetails.match_category == 'recent' && matchDetails.payment_id && 
+                                <button className="mt-15 btn-astro-v1" onClick={() => {navigate(`/match-reports/${id}`)}}> 
+                                    View Astrology
+                                </button>
+                            }
+                            {matchDetails.match_category !== 'recent' &&
+                                <button className="mt-15 btn-astro-v1" onClick={() => {navigate(`/match-reports/${id}`)}}>{matchDetails.button_text}</button>
                             }
                         </div>}
                         {/* {(matchData.match_category !== 'recent' && isEnableAstro) && (
