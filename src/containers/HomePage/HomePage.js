@@ -92,7 +92,10 @@ const HomePage = () => {
 			: `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/getAllPrivateAds`,
 		apiConfig
 		)
-		.then((response) => setAds(response.data.data))
+		.then((response) => {
+			console.log("private Ads", response);
+			setAds(response.data.data)
+		})
 		.catch((error) => {
 			if(error.response.data.status_code == 401){
 				localStorage.removeItem('client_token');
@@ -399,9 +402,9 @@ const HomePage = () => {
 																		<img src='assets/images/banner-1.jpg' className='banner-1-image'/>
 																	</div>
 
-																	<section className="player-contact pt-0 pb-0">
-																		<h3 className="widget-title">Cricket Panditji (Pandits)</h3>
-																		<OwlCarousel autoplay={true} autoplayTimeout={3000} loop={true} className='owl-theme' dots={true} arrows={false} items={1} key={new Date().getTime()} >
+																	<section className="player-contact pt-0 pb-2">
+																		<h3 className="widget-title">Cricket Panditji (Pandit)</h3>
+																		<OwlCarousel autoplay={true} autoplayTimeout={3000} loop={false} className='owl-theme' dots={true} arrows={false} items={1} key={new Date().getTime()} >
 																			{(panditData && panditData.length > 0) && panditData.map((pandit, index) => (
 																				<div class="pandit-container">
 																					<div class="pandit-card">
@@ -527,7 +530,7 @@ const HomePage = () => {
 																</div>
 																<div className="col-md-4" style={{backgroundColor: '#ffffff'}}>
 																	<div>
-																		<img src='/assets/images/fantacy-ground.png' className='mt-30 fantasy-ground'/>
+																		<img src='/assets/images/play-banner-1.jpg' className='mt-30 fantasy-ground'/>
 																	</div>
 
 																	<aside className="sidebar right-sidebar">
@@ -601,7 +604,7 @@ const HomePage = () => {
 																</div>
 																<div className="col-md-4" style={{backgroundColor: '#ffffff'}}>
 																	<div>
-																		<img src='/assets/images/fantacy-ground.png' className='mt-30 fantasy-ground'/>
+																		<img src='/assets/images/play-banner-1.jpg' className='mt-30 fantasy-ground'/>
 																	</div>
 
 																	<aside className="sidebar right-sidebar">
@@ -675,7 +678,7 @@ const HomePage = () => {
 																</div>
 																<div className="col-md-4" style={{backgroundColor: '#ffffff'}}>
 																	<div>
-																		<img src='/assets/images/fantacy-ground.png' className='mt-30 fantasy-ground'/>
+																		<img src='/assets/images/play-banner-1.jpg' className='mt-30 fantasy-ground'/>
 																	</div>
 
 																	<aside className="sidebar right-sidebar">
@@ -766,7 +769,7 @@ const HomePage = () => {
 																</div>
 																<div className="col-md-4" style={{backgroundColor: '#ffffff'}}>
 																	<div>
-																		<img src='/assets/images/fantacy-ground.png' className='mt-30 fantasy-ground'/>
+																		<img src='/assets/images/play-banner-1.jpg' className='mt-30 fantasy-ground'/>
 																	</div>
 
 																	<aside className="sidebar right-sidebar">

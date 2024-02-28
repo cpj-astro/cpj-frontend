@@ -18,7 +18,7 @@ const PhonePeIntegration = ({ btnText, astroAmount, matchId, panditId}) => {
       merchantId: merchantKey, // Replace with your merchant ID
       merchantTransactionId: transactionid,
       merchantUserId: 'MUID-' + uuidv4().toString(36).slice(-6),
-      amount: 1 * 100, // Set your amount here
+      amount: astroAmount * 100, // Set your amount here
       redirectUrl: `${url}/payment-status/${matchId}/${transactionid}`,
       callbackUrl: `${url}/payment-status/${matchId}/${transactionid}`,
       redirectMode: 'POST',

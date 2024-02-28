@@ -246,11 +246,12 @@ function MatchReports() {
                                             <div className="container">
                                                 <section className="player-contact pt-0 pb-0">
                                                     <div className='row'>
+                                                        <div className="col-md-4"></div>
                                                     {(panditData && panditData.length > 0) ? panditData.map((pandit, index) => (
                                                         <div className='col-md-4'>
                                                             <div className='card card-shadow cursor-pointer'>
                                                                 {/* <i className='fa fa-info-circle info-icon-set' onClick={()=>{handleShowModal()}}></i> */}
-                                                                <div className='d-flex'>
+                                                                <div className=''>
                                                                     <div className=''>
                                                                         <img src={`/assets/images/pandits/${pandit.avatar_image}`} alt className='pandit-img'/>
                                                                     </div>
@@ -296,11 +297,11 @@ function MatchReports() {
                                     <div className="disclaimer">
                                         <p>
                                             <h3>
-                                            🌟 Explore Our Astrologers! 🌟
+                                            🌟 Explore Our Astrologer! 🌟
                                             </h3>
                                         </p>
                                         <p className='smaller'>
-                                            Our experienced pandits specialize in providing detailed match & fantasy astrology insights for cricket matches.
+                                            Our experienced pandit specialize in providing detailed match & fantasy astrology insights for cricket matches.
                                             Enhance your match experience by unlocking the secrets of the stars. Purchase their services now!
                                         </p>
                                     </div>
