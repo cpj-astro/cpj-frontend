@@ -6642,3 +6642,23 @@ input:checked ~ .cover:before {
   border-radius: 10px 0px;
   position: absolute;
 }
+
+.rate-container {
+  padding: 0 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.left-side {
+  text-align: left;
+  width: 48%; /* You can adjust the width as needed */
+  color: #00cc44;
+  font-weight: 600;
+}
+
+.right-side {
+  text-align: right;
+  width: 48%; /* You can adjust the width as needed */
+  color: #0087bd;
+  font-weight: 600;
+}

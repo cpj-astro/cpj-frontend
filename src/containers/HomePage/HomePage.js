@@ -422,10 +422,10 @@ const HomePage = () => {
 																								</div>
 																							</div>
 																						</div>
-																						<h4 className='mt-4'>Rating : 
+																					<h4 className='mt-4'>Rating : 
 																							{Array.from({ length: pandit.rating }, (_, index) => (
 																								<i key={index} className="fa fa-star text-warning ml-1"></i>
-																							))} ({pandit.rating} out of 5 stars)
+																							))} <i key={index} className="fa fa-star-half text-warning ml-1"></i> ({pandit.rating} out of 5 stars)
 																						</h4>
 																						<div class="pandit-quote">
 																							{pandit.description}

@@ -60,8 +60,8 @@ export default function MatchCard({match, index}) {
                     }
                     <div>
                         <span className='country-name mr-3'>{match.fav_team}</span>
-                        <span className='min-r-set'>{match && match.min_rate ? match.min_rate : '0.0'}</span>
-                        <span className='max-r-set'>{match && match.max_rate ? match.max_rate : '0.0'}</span>
+                        <span className='min-r-set'>{match && match.back1 ? match.back1 : '0.0'}</span>
+                        <span className='max-r-set'>{match && match.lay1 ? match.lay1 : '0.0'}</span>
                     </div>
                 </div>
             </div>

@@ -460,6 +460,14 @@ function LiveScoreBoard() {
                                         <div className="score">
                                             {matchData && matchData.first_circle ? getDisplayContent(getCricketTermDescription(matchData.first_circle)) : ''}
                                         </div>
+                                        <div className='rate-container'>
+                                            <div class="left-side">
+                                                <p>C.R.R - {matchData && matchData.curr_rate ? matchData.curr_rate : '0.00'}</p>
+                                            </div>
+                                            <div class="right-side">
+                                                <p>R.R.R - {matchData && matchData.curr_rate ? matchData.rr_rate : '0.00'}</p>
+                                            </div>
+                                        </div>
                                         <div className='card mb-0' style={{borderRadius: '0px 0px 4px 4px'}}>
                                             <div className="score-card-lg d-md-flex p-0">
                                                 <div className="flex-grow-1">
@@ -594,6 +602,17 @@ function LiveScoreBoard() {
                                                     </ul>
                                                     <div className="mt-4 tab-content">
                                                         <div id="liveline" className={`tab-pane fade in ${activeTab === 'liveline' ? 'show active' : ''}`}>
+                                                        {matchData && matchData.match_type == 'Test' && matchData.trail_lead && 
+                                                            <div className="row">
+                                                                <div className="col-md-12">
+                                                                    <div className="widget widget-rankings">
+                                                                        <div className="card shadow px-2 py-2 odd-border text-center text-uppercase">
+                                                                        <strong>{matchData.trail_lead}</strong>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>}
+
                                                             <div className="row">
                                                                 <div className="col-md-12">
                                                                     <div className="widget widget-rankings">
