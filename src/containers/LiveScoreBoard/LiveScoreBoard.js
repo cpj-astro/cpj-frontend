@@ -465,7 +465,7 @@ function LiveScoreBoard() {
                                                 <p>C.R.R - {matchData && matchData.curr_rate ? matchData.curr_rate : '0.00'}</p>
                                             </div>
                                             <div class="right-side">
-                                                <p>R.R.R - {matchData && matchData.curr_rate ? matchData.rr_rate : '0.00'}</p>
+                                                <p>R.R.R - {matchData && matchData.rr_rate ? matchData.rr_rate : '0.00'}</p>
                                             </div>
                                         </div>
                                         <div className='card mb-0' style={{borderRadius: '0px 0px 4px 4px'}}>
