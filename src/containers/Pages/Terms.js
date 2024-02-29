@@ -9,7 +9,7 @@ export default function Terms() {
         <div className='container mt-30 others'>
             <h2>Terms of Use</h2>
 
-            <p>Welcome to <a href='/'>www.cricketpanditji.com</a> (&quot;Factory Outlets&quot; or &quot;Factory Outlets&quot; or &quot;Company&quot; or &quot;We&quot;).</p>
+            <p>Welcome to www.cricketpanditji.com (&quot;Factory Outlets&quot; or &quot;Factory Outlets&quot; or &quot;Company&quot; or &quot;We&quot;).</p>
 
             <p>We&#39;re a software development firm based in Gujarat (India).</p>
 
@@ -31,17 +31,17 @@ export default function Terms() {
                 <li>(b) The Consumer Protection (E-Commerce) Rules, 2020;</li>
             </ul>
 
-            <p>(iii) &quot;Factory Outlets&quot;: It shall mean and include <a href='/'>www.cricketpanditji.com</a>, its partners, employees, affiliates, key
+            <p>(iii) &quot;Factory Outlets&quot;: It shall mean and include www.cricketpanditji.com, its partners, employees, affiliates, key
                 managerial personnel etc.</p>
 
-            <p>(iv) &quot;Company&quot;: It shall mean and include <a href='/'>www.cricketpanditji.com</a>, its partners, employees, affiliates, key
+            <p>(iv) &quot;Company&quot;: It shall mean and include www.cricketpanditji.com, its partners, employees, affiliates, key
                 managerial personnel etc.</p>
 
-            <p>(v) &quot;We&quot;: It shall mean and include <a href='/'>www.cricketpanditji.com</a>, its partners, employees, affiliates, key
+            <p>(v) &quot;We&quot;: It shall mean and include www.cricketpanditji.com, its partners, employees, affiliates, key
                 managerial personnel etc.</p>
 
             <p>(vi) &quot;Website(s)/Mobile Application(s)&quot;: It shall mean and include all websites and mobile applications
-                available for the User(s) owned and managed (directly or indirectly) by <a href='/'>www.cricketpanditji.com</a></p>
+                available for the User(s) owned and managed (directly or indirectly) by www.cricketpanditji.com</p>
 
             <p>(vii) &quot;Service(s)&quot;: It means and includes the various services offered by Factory Outlets to all its User(s)
                 through the Website(s)/Mobile Application(s) of Factory Outlets.</p>
@@ -517,7 +517,7 @@ export default function Terms() {
                     2. Once the match astrology report is generated and delivered to you, no refunds will be issued, regardless of the outcome or satisfaction.
                 </p>
                 <p>
-                    By proceeding with the purchase of a match astrology report, you expressly waive any right to a refund, and this refund policy shall constitute a binding agreement between you and <a href='/'>www.cricketpanditji.com</a>.
+                    By proceeding with the purchase of a match astrology report, you expressly waive any right to a refund, and this refund policy shall constitute a binding agreement between you and www.cricketpanditji.com.
                     <br />
                     For any questions or concerns regarding this refund policy, please write us an email on our customer support at <a href="mailto:cricketpanditji.astro@gmail.com">cricketpanditji.astro@gmail.com</a>.
                 </p>
@@ -532,7 +532,7 @@ export default function Terms() {
                     Strictly for Entertainment Purposes
                 </p>
                 <p>
-                    The <a href='/'>www.cricketpanditji.com</a> provided herein is for entertainment purposes only. Any information, guidance, or advice offered during any course of the service provided by  “Cricket Panditji “ is not intended to substitute professional, legal, financial, or medical advice. 
+                    The www.cricketpanditji.com provided herein is for entertainment purposes only. Any information, guidance, or advice offered during any course of the service provided by  “Cricket Panditji “ is not intended to substitute professional, legal, financial, or medical advice. 
                 </p>
                 <p>
                     The content presented is based on interpretation, subjective analysis, and personal insights, and should not be considered as a substitute for expert advice. Individuals are encouraged to use their discretion and judgement in applying any information received during this service to their personal lives or decisions.

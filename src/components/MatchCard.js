@@ -7,7 +7,7 @@ export default function MatchCard({match, index}) {
         <div className="score-card card-shadow p-0 mt-3" key={index}>
             {match.astrology_status === 'enable' && match.astro_on_live &&
             <div className='match-astro-span'>
-                Reports Available
+                Astrology Available
             </div>}
             <div className="score-card-inner"  onClick={() => {navigate(`/live-score-board/${match.match_id}`)}}>
                 <div className="score-card-header text-center">

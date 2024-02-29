@@ -304,7 +304,7 @@ const HomePage = () => {
 			{/* <Modal show={showModal} scrollable={true} size="lg" onHide={handleCloseModal}  style={{paddingLeft: '0px'}}>
 				<Modal.Header closeButton>
 					<Modal.Title>
-						<h1 className='widget-title-intro'>Welcome to <a href='/'>CricketPanditji.com</a> – Where Astrology meets Cricket!</h1>
+						<h1 className='widget-title-intro'>Welcome to CricketPanditJi – Where Astrology meets Cricket!</h1>
 					</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
@@ -399,7 +399,7 @@ const HomePage = () => {
 																	</div>
 																	<div>
 																		<h3 className="widget-title">Cricket Panditji (Astrology & Fantasy Reports)</h3>
-																		<img src='assets/images/banner-1.jpg' className='banner-1-image'/>
+																		<img src='assets/images/play-banner-1.jpeg' className='banner-1-image'/>
 																	</div>
 
 																	<section className="player-contact pt-0 pb-2">
@@ -451,22 +451,16 @@ const HomePage = () => {
 																	}
 
 																	<div>
-																		<h3 className="widget-title">Janam Chart</h3>
+																		<h3 className="widget-title">Match Astrology Charts</h3>
 																		<img src='assets/images/banner-2.png' className='banner-1-image'/>
 																	</div>
-
-																	<h3 className="widget-title">Reviews & Ratings</h3>
-																	
-																	<Feedback/>
-																	
-																	<Reviews/>
 																</div>
 																<div className="col-md-4" style={{backgroundColor: '#ffffff'}}>
 																	<div>
-																		<img src='/assets/images/play-banner-1.jpg' className='mt-30 fantasy-ground'/>
+																		<img src='/assets/images/black-banner-1.jpeg' className='mt-30 fantasy-ground'/>
 																	</div>
-
-																	<aside className="sidebar right-sidebar">
+																	{currentAds[0]?.status == 1 &&
+																	<aside className="mt-20 sidebar right-sidebar">
 																		<div className="widget widget-upcoming-match">
 																			{currentAds[0]?.status == 1 && 
 																			<a href={currentAds[0]?.link} target='_blank'>
@@ -514,7 +508,12 @@ const HomePage = () => {
 																				</div>
 																			</a>}
 																		</div>
-																	</aside>
+																	</aside>}
+																	<h3 className="widget-title mt-10">Reviews & Ratings</h3>
+																	
+																	<Feedback/>
+																	
+																	<Reviews/>
 																</div>
 															</div>
 														</div>
@@ -530,10 +529,11 @@ const HomePage = () => {
 																</div>
 																<div className="col-md-4" style={{backgroundColor: '#ffffff'}}>
 																	<div>
-																		<img src='/assets/images/play-banner-1.jpg' className='mt-30 fantasy-ground'/>
+																		<img src='/assets/images/play-banner-1.jpeg' className='mt-30 fantasy-ground'/>
 																	</div>
 
-																	<aside className="sidebar right-sidebar">
+																	{currentAds[0]?.status == 1 &&
+																	<aside className="mt-20 sidebar right-sidebar">
 																		<div className="widget widget-upcoming-match">
 																			{currentAds[0]?.status == 1 && 
 																			<a href={currentAds[0]?.link} target='_blank'>
@@ -541,7 +541,6 @@ const HomePage = () => {
 																					<div className="ad-slot" key={currentAds[0]?.id}>
 																						<h3>{currentAds[0]?.title}</h3>
 																						{renderMedia(currentAds[0]?.media_file)}
-																						{/* Add more details as needed */}
 																					</div>
 																				</div>
 																			</a>}
@@ -582,7 +581,12 @@ const HomePage = () => {
 																				</div>
 																			</a>}
 																		</div>
-																	</aside>
+																	</aside>}
+																	<h3 className="widget-title mt-10">Reviews & Ratings</h3>
+																	
+																	<Feedback/>
+																	
+																	<Reviews/>
 																</div>
 															</div>
 														</div>
@@ -604,10 +608,11 @@ const HomePage = () => {
 																</div>
 																<div className="col-md-4" style={{backgroundColor: '#ffffff'}}>
 																	<div>
-																		<img src='/assets/images/play-banner-1.jpg' className='mt-30 fantasy-ground'/>
+																		<img src='/assets/images/play-banner-1.jpeg' className='mt-30 fantasy-ground'/>
 																	</div>
 
-																	<aside className="sidebar right-sidebar">
+																	{currentAds[0]?.status == 1 &&
+																	<aside className="mt-20 sidebar right-sidebar">
 																		<div className="widget widget-upcoming-match">
 																			{currentAds[0]?.status == 1 && 
 																			<a href={currentAds[0]?.link} target='_blank'>
@@ -615,7 +620,6 @@ const HomePage = () => {
 																					<div className="ad-slot" key={currentAds[0]?.id}>
 																						<h3>{currentAds[0]?.title}</h3>
 																						{renderMedia(currentAds[0]?.media_file)}
-																						{/* Add more details as needed */}
 																					</div>
 																				</div>
 																			</a>}
@@ -656,7 +660,12 @@ const HomePage = () => {
 																				</div>
 																			</a>}
 																		</div>
-																	</aside>
+																	</aside>}
+																	<h3 className="widget-title mt-10">Reviews & Ratings</h3>
+																	
+																	<Feedback/>
+																	
+																	<Reviews/>
 																</div>
 															</div>
 														</div>
@@ -678,10 +687,11 @@ const HomePage = () => {
 																</div>
 																<div className="col-md-4" style={{backgroundColor: '#ffffff'}}>
 																	<div>
-																		<img src='/assets/images/play-banner-1.jpg' className='mt-30 fantasy-ground'/>
+																		<img src='/assets/images/play-banner-1.jpeg' className='mt-30 fantasy-ground'/>
 																	</div>
 
-																	<aside className="sidebar right-sidebar">
+																	{currentAds[0]?.status == 1 &&
+																	<aside className="mt-20 sidebar right-sidebar">
 																		<div className="widget widget-upcoming-match">
 																			{currentAds[0]?.status == 1 && 
 																			<a href={currentAds[0]?.link} target='_blank'>
@@ -689,7 +699,6 @@ const HomePage = () => {
 																					<div className="ad-slot" key={currentAds[0]?.id}>
 																						<h3>{currentAds[0]?.title}</h3>
 																						{renderMedia(currentAds[0]?.media_file)}
-																						{/* Add more details as needed */}
 																					</div>
 																				</div>
 																			</a>}
@@ -730,7 +739,12 @@ const HomePage = () => {
 																				</div>
 																			</a>}
 																		</div>
-																	</aside>
+																	</aside>}
+																	<h3 className="widget-title mt-10">Reviews & Ratings</h3>
+																	
+																	<Feedback/>
+																	
+																	<Reviews/>
 																</div>
 															</div>
 														</div>
@@ -769,10 +783,11 @@ const HomePage = () => {
 																</div>
 																<div className="col-md-4" style={{backgroundColor: '#ffffff'}}>
 																	<div>
-																		<img src='/assets/images/play-banner-1.jpg' className='mt-30 fantasy-ground'/>
+																		<img src='/assets/images/play-banner-1.jpeg' className='mt-30 fantasy-ground'/>
 																	</div>
 
-																	<aside className="sidebar right-sidebar">
+																	{currentAds[0]?.status == 1 &&
+																	<aside className="mt-20 sidebar right-sidebar">
 																		<div className="widget widget-upcoming-match">
 																			{currentAds[0]?.status == 1 && 
 																			<a href={currentAds[0]?.link} target='_blank'>
@@ -780,7 +795,6 @@ const HomePage = () => {
 																					<div className="ad-slot" key={currentAds[0]?.id}>
 																						<h3>{currentAds[0]?.title}</h3>
 																						{renderMedia(currentAds[0]?.media_file)}
-																						{/* Add more details as needed */}
 																					</div>
 																				</div>
 																			</a>}
@@ -821,7 +835,12 @@ const HomePage = () => {
 																				</div>
 																			</a>}
 																		</div>
-																	</aside>
+																	</aside>}
+																	<h3 className="widget-title mt-10">Reviews & Ratings</h3>
+																	
+																	<Feedback/>
+																	
+																	<Reviews/>
 																</div>
 															</div>
 														</div>
