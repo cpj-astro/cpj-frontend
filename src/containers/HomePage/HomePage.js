@@ -12,7 +12,8 @@ import {
   where,
   onSnapshot,
   query,
-  updateDoc
+  updateDoc,
+  getDocs
 } from 'firebase/firestore';
 import { db } from '../../authFiles/fbaseconfig';
 import Reviews from '../../components/Reviews';
@@ -24,6 +25,8 @@ import IntroCard from '../../components/IntroCard';
 import Feedback from '../Feedback';
 
 const HomePage = () => {
+	const [initialLoadComplete, setInitialLoadComplete] = useState(false);
+	const [matchPayIds, setMatchPayIds] = useState([]);
 	const [upcomingMatches, setUpcomingMatches] = useState([]);
 	const [recentMatches, setRecentMatches] = useState([]);
 	const [liveMatches, setLiveMatches] = useState([]);
@@ -247,30 +250,82 @@ const HomePage = () => {
 		fetchPrivateAds();
 	}, []);
 	
-	const matchDataRef = collection(db, "matchdata");
+	let matchDataRef = collection(db, "matchdata");
+	
+	useEffect(() => {
+		const userId = localStorage.getItem("user_data");
+		
+		const fetchMatchDataIds = async () => {
+			console.log("if data payload");
+			try {
+				const userSubscribeMatchRef = doc(db, "user_subscribe_match", userId);
+				const userSubscribeMatchDoc = await getDoc(userSubscribeMatchRef);
+				const matchDataPaymentIds = userSubscribeMatchDoc.data().match_id || [];
+
+				if (matchDataPaymentIds.length > 0) {
+					setInitialLoadComplete(true);
+					setMatchPayIds(matchPayIds);
+				} 
+			} catch (error) {
+				console.error("Error fetching match data IDs:", error);
+			}
+		};
+
+		if(userId) {
+			fetchMatchDataIds();
+		} else {
+			onSnapshot(matchDataRef, (snapshot) => {
+				const allMatches = [];
+				snapshot.forEach((doc) => {
+					let data = doc.data();
+					if(data && (data.result == "" || data.result == null)) {
+						data.dateLive = moment().format("DD-MMM, HH:mm A")
+						data.match_category = 'live';
+						data.is_paid = false;
+						data.series_name = data.match_type;
+						allMatches.push(data);
+					}
+				});
+				if(allMatches && allMatches.length > 0) {
+					localStorage.setItem('match_id', allMatches[0].match_id);
+				}
+				setLiveMatches(allMatches);
+			}, (error) => {
+				console.error("Error fetching data:", error);
+			});
+		}	
+	}, []);
 
 	useEffect(() => {
 		setLoader(true);
-		onSnapshot(matchDataRef, (snapshot) => {
-			const allMatches = [];
-			snapshot.forEach((doc) => {
-				let data = doc.data();
-				if(data && data.result == "") {
-					data.dateLive = moment().format("DD-MMM, HH:mm A")
-					data.match_category = 'live';
-					data.series_name = data.match_type;
-					allMatches.push(data);
+		const userId = localStorage.getItem("user_data");
+		if(userId) {
+			onSnapshot(matchDataRef, (snapshot) => {
+				const allMatches = [];
+				snapshot.forEach((doc) => {
+					let data = doc.data();
+					if(data && (data.result == "" || data.result == null)) {
+						if(matchPayIds.includes(data.match_id)) {
+							data.is_paid = true;
+						} else {
+							data.is_paid = false;
+						}
+						data.dateLive = moment().format("DD-MMM, HH:mm A")
+						data.match_category = 'live';
+						data.series_name = data.match_type;
+						allMatches.push(data);
+					}
+				});
+				if(allMatches && allMatches.length > 0) {
+					localStorage.setItem('match_id', allMatches[0].match_id);
 				}
+				setLiveMatches(allMatches);
+				setLoader(false);
+			}, (error) => {
+				console.error("Error fetching data:", error);
 			});
-			if(allMatches && allMatches.length > 0) {
-				localStorage.setItem('match_id', allMatches[0].match_id);
-			}
-			setLiveMatches(allMatches);
-			setLoader(false);
-		}, (error) => {
-			console.error("Error fetching data:", error);
-		});
-    }, []);
+		};
+    }, [initialLoadComplete]);
 	
 	const fetchPanditsList = () => {
         axios.get(process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/pandits` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/pandits`, apiConfig)

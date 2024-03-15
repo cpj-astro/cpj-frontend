@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-const PhonePeIntegration = ({ btnText, astroAmount, matchId, panditId}) => {
+const PhonePeIntegration = ({ btnText, astroAmount, matchId, panditId, userId}) => {
   const navigate = useNavigate();
   const makePayment = async () => {
     const transactionid = 'T-CPJ-' + uuidv4().replace(/-/g, '').toUpperCase().slice(0, 21);
@@ -19,8 +19,8 @@ const PhonePeIntegration = ({ btnText, astroAmount, matchId, panditId}) => {
       merchantTransactionId: transactionid,
       merchantUserId: 'MUID-' + uuidv4().toString(36).slice(-6),
       amount: astroAmount * 100, // Set your amount here
-      redirectUrl: `${url}/payment-status/${matchId}/${transactionid}`,
-      callbackUrl: `${url}/payment-status/${matchId}/${transactionid}`,
+      redirectUrl: `${url}/payment-status/${matchId}/${userId}/${transactionid}`,
+      callbackUrl: `${url}/payment-status/${matchId}/${userId}/${transactionid}`,
       redirectMode: 'POST',
       mobileNumber: '6353152455', // Set mobile number here
       paymentInstrument: {

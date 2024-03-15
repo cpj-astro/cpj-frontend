@@ -269,7 +269,7 @@ function MatchReports() {
                                                                     </div>
                                                                 </div>
                                                                 <div className=''>
-                                                                    <PhonePeIntegration btnText="Buy Match Astrology" astroAmount={pandit.match_astrology_price} matchId={id} panditId={pandit.id} />
+                                                                    <PhonePeIntegration btnText="Buy Match Astrology" astroAmount={pandit.match_astrology_price} matchId={id} panditId={pandit.id} userId={user.id} />
                                                                     {/* <button className="mt-4 btn-astro-v1" onClick={() => {toast('We Will Show Payment Gateway On Buy Astrology Button')}}> Buy Astrology </button> */}
                                                                     {/* <RazorpayIntegration matchId={id} panditId={pandit.id} amount={pandit.match_astrology_price} moonSign={user.moon_sign} onPaymentSuccess={handlePaymentSuccess} onPaymentFail={handlePaymentFail} /> */}
                                                                 </div>

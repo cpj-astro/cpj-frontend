@@ -5,10 +5,6 @@ export default function MatchCard({match, index}) {
     const navigate = useNavigate();
     return (
         <div className="score-card card-shadow p-0 mt-3" key={index}>
-            {match.astrology_status === 'enable' && match.astro_on_live &&
-            <div className='match-astro-span'>
-                Astrology Available
-            </div>}
             <div className="score-card-inner"  onClick={() => {navigate(`/live-score-board/${match.match_id}`)}}>
                 <div className="score-card-header text-center">
                     <span>{match.series_name}</span>
@@ -78,6 +74,12 @@ export default function MatchCard({match, index}) {
             : 
             <div className="button-container">
                 <button className="theme-button-1" onClick={() => {navigate(`/live-score-board/${match.match_id}`)}}>View Liveline</button>
+                {match.astrology_status === 'enable' && match.astro_on_live && match.is_paid &&
+                    <button className="theme-button-1" onClick={() => {navigate(`/match-reports/${match.match_id}`)}}>View Astrology</button>
+                }
+                {match.astrology_status === 'enable' && match.astro_on_live && !match.is_paid &&
+                    <button className="theme-button-3" onClick={() => {navigate(`/match-reports/${match.match_id}`)}}>Buy Astrology</button>
+                }
             </div>}
         </div>
     )
