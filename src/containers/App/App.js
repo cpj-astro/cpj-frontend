@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import PrivateRoute from '../../authFiles/PrivateRoutes';
 import HomePage from '../HomePage/HomePage';
+import HomePageV2 from '../HomePage/HomePageV2';
 import SignIn from '../SignIn/SignIn';
 import SignUp from '../SignUp/SignUp';
 import Profile from '../Profile/Profile';
@@ -24,6 +25,10 @@ import MatchReports from '../MatchReports/MatchReports';
 import 'react-toastify/dist/ReactToastify.css';
 import 'owl.carousel/dist/assets/owl.carousel.min.css';
 import 'owl.carousel/dist/assets/owl.theme.default.min.css';
+import LiveMatches from '../LiveMatches/LiveMatches';
+import LiveLineV2 from '../LiveLineV2/LiveLineV2';
+import UpcomingMatches from '../UpcomingMatches/UpcomingMatches';
+import FinishedMatches from '../FinishedMatches/FinishedMatches';
 
 const App = () => {
   return (
@@ -54,9 +59,12 @@ const App = () => {
             />
 
             {/* Other Routes */}
-            <Route path="/" element={<HomePage />} />
+            <Route path="/" element={<HomePageV2 />} />
+            <Route path="/live" element={<LiveMatches />} />
+            <Route path="/upcoming" element={<UpcomingMatches />} />
+            <Route path="/finished" element={<FinishedMatches />} />
             <Route path="/news-details/:id/:title/:pub_date" element={<NewsDetails />} />
-            <Route path="/live-score-board/:id" element={<LiveScoreBoard />} />
+            <Route path="/live-score-board/:id" element={<LiveLineV2 />} />
             <Route path="/about-us" element={<AboutUs />} />
             <Route path="/feedback" element={<Feedback />} />
             <Route path="/terms" element={<Terms />} />

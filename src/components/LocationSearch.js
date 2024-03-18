@@ -25,34 +25,49 @@ const LocationSearch = ({onLocationSelect}) => {
       onSelect={handleSelect}
     >
       {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-        <div>
+        <div className='cp__relative'>
           <input
             {...getInputProps({
               placeholder: 'Search Places',
             })}
+            className='form-control'
           />
-          <div className="autocomplete-dropdown-container">
-            {loading && <div>Loading...</div>}
-            {suggestions.map(suggestion => {
-              const className = suggestion.active
-                ? 'suggestion-item--active'
-                : 'suggestion-item';
-              // inline style for demonstration purpose
-              const style = suggestion.active
-                ? { backgroundColor: '#fafafa', cursor: 'pointer' }
-                : { backgroundColor: '#ffffff', cursor: 'pointer' };
-              return (
-                <div
-                  {...getSuggestionItemProps(suggestion, {
-                    className,
-                    style,
+            {suggestions.length > 0 && (
+              <div className="autocomplete-dropdown-container">
+                {loading && <div>Loading...</div>}
+                {!loading &&
+                  suggestions.map((suggestion, index) => {
+                    const className = suggestion.active
+                      ? 'suggestion-item--active'
+                      : 'suggestion-item';
+                    // Check if the suggestion is the last one
+                    const isLastSuggestion = index === suggestions.length - 1;
+                    // Conditionally apply border style
+                    const style = suggestion.active
+                      ? {
+                          color: '#00FFFF',
+                          cursor: 'pointer',
+                          borderBottom: isLastSuggestion ? 'none' : '1px solid',
+                        }
+                      : {
+                          color: '#FFFFFF',
+                          cursor: 'pointer',
+                          borderBottom: isLastSuggestion ? 'none' : '1px solid',
+                        };
+                    return (
+                      <div
+                        {...getSuggestionItemProps(suggestion, {
+                          className,
+                          style,
+                        })}
+                      >
+                        <span>{suggestion.description}</span>
+                      </div>
+                    );
                   })}
-                >
-                  <span>{suggestion.description}</span>
-                </div>
-              );
-            })}
-          </div>
+              </div>
+            )}
+
         </div>
       )}
     </PlacesAutocomplete>

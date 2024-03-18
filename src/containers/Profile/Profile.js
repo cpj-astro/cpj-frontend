@@ -12,6 +12,8 @@ import { Modal, Button } from 'react-bootstrap';
 import moment from 'moment';
 import MatchKundli from '../../components/MatchKundli';
 import Loader from '../../components/Loader';
+import HeaderV2 from '../../components/HeaderV2';
+import FooterV2 from '../../components/FooterV2';
 
 function Profile() {
     const navigate = useNavigate();
@@ -103,337 +105,367 @@ function Profile() {
     },[])
     return (
         <>
-            <Header/>
-            <div id="main" className="main-container">
-                {/* Modal */}
-                <Modal show={showModal} onHide={handleCloseModal} size="lg" style={{paddingLeft: '0px'}}>
-                    <Modal.Body>
-                        {loader ?
-                            <Loader/> :
-                            <section className='player-contact pt-0'>
-                                <div className='player-profile'>
-                                    <div className="player-info">
+            <HeaderV2/>
+            <Modal show={showModal} onHide={handleCloseModal} size="lg" style={{paddingLeft: '0px'}}>
+                <Modal.Body>
+                    {loader ?
+                        <Loader/> :
+                        <section className='player-contact pt-0'>
+                            <div className='player-profile'>
+                                <div className="player-info">
+                                    <div className="country-info align-items-center">
+                                        <span className="country-name text-13">Astrology Details</span>
+                                    </div>
+                                    <hr className="mt-0"/>
+                                    <div className="info-body">
+                                        <ul className="list-striped mr-05">
+                                            <li>
+                                                <span>Match Name</span>
+                                                <p className='text-muted'>{reportData.MatchName ?? 'N/A'}</p>
+                                            </li>
+                                            <li>
+                                                <span>Match Start</span>
+                                                <p className='text-muted'>{reportData.MatchStart ?? 'N/A'} IST</p>
+                                            </li>
+                                            <li>
+                                                <span>Weather</span>
+                                                <p className='text-muted'>{reportData.Weather ?? 'N/A'}</p>
+                                            </li>
+                                            <li>
+                                                <span>Profile Name</span>
+                                                <p className='text-muted'>{reportData.ProfileName ?? 'N/A'}</p>
+                                            </li>
+                                            <li>
+                                                <span>Direction</span>
+                                                <p className='text-muted'>{reportData.Direction ?? 'N/A'}</p>
+                                            </li>
+                                        </ul>
+                                        <ul className="list-striped">
+                                            <li>
+                                                <span>Rashi/Zodiac</span>
+                                                <p className='text-muted'>{reportData.SignName ?? 'N/A'}</p>
+                                            </li>
+                                            <li>
+                                                <span>Favourite Zodiacs</span>
+                                                <p className='text-muted'>{reportData.VenueWiseZodiac ?? 'N/A'}</p>
+                                            </li>
+                                            <li>
+                                                <span>Lucky Numbers</span>
+                                                <p className='text-muted'>{reportData.LuckyNumbers ?? 'N/A'}</p>
+                                            </li>
+                                            <li>
+                                                <span>Lucky Colours</span>
+                                                <p className='text-muted'>{reportData.LuckyColors ?? 'N/A'}</p>
+                                            </li>
+                                            <li>
+                                                <span>Favourite Team</span>
+                                                <p className='text-muted'>{reportData.FavTeams ?? 'N/A'}</p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <hr className='mb-0'/>
+                                    <div className='container'>
                                         <div className="country-info align-items-center">
-                                            <span className="country-name text-13">Astrology Details</span>
+                                            <span className="country-name text-13">Match Astrology</span>
                                         </div>
-                                        <hr className="mt-0"/>
-                                        <div className="info-body">
-                                            <ul className="list-striped mr-05">
-                                                <li>
-                                                    <span>Match Name</span>
-                                                    <p className='text-muted'>{reportData.MatchName ?? 'N/A'}</p>
-                                                </li>
-                                                <li>
-                                                    <span>Match Start</span>
-                                                    <p className='text-muted'>{reportData.MatchStart ?? 'N/A'} IST</p>
-                                                </li>
-                                                <li>
-                                                    <span>Weather</span>
-                                                    <p className='text-muted'>{reportData.Weather ?? 'N/A'}</p>
-                                                </li>
-                                                <li>
-                                                    <span>Profile Name</span>
-                                                    <p className='text-muted'>{reportData.ProfileName ?? 'N/A'}</p>
-                                                </li>
-                                                <li>
-                                                    <span>Direction</span>
-                                                    <p className='text-muted'>{reportData.Direction ?? 'N/A'}</p>
-                                                </li>
-                                            </ul>
-                                            <ul className="list-striped">
-                                                <li>
-                                                    <span>Rashi/Zodiac</span>
-                                                    <p className='text-muted'>{reportData.SignName ?? 'N/A'}</p>
-                                                </li>
-                                                <li>
-                                                    <span>Favourite Zodiacs</span>
-                                                    <p className='text-muted'>{reportData.VenueWiseZodiac ?? 'N/A'}</p>
-                                                </li>
-                                                <li>
-                                                    <span>Lucky Numbers</span>
-                                                    <p className='text-muted'>{reportData.LuckyNumbers ?? 'N/A'}</p>
-                                                </li>
-                                                <li>
-                                                    <span>Lucky Colours</span>
-                                                    <p className='text-muted'>{reportData.LuckyColors ?? 'N/A'}</p>
-                                                </li>
-                                                <li>
-                                                    <span>Favourite Team</span>
-                                                    <p className='text-muted'>{reportData.FavTeams ?? 'N/A'}</p>
-                                                </li>
-                                            </ul>
+                                        <span className='text-muted'>
+                                            {reportData.MatchAstrology ?? 'N/A'}
+                                        </span>
+                                    </div>
+                                    <hr className='mb-0'/>
+                                    <div className='container'>
+                                        <div className="country-info align-items-center">
+                                            <span className="country-name text-13">Astrological Favourite players</span>
                                         </div>
-                                        <hr className='mb-0'/>
-                                        <div className='container'>
-                                            <div className="country-info align-items-center">
-                                                <span className="country-name text-13">Match Astrology</span>
-                                            </div>
-                                            <span className='text-muted'>
-                                                {reportData.MatchAstrology ?? 'N/A'}
-                                            </span>
+                                        <span className='text-muted'>
+                                            {reportData.AstroFavPlayers ?? 'N/A'}
+                                        </span>
+                                    </div>
+                                    <hr className='mb-0'/>
+                                    <div className='container text-center'>
+                                        <span className="country-name text-13 mb-2">Match Natal Chart</span>
+                                        <MatchKundli housesData={user && user.kundli_data ? user.kundli_data : []} />
+                                    </div>
+                                    <hr className='mb-0'/>
+                                    <div className='container'>
+                                        <div className="country-info align-items-center">
+                                            <span className="country-name text-13">Suggestions</span>
                                         </div>
-                                        <hr className='mb-0'/>
-                                        <div className='container'>
-                                            <div className="country-info align-items-center">
-                                                <span className="country-name text-13">Astrological Favourite players</span>
-                                            </div>
-                                            <span className='text-muted'>
-                                                {reportData.AstroFavPlayers ?? 'N/A'}
-                                            </span>
+                                        <span className='text-muted'>
+                                            {reportData.Suggestion ?? 'N/A'}
+                                        </span>
+                                    </div>
+                                    <hr className='mb-0'/>
+                                    <div className='container'>
+                                        <div className="country-info align-items-center">
+                                            <span className="country-name text-13">Mantras</span>
                                         </div>
-                                        <hr className='mb-0'/>
-                                        <div className='container text-center'>
-                                            <span className="country-name text-13 mb-2">Match Natal Chart</span>
-                                            <MatchKundli housesData={user && user.kundli_data ? user.kundli_data : []} />
+                                        <span className='text-muted'>
+                                            {reportData.Mantras ?? 'N/A'}
+                                        </span>
+                                    </div>
+                                    <hr className='mb-0'/>
+                                    <div className='container'>
+                                        <div className="country-info align-items-center">
+                                            <span className="country-name text-13">Disclaimer</span>
                                         </div>
-                                        <hr className='mb-0'/>
-                                        <div className='container'>
-                                            <div className="country-info align-items-center">
-                                                <span className="country-name text-13">Suggestions</span>
-                                            </div>
-                                            <span className='text-muted'>
-                                                {reportData.Suggestion ?? 'N/A'}
-                                            </span>
-                                        </div>
-                                        <hr className='mb-0'/>
-                                        <div className='container'>
-                                            <div className="country-info align-items-center">
-                                                <span className="country-name text-13">Mantras</span>
-                                            </div>
-                                            <span className='text-muted'>
-                                                {reportData.Mantras ?? 'N/A'}
-                                            </span>
-                                        </div>
-                                        <hr className='mb-0'/>
-                                        <div className='container'>
-                                            <div className="country-info align-items-center">
-                                                <span className="country-name text-13">Disclaimer</span>
-                                            </div>
-                                            <span className='text-muted'>
-                                                The testimonials provided on our website are personal views and experiences of our clients. We do not make any type of false claims of guaranteed results as we are not GODS or HIS decendants. We promise the best of the services with truth, faith and devotion. There is no guarantee of specific results and that the results can vary as every individual has its own horoscope and different pattern of their planets. Hence, results or final effects of remedies could vary from person to person.
-                                            </span>
-                                        </div>
+                                        <span className='text-muted'>
+                                            The testimonials provided on our website are personal views and experiences of our clients. We do not make any type of false claims of guaranteed results as we are not GODS or HIS decendants. We promise the best of the services with truth, faith and devotion. There is no guarantee of specific results and that the results can vary as every individual has its own horoscope and different pattern of their planets. Hence, results or final effects of remedies could vary from person to person.
+                                        </span>
                                     </div>
                                 </div>
-                            </section>
-                        }
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={handleCloseModal}>
-                            Close
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
-                <div className="container breadcrumb-area">
-                    <div className="breadcrumb">
-                        <a href="/">Home</a>
-                        <span>Profile</span>
+                            </div>
+                        </section>
+                    }
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleCloseModal}>
+                        Close
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+            <main className="cp__list-sec">
+                <div className="container p-0">
+                    <div className="cp__mobile-tab">
+                        <div className="nav nav-tabs mb-3 d-lg-none d-lg-block" id="nav-tab" role="tablist">
+                            <button className="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Home</button>
+                            <button className="nav-link" id="nav-live-tab" data-bs-toggle="tab" data-bs-target="#nav-live" type="button" role="tab" aria-controls="nav-live" aria-selected="false">Live</button>
+                            <button className="nav-link" id="nav-upcoming-tab" data-bs-toggle="tab" data-bs-target="#nav-upcoming" type="button" role="tab" aria-controls="nav-upcoming" aria-selected="false">Upcoming</button>
+                            <button className="nav-link" id="nav-finished-tab" data-bs-toggle="tab" data-bs-target="#nav-finished" type="button" role="tab" aria-controls="nav-finished" aria-selected="false">Finished</button>
+                            <button className="nav-link" id="nav-news-tab" data-bs-toggle="tab" data-bs-target="#nav-news" type="button" role="tab" aria-controls="nav-news" aria-selected="false">News</button>
+                        </div>
                     </div>
-                    <h2>Profile</h2>
-                </div>
-                <section className="product-checkout-sec pt-0" style={{marginBottom: '250px'}}>
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-lg-12">
-                                <div className="widget">
-                                    <div className="mt-4 card card-shadow px-30 py-30">
-                                        <div className="checkout-form p-0">
-                                            <form>
-                                                <div className="row">
-                                                    <div className='col-md-12'>
-                                                        <aside className="sidebar right-sidebar">
-                                                            <div className="widget widget-upcoming-match">
-                                                                 <ul className="nav nav-tabs custom-nav" style={{overflowX: 'auto'}}>
-                                                                    <li className={activeTab === 'profile-details' ? 'cursor-pointer active' : 'cursor-pointer'}>
-                                                                        <a onClick={() => handleTabChange('profile-details')}>Personal Details</a>
-                                                                    </li>
-                                                                    <li className={activeTab === 'view-kundli' ? 'cursor-pointer active' : 'cursor-pointer'}>
-                                                                        <a onClick={() => handleTabChange('view-kundli')}>Kundli</a>
-                                                                    </li>
-                                                                    <li className={activeTab === 'astrology-reports' ? 'cursor-pointer active' : 'cursor-pointer'}>
-                                                                        <a onClick={() => handleTabChange('astrology-reports')}>Payments & Reports</a>
-                                                                    </li>
-                                                                    <li className={activeTab === 'asked-questions' ? 'cursor-pointer active' : 'cursor-pointer'}>
-                                                                        <a onClick={() => handleTabChange('asked-questions')}>Asked Questions</a>
-                                                                    </li>
-                                                                </ul>
-                                                                <hr/>
+                    <div className="cp__listing-wrap">
+                        <div className="container">
+                            <h2>Profile</h2>
+                            <hr/>
+                        </div>
+                        <section>
+                            <div className='container'>
+                                <div className='ul-group-set'>
+                                    <ul style={{overflowX: 'auto!important'}}>
+                                        <li className={activeTab === 'profile-details' ? 'li-active' : 'li-inactive'} onClick={() => handleTabChange('profile-details')}>
+                                            Personal Info
+                                        </li>   
+                                        <li className={activeTab === 'astrology-reports' ? 'li-active' : 'li-inactive'} onClick={() => handleTabChange('astrology-reports')}>
+                                            Payments
+                                        </li>
+                                        <li className={activeTab === 'asked-questions' ? 'li-active' : 'li-inactive'} onClick={() => handleTabChange('asked-questions')}>
+                                            Questions
+                                        </li>
+                                    </ul>
+                                </div>
 
-                                                                <div className="tab-content">
-                                                                    <div id="profile-details" className={`tab-pane fade in ${activeTab === 'profile-details' ? 'show active' : ''}`} onClick={() => { fetchUserData(); }}>
-                                                                        <div className="form-row">
-                                                                            <div className="col-md-6">
-                                                                                <div className="input-field">
-                                                                                    <label for="first_name">First Name</label>
-                                                                                    <input id="first_name" type="text" name="first_name" placeholder="Enter Firth Name" required value={user.first_name} {...register('first_name')}/>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div className="col-md-6">
-                                                                                <div className="input-field">
-                                                                                    <label for="last_name">Last Name</label>
-                                                                                    <input id="last_name" type="text" name="last_name" placeholder="Enter Last Name" required value={user.last_name} {...register('last_name')}/>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div className="col-md-6">
-                                                                                <div className="input-field">
-                                                                                    <label for="useremail">Email address</label>
-                                                                                    <input id="useremail" type="email" name="email" placeholder="Enter email" required value={user.email} {...register('email')}/>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div className="col-md-6">
-                                                                                <div className="input-field">
-                                                                                    <label for="birth_date">Date Of Birth</label>
-                                                                                    <input id="birth_date" type="date" name="birth_date" placeholder="Birth Date" required value={user.birth_date} {...register('birth_date')}/>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div className="col-md-6">
-                                                                                <div className="input-field">
-                                                                                    <label for="birth_time">Birth Time - (24 Hour Format)</label>
-                                                                                    <input id="birth_time" type="time" name="birth_time" required value={user.birth_time} {...register('birth_time')}/>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div className="col-md-6">
-                                                                                <div className="input-field">
-                                                                                    <label for="birth_place">Birth Place</label>
-                                                                                    <input id="birth_place" type="text" name="birth_place" placeholder="Birth Place" required value={user.birth_place} {...register('birth_place')}/>
-                                                                                </div>
-                                                                            </div>
-                                                                            {/* <div className="col-md-12">
-                                                                                <hr/>
-                                                                                <button type="submit" className="cricnotch-btn btn-filled radius-5">Save Changes</button>
-                                                                            </div> */}
-                                                                        </div>
-                                                                    </div>
-                                                                    <div id="view-kundli" className={`tab-pane fade ${activeTab === 'view-kundli' ? 'show active' : ''}`}>
-                                                                        <div className='row'>
-                                                                            <div className='col-md-4 display-set text-center'>
-                                                                                <Kundli housesData={user && user.kundli_data ? user.kundli_data : []}/>
-                                                                            </div>
-                                                                            <div className='col-md-8'>
-                                                                                <h2>Kundli Details</h2>
-                                                                                <ul>
-                                                                                {user && user.house_details ? user.house_details.map((detail, index) => (
-                                                                                    <li key={index}>{detail}</li>
-                                                                                )) : <li></li>}
-                                                                                </ul>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div id="astrology-reports" className={`tab-pane fade ${activeTab === 'astrology-reports' ? 'show active' : ''}`}>
-                                                                        <table className="table table-responsive">
-                                                                            <thead>
-                                                                                <tr>
-                                                                                    <th scope="col" className="text-12">CPJ ID</th>
-                                                                                    <th scope="col" className="text-12">Transaction ID</th>
-                                                                                    <th scope="col" className="text-12">Price</th>
-                                                                                    <th scope="col" className="text-12">Status</th>
-                                                                                    <th scope="col" className="text-12">Match</th>
-                                                                                    <th scope="col" className="text-12">Opponents</th>
-                                                                                    <th scope="col" className="text-12">Date</th>
-                                                                                    <th scope="col" className="text-12">Time</th>
-                                                                                    <th scope="col" className="text-12">Venue</th>
-                                                                                    <th scope="col" className="text-12">Pandit Name</th>
-                                                                                    <th scope="col" className="text-12">Astrology Report</th>
-                                                                                </tr>
-                                                                            </thead>
-                                                                            <tbody>
-                                                                            {(payments && payments.length > 0) ? payments.map((payment, index) => (
-                                                                                <tr key={index}>
-                                                                                    <td className='text-capitalize'>{payment && payment.merchant_transaction_id}</td>
-                                                                                    <td className='text-capitalize'>{(payment && payment.transaction_id) ?? 'N/A'}</td>
-                                                                                    <td className='text-capitalize'>₹ {payment && payment.amount}</td>
-                                                                                    <td className='text-capitalize'><span className={statusSet(payment.status)}>{payment && payment.status}</span></td>
-                                                                                    <td className='text-capitalize'>{payment && payment.match && payment.match.matchs}</td>
-                                                                                    <td>
-                                                                                        <div className="country-info text-capitalize">
-                                                                                            <span className="country-name text-13">{payment && payment.match && payment.match.team_a_short}</span>
-                                                                                            <span className="country-name text-12 mx-2">VS</span>
-                                                                                            <span className="country-name text-13">{payment && payment.match && payment.match.team_b_short}</span>
-                                                                                        </div>
-                                                                                    </td>
-                                                                                    <td>{payment && payment.match && payment.match.match_date}</td>
-                                                                                    <td>{payment && payment.match && payment.match.match_time}</td>
-                                                                                    <td>{payment && payment.match && payment.match.venue}</td>
-                                                                                    <td>Report By: <b>{payment && payment.pandit && payment.pandit.name}</b></td>
-                                                                                    <td className='text-center'>
-                                                                                        {payment && payment.match_id && payment.transaction_id ?
-                                                                                        <span style={{width: '130px'}} className="cricnotch-btn btn-filled py-05 cursor-pointer" onClick={() => navigate(`/match-reports/${payment.match_id}`)}>
-                                                                                            <i className='fa fa-eye'></i> View Report
-                                                                                        </span>
-                                                                                        : 
-                                                                                        <span>
-                                                                                            No Report
-                                                                                        </span>}
-                                                                                    </td>
-                                                                                </tr>
-                                                                            )) : 
-                                                                            <tr>
-                                                                                <td colSpan={10}>No Reports Yet</td>    
-                                                                            </tr>}
-                                                                            </tbody>
-                                                                        </table>
-                                                                    </div>
-                                                                    <div id="asked-questions" className={`tab-pane fade ${activeTab === 'asked-questions' ? 'show active' : ''}`}>
-                                                                        <div>
-                                                                            <u>Show Question : {showQuestion}</u> <br/>
-                                                                            {showQuestion && <span className='badge badge-primary cursor-pointer' onClick={()=>setShowQuestion(null)}><i class="fa fa-trash"></i>clear</span>}
-                                                                        </div>
-                                                                        <div>
-                                                                            <u>Show Answer : {showAnswer}</u> <br/>
-                                                                            {showAnswer && <span className='badge badge-primary cursor-pointer' onClick={()=>setShowAnswer(null)}><i class="fa fa-trash"></i>clear</span>}
-                                                                        </div>
-                                                                        <table className="table table-responsive">
-                                                                            <thead>
-                                                                                <tr>
-                                                                                    <th scope="col" className="text-12">Phone Number</th>
-                                                                                    <th scope="col" className="text-12">Question</th>
-                                                                                    <th scope="col" className="text-12">Answer</th>
-                                                                                    <th scope="col" className="text-12">Date</th>
-                                                                                </tr>
-                                                                            </thead>
-                                                                            <tbody>
-                                                                            {(questions && questions.length > 0) ? questions.map((question, index) => (
-                                                                                <tr key={index}>
-                                                                                    <td className='text-capitalize'>{question && question.wtsp_number}</td>
-                                                                                    <td className='text-capitalize'>
-                                                                                        {question && question.question && question.question.length > 100 ? 
-                                                                                        <span onClick={()=>setShowQuestion(question.question)}>
-                                                                                            <span className='badge badge-primary cursor-pointer'><i class="fa fa-eye"></i></span>
-                                                                                        </span> : question.question}</td>
-                                                                                    <td className='text-capitalize'>
-                                                                                        {question && !question.answer && (
-                                                                                        <span>
-                                                                                            N/A
-                                                                                        </span>)}
-                                                                                        {question && question.answer && question.answer.length > 100 ? 
-                                                                                        <span onClick={()=>setShowAnswer(question.answer)}>
-                                                                                            <span className='badge badge-primary cursor-pointer'><i class="fa fa-eye"></i></span>
-                                                                                        </span> : question.answer}
-                                                                                    </td>
-                                                                                    <td className='text-capitalize'>{moment(question.created_at).format('MMM Do YY, h:mm:ss') ?? 'N/A'}</td>
-                                                                                </tr>
-                                                                            )) : 
-                                                                            <tr>
-                                                                                <td colSpan={10}>No Questions Yet</td>    
-                                                                            </tr>}
-                                                                            </tbody>
-                                                                        </table>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </aside>
+                                <div className="tab-content mt-3">
+                                    <div id="profile-details" className={`tab-pane fade in ${activeTab === 'profile-details' ? 'show active' : ''}`} onClick={() => { fetchUserData(); }}>
+                                        <div className="cp__form-wrap">	
+                                            <div className="row">
+                                                <div className="col-md-6">
+                                                    <div className="cp__form-group">
+                                                        <label htmlFor="first_name">First Name</label>
+                                                        <input 
+                                                            id="first_name" 
+                                                            type="text" 
+                                                            name="first_name" 
+                                                            placeholder="Enter first name" 
+                                                            value={user.first_name}
+                                                            className='form-control'
+                                                        />
                                                     </div>
                                                 </div>
-                                            </form>
+                                                <div className="col-md-6">
+                                                    <div className="cp__form-group">
+                                                        <label htmlFor="last_name">Last Name</label>
+                                                        <input 
+                                                            id="last_name" 
+                                                            type="text" 
+                                                            name="last_name" 
+                                                            placeholder="Enter last name" 
+                                                            value={user.last_name}
+                                                            className="form-control" 
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="row">
+                                                <div className="col-md-6">
+                                                    <div className="cp__form-group">
+                                                        <label htmlFor="birth_date">Birth Date</label>
+                                                        <input 
+                                                            id="birth_date" 
+                                                            type="date" 
+                                                            name="birth_date" 
+                                                            placeholder="Enter birth date" 
+                                                            value={user.birth_date}
+                                                            className="form-control" 
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <div className="cp__form-group">
+                                                        <label htmlFor="birth_time">Birth Time (24-hour format)</label>
+                                                        <input 
+                                                            id="birth_time"  
+                                                            type="time" 
+                                                            name="birth_time"  
+                                                            placeholder="Enter birth time" 
+                                                            value={user.birth_time}
+                                                            className="form-control" 
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="row">
+                                                <div className="col-md-6">
+                                                    <div className="cp__form-group">
+                                                        <label htmlFor="location">Birth Place</label>
+                                                        <input 
+                                                            id="birth_place"  
+                                                            type="text" 
+                                                            name="birth_place"  
+                                                            placeholder="Enter birth time" 
+                                                            value={user.birth_place}
+                                                            className="form-control" 
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <div className="cp__form-group">
+                                                        <label htmlFor="useremail">Email Address</label>
+                                                        <input 
+                                                            id="email" 
+                                                            type="email" 
+                                                            name="email" 
+                                                            placeholder="Enter email" 
+                                                            value={user.email}
+                                                            className="form-control" 
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr className='mt-0 mb-4'/>
+                                            <div className='row'>
+                                                <div className='col-md-4 display-set text-center'>
+                                                    <Kundli housesData={user && user.kundli_data ? user.kundli_data : []}/>
+                                                </div>
+                                                <div className='col-md-8'>
+                                                    <h2>Kundli Details</h2>
+                                                    <ul>
+                                                    {user && user.house_details ? user.house_details.map((detail, index) => (
+                                                        <li key={index}>{detail}</li>
+                                                    )) : <li></li>}
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="astrology-reports" className={`tab-pane fade ${activeTab === 'astrology-reports' ? 'show active' : ''}`}>
+                                        <div className="table-responsive" style={{color: '#fff'}}>
+                                            <table className="table">
+                                                <thead className="table-dark">
+                                                    <tr>
+                                                        <th scope="col">CPJ ID</th>
+                                                        <th scope="col">Transaction ID</th>
+                                                        <th scope="col">Price</th>
+                                                        <th scope="col">Status</th>
+                                                        <th scope="col">Match</th>
+                                                        <th scope="col">Opponents</th>
+                                                        <th scope="col">Date</th>
+                                                        <th scope="col">Time</th>
+                                                        <th scope="col">Venue</th>
+                                                        <th scope="col">Pandit Name</th>
+                                                        <th scope="col">Astrology Report</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {(payments && payments.length > 0) ? payments.map((payment, index) => (
+                                                        <tr key={index}>
+                                                            <td className='text-capitalize'>{payment && payment.merchant_transaction_id}</td>
+                                                            <td className='text-capitalize'>{(payment && payment.transaction_id) ?? 'N/A'}</td>
+                                                            <td className='text-capitalize'>₹ {payment && payment.amount}</td>
+                                                            <td className='text-capitalize'><span className={statusSet(payment.status)}>{payment && payment.status}</span></td>
+                                                            <td className='text-capitalize'>{payment && payment.match && payment.match.matchs}</td>
+                                                            <td>
+                                                                <span>{payment && payment.match && payment.match.team_a_short} VS {payment && payment.match && payment.match.team_b_short}</span>
+                                                            </td>
+                                                            <td>{payment && payment.match && payment.match.match_date}</td>
+                                                            <td>{payment && payment.match && payment.match.match_time}</td>
+                                                            <td>{payment && payment.match && payment.match.venue}</td>
+                                                            <td>{payment && payment.pandit && payment.pandit.name}</td>
+                                                            <td className='text-center'>
+                                                                {payment && payment.match_id && payment.transaction_id ?
+                                                                <span style={{width: '130px'}} className="cp__fill-btn-profile" onClick={() => navigate(`/match-reports/${payment.match_id}`)}>
+                                                                    <i className='fa fa-eye'></i> View Report
+                                                                </span>
+                                                                : 
+                                                                <span>
+                                                                    No Report
+                                                                </span>}
+                                                            </td>
+                                                        </tr>
+                                                    )) : 
+                                                    <tr>
+                                                        <td colSpan={10}>No Reports Yet</td>    
+                                                    </tr>}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div id="asked-questions" className={`tab-pane fade ${activeTab === 'asked-questions' ? 'show active' : ''}`}>
+                                        <div>
+                                            <u>Show Question : {showQuestion}</u> <br/>
+                                            {showQuestion && <span className='badge badge-primary cursor-pointer' onClick={()=>setShowQuestion(null)}><i className="fa fa-trash"></i>clear</span>}
+                                        </div>
+                                        <div>
+                                            <u>Show Answer : {showAnswer}</u> <br/>
+                                            {showAnswer && <span className='badge badge-primary cursor-pointer' onClick={()=>setShowAnswer(null)}><i className="fa fa-trash"></i>clear</span>}
+                                        </div>
+                                        <div className="table-responsive mt-3" style={{color: '#fff'}}>
+                                            <table className="table">
+                                                <thead className="table-dark">
+                                                    <tr>
+                                                        <th scope="col">Phone Number</th>
+                                                        <th scope="col">Question</th>
+                                                        <th scope="col">Answer</th>
+                                                        <th scope="col">Date</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                {(questions && questions.length > 0) ? questions.map((question, index) => (
+                                                    <tr key={index}>
+                                                        <td className='text-capitalize'>{question && question.wtsp_number}</td>
+                                                        <td className='text-capitalize'>
+                                                            {question && question.question && question.question.length > 100 ? 
+                                                            <span onClick={()=>setShowQuestion(question.question)}>
+                                                                <span className='badge badge-primary cursor-pointer'><i className="fa fa-eye"></i></span>
+                                                            </span> : question.question}</td>
+                                                        <td className='text-capitalize'>
+                                                            {question && !question.answer && (
+                                                            <span>
+                                                                N/A
+                                                            </span>)}
+                                                            {question && question.answer && question.answer.length > 2 ? 
+                                                            <span onClick={()=>setShowAnswer(question.answer)}>
+                                                                <span className='badge badge-primary cursor-pointer'><i className="fa fa-eye"></i></span>
+                                                            </span> : question.answer}
+                                                        </td>
+                                                        <td className='text-capitalize'>{moment(question.created_at).format('MMM Do YY, h:mm:ss') ?? 'N/A'}</td>
+                                                    </tr>
+                                                )) : 
+                                                <tr>
+                                                    <td colSpan={10}>No Questions Yet</td>    
+                                                </tr>}
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </section>
                     </div>
-                </section>
-            </div>
-            <Footer/>
+                </div>
+            </main>                                     
+            <FooterV2/>
         </>
     );
 }

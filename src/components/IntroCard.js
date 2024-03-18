@@ -3,10 +3,10 @@ import React from 'react'
 export default function IntroCard() {
     return (
         <div className='card card-shadow p-3 custom-intro'>
-            <div class="content-card card-grid content-align-center">
+            <div className="content-card card-grid content-align-center">
                 <img src="/assets/images/intro-pandit.png" alt="" className='pandit-intro-img mb-3'/>
                 
-                <div class="px-4 content-block">
+                <div className="px-4 content-block">
                     <p className=''>
                         At CricketPanditJi, we are not just a website; we are your go-to destination for an immersive cricket experience. Whether you're a passionate cricket enthusiast or a fan seeking in-depth insights, we've got you covered.
                     </p>

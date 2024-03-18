@@ -1,6 +1,6 @@
 const getBallStyle = (val) => {
     if(val == 0){
-        return '#000000';
+        return '#7b7b7b';
     }else if(val == 1){
         return '#4682B4';
     }else if(val == 2){

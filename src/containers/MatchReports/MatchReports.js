@@ -367,8 +367,8 @@ function MatchReports() {
                                                         </div>
                                                     </div>
                                                     <div className='col-md-8'>
-                                                        <div class="info-body">
-                                                            <ul class="list-striped mr-05">
+                                                        <div className="info-body">
+                                                            <ul className="list-striped mr-05">
                                                                 <li>
                                                                     <span>Name</span>
                                                                     <p>{user.first_name + " " + user.last_name}</p>
@@ -390,7 +390,7 @@ function MatchReports() {
                                                                     <p>{user.latitude}</p>
                                                                 </li>
                                                             </ul>
-                                                            <ul class="list-striped">
+                                                            <ul className="list-striped">
                                                                 <li>
                                                                     <span>Longitude</span>
                                                                     <p>{user.longitude}</p>

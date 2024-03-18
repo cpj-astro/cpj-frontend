@@ -7,7 +7,7 @@ export default function MatchCard({match, index}) {
         <div className="score-card card-shadow p-0 mt-3" key={index}>
             <div className="score-card-inner"  onClick={() => {navigate(`/live-score-board/${match.match_id}`)}}>
                 <div className="score-card-header text-center">
-                    <span>{match.series_name}</span>
+                    <span>{'(' + match.match_type + ')' + ' ' + (match.series_name ? match.series_name : '')}</span>
                     <div className='text-center owl-it' style={{display:'flex', alignItems: 'center', justifyContent:'center'}}>
                         {match.match_category == 'live' && <span className='online-red-dot'></span>}
                         <strong>
@@ -56,11 +56,16 @@ export default function MatchCard({match, index}) {
                     }
                     <div>
                         <span className='country-name mr-3'>{match.fav_team}</span>
-                        <span className='min-r-set'>{match && match.back1 ? match.back1 : '0.0'}</span>
-                        <span className='max-r-set'>{match && match.lay1 ? match.lay1 : '0.0'}</span>
+                        <span className='min-r-set'>{match && match.back2 ? match.back2 : '0.0'}</span>
+                        <span className='max-r-set'>{match && match.lay2 ? match.lay2 : '0.0'}</span>
                     </div>
                 </div>
             </div>
+            {(match.result !== null || match.result !== '') &&
+                <div className=''>
+                    {match.result}
+                </div>
+            }  
             {match.astrology_status === 'enable' && !match.astro_on_live ?
             <div className="button-container">
                 <button className="theme-button-1" onClick={() => {navigate(`/live-score-board/${match.match_id}`)}}>View Liveline</button>

@@ -20,7 +20,6 @@ import Reviews from '../../components/Reviews';
 import MatchCard from '../../components/MatchCard';
 import MatchLoader from '../../components/MatchLoader';
 import moment from 'moment';
-import { Modal, Button } from 'react-bootstrap';
 import IntroCard from '../../components/IntroCard';
 import Feedback from '../Feedback';
 
@@ -233,14 +232,6 @@ const HomePage = () => {
 			}
 		}
 	}, [ads, currentIndex]);
-
-	useEffect(() => {
-		if (localStorage.getItem('match_id')) {
-		onSnapshot(doc(db, "matchdata", localStorage.getItem('match_id')), (doc) => {
-			setMatchData(doc.data());
-		});
-		}
-	}, [localStorage.getItem('match_id')]);
 	
 	useEffect(() => {
 		fetchUpcomingList();
@@ -256,7 +247,6 @@ const HomePage = () => {
 		const userId = localStorage.getItem("user_data");
 		
 		const fetchMatchDataIds = async () => {
-			console.log("if data payload");
 			try {
 				const userSubscribeMatchRef = doc(db, "user_subscribe_match", userId);
 				const userSubscribeMatchDoc = await getDoc(userSubscribeMatchRef);
@@ -282,7 +272,6 @@ const HomePage = () => {
 						data.dateLive = moment().format("DD-MMM, HH:mm A")
 						data.match_category = 'live';
 						data.is_paid = false;
-						data.series_name = data.match_type;
 						allMatches.push(data);
 					}
 				});
@@ -312,7 +301,6 @@ const HomePage = () => {
 						}
 						data.dateLive = moment().format("DD-MMM, HH:mm A")
 						data.match_category = 'live';
-						data.series_name = data.match_type;
 						allMatches.push(data);
 					}
 				});
@@ -356,21 +344,6 @@ const HomePage = () => {
 	return (
 		<>
 			<Header/>
-			{/* <Modal show={showModal} scrollable={true} size="lg" onHide={handleCloseModal}  style={{paddingLeft: '0px'}}>
-				<Modal.Header closeButton>
-					<Modal.Title>
-						<h1 className='widget-title-intro'>Welcome to CricketPanditJi – Where Astrology meets Cricket!</h1>
-					</Modal.Title>
-				</Modal.Header>
-				<Modal.Body>
-					<IntroCard />
-				</Modal.Body>
-				<Modal.Footer>
-					<Button variant="secondary" onClick={handleCloseModal}>
-						Close
-					</Button>
-				</Modal.Footer>
-            </Modal> */}
 			<header className="header">
 				<section className="header-middle" style={{paddingBottom: '0px'}}>
 					<div className="container">
@@ -461,18 +434,18 @@ const HomePage = () => {
 																		<h3 className="widget-title">Cricket Panditji (Pandit)</h3>
 																		<OwlCarousel autoplay={true} autoplayTimeout={3000} loop={false} className='owl-theme' dots={true} arrows={false} items={1} key={new Date().getTime()} >
 																			{(panditData && panditData.length > 0) && panditData.map((pandit, index) => (
-																				<div class="pandit-container">
-																					<div class="pandit-card">
-																						<div class="pandit-header">
-																							<img src={`/assets/images/pandits/${pandit.avatar_image}`} alt={pandit.name} class="pandit-avatar" />
-																							<div class="pandit-details">
-																								<div class="pandit-name">
+																				<div className="pandit-container">
+																					<div className="pandit-card">
+																						<div className="pandit-header">
+																							<img src={`/assets/images/pandits/${pandit.avatar_image}`} alt={pandit.name} className="pandit-avatar" />
+																							<div className="pandit-details">
+																								<div className="pandit-name">
 																									{pandit.name}
 																								</div>
-																								<div class="pandit-status">
+																								<div className="pandit-status">
 																								Experience : {pandit.experience == 1 ? pandit.experience + ' Year' : pandit.experience + ' Years'}
 																								</div>
-																								<div class="pandit-status">
+																								<div className="pandit-status">
 																								Astrology: ₹ {pandit.match_astrology_price}
 																								</div>
 																							</div>
@@ -482,7 +455,7 @@ const HomePage = () => {
 																								<i key={index} className="fa fa-star text-warning ml-1"></i>
 																							))} <i key={index} className="fa fa-star-half text-warning ml-1"></i> ({pandit.rating} out of 5 stars)
 																						</h4>
-																						<div class="pandit-quote">
+																						<div className="pandit-quote">
 																							{pandit.description}
 																						</div>
 																					</div>

@@ -5,8 +5,8 @@ export default function MatchLoader() {
     <div className="score-card card-shadow p-0 mt-3 mb-5">
         <div className="score-card-inner">
             <div className="score-card-header text-center">
-                <span class="skeleton-loader-gradient"></span>
-                <span class="skeleton-loader-gradient"></span>
+                <span className="skeleton-loader-gradient"></span>
+                <span className="skeleton-loader-gradient"></span>
             </div>
             <div className="score-card-body mt-2">
                 <div className="country-info">
@@ -26,27 +26,27 @@ export default function MatchLoader() {
                         </figure>
                     </div>
                 </div>
-                <span class="skeleton-loader-gradient mt-2"></span>
+                <span className="skeleton-loader-gradient mt-2"></span>
             </div>
-            <span class="skeleton-loader-gradient mt-2"></span>
+            <span className="skeleton-loader-gradient mt-2"></span>
 
             <div className='mt-2' style={{display:'flex', justifyContent: 'space-between', marginLeft: '-15px', marginRight: '-15px'}}>
                 <div className="col-md-4">
-                    <span class="skeleton-loader-gradient mt-1"></span>
+                    <span className="skeleton-loader-gradient mt-1"></span>
                 </div>
                 <div className="col-md-4">
-                    <span class="skeleton-loader-gradient mt-1"></span>
+                    <span className="skeleton-loader-gradient mt-1"></span>
                 </div>
                 <div className="col-md-4">
-                    <span class="skeleton-loader-gradient mt-1"></span>
+                    <span className="skeleton-loader-gradient mt-1"></span>
                 </div>
             </div>
             <div className='mt-1' style={{display:'flex', justifyContent: 'space-between', marginLeft: '-15px', marginRight: '-15px'}}>
                 <div className="col-md-6">
-                    <span class="skeleton-loader-gradient mt-1"></span>
+                    <span className="skeleton-loader-gradient mt-1"></span>
                 </div>
                 <div className="col-md-6">
-                    <span class="skeleton-loader-gradient mt-1"></span>
+                    <span className="skeleton-loader-gradient mt-1"></span>
                 </div>
             </div>
         </div>

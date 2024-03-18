@@ -1,0 +1,123 @@
+.cp__menu-wrap li a {
+    color: #ffffff;
+    display: inline-block;
+    padding: 0 16px;
+    font-size: 18px;
+    transition: all 0.2s ease-in-out;
+}
+.cp__fill-btn span {
+    display: inline-block;
+    width: 13px;
+    height: 13px;
+    background-color: #0F0E0E;
+    border-radius: 100px;
+    margin-right: 8px;
+    line-height: normal;
+    transition: all 0.2s ease-in-out;
+    animation: pulse 0.5s infinite;
+}
+@keyframes pulse{
+    0%, 100% {
+        transform: scale(1);
+    }
+    
+    50% {
+        transform: scale(1.2);
+    }
+}
+.cp__fill-btn:hover span{
+    background-color: #00FFFF;
+}
+.cp__header-right .cp__fill-btn {
+    padding: 8px 30px;
+}
+.cp__header-right .cp__link-btn img {
+    max-width: 24px;
+    margin-left: 12px;
+}
+.cp__user-profile.dropdown .dropdown-toggle img {
+    max-width: 45px;
+}
+.cp__link-btn .cp__white {
+    display: none;
+}
+.cp__header-right .cp__link-btn:hover .cp__green {
+    display: none;
+}
+.cp__header-right .cp__link-btn:hover .cp__white {
+    display: inline-block;
+}
+header {
+    padding: 21px 0;
+    border-bottom: 1px solid #dddddd;
+    position: relative;
+    z-index: 9999;
+}
+.cp__menu-wrap .active a,
+.cp__menu-wrap li:hover a {
+    color: #00FFFF;
+}
+.cp__logo img {
+    max-width: 100%;
+}
+.bm__header-left {
+    width: 12%;
+}
+.cp__user-profile.dropdown .dropdown-toggle {
+    background-color: transparent;
+    box-shadow: unset;
+    border: 0;
+}
+.cp__user-profile .dropdown-item img {
+    width: auto;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+.cp__user-profile li:last-child img {
+    max-width: 21px;
+    margin-right: 11px;
+}
+.cp__user-profile ul {
+    padding: 0;
+}
+.cp__user-profile li {
+    padding: 0;
+}
+.cp__user-profile li a {
+    border-bottom: 1px solid #dddddd;
+    padding: 12px 15px;
+}
+.cp__user-profile li:last-child {
+    border-bottom: 0;
+}
+.cp__user-profile a.dropdown-item {
+    color: #0F0E0E;
+}
+.cp__user-profile .dropdown-item:focus, .cp__user-profile .dropdown-item:hover {
+    background-color: rgb(184 184 184 / 36%);
+}
+@media (max-width:991px){
+    .cp__header-middle li {
+        width: 100%;
+        padding: 12px 6px;
+        border-bottom: 1px solid rgb(221 221 221 / 29%);
+    }
+    .cp__header-middle {
+        display: none;
+    }
+    .bm__header-left {
+        order: 1;
+        width: 132px;
+    }
+    .cp__header-right {
+        order: 3;
+    }
+    header {
+        background-color: #212121;
+    }
+    .cp__header-right .cp__fill-btn, .cp__header-right .cp__link-btn {
+        padding: 6px 14px;
+        font-size: 14px;
+    }
+   
+}

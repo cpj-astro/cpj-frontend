@@ -13,7 +13,7 @@ function drawHouse(context, points) {
 
 function drawText(context, x, y, maintext, subtext) {
   context.font = "10px Comic Sans MS";
-  context.fillStyle = "black"; // Change the text color to black
+  context.fillStyle = "white"; // Change the text color to black
   context.fillText(maintext, x * context.canvas.width / 100, y * context.canvas.height / 100);
 }
 

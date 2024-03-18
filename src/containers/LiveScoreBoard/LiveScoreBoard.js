@@ -14,6 +14,8 @@ import Scorecard from '../../components/ScoreCard';
 import OddHistory from '../../components/OddHistory';
 import Commentary from '../../components/Commentary';
 import PlayingXI from '../../components/PlayingXI';
+import HeaderV2 from '../../components/HeaderV2';
+import FooterV2 from '../../components/FooterV2';
 
 function LiveScoreBoard() {
     const navigate = useNavigate();
@@ -439,7 +441,7 @@ function LiveScoreBoard() {
     }, []);
     return (
 		<>
-            <Header/>
+            <HeaderV2/>
             <header className="header">
                 <section className="header-middle">
                     <div className="container">
@@ -461,10 +463,10 @@ function LiveScoreBoard() {
                                             {matchData && matchData.first_circle ? getDisplayContent(getCricketTermDescription(matchData.first_circle)) : ''}
                                         </div>
                                         <div className='rate-container'>
-                                            <div class="left-side">
+                                            <div className="left-side">
                                                 <p>C.R.R - {matchData && matchData.curr_rate ? matchData.curr_rate : '0.00'}</p>
                                             </div>
-                                            <div class="right-side">
+                                            <div className="right-side">
                                                 <p>R.R.R - {matchData && matchData.rr_rate ? matchData.rr_rate : '0.00'}</p>
                                             </div>
                                         </div>
@@ -533,22 +535,6 @@ function LiveScoreBoard() {
                                 <button className="mt-15 btn-astro-v1" onClick={() => {navigate(`/match-reports/${id}`)}}>{matchDetails.button_text}</button>
                             }
                         </div>}
-                        {/* {(matchData.match_category !== 'recent' && isEnableAstro) && (
-                            astroStatus ? (
-                                <button className="mt-15 btn-astro-v1" onClick={() => {navigate(`/match-reports/${id}`)}}> 
-                                    View Astrology
-                                </button>
-                            ) : (
-                                <button className="mt-15 btn-astro-v1" onClick={() => {navigate(`/match-reports/${id}`)}}> 
-                                    Buy Astrology
-                                </button>
-                            )
-                        )}
-                        {(matchData.match_category == 'recent' && isEnableAstro) && (
-                            <button className="mt-15 btn-astro-v1" onClick={() => {navigate(`/match-reports/${id}`)}}> 
-                                View Astrology
-                            </button>
-                        )} */}
                     </div>
                 </section>
             </header>
@@ -577,9 +563,6 @@ function LiveScoreBoard() {
                                                         <li className={activeTab === 'liveline' ? 'cursor-pointer active' : 'cursor-pointer'}>
                                                             <a onClick={() => handleTabChange('liveline')}>Live</a>
                                                         </li>
-                                                        {/* <li className={activeTab === 'liveastrology' ? 'cursor-pointer active' : 'cursor-pointer'}>
-                                                            <a onClick={() => handleTabChange('liveastrology')}>Astrology</a>
-                                                        </li> */}
                                                         <li className={activeTab === 'info' ? 'cursor-pointer active' : 'cursor-pointer'} onClick={() => {fetchMatchInfoByMatchId();}}>
                                                             <a onClick={() => handleTabChange('info')}>Info</a>
                                                         </li>
@@ -1017,7 +1000,7 @@ function LiveScoreBoard() {
                     </div>
                 </div>
             </div>
-            <Footer/>
+            <FooterV2/>
 		</>
     );
 }

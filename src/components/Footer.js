@@ -99,7 +99,7 @@ function Footer() {
 					</div>
 				</div>
 			}
-			<div class="help" onClick={() => toggleAskForm()}>
+			<div className="help" onClick={() => toggleAskForm()}>
 			{askToggle ? 'X' : '?'}
 			</div>
 		</footer>

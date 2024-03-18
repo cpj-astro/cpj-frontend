@@ -5,6 +5,8 @@ import { useForm } from 'react-hook-form';
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import { useNavigate } from 'react-router-dom';
+import HeaderV2 from '../../components/HeaderV2';
+import FooterV2 from '../../components/FooterV2';
 
 export default function ContactUs() {
     const { register, handleSubmit, setValue, getValues, watch, reset, formState, formState: { isSubmitSuccessful } } = useForm();
@@ -51,7 +53,7 @@ export default function ContactUs() {
 	};
     return (
         <>
-            <Header/>
+            <HeaderV2/>
             <div id="main" className="main-container contactus">
                 <div className="container breadcrumb-area">
                     <div className="breadcrumb">
@@ -100,7 +102,7 @@ export default function ContactUs() {
                     </div>
                 </section>
             </div>
-            <Footer/>
+            <FooterV2/>
         </>
     )
 }

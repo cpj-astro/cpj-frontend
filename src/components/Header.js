@@ -115,7 +115,7 @@ export default function Header() {
                                         <div className="logged-user-dropdown" style={dropDownStyle}>
                                             <ul>
                                                 <li>
-                                                    <a href={'/sign-in'}><i className="fas fa-sign-in-alt"></i> Sign In</a>
+                                                    <a href={'/sign-up'}><i className="fas fa-sign-in-alt"></i> Sign In</a>
                                                 </li>
                                             </ul>
                                         </div>
