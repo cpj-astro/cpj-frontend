@@ -1051,10 +1051,12 @@ export default function LiveLineV2() {
                                             </div>
                                         </div>
                                         <div id="playingXI" className={`tab-pane fade in ${activeTab === 'playingXI' ? 'show active' : ''}`}>
-                                            {playingXI ? <PlayingXI playingXIData={playingXI}/> : "No Data"}
+                                            {playingXI && playingXI.length == 0 && 'No Data'}
+                                            {playingXI ? <PlayingXI playingXIData={playingXI}/> : "Loading..."}
                                         </div>
                                         <div id="commentary" className={`tab-pane fade in ${activeTab === 'commentary' ? 'show active' : ''}`}>
-                                            {comData ? <Commentary commentaryData={comData}/> : "No Data"}
+                                            {comData && comData.length == 0 && 'No Data'}
+                                            {comData ? <Commentary commentaryData={comData}/> : "Loading..."}
                                         </div>
                                         <div id="scorecard" className={`tab-pane fade in ${activeTab === 'scorecard' ? 'show active' : ''}`}>
                                             {scoreCard && scoreCard.length == 0 && 'No Data'}
