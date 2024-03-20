@@ -1032,9 +1032,6 @@ export default function LiveLineV2() {
                                                             {matchInfo && matchInfo.venue_weather && matchInfo.venue_weather.weather ? matchInfo.venue_weather.weather : ''}
                                                         </div>
                                                         <div>
-                                                            {matchInfo && matchInfo.venue_weather && matchInfo.venue_weather.wind_mph ? matchInfo.venue_weather.wind_mph + 'm/h' : ''} 
-                                                        </div>
-                                                        <div>
                                                             Wind Speed - {matchInfo && matchInfo.venue_weather && matchInfo.venue_weather.wind_mph ? matchInfo.venue_weather.wind_mph + 'm/h' : ''} 
                                                         </div>
                                                         <div>
