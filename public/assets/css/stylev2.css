@@ -26,9 +26,6 @@ body {
 img{
     width: 100%;
 }
-:root {
-
-}
 .container-fluid{
  padding: 0 34px;
 }
@@ -216,7 +213,7 @@ h2.cp__sec-title{
 span.cp__blue, span.cp__red {
     background-color: #0076ff;
     border-radius: 7px;
-    color: #0F0E0E;
+    color: #fff;
     display: inline-block;
     padding: 2px 10px;
     font-weight: 500;
@@ -482,6 +479,26 @@ li.cp__before-dot {
   
 }
 /* company overview section end */
+
+.cp__coverview-sec .cp__moon-sign {
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+}
+
+.cpj-loader {
+    height: 30px;
+    width: auto;
+    margin: auto;
+}
+  
+.loader-container {
+    width: 100%;
+    text-align: center;
+    height: 100vh;
+}
+
 /* feature section css start */
 .cp__feature-sec ul li button {
     text-align: left;
@@ -1128,7 +1145,7 @@ li.cp__before-dot {
 }
 
 .cp__fill-btn-live {
-    margin: 10px 0px -5px;
+    margin: 7px 0px -5px;
     color: #0F0E0E;
     cursor: pointer;
     border-radius: 100px;
@@ -1191,6 +1208,7 @@ li.cp__before-dot {
 
 .cp__fill-btn-profile {
     cursor: pointer;
+    padding: 0px 7px;
     color: #0F0E0E;
     border-radius: 100px;
     border: 2px solid #00FFFF;
@@ -1203,6 +1221,42 @@ li.cp__before-dot {
     display: block;
     text-align: center;
     animation: pulse-animation 1s infinite;
+}
+
+.fit-content {
+    width: fit-content;
+    }
+  
+.m-time-set {
+    border-top: 1px solid #d2d2d2;
+}
+
+.fancy-min {
+    color: #0076ff;
+}
+
+.fancy-max {
+    color: #f81616;
+}
+
+.fancy-b-min {
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    color: #fff;
+    justify-content: center;
+    background-color: #0076ff;
+}
+
+.fancy-b-max {
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    color: #fff;
+    justify-content: center;
+    background-color: #F81616;
 }
 
 .spell-sum-box {
@@ -1341,7 +1395,7 @@ li.cp__before-dot {
 }
 
 .ul-group-set {
-    margin-top: 10px;
+    margin-top: 13px;
 }
 
 .ul-group-set ul {
@@ -1358,6 +1412,123 @@ li.cp__before-dot {
     min-width: 140px;
     width: 100%;
     text-align: center;
+}
+
+.w-img-set {
+    height: 50px;
+    margin-top: 10px;
+    width: auto;
+}
+
+.weather-card {
+    padding: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(1.2em);
+    /* background: url('https://i.postimg.cc/2y8wPwX3/7cd57f8b757aea1e128f2f8f6b2c1983.gif') no-repeat;
+    background-repeat: no-repeat;
+    background-size: cover; */
+}
+
+.cp__justify-content {
+    display: flex;
+    justify-content: space-between;
+}
+
+.left-col-set {
+    font-size: smaller;
+    text-transform: uppercase;
+}
+
+.c-run-set-1 {
+    margin-top: 5px;
+    height: 28px;
+    width: 28px;
+    background-color: #6c757d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-weight: 500;
+    border-radius: 100%;
+}
+  
+.c-run-set-2 {
+    height: 28px;
+    width: 28px;
+    background-color: #3f8a36;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-weight: 500;
+    border-radius: 100%;
+}
+
+.type-1-comment {
+    margin: 10px 0px;
+    background: #373737;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.type-s-1 {
+    margin-right: 5px;
+}
+
+.type-s-2-1 {
+    color: #7298ba;
+    margin-right: 5px;
+}
+
+.type-s-2-2 {
+    color: #3f8a36;
+    margin-right: 5px;
+}
+
+.type-s-3 {
+    color: #00FFFF;
+}  
+
+.right-col-set {
+    padding: 0px 10px;
+    display: flex;
+    background-color: #3c3c3c;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 5px;
+    font-size: smaller;
+}
+
+.right-odd {
+    margin-right: 10px;
+    color: #00FFFF;
+}
+
+.left-odd {
+    color: darkorange;
+}
+
+.c-type-2-set {
+    background-color: #212020;
+    border: 1px solid #dddddd;
+    border-radius: 12px;
+    color: #fff;
+}
+
+.playx11 .accordion {
+    cursor: pointer;
+}
+
+.playx11 .accordion-item {
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+.display-s-set {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .cp__form-wrap .form-control {
@@ -1542,6 +1713,7 @@ textarea.form-control{
 .cp__listing-wrap .cp__card-btngrp .cp__fill-btn {
     padding: 10px 16px;
     font-size: 18px;
+    white-space: nowrap;
 }
 .cp__listing-wrap .cp__card.cp__single-btn .cp__card-btngrp .cp__fill-btn{
     width: 100%;

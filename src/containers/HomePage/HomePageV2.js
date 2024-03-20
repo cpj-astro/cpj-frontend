@@ -387,7 +387,7 @@ export default function HomePageV2() {
                 <h2>Enroll Today and Transform Your <span className="cp__txt-green">Cricket Game</span></h2>
                 <h1>Maximize your winning chances with cricket astrology predictions. Unlock star-guided insights to boost your game strategy and dominate the field</h1>
                 <a href="#" className="cp__fill-btn">Get Started<img src="assets/images/arrow-right-black.svg" alt="logo" className="cp__black" />
-                  <img src="assets/images/arrow-right-green.svg" alt="logo" className="cp__green" />
+                  <img src="assets/images/arrow-right-blue.svg" alt="logo" className="cp__blue" />
                 </a>
               </div>
               <div className="col-lg-6 col-sm-12 cp__hero-cardslider" data-aos="fade-left">

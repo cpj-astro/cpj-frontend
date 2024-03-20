@@ -48,22 +48,22 @@ export default function MatchListCard({match, index}) {
             </div>
             {match.astrology_status === 'enable' && !match.astro_on_live ?
             <div className="cp__card-btngrp d-flex align-items-center justify-content-between">
-                <button className="cp__fill-btn" onClick={() => {navigate(`/live-score-board/${match.match_id}`)}}>View Liveline</button>
+                <a className="cp__fill-btn" href={`/live-score-board/${match.match_id}`}>View Liveline</a>
                 {match.match_category == 'recent' && match.payment_id && 
-                    <button className="cp__fill-btn" onClick={() => {navigate(`/match-reports/${match.match_id}`)}}>View Astrology</button>
+                    <a href={`/match-reports/${match.match_id}`} className="cp__fill-btn">View Astrology</a>
                 }
                 {match.match_category !== 'recent' &&
-                    <button className="cp__fill-btn" onClick={() => {navigate(`/match-reports/${match.match_id}`)}}>{match.button_text}</button>
+                    <a href={`/match-reports/${match.match_id}`} className="cp__fill-btn">{match.button_text ?? 'Buy Astrology'}</a>
                 }
             </div>
             : 
             <div className="cp__card-btngrp d-flex align-items-center justify-content-between">
-                <button className="cp__fill-btn" onClick={() => {navigate(`/live-score-board/${match.match_id}`)}}>View Liveline</button>
+                <a className="cp__fill-btn" href={`/live-score-board/${match.match_id}`}>View Liveline</a>
                 {match.astrology_status === 'enable' && match.astro_on_live && match.is_paid &&
-                    <button className="cp__fill-btn" onClick={() => {navigate(`/match-reports/${match.match_id}`)}}>View Astrology</button>
+                    <a href={`/match-reports/${match.match_id}`} className="cp__fill-btn">View Astrology</a>
                 }
                 {match.astrology_status === 'enable' && match.astro_on_live && !match.is_paid &&
-                    <button className="cp__fill-btn" onClick={() => {navigate(`/match-reports/${match.match_id}`)}}>Buy Astrology</button>
+                    <a href={`/match-reports/${match.match_id}`} className="cp__fill-btn">Buy Astrology</a>
                 }
             </div>}
             {match.match_category &&

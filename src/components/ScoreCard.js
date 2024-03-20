@@ -1,25 +1,41 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const Scorecard = ({ scorecardData }) => {
+    const [openAccordion, setOpenAccordion] = useState({});
+
     let scorecardValues = null;
     if(scorecardData && scorecardData.scorecard) {
         scorecardValues = Object.values(scorecardData.scorecard);
     } else {
         return
     }
+
+    const toggleAccordion = (s_key) => {
+        setOpenAccordion((prevState) => {
+            // Close all accordions
+            const newOpenAccordion = {};
+            Object.keys(prevState).forEach(key => {
+                newOpenAccordion[key] = false;
+            });
+            // Open the selected accordion
+            newOpenAccordion[s_key] = !prevState[s_key];
+            return newOpenAccordion;
+        });
+    };
     return (
-        <>
+        <div className='playx11'>
             {scorecardValues && scorecardValues.length > 0 && scorecardValues.map((data, index) => (
-                <div key={index} className="accordion" id={`accordion${index + 1}`}>
+                <div key={index} className="accordion" id={`accordion${index + 1}`} onClick={() => toggleAccordion(index + 1)}>
                     <div className="accordion-item">
-                        <h5 className="" data-toggle="collapse" data-target={`#bd_innings${index + 1}`} aria-expanded="true">
+                        <h5 className="mb-0" data-toggle="collapse" data-target={`#bd_innings${index + 1}`} aria-expanded={openAccordion[index + 1]}>
                             {data.team && data.team.name ? (data.team.name + ' Innings') : ("Team " + (index+1))}
                         </h5>
-                        <div id={`bd_innings${index + 1}`} className={`collapse${index === 0 ? ' show' : ''}`} data-parent={`#accordion${index + 1}`}>
+                        {openAccordion[index + 1] && <hr/>}
+                        <div id={`bd_innings${index + 1}`} className={`collapse${openAccordion[index + 1] ? ' show' : ''}`} data-bs-parent={`#accordion${index + 1}`}>
                             <div className="acr-body">
-                                <div className="card card-shadow p-0">
+                                <div className="p-0">
                                     <div className="table-responsive">
-                                        <table className="widget-table table table-striped table-medium no-border">
+                                        <table className="table table-bordered">
                                             <thead>
                                                 <tr>
                                                     <th scope="col">Batsmen</th>
@@ -55,9 +71,9 @@ const Scorecard = ({ scorecardData }) => {
                                         </table>
                                     </div>
                                 </div>
-                                <div className="card card-shadow p-0">
+                                <div className="p-0">
                                     <div className="table-responsive">
-                                        <table className="widget-table table table-striped table-medium no-border">
+                                        <table className="table table-bordered">
                                             <thead>
                                                 <tr>
                                                     <th scope="col">Bowlers</th>
@@ -83,9 +99,9 @@ const Scorecard = ({ scorecardData }) => {
                                         </table>
                                     </div>
                                 </div>
-                                <div className="card card-shadow p-0">
+                                <div className="p-0">
                                     <div className="table-responsive">
-                                        <table className="widget-table table table-striped table-medium no-border">
+                                        <table className="table table-bordered">
                                             <thead>
                                                 <tr>
                                                     <th scope="col">Fall of wickets</th>
@@ -105,9 +121,9 @@ const Scorecard = ({ scorecardData }) => {
                                         </table>
                                     </div>
                                 </div>
-                                <div className="card card-shadow p-0">
+                                <div className="p-0">
                                     <div className="table-responsive">
-                                        <table className="widget-table table table-striped table-medium no-border">
+                                        <table className="table table-bordered">
                                             <thead>
                                                 <tr>
                                                     <th scope="col">Partnership</th>
@@ -132,7 +148,7 @@ const Scorecard = ({ scorecardData }) => {
                     </div>
                 </div>
             ))}
-        </>
+        </div>
     );
 };
 

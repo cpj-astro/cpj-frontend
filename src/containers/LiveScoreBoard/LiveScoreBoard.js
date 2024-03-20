@@ -891,12 +891,6 @@ function LiveScoreBoard() {
                                                                 <div className='text-session' dangerouslySetInnerHTML={{__html: matchData && matchData.session ? matchData.session : ''}} /> 
                                                             </div> : <></>}
                                                         </div>
-                                                        {/* <div id="liveastrology" className={`tab-pane fade in ${activeTab === 'liveastrology' ? 'show active' : ''}`}>
-                                                            Time: 10:00 PM <br/>
-                                                            Description: Lorem Ipsum <br/>
-                                                            Zodiac/Rashi: Lorem Ipsum Dorem <br/>
-                                                            Special Recommendation: Lorem Ipsum <br/>
-                                                        </div> */}
                                                         <div id="info" className={`tab-pane fade in ${activeTab === 'info' ? 'show active' : ''}`}>
                                                             <div className='status-bar-fill'>{matchData && matchData.result ? matchData.result : 'No Result' }</div>
                                                             <div className="pt-0 pb-10">

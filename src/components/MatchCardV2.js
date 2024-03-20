@@ -55,7 +55,7 @@ export default function MatchCardV2({match, index}) {
                     <a className="cp__fill-btn" href={`/match-reports/${match.match_id}`}>View Astrology</a>
                 }
                 {match.match_category !== 'recent' &&
-                    <a className="cp__fill-btn" href={`/match-reports/${match.match_id}`}>{match.button_text}</a>
+                    <a className="cp__fill-btn" href={`/match-reports/${match.match_id}`}>{match.button_text ?? 'Buy Astrology'}</a>
                 }
             </div>
             : 

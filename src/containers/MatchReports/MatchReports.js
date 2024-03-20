@@ -8,6 +8,8 @@ import Loader from '../../components/Loader';
 import Header from '../../components/Header';
 import MatchKundli from '../../components/MatchKundli';
 import PhonePeIntegration from '../../components/PhonePeIntegration';
+import HeaderV2 from '../../components/HeaderV2';
+import FooterV2 from '../../components/FooterV2';
 // import * as AWS from "@aws-sdk/client-translate";
 
 function MatchReports() {
@@ -194,7 +196,7 @@ function MatchReports() {
     },[])
     return (
         <>
-            <Header/>
+            <HeaderV2/>
             {loader && <Loader/>}
             {!loader && astroAuth &&
             <div className='container mt-3' style={{minHeight: '100vh'}}>
@@ -344,15 +346,6 @@ function MatchReports() {
                                 <span>Match Astrology Report</span>
                             </div>
                             <h2>Match Astrology Report</h2>
-                            {/* <div className='row mt-3'>
-                                <div className='col-md-12'>
-                                <label htmlFor="languageSelect">Select Language: </label>
-                                <select className='form-control' id="languageSelect">
-                                    <option value="english">English</option>
-                                    <option value="hindi">Hindi</option>
-                                </select>
-                                </div>
-                            </div> */}
                         </div>
                         <div className="container pt-20">
                             <div className="row">
@@ -725,7 +718,7 @@ function MatchReports() {
                     </div>
                 </div>
             </div>}
-            <Footer/>
+            <FooterV2/>
         </>
     );
 }

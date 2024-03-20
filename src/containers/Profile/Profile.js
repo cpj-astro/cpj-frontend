@@ -360,7 +360,7 @@ function Profile() {
                                         </div>
                                     </div>
                                     <div id="astrology-reports" className={`tab-pane fade ${activeTab === 'astrology-reports' ? 'show active' : ''}`}>
-                                        <div className="table-responsive" style={{color: '#fff'}}>
+                                        <div className="table-responsive">
                                             <table className="table">
                                                 <thead className="table-dark">
                                                     <tr>
@@ -420,7 +420,7 @@ function Profile() {
                                             <u>Show Answer : {showAnswer}</u> <br/>
                                             {showAnswer && <span className='badge badge-primary cursor-pointer' onClick={()=>setShowAnswer(null)}><i className="fa fa-trash"></i>clear</span>}
                                         </div>
-                                        <div className="table-responsive mt-3" style={{color: '#fff'}}>
+                                        <div className="table-responsive mt-3">
                                             <table className="table">
                                                 <thead className="table-dark">
                                                     <tr>

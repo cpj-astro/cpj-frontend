@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSpeechSynthesis } from 'react-speech-kit';
 import OwlCarousel from 'react-owl-carousel';
@@ -20,6 +20,7 @@ import FooterV2 from '../../components/FooterV2'
 export default function LiveLineV2() {
     const navigate = useNavigate();
     const {id} = useParams();
+    const initialSpeakTriggered = useRef(false);
     const [activeTab, setActiveTab] = useState('liveline');
     const [back1Style, setBack1Style] = useState('')
     const [lay1Style, setLay1Style] = useState('')
@@ -37,7 +38,7 @@ export default function LiveLineV2() {
     const [matchDetails, setMatchDetails] = useState([])
     const [oddHistory, setOddHistory] = useState(null)
     const [playingXI, setPlayingXI] = useState(null)
-    const [volumeStatus, setVolumeStatus] = useState(true)
+    const [volumeStatus, setVolumeStatus] = useState(false)
     const [astroStatus, setAstroStatus] = useState(false)
     const [isEnableAstro, setIsEnableAstro] = useState(false)
     const [seriesData, setSeriesData] = useState([])
@@ -433,239 +434,244 @@ export default function LiveLineV2() {
     useEffect(() => {
         onSnapshot(doc(db, "matchdata", id), (doc) => {
             if(doc.data()) {
-                console.log("iffff")
                 setMatchData(doc.data()); 
             } else {
-                console.log("elseeee")
                 fetchMatchInfo();
             }
         });
     }, []);
 
+    const handleMuteButton = () => {
+        if (!initialSpeakTriggered.current) {
+            speak({ text: '' });
+            initialSpeakTriggered.current = true;
+        }
+        setVolumeStatus(!volumeStatus)
+    }
+
     return (
         <>
             <HeaderV2/>
-            <main className="cp__list-sec">
-                <div className="container p-0">
-                    <div className="cp__mobile-tab">
-                        <div className="nav nav-tabs mb-3 d-lg-none d-lg-block" id="nav-tab" role="tablist">
-                            <button className="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Home</button>
-                            <button className="nav-link" id="nav-live-tab" data-bs-toggle="tab" data-bs-target="#nav-live" type="button" role="tab" aria-controls="nav-live" aria-selected="false">Live</button>
-                            <button className="nav-link" id="nav-upcoming-tab" data-bs-toggle="tab" data-bs-target="#nav-upcoming" type="button" role="tab" aria-controls="nav-upcoming" aria-selected="false">Upcoming</button>
-                            <button className="nav-link" id="nav-finished-tab" data-bs-toggle="tab" data-bs-target="#nav-finished" type="button" role="tab" aria-controls="nav-finished" aria-selected="false">Finished</button>
-                            <button className="nav-link" id="nav-news-tab" data-bs-toggle="tab" data-bs-target="#nav-news" type="button" role="tab" aria-controls="nav-news" aria-selected="false">News</button>
+                <main className="cp__list-sec">
+                    <div className="container p-0">
+                        <div className="cp__mobile-tab">
+                            <div className="nav nav-tabs mb-3 d-lg-none d-lg-block" id="nav-tab" role="tablist">
+                                <button className="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Home</button>
+                                <button className="nav-link" id="nav-live-tab" data-bs-toggle="tab" data-bs-target="#nav-live" type="button" role="tab" aria-controls="nav-live" aria-selected="false">Live</button>
+                                <button className="nav-link" id="nav-upcoming-tab" data-bs-toggle="tab" data-bs-target="#nav-upcoming" type="button" role="tab" aria-controls="nav-upcoming" aria-selected="false">Upcoming</button>
+                                <button className="nav-link" id="nav-finished-tab" data-bs-toggle="tab" data-bs-target="#nav-finished" type="button" role="tab" aria-controls="nav-finished" aria-selected="false">Finished</button>
+                                <button className="nav-link" id="nav-news-tab" data-bs-toggle="tab" data-bs-target="#nav-news" type="button" role="tab" aria-controls="nav-news" aria-selected="false">News</button>
+                            </div>
                         </div>
-                    </div>
-                    <div className="cp__listing-wrap">
-                        <section>
-                            <div className='container'>
-                                <div className="row">
-                                    <div className="col-md-12">
-                                        <div className='tv-container'>    
-                                            <div className="tv">
-                                                <div className='just-set'>
-                                                    {matchData && matchData.match_category && 
-                                                        <strong className="text-uppercase powerplay-set p-2">{matchData.match_category}</strong>
-                                                    }
-                                                    {matchData && matchData.powerplay && 
-                                                        <strong className="powerplay-set p-2">P.P - {matchData.powerplay}</strong>
-                                                    }
-                                                    <strong className="text-white" onClick={() => {setVolumeStatus(!volumeStatus)}}>
-                                                        <div className='volume-icon-set'>
-                                                            {volumeStatus ? <i className='fa fa-volume-up'></i> : <i className='fa fa-volume-off'></i>}    
-                                                        </div>    
-                                                    </strong>
-                                                </div>
-                                                <div className="score">
-                                                    <span>
-                                                        {matchData && matchData.first_circle ? getDisplayContent(getCricketTermDescription(matchData.first_circle)) : ''}
-                                                    </span>
-                                                </div>
-                                                <div className='rate-container'>
-                                                    <div className="left-side">
-                                                        <p>C.R.R - {matchData && matchData.curr_rate ? matchData.curr_rate : '0.00'}</p>
+                        <div className="cp__listing-wrap">
+                            <section>
+                                <div className='container'>
+                                    <div className="row">
+                                        <div className="col-md-12">
+                                            <div className='tv-container'>    
+                                                <div className="tv">
+                                                    <div className='just-set'>
+                                                        {matchData && matchData.match_category && 
+                                                            <strong className="text-uppercase powerplay-set p-2">{matchData.match_category}</strong>
+                                                        }
+                                                        {matchData && matchData.powerplay && 
+                                                            <strong className="powerplay-set p-2">P.P - {matchData.powerplay}</strong>
+                                                        }
+                                                        <strong className="text-white" onClick={handleMuteButton}>
+                                                            <div className='volume-icon-set'>
+                                                                {volumeStatus ? <i className='fa fa-volume-up'></i> : <i className='fa fa-volume-off'></i>}    
+                                                            </div>    
+                                                        </strong>
                                                     </div>
-                                                    <div className="right-side">
-                                                        <p>R.R.R - {matchData && matchData.rr_rate ? matchData.rr_rate : '0.00'}</p>
+                                                    <div className="score">
+                                                        <span>
+                                                            {matchData && matchData.first_circle ? getDisplayContent(getCricketTermDescription(matchData.first_circle)) : ''}
+                                                        </span>
                                                     </div>
-                                                </div>
-                                                <div className='card bg-cyan p-1' style={{color: '#0F0E0E', borderRadius: '0px 0px 4px 4px'}}>
-                                                    {matchData && matchData.batting_team == matchData.team_a_id ?
-                                                    <div className="score-card-body">
-                                                        <div className="country-info">
-                                                            <div className="text-center">
-                                                                <span className="country-name">{matchData && matchData.team_a_short ? matchData.team_a_short : ''}</span>
-                                                                <span>{matchData && matchData.team_a_scores ? matchData.team_a_scores : '00-0'}</span> &nbsp;
-                                                                <span className="text-muted">{matchData && matchData.team_a_over ? matchData.team_a_over : '0.0'} ov.</span>
-                                                            </div> 
+                                                    <div className='rate-container'>
+                                                        <div className="left-side">
+                                                            <p>C.R.R - {matchData && matchData.curr_rate ? matchData.curr_rate : '0.00'}</p>
                                                         </div>
-                                                        <div className="country-info">
-                                                            <div className="text-center">
-                                                                <span className="country-name">{matchData && matchData.team_b_short ? matchData.team_b_short : ''}</span>
-                                                                <span>{matchData && matchData.team_b_scores ? matchData.team_b_scores : '00-0'}</span> &nbsp;
-                                                                <span className="text-muted">{matchData && matchData.team_b_over ? matchData.team_b_over : '0.0'} ov.</span>
-                                                            </div> 
+                                                        <div className="right-side">
+                                                            <p>R.R.R - {matchData && matchData.rr_rate ? matchData.rr_rate : '0.00'}</p>
                                                         </div>
-                                                    </div> : 
-                                                    <div className="score-card-body">
-                                                        <div className="country-info">
-                                                            <div className="text-center">
-                                                                <span className="country-name">{matchData && matchData.team_b_short ? matchData.team_b_short : ''}</span>
-                                                                <span>{matchData && matchData.team_b_scores ? matchData.team_b_scores : '00-0'}</span> &nbsp;
-                                                                <span className="text-muted">{matchData && matchData.team_b_over ? matchData.team_b_over : '0.0'} ov.</span>
-                                                            </div> 
-                                                        </div>
-                                                        <div className="country-info">
-                                                            <div className="text-center">
-                                                                <span className="country-name">{matchData && matchData.team_a_short ? matchData.team_a_short : ' '}</span>
-                                                                <span>{matchData && matchData.team_a_scores ? matchData.team_a_scores : '00-0'}</span> &nbsp;
-                                                                <span className="text-muted">{matchData && matchData.team_a_over ? matchData.team_a_over : '0.0'} ov.</span>
-                                                            </div> 
-                                                        </div>
-                                                    </div>}
-                                                </div>
-                                            </div>
-                                        </div> 
-                                    </div>	
-                                </div>
-
-                                {matchData.astrology_status == 'enable' && matchDetails && matchDetails.length == 0 &&
-                                <div>
-                                    {matchData.match_category == 'recent' && matchData.payment_id && 
-                                        <a className="cp__fill-btn-live" href={`/match-reports/${matchData.match_id}`}>View Astrology</a>
-                                    }
-                                    {matchData.match_category !== 'recent' &&
-                                        <a className="cp__fill-btn-live" href={`/match-reports/${matchData.match_id}`}>{matchData.button_text}</a>
-                                    }
-                                </div>
-                                }
-
-                                {matchDetails && matchDetails.astrology_status == 'enable' &&
-                                <div>
-                                    {matchDetails.match_category == 'recent' && matchDetails.payment_id && 
-                                        <a className="cp__fill-btn-live" href={`/match-reports/${matchData.match_id}`}>View Astrology</a>
-                                    }
-                                    {matchDetails.match_category !== 'recent' &&
-                                        <a className="cp__fill-btn-live" href={`/match-reports/${matchData.match_id}`}>{matchDetails.button_text}</a>
-                                    }
-                                </div>
-                                }
-                                    
-                                {matchData && matchData.need_run_ball &&
-                                <div className="spell-sum-box px-3 pb-0 pt-0 mt-3">
-                                    <h5 className='text-center mb-0'>
-                                        <marquee behavior="scroll" direction="left" scrollamount="10" style={{fontWeight: '600', paddingTop: '5px'}}> 
-                                        {matchData && matchData.need_run_ball ? matchData.need_run_ball : 'No Data'}
-                                        </marquee>
-                                    </h5>
-                                </div>
-                                }
-
-                                <div className='ul-group-set'>
-                                    <ul style={{overflowX: 'auto!important'}}>
-                                        <li className={activeTab === 'liveline' ? 'li-active' : 'li-inactive'} onClick={() => handleTabChange('liveline')}>
-                                            Live
-                                        </li>
-                                        <li className={activeTab === 'info' ? 'li-active' : 'li-inactive'} onClick={() => {fetchMatchInfoByMatchId(); handleTabChange('info');}}>
-                                            Info
-                                        </li>
-                                        <li className={activeTab === 'playingXI' ? 'li-active' : 'li-inactive'} onClick={() => {fetchPlayingXIByMatchId(); handleTabChange('playingXI');}}>
-                                            PlayingXI
-                                        </li>
-                                        <li className={activeTab === 'commentary' ? 'li-active' : 'li-inactive'} onClick={() => {loadCommentary(); handleTabChange('commentary');}}>
-                                            Commentary
-                                        </li>
-                                        <li className={activeTab === 'scorecard' ? 'li-active' : 'li-inactive'} onClick={() => {fetchScorecardByMatchId(); handleTabChange('scorecard');}}>
-                                            Scorecard
-                                        </li>
-                                        <li className={activeTab === 'history' ? 'li-active' : 'li-inactive'} onClick={() => {fetchOddHistoryByMatchId(); handleTabChange('history');}}>
-                                            History
-                                        </li>
-                                    </ul>
-                                </div>
-
-                                <div className='tab-content mt-2'>
-                                    <div id="liveline" className={`tab-pane fade in ${activeTab === 'liveline' ? 'show active' : ''}`}>
-                                        {matchData && matchData.match_type == 'Test' && matchData.trail_lead && 
-                                        <div className="row">
-                                            <div className="col-md-12">
-                                                <div className="widget widget-rankings">
-                                                    <div className="card shadow px-2 py-2 odd-border text-center text-uppercase">
-                                                    <strong>{matchData.trail_lead}</strong>
+                                                    </div>
+                                                    <div className='card bg-cyan p-1' style={{color: '#0F0E0E', borderRadius: '0px 0px 4px 4px'}}>
+                                                        {matchData && matchData.batting_team == matchData.team_a_id ?
+                                                        <div className="score-card-body">
+                                                            <div className="country-info">
+                                                                <div className="text-center">
+                                                                    <span className="country-name">{matchData && matchData.team_a_short ? matchData.team_a_short : 'No Data'}</span>
+                                                                    <span>{matchData && matchData.team_a_scores ? matchData.team_a_scores : '00-0'}</span> &nbsp;
+                                                                    <span className="text-muted">{matchData && matchData.team_a_over ? matchData.team_a_over : '0.0'} ov.</span>
+                                                                </div> 
+                                                            </div>
+                                                            <div className="country-info">
+                                                                <div className="text-center">
+                                                                    <span className="country-name">{matchData && matchData.team_b_short ? matchData.team_b_short : 'No Data'}</span>
+                                                                    <span>{matchData && matchData.team_b_scores ? matchData.team_b_scores : '00-0'}</span> &nbsp;
+                                                                    <span className="text-muted">{matchData && matchData.team_b_over ? matchData.team_b_over : '0.0'} ov.</span>
+                                                                </div> 
+                                                            </div>
+                                                        </div> : 
+                                                        <div className="score-card-body">
+                                                            <div className="country-info">
+                                                                <div className="text-center">
+                                                                    <span className="country-name">{matchData && matchData.team_b_short ? matchData.team_b_short : 'No Data'}</span>
+                                                                    <span>{matchData && matchData.team_b_scores ? matchData.team_b_scores : '00-0'}</span> &nbsp;
+                                                                    <span className="text-muted">{matchData && matchData.team_b_over ? matchData.team_b_over : '0.0'} ov.</span>
+                                                                </div> 
+                                                            </div>
+                                                            <div className="country-info">
+                                                                <div className="text-center">
+                                                                    <span className="country-name">{matchData && matchData.team_a_short ? matchData.team_a_short : ' '}</span>
+                                                                    <span>{matchData && matchData.team_a_scores ? matchData.team_a_scores : '00-0'}</span> &nbsp;
+                                                                    <span className="text-muted">{matchData && matchData.team_a_over ? matchData.team_a_over : '0.0'} ov.</span>
+                                                                </div> 
+                                                            </div>
+                                                        </div>}
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>}
+                                            </div> 
+                                        </div>	
+                                    </div>
 
-                                        <div className="row">
-                                            <div className="col-md-12">
-                                                <div id="test_rank_trs">
-                                                    <div className="table-v2-card">
-                                                        <table className="table-v2" cellPadding={5} cellSpacing={5}>
-                                                            <thead>
-                                                                <tr>
-                                                                    <th scope="col" className='table-width-col'>Match Odds</th>
-                                                                    <th scope="col" className='table-width-td text-center'>Back</th>
-                                                                    <th scope="col" className='table-width-td text-center'>Lay</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td>
-                                                                        {matchData && matchData.team_a ? matchData.team_a : ''}
-                                                                    </td>
-                                                                    <td className='text-center'> 
-                                                                        <div className={'back-color bl-style ' + back1Style}>
-                                                                        {matchData && matchData.back1 ? matchData.back1 : '0'}
-                                                                        </div>
-                                                                    </td>
-                                                                    <td className='text-center'>
-                                                                        <div className={'lay-color bl-style ' + lay1Style}>
-                                                                        {matchData && matchData.lay1 ? matchData.lay1 : '0'}
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>
-                                                                        {matchData && matchData.team_b ? matchData.team_b : ''}
-                                                                    </td>
-                                                                    <td className='text-center'> 
-                                                                        <div className={'back-color bl-style ' + back2Style}>
-                                                                        {matchData && matchData.back2 ? matchData.back2 : '0'}
-                                                                        </div>
-                                                                    </td>
-                                                                    <td className='text-center'>
-                                                                        <div className={'lay-color bl-style ' + lay2Style}>
-                                                                        {matchData && matchData.lay2 ? matchData.lay2 : '0'}
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                {matchData && matchData.match_type == "Test" &&
+                                    {matchData.astrology_status == 'enable' && matchDetails && matchDetails.length == 0 &&
+                                    <div>
+                                        {matchData.match_category == 'recent' && matchData.payment_id && 
+                                            <a className="cp__fill-btn-live" href={`/match-reports/${matchData.match_id}`}>View Astrology</a>
+                                        }
+                                        {matchData.match_category !== 'recent' &&
+                                            <a className="cp__fill-btn-live" href={`/match-reports/${matchData.match_id}`}>{matchData.button_text}</a>
+                                        }
+                                    </div>
+                                    }
+
+                                    {matchDetails && matchDetails.astrology_status == 'enable' &&
+                                    <div>
+                                        {matchDetails.match_category == 'recent' && matchDetails.payment_id && 
+                                            <a className="cp__fill-btn-live" href={`/match-reports/${matchData.match_id}`}>View Astrology</a>
+                                        }
+                                        {matchDetails.match_category !== 'recent' &&
+                                            <a className="cp__fill-btn-live" href={`/match-reports/${matchData.match_id}`}>{matchDetails.button_text}</a>
+                                        }
+                                    </div>
+                                    }
+                                        
+                                    {matchData && matchData.need_run_ball &&
+                                    <div className="spell-sum-box px-3 pb-0 pt-0 mt-3">
+                                        <h5 className='text-center mb-0'>
+                                            <marquee behavior="scroll" direction="left" scrollamount="10" style={{fontWeight: '600', paddingTop: '5px'}}> 
+                                            {matchData && matchData.need_run_ball ? matchData.need_run_ball : 'No Data'}
+                                            </marquee>
+                                        </h5>
+                                    </div>}
+
+                                    <div className='ul-group-set'>
+                                        <ul style={{overflowX: 'auto!important'}}>
+                                            <li className={activeTab === 'liveline' ? 'li-active' : 'li-inactive'} onClick={() => handleTabChange('liveline')}>
+                                                Live
+                                            </li>
+                                            <li className={activeTab === 'info' ? 'li-active' : 'li-inactive'} onClick={() => {fetchMatchInfoByMatchId(); handleTabChange('info');}}>
+                                                Info
+                                            </li>
+                                            <li className={activeTab === 'playingXI' ? 'li-active' : 'li-inactive'} onClick={() => {fetchPlayingXIByMatchId(); handleTabChange('playingXI');}}>
+                                                PlayingXI
+                                            </li>
+                                            <li className={activeTab === 'commentary' ? 'li-active' : 'li-inactive'} onClick={() => {loadCommentary(); handleTabChange('commentary');}}>
+                                                Commentary
+                                            </li>
+                                            <li className={activeTab === 'scorecard' ? 'li-active' : 'li-inactive'} onClick={() => {fetchScorecardByMatchId(); handleTabChange('scorecard');}}>
+                                                Scorecard
+                                            </li>
+                                            <li className={activeTab === 'history' ? 'li-active' : 'li-inactive'} onClick={() => {fetchOddHistoryByMatchId(); handleTabChange('history');}}>
+                                                History
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div className='tab-content mt-2'>
+                                        <div id="liveline" className={`tab-pane fade in ${activeTab === 'liveline' ? 'show active' : ''}`}>
+                                            {matchData && matchData.match_type == 'Test' && matchData.trail_lead && 
+                                            <div className="row">
+                                                <div className="col-md-12">
+                                                    <div className="widget widget-rankings">
+                                                        <div className="card shadow px-2 py-2 odd-border text-center text-uppercase">
+                                                        <strong>{matchData.trail_lead}</strong>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>}
+
+                                            <div className="row">
+                                                <div className="col-md-12">
+                                                    <div id="test_rank_trs">
+                                                        <div className="table-v2-card">
+                                                            <table className="table-v2" cellPadding={5} cellSpacing={5}>
+                                                                <thead>
                                                                     <tr>
-                                                                        <td>The Draw</td>
+                                                                        <th scope="col" className='table-width-col'>Match Odds</th>
+                                                                        <th scope="col" className='table-width-td text-center'>Back</th>
+                                                                        <th scope="col" className='table-width-td text-center'>Lay</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>
+                                                                            {matchData && matchData.team_a ? matchData.team_a : ''}
+                                                                        </td>
+                                                                        <td className='text-center'> 
+                                                                            <div className={'back-color bl-style ' + back1Style}>
+                                                                            {matchData && matchData.back1 ? matchData.back1 : '0'}
+                                                                            </div>
+                                                                        </td>
                                                                         <td className='text-center'>
+                                                                            <div className={'lay-color bl-style ' + lay1Style}>
+                                                                            {matchData && matchData.lay1 ? matchData.lay1 : '0'}
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            {matchData && matchData.team_b ? matchData.team_b : ''}
+                                                                        </td>
+                                                                        <td className='text-center'> 
                                                                             <div className={'back-color bl-style ' + back2Style}>
-                                                                            {matchData && matchData.min_rate_2 ? matchData.min_rate_2 : '0'}
+                                                                            {matchData && matchData.back2 ? matchData.back2 : '0'}
                                                                             </div>
                                                                         </td>
                                                                         <td className='text-center'>
                                                                             <div className={'lay-color bl-style ' + lay2Style}>
-                                                                            {matchData && matchData.max_rate_2 ? matchData.max_rate_2 : '0'}
+                                                                            {matchData && matchData.lay2 ? matchData.lay2 : '0'}
                                                                             </div>
                                                                         </td>
                                                                     </tr>
-                                                                }
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>  
-                                            </div>
+                                                                    {matchData && matchData.match_type == "Test" &&
+                                                                        <tr>
+                                                                            <td>The Draw</td>
+                                                                            <td className='text-center'>
+                                                                                <div className={'back-color bl-style ' + back2Style}>
+                                                                                {matchData && matchData.min_rate_2 ? matchData.min_rate_2 : '0'}
+                                                                                </div>
+                                                                            </td>
+                                                                            <td className='text-center'>
+                                                                                <div className={'lay-color bl-style ' + lay2Style}>
+                                                                                {matchData && matchData.max_rate_2 ? matchData.max_rate_2 : '0'}
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                    }
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>  
+                                                </div>
 
-                                            {((matchData && matchData.fancy_api) || (matchData && !matchData.fancy_api)) && ((matchData && matchData.s_ovr ? matchData.s_ovr != 0 : '') || (matchData && matchData.s_over ? matchData.s_over != 0 : '')) &&
-                                            <div className="col-md-12 mt-3">
-                                                <div id="test_rank_trs">
-                                                    <div className="table-v2-card">
-                                                        <table className="table-v2" cellPadding={5} cellSpacing={5}>
+                                                {((matchData && matchData.fancy_api) || (matchData && !matchData.fancy_api)) && ((matchData && matchData.s_ovr ? matchData.s_ovr != 0 : '') || (matchData && matchData.s_over ? matchData.s_over != 0 : '')) &&
+                                                <div className="col-md-12 mt-3">
+                                                    <div id="test_rank_trs">
+                                                        <div className="table-v2-card">
+                                                            <table className="table-v2" cellPadding={5} cellSpacing={5}>
                                                                 <thead>
                                                                     <tr>
                                                                         <th scope="col" className='table-width-col'>Fancy Info</th>
@@ -701,7 +707,7 @@ export default function LiveLineV2() {
                                                                     }
                                                                     {matchData && !matchData.fancy_api && matchData.fancy_info && matchData.fancy_info.map((fancy, index) => 
                                                                         fancy.s_over != 0 && (
-                                                                        <tr className={fancy.over ? '' : 'd-none'}>
+                                                                        <tr className={fancy.over ? '' : 'd-none'} key={index}>
                                                                             <td>{matchData.s_over + ' over runs'}</td>
                                                                             <td className='text-center'>
                                                                                 <div className={'back-color bl-style ' + back1Style}>
@@ -755,136 +761,127 @@ export default function LiveLineV2() {
                                                                 </tbody>
                                                             </table>
                                                         </div>  
-                                                </div>
-                                            </div>
-                                            }
-                                            
-                                            {matchData && matchData.match_completed && matchData.match_completed.status &&
-                                            <div className="col-md-12 mt-3">
-                                                <div id="test_rank_trs">
-                                                    <div className="table-v2-card">
-                                                        <table className='table-v2' cellPadding={5} cellSpacing={5}>
-                                                            <thead>
-                                                                <tr>
-                                                                    <th scope="col" className='table-width-col'>Match Completed</th>
-                                                                    <th scope="col" className='table-width-td text-center'>Back</th>
-                                                                    <th scope="col" className='table-width-td text-center'>Lay</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td>YES</td>
-                                                                    <td className='text-center'>
-                                                                        <div className={'back-color bl-style ' + mcBack1Style}>
-                                                                        {matchData && matchData.match_completed ? matchData.match_completed.t1_back : '0'}
-                                                                        </div>
-                                                                    </td>
-                                                                    <td className='text-center'>
-                                                                        <div className={'lay-color bl-style ' + mcLay1Style}>
-                                                                        {matchData && matchData.match_completed ? matchData.match_completed.t1_lay : '0'}
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>NO</td>
-                                                                    <td className='text-center'>
-                                                                        <div className={'back-color bl-style ' + mcBack2Style}>
-                                                                        {matchData && matchData.match_completed ? matchData.match_completed.t2_back : '0'}
-                                                                        </div>
-                                                                    </td>
-                                                                    <td className='text-center'>
-                                                                        <div className={'lay-color bl-style ' + mcLay2Style}>
-                                                                        {matchData && matchData.match_completed ? matchData.match_completed.t2_lay : '0'}
-                                                                        </div> 
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            } 
-
-                                            {matchData && matchData.match_tied && matchData.match_tied.status &&
-                                            <div className="col-md-12 mt-3">
-                                                <div id="test_rank_trs">
-                                                    <div className="table-v2-card">
-                                                        <table className='table-v2' cellPadding={5} cellSpacing={5}>
-                                                            <thead>
-                                                                <tr>
-                                                                    <th scope="col" className='table-width-col'>Match Tied</th>
-                                                                    <th scope="col" className='table-width-td text-center'>Back</th>
-                                                                    <th scope="col" className='table-width-td text-center'>Lay</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td>YES</td>
-                                                                    <td className='text-center'>
-                                                                        <div className={'back-color bl-style ' + mtBack1Style}>
-                                                                        {matchData && matchData.match_tied ? matchData.match_tied.t1_back : '0'}
-                                                                        </div>
-                                                                    </td>
-                                                                    <td className='text-center'>
-                                                                        <div className={'lay-color bl-style ' + mtLay1Style}>
-                                                                        {matchData && matchData.match_tied ? matchData.match_tied.t1_lay : '0'}
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>NO</td>
-                                                                    <td className='text-center'>
-                                                                        <div className={'back-color bl-style ' + mtBack2Style}>
-                                                                        {matchData && matchData.match_tied ? matchData.match_tied.t2_back : '0'}
-                                                                        </div>
-                                                                    </td>
-                                                                    <td className='text-center'>
-                                                                        <div className={'lay-color bl-style ' + mtLay2Style}>
-                                                                        {matchData && matchData.match_tied ? matchData.match_tied.t2_lay : '0'}
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
+                                                </div>}
+                                                
+                                                {matchData && matchData.match_completed && matchData.match_completed.status &&
+                                                <div className="col-md-12 mt-3">
+                                                    <div id="test_rank_trs">
+                                                        <div className="table-v2-card">
+                                                            <table className='table-v2' cellPadding={5} cellSpacing={5}>
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th scope="col" className='table-width-col'>Match Completed</th>
+                                                                        <th scope="col" className='table-width-td text-center'>Back</th>
+                                                                        <th scope="col" className='table-width-td text-center'>Lay</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>YES</td>
+                                                                        <td className='text-center'>
+                                                                            <div className={'back-color bl-style ' + mcBack1Style}>
+                                                                            {matchData && matchData.match_completed ? matchData.match_completed.t1_back : '0'}
+                                                                            </div>
+                                                                        </td>
+                                                                        <td className='text-center'>
+                                                                            <div className={'lay-color bl-style ' + mcLay1Style}>
+                                                                            {matchData && matchData.match_completed ? matchData.match_completed.t1_lay : '0'}
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>NO</td>
+                                                                        <td className='text-center'>
+                                                                            <div className={'back-color bl-style ' + mcBack2Style}>
+                                                                            {matchData && matchData.match_completed ? matchData.match_completed.t2_back : '0'}
+                                                                            </div>
+                                                                        </td>
+                                                                        <td className='text-center'>
+                                                                            <div className={'lay-color bl-style ' + mcLay2Style}>
+                                                                            {matchData && matchData.match_completed ? matchData.match_completed.t2_lay : '0'}
+                                                                            </div> 
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            } 
-                                        </div>
+                                                </div>} 
 
-                                        {lastFewBalls && lastFewBalls.length > 0 &&
+                                                {matchData && matchData.match_tied && matchData.match_tied.status &&
+                                                <div className="col-md-12 mt-3">
+                                                    <div id="test_rank_trs">
+                                                        <div className="table-v2-card">
+                                                            <table className='table-v2' cellPadding={5} cellSpacing={5}>
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th scope="col" className='table-width-col'>Match Tied</th>
+                                                                        <th scope="col" className='table-width-td text-center'>Back</th>
+                                                                        <th scope="col" className='table-width-td text-center'>Lay</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>YES</td>
+                                                                        <td className='text-center'>
+                                                                            <div className={'back-color bl-style ' + mtBack1Style}>
+                                                                            {matchData && matchData.match_tied ? matchData.match_tied.t1_back : '0'}
+                                                                            </div>
+                                                                        </td>
+                                                                        <td className='text-center'>
+                                                                            <div className={'lay-color bl-style ' + mtLay1Style}>
+                                                                            {matchData && matchData.match_tied ? matchData.match_tied.t1_lay : '0'}
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>NO</td>
+                                                                        <td className='text-center'>
+                                                                            <div className={'back-color bl-style ' + mtBack2Style}>
+                                                                            {matchData && matchData.match_tied ? matchData.match_tied.t2_back : '0'}
+                                                                            </div>
+                                                                        </td>
+                                                                        <td className='text-center'>
+                                                                            <div className={'lay-color bl-style ' + mtLay2Style}>
+                                                                            {matchData && matchData.match_tied ? matchData.match_tied.t2_lay : '0'}
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>} 
+                                            </div>
+
+                                            {lastFewBalls && lastFewBalls.length > 0 &&
                                             <div className="spell-sum-box shadow mt-3">
                                                 <div className="recent-spell" style={{overflow: 'auto'}}>
                                                     <ul style={{display: 'flex'}}>
-                                                    {
-                                                        lastFewBalls && lastFewBalls.map((itemJ, keyJ) => {
+                                                        {lastFewBalls && lastFewBalls.map((itemJ, keyJ) => {
                                                             if (itemJ.over != "") {
-                                                                return (
-                                                                    <div style={{ justifyContent: 'center', display: 'flex', alignItems: 'center' }} key={keyJ}>
-                                                                        <div style={{ color: '#fff', width: 'max-content', marginRight: '5px' }}>{itemJ.over}</div>
-                                                                    </div>
-                                                                );
-                                                            }
+                                                            return (
+                                                                <div style={{ justifyContent: 'center', display: 'flex', alignItems: 'center' }} key={keyJ}>
+                                                                    <div style={{ color: '#fff', width: 'max-content', marginRight: '5px' }}>{itemJ.over}</div>
+                                                                </div>
+                                                            )}
                                                             else if (itemJ.ballVal != "") {
-                                                                return (
-                                                                    <Ball key={keyJ} val={itemJ.ballVal} />
-                                                                );
-                                                            }
+                                                            return (
+                                                                <Ball key={keyJ} val={itemJ.ballVal} />
+                                                            )}
                                                             else if (itemJ.runs != "") {
-                                                                return (
-                                                                    <div key={keyJ} style={{ justifyContent: 'center', display: 'flex', alignItems: 'center' }}>
-                                                                        <div style={{ color: '#fff', width: 'max-content', marginRight: '5px' }}> = {itemJ.runs} {lastFewBalls.length > (keyJ + 1) && '|'} </div>
-                                                                    </div>
-                                                                );
-                                                            }
-                                                        })
-                                                    }
+                                                            return (
+                                                                <div key={keyJ} style={{ justifyContent: 'center', display: 'flex', alignItems: 'center' }}>
+                                                                    <div style={{ color: '#fff', width: 'max-content', marginRight: '5px' }}> = {itemJ.runs} {lastFewBalls.length > (keyJ + 1) && '|'} </div>
+                                                                </div>
+                                                            )}
+                                                        })}
                                                     </ul>
                                                 </div>
-                                            </div>
-                                        }
+                                            </div>}
 
-                                        {matchData && matchData.batsman && matchData.batsman.length > 0 &&
+                                            {matchData && matchData.batsman && matchData.batsman.length > 0 && matchData.batsman[0].name && matchData.batsman[0].name !== "" && 
                                             <div className="col-md-12 mt-3">
                                                 <div id="test_rank_trs">
                                                     <div className="table-v2-card">
@@ -901,7 +898,7 @@ export default function LiveLineV2() {
                                                             </thead>
                                                             <tbody>
                                                                 {matchData && matchData.batsman && matchData.batsman.map((batsman, index) => (
-                                                                    <tr>
+                                                                    <tr key={index}>
                                                                         <td>{batsman.name}</td>
                                                                         <td><strong>{batsman.run}</strong></td>
                                                                         <td>{batsman.ball}</td>
@@ -914,10 +911,9 @@ export default function LiveLineV2() {
                                                         </table>
                                                     </div>
                                                 </div>
-                                            </div>    
-                                        }
+                                            </div>}
 
-                                        {matchData && matchData.bolwer && matchData.bolwer.name && 
+                                            {matchData && matchData.bolwer && matchData.bolwer.name && 
                                             <div className="col-md-12 mt-3">
                                                 <div id="test_rank_trs">
                                                     <div className="table-v2-card">
@@ -934,10 +930,10 @@ export default function LiveLineV2() {
                                                             <tbody>
                                                                 <tr>
                                                                     <td>
-                                                                        <strong>{matchData && matchData.bolwer && matchData.bolwer.name ? matchData.bolwer.name : ''}</strong>
+                                                                        <strong>{matchData && matchData.bolwer && matchData.bolwer.name ? matchData.bolwer.name : 'No Data'}</strong>
                                                                     </td>
                                                                     <td>
-                                                                        <strong>{matchData && matchData.bolwer && matchData.bolwer.over ? matchData.bolwer.over : ''}</strong>
+                                                                        <strong>{matchData && matchData.bolwer && matchData.bolwer.over ? matchData.bolwer.over : 'No Data'}</strong>
                                                                     </td>
                                                                     <td>
                                                                         {matchData && matchData.bolwer && matchData.bolwer.run ? matchData.bolwer.run : ''}
@@ -954,34 +950,125 @@ export default function LiveLineV2() {
                                                         </table>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        }
-                                         
-                                        {matchData && matchData.yet_to_bet && 
-                                        <div className="spell-sum-box shadow mt-3">
-                                            <span>Yet to bat: &nbsp;
-                                                <span> 
-                                                {matchData && matchData.yet_to_bet && 
-                                                matchData.yet_to_bet.join(', ')}
+                                            </div>}
+                                            
+                                            {matchData && matchData.yet_to_bet && 
+                                            <div className="spell-sum-box shadow mt-3">
+                                                <span>Yet to bat: &nbsp;
+                                                    <span> 
+                                                    {matchData && matchData.yet_to_bet && 
+                                                    matchData.yet_to_bet.join(', ')}
+                                                    </span>
                                                 </span>
-                                            </span>
+                                            </div>} 
+                                            
+                                            {matchData && matchData.session &&
+                                            <div className='text-center spell-sum-box shadow mt-3'>
+                                                <div style={{marginBottom: '-10px'}}>
+                                                    <h3>Session History</h3>
+                                                </div>
+                                                <div className='text-session' dangerouslySetInnerHTML={{__html: matchData && matchData.session ? matchData.session : ''}} /> 
+                                            </div>}
                                         </div>
-                                        } 
-                                        
-                                        {matchData && matchData.session ?
-                                        <div className='text-center spell-sum-box shadow mt-3'>
-                                            <div style={{marginBottom: '-10px'}}>
-                                                <h3>Session History</h3>
+                                        <div id="info" className={`tab-pane fade in ${activeTab === 'info' ? 'show active' : ''}`}>
+                                            <div className="spell-sum-box px-3 pb-1 pt-1 mb-3">
+                                                <h5 className='text-center mb-0'>
+                                                    {matchData && matchData.result ? matchData.result : 'No Result' }
+                                                </h5>
                                             </div>
-                                            <div className='text-session' dangerouslySetInnerHTML={{__html: matchData && matchData.session ? matchData.session : ''}} /> 
-                                        </div> : <></>}
+                                            <div className="table-responsive">
+                                                <table className="table table-bordered">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td className='text-capitalize'>Series</td>
+                                                            <td className='text-capitalize'>{matchInfo && matchInfo.series ? matchInfo.series : 'No Data'}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td className='text-capitalize'>Match:</td>
+                                                            <td className='text-capitalize'>{matchInfo && matchInfo.team_a && matchInfo.team_b ? matchInfo.team_a + ' vs ' + matchInfo.team_b + ' ' + matchInfo.matchs : 'No Data'}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td className='text-capitalize'>Date & Time:</td>
+                                                            <td className='text-capitalize'>{matchInfo && matchInfo.match_time && matchInfo.match_date ? matchInfo.match_date + ' - ' + matchInfo.match_time : 'No Data'}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td className='text-capitalize'>Venue:</td>
+                                                            <td className='text-capitalize'>{matchInfo && matchInfo.venue ? matchInfo.venue : 'No Data'}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td className='text-capitalize'>Toss:</td>
+                                                            <td className='text-capitalize'>{matchInfo && matchInfo.toss ? matchInfo.toss : 'No Data'}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td className='text-capitalize'>Umpire:</td>
+                                                            <td className='text-capitalize'>{matchInfo && matchInfo.umpire ? matchInfo.umpire : 'No Data'}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td className='text-capitalize'>3rd Umpire:</td>
+                                                            <td className='text-capitalize'>{matchInfo && matchInfo.third_umpire ? matchInfo.third_umpire : 'No Data'}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td className='text-capitalize'>Referee:</td>
+                                                            <td className='text-capitalize'>{matchInfo && matchInfo.referee ? matchInfo.referee : 'No Data'}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td className='text-capitalize'>Man of the Match:</td>
+                                                            <td className='text-capitalize'>{matchInfo && matchInfo.man_of_match_player ? matchInfo.man_of_match_player : 'No Data'}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div>
+                                                <div className='mt-2 display-s-set'>
+                                                    <div className='weather-card text-center w-100'>
+                                                        <div>
+                                                            Weather Report ({matchInfo && matchInfo.place ? matchInfo.place : 'No Data'})
+                                                        </div>
+                                                        <img src="/assets/images/weather.png" className='w-img-set'/>
+                                                        <div>
+                                                            {matchInfo && matchInfo.venue_weather && matchInfo.venue_weather.temp_c ? matchInfo.venue_weather.temp_c : ''}°c 
+                                                        </div>
+                                                        <div>
+                                                            {matchInfo && matchInfo.venue_weather && matchInfo.venue_weather.weather ? matchInfo.venue_weather.weather : ''}
+                                                        </div>
+                                                        <div>
+                                                            {matchInfo && matchInfo.venue_weather && matchInfo.venue_weather.wind_mph ? matchInfo.venue_weather.wind_mph + 'm/h' : ''} 
+                                                        </div>
+                                                        <div>
+                                                            Wind Speed - {matchInfo && matchInfo.venue_weather && matchInfo.venue_weather.wind_mph ? matchInfo.venue_weather.wind_mph + 'm/h' : ''} 
+                                                        </div>
+                                                        <div>
+                                                            Humidity - {matchInfo && matchInfo.venue_weather && matchInfo.venue_weather.humidity ? matchInfo.venue_weather.humidity + '%' : ''}
+                                                        </div>
+                                                        <div>
+                                                            Rain Change
+                                                        </div>
+                                                        <div>
+                                                            {matchInfo && matchInfo.venue_weather && matchInfo.venue_weather.cloud ? matchInfo.venue_weather.cloud + '%' : ''}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="playingXI" className={`tab-pane fade in ${activeTab === 'playingXI' ? 'show active' : ''}`}>
+                                            {playingXI ? <PlayingXI playingXIData={playingXI}/> : "No Data"}
+                                        </div>
+                                        <div id="commentary" className={`tab-pane fade in ${activeTab === 'commentary' ? 'show active' : ''}`}>
+                                            {comData ? <Commentary commentaryData={comData}/> : "No Data"}
+                                        </div>
+                                        <div id="scorecard" className={`tab-pane fade in ${activeTab === 'scorecard' ? 'show active' : ''}`}>
+                                            {scoreCard && scoreCard.length == 0 && 'No Data'}
+                                            {scoreCard ? <Scorecard scorecardData={scoreCard}/> : "Loading..."}
+                                        </div>
+                                        <div id="history" className={`tab-pane fade in ${activeTab === 'history' ? 'show active' : ''}`}>
+                                            {oddHistory ? <OddHistory oddHistoryData={oddHistory}/> : "Loading..."}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </section>
+                            </section>
+                        </div>
                     </div>
-                </div>
-            </main>
+                </main>
             <FooterV2/>
         </>    
     )

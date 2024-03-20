@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 export default function OddHistory({ oddHistoryData }) {
+    const [openAccordion, setOpenAccordion] = useState({});
+
     const groupedByInnings = oddHistoryData.reduce((acc, obj) => {
         // Use the inning as the key
         const key = obj.inning;
@@ -21,21 +23,35 @@ export default function OddHistory({ oddHistoryData }) {
         const v = n % 100;
         return n + (s[(v - 20) % 10] || s[v] || s[0]);
     }
+
+    const toggleAccordion = (s_key) => {
+        setOpenAccordion((prevState) => {
+            // Close all accordions
+            const newOpenAccordion = {};
+            Object.keys(prevState).forEach(key => {
+                newOpenAccordion[key] = false;
+            });
+            // Open the selected accordion
+            newOpenAccordion[s_key] = !prevState[s_key];
+            return newOpenAccordion;
+        });
+    };
     return (
-        <>
+        <div className='playx11'>
            {Object.entries(groupedByInnings).map(([inning, items]) => {
                 const inningTitle = toOrdinal(parseInt(inning));
                 return (
-                    <div key={inning} className="accordion" id={`accordion${inning}`}>
+                    <div key={inning} className="accordion" id={`accordion${inning}`} onClick={() => toggleAccordion(inning)}>
                         <div className="accordion-item">
-                            <h5 className="" data-toggle="collapse" data-target={`#bd_innings${inning}`} aria-expanded="true">
+                            <h5 className="mb-0" data-toggle="collapse" data-target={`#bd_innings${inning}`} aria-expanded={openAccordion[inning]}>
                                 {inningTitle} Inning
                             </h5>
-                            <div id={`bd_innings${inning}`} className={`collapse${inning == 1 ? ' show' : ''}`} data-parent={`#accordion${inning}`}>
+                            {openAccordion[inning] && <hr/>}
+                            <div id={`bd_innings${inning}`} className={`collapse${openAccordion[inning] ? ' show' : ''}`} data-bs-parent={`#accordion${inning}`}>
                                 <div className="acr-body">
-                                    <div className="card card-shadow p-0">
+                                    <div className="p-0">
                                         <div className="table-responsive">
-                                            <table className="widget-table table table-striped table-medium no-border">
+                                            <table className="table table-bordered">
                                                 <tbody>
                                                     {items.map((item, index) => (
                                                         <tr>
@@ -74,6 +90,6 @@ export default function OddHistory({ oddHistoryData }) {
                     </div>
                 )
             })}
-        </>
+        </div>
     )
 }
