@@ -1919,3 +1919,10 @@ textarea.form-control{
 ::-webkit-scrollbar-thumb:hover {
     background: #808080; 
 }
+
+.headerbar{
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: #000;
+}
