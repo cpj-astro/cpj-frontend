@@ -66,7 +66,7 @@ export default function HeaderV2() {
         setActiveTab(location.pathname);
     }, [location.pathname]);
     return (
-        <header data-aos="fade-down">
+        <header data-aos="">
             <div className="container">
                 <div className="cp__page-header d-flex flex-wrap align-items-center justify-content-between">
                     <div className="bm__header-left d-flex flex-wrap align-items-center">
