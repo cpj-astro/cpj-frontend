@@ -476,16 +476,15 @@ li.cp__before-dot {
     .cp__bottom-view:before{
         content: none;
     }
-  
+    .cp__coverview-sec .cp__moon-sign {
+        margin-left: auto;
+        margin-right: auto;
+        left: 0;
+        right: 0;
+    }
 }
 /* company overview section end */
 
-.cp__coverview-sec .cp__moon-sign {
-    margin-left: auto;
-    margin-right: auto;
-    left: 0;
-    right: 0;
-}
 
 .cpj-loader {
     height: 30px;
