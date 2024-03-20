@@ -376,14 +376,14 @@ export default function HomePageV2() {
           <div className="container">
             <MobileTabs/>
             <div className="d-flex flex-wrap align-items-center justify-content-between cp__hero-wrap">
-              <div className="col-lg-6 col-sm-12 cp__hero-content" data-aos="fade-right">
+              <div className="col-lg-6 col-sm-12 cp__hero-content">
                 <h2>Enroll Today and Transform Your <span className="cp__txt-green">Cricket Game</span></h2>
                 <h1>Maximize your winning chances with cricket astrology predictions. Unlock star-guided insights to boost your game strategy and dominate the field</h1>
                 <a href="#" className="cp__fill-btn">Get Started<img src="assets/images/arrow-right-black.svg" alt="logo" className="cp__black" />
                   <img src="assets/images/arrow-right-blue.svg" alt="logo" className="cp__blue" />
                 </a>
               </div>
-              <div className="col-lg-6 col-sm-12 cp__hero-cardslider" data-aos="fade-left">
+              <div className="col-lg-6 col-sm-12 cp__hero-cardslider">
                 <Swiper
                   pagination={true}
                   modules={[Pagination]}
@@ -428,15 +428,15 @@ export default function HomePageV2() {
         </section>
         <section className="cp__coverview-sec">
           <div className="container">
-            <h2 className="cp__sec-title" data-aos="zoom-in">Company Overview</h2>
+            <h2 className="cp__sec-title">Company Overview</h2>
             <div className="d-flex align-items-center justify-content-between flex-wrap">
               <div className="col-lg-5 col-sm-12">
-                <div className="cp__img-block" data-aos="zoom-in">
+                <div className="cp__img-block">
                   <img src="assets/images/moon-inverse.png" alt="logo" className="cp__moon-inverse" />
                   <img src="assets/images/moon-sign.png" alt="logo" className="cp__moon-sign" />
                 </div>
               </div>
-              <div className="col-lg-7 col-sm-12" data-aos="fade-left">
+              <div className="col-lg-7 col-sm-12">
                 <div className="cp__top-view">
                   <h3>Who Are We?</h3>
                   <ul>
@@ -450,7 +450,7 @@ export default function HomePageV2() {
                 </div>
               </div>
             </div>
-            <div className="cp__bottom-view d-flex  justify-content-between cp__comover-wrap" data-aos="zoom-in">
+            <div className="cp__bottom-view d-flex  justify-content-between cp__comover-wrap">
               <div className="cp__left-view cp__desc-list d-flex">
                 <div className="cp__img">
                   <img src="assets/images/ms.png" alt="ms" />
@@ -489,18 +489,18 @@ export default function HomePageV2() {
 
         <section className="cp__about-sec">
           <div className="container">
-            <h2 className="cp__sec-title" data-aos="zoom-in">About Us</h2>
+            <h2 className="cp__sec-title" >About Us</h2>
             <div className="d-flex align-items-center justify-content-between flex-wrap">
               <div className="col-lg-6 col-sm-12 cp__about-img">
-                <div className="cp__img-block" data-aos="zoom-in">
+                <div className="cp__img-block">
                   <img src="assets/images/client.png" alt="logo" />
                 </div>
-                <div className="cp__exp-desc" data-aos="zoom-in">
+                <div className="cp__exp-desc">
                   <span>8</span>
                   <span>Years of experience</span>
                 </div>
               </div>
-              <div className="col-lg-6 col-sm-12" data-aos="fade-left">
+              <div className="col-lg-6 col-sm-12">
                 <div className="cp__img-block">
                   <img src="assets/images/esoteric.png" alt="logo" className="cp__start-img" />
                 </div>
@@ -525,23 +525,23 @@ export default function HomePageV2() {
 
         <section className="cp__feature-sec">
           <div className="container">
-            <h2 className="cp__sec-title" data-aos="zoom-in">Features</h2>
+            <h2 className="cp__sec-title">Features</h2>
             <div className="d-flex align-items-center flex-wrap">
               <div className="col-lg-6 col-sm-12">
                 <ul className="nav nav-pills flex-column nav-pills align-items-end" id="pills-tab" role="tablist">
-                  <li className="nav-item" role="presentation" data-aos="fade-right">
+                  <li className="nav-item" role="presentation" >
                     <button className="nav-link text-primary fw-semibold active position-relative d-flex align-items-center" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true"><img src="assets/images/ms.png" alt="ms" /><p>Provide astrologically derived predictions for upcoming cricket matches based on celestial alignments and planetary influences.</p></button>
                   </li>
-                  <li className="nav-item" role="presentation" data-aos="fade-right">
+                  <li className="nav-item" role="presentation" >
                     <button className="nav-link text-primary fw-semibold position-relative d-flex align-items-center" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false"><img src="assets/images/ms.png" alt="ms" /><p>Provide astrologically derived predictions for upcoming cricket matches based on celestial alignments and planetary influences.</p></button>
                   </li>
-                  <li className="nav-item" role="presentation" data-aos="fade-right">
+                  <li className="nav-item" role="presentation" >
                     <button className="nav-link text-primary fw-semibold position-relative d-flex align-items-center" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false"><img src="assets/images/ms.png" alt="ms" /><p>Provide astrologically derived predictions for upcoming cricket matches based on celestial alignments and planetary influences.</p></button>
                   </li>
                 </ul>
               </div>
               <div className="col-lg-6 col-sm-12">
-                <div className="tab-content text-end" id="pills-tabContent" data-aos="fade-left">
+                <div className="tab-content text-end" id="pills-tabContent">
                   <div className="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
                     <img src="assets/images/feature.png" alt="ms" />
                   </div>
@@ -559,9 +559,9 @@ export default function HomePageV2() {
         
         <section className="cp__buypro-sec">
           <div className="container">
-            <h2 className="cp__sec-title" data-aos="zoom-in">Buy Our Reports</h2>
+            <h2 className="cp__sec-title">Buy Our Reports</h2>
             <div className="d-flex justify-content-between flex-wrap">
-              <div className="col-lg-6 col-sm-12 cp__buy-content" data-aos="fade-left">
+              <div className="col-lg-6 col-sm-12 cp__buy-content">
                 <p>Brief overview of how astrology can be applied to cricket and the benefits of astrology cricket reports.</p>
                 <ul>
                   <li className="cp__before-dot">Match Prediction Reports</li>
@@ -571,7 +571,7 @@ export default function HomePageV2() {
                   <li className="cp__before-dot">Player Performance Reports</li>
                 </ul>
               </div>
-              <div className="col-lg-6 col-sm-12" data-aos="fade-right">
+              <div className="col-lg-6 col-sm-12">
                 <div className="cp__img-block">
                   <img src="assets/images/report.png" alt="logo" />
                 </div>
@@ -585,9 +585,9 @@ export default function HomePageV2() {
         
         <section className="cp__faq-sec">
           <div className="container">
-            <h2 className="cp__sec-title" data-aos="zoom-in">Frequently Asked Questions</h2>
+            <h2 className="cp__sec-title">Frequently Asked Questions</h2>
             <div className="accordion" id="accordionExample">
-              <div className="accordion-item" data-aos="fade-up">
+              <div className="accordion-item">
                 <h2 className="accordion-header" id="headingOne">
                   <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                     How does astrology impact cricket matches?
@@ -599,7 +599,7 @@ export default function HomePageV2() {
                   </div>
                 </div>
               </div>
-              <div className="accordion-item" data-aos="fade-up">
+              <div className="accordion-item" >
                 <h2 className="accordion-header" id="headingTwo">
                   <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                     How accurate are astrological predictions for cricket matches?
@@ -611,7 +611,7 @@ export default function HomePageV2() {
                   </div>
                 </div>
               </div>
-              <div className="accordion-item" data-aos="fade-up">
+              <div className="accordion-item" >
                 <h2 className="accordion-header" id="headingThree">
                   <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                     How does astrology impact cricket matches?
@@ -623,7 +623,7 @@ export default function HomePageV2() {
                   </div>
                 </div>
               </div>
-              <div className="accordion-item" data-aos="fade-up">
+              <div className="accordion-item">
                 <h2 className="accordion-header" id="headingOne">
                   <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                     How does astrology impact cricket matches?
@@ -635,7 +635,7 @@ export default function HomePageV2() {
                   </div>
                 </div>
               </div>
-              <div className="accordion-item" data-aos="fade-up">
+              <div className="accordion-item">
                 <h2 className="accordion-header" id="headingThree">
                   <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                     How does astrology impact cricket matches?

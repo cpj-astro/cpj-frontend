@@ -4,7 +4,7 @@ export default function FooterV2() {
   return (
     <footer>
         <div className="container">
-            <div className="cp__fotter-report d-flex flex-wrap align-items-center  justify-content-between" data-aos="zoom-in">
+            <div className="cp__fotter-report d-flex flex-wrap align-items-center  justify-content-between" >
             <div className="cp__report-desc col-lg-7 col-sm-12">
                 <h4>Unlock Success: Try our report to increase your winning chances</h4>
             </div>
@@ -13,8 +13,8 @@ export default function FooterV2() {
             </div>
             </div>
             <div className="d-flex flex-wrap justify-content-between cp__footer-main">
-            <div className="col-lg-5 col-sm-12 cp__logo-block" data-aos="fade-up">
-                <div className="cp__logo" data-aos="zoom-in">
+            <div className="col-lg-5 col-sm-12 cp__logo-block">
+                <div className="cp__logo">
                     <a href="/"><img src="/assets/images/logo.png" alt="logo" /></a>
                 </div>
                 <p>Welcome to cricket panditji, your ultimate destination for astrology enthusiasts seeking cosmic guidance and insights into the mystical world of celestial influences.</p>
@@ -24,7 +24,7 @@ export default function FooterV2() {
                 <a href="#"><img src="/assets/images/tweeter.svg" alt="logo" /></a>
                 </div>
             </div>
-            <div className="col-lg-4 col-sm-12" data-aos="fade-up">
+            <div className="col-lg-4 col-sm-12">
                 <h3>Use Full Links</h3>
                 <ul>
                 <li><a href="/disclaimer">Disclaimer</a></li>
@@ -32,7 +32,7 @@ export default function FooterV2() {
                 <li><a href="/privacy">Privacy Policy</a></li>
                 </ul>
             </div>
-            <div className="col-lg-3 col-sm-12" data-aos="fade-up">
+            <div className="col-lg-3 col-sm-12">
                 <h3>Contact</h3>
                 <div className="cp__contact">
                 {/* <p><img src="/assets/images/home.svg" alt="logo" />No 58A, Baltimore Street, USA</p> */}
