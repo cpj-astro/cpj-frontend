@@ -533,7 +533,7 @@ li.cp__before-dot {
     content: '';
     width: 100%;
     z-index: 0;
-    background: #00FFFF;
+    background: #2f4c4c;
 }
 .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
     color: #fff;
@@ -547,7 +547,7 @@ li.cp__before-dot {
 }
 
 .cp__feature-sec ul li button:hover p {
-    color: #000000;
+    color: #FFFFFF;
     z-index: 99;
     position: relative;
 }
