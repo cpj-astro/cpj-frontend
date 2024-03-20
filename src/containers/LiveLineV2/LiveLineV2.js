@@ -1053,6 +1053,7 @@ export default function LiveLineV2() {
                                             {scoreCard ? <Scorecard scorecardData={scoreCard}/> : "Loading..."}
                                         </div>
                                         <div id="history" className={`tab-pane fade in ${activeTab === 'history' ? 'show active' : ''}`}>
+                                            {oddHistory && oddHistory.length == 0 && 'No Data'}
                                             {oddHistory ? <OddHistory oddHistoryData={oddHistory}/> : "Loading..."}
                                         </div>
                                     </div>
