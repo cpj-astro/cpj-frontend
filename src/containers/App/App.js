@@ -29,6 +29,7 @@ import LiveMatches from '../LiveMatches/LiveMatches';
 import LiveLineV2 from '../LiveLineV2/LiveLineV2';
 import UpcomingMatches from '../UpcomingMatches/UpcomingMatches';
 import FinishedMatches from '../FinishedMatches/FinishedMatches';
+import News from '../News/News';
 
 const App = () => {
   return (
@@ -63,6 +64,7 @@ const App = () => {
             <Route path="/live" element={<LiveMatches />} />
             <Route path="/upcoming" element={<UpcomingMatches />} />
             <Route path="/finished" element={<FinishedMatches />} />
+            <Route path="/news" element={<News />} />
             <Route path="/news-details/:id/:title/:pub_date" element={<NewsDetails />} />
             <Route path="/live-score-board/:id" element={<LiveLineV2 />} />
             <Route path="/about-us" element={<AboutUs />} />

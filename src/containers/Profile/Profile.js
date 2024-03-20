@@ -14,6 +14,7 @@ import MatchKundli from '../../components/MatchKundli';
 import Loader from '../../components/Loader';
 import HeaderV2 from '../../components/HeaderV2';
 import FooterV2 from '../../components/FooterV2';
+import MobileTabs from '../../components/MobileTabs';
 
 function Profile() {
     const navigate = useNavigate();
@@ -226,18 +227,10 @@ function Profile() {
             </Modal>
             <main className="cp__list-sec">
                 <div className="container p-0">
-                    <div className="cp__mobile-tab">
-                        <div className="nav nav-tabs mb-3 d-lg-none d-lg-block" id="nav-tab" role="tablist">
-                            <button className="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Home</button>
-                            <button className="nav-link" id="nav-live-tab" data-bs-toggle="tab" data-bs-target="#nav-live" type="button" role="tab" aria-controls="nav-live" aria-selected="false">Live</button>
-                            <button className="nav-link" id="nav-upcoming-tab" data-bs-toggle="tab" data-bs-target="#nav-upcoming" type="button" role="tab" aria-controls="nav-upcoming" aria-selected="false">Upcoming</button>
-                            <button className="nav-link" id="nav-finished-tab" data-bs-toggle="tab" data-bs-target="#nav-finished" type="button" role="tab" aria-controls="nav-finished" aria-selected="false">Finished</button>
-                            <button className="nav-link" id="nav-news-tab" data-bs-toggle="tab" data-bs-target="#nav-news" type="button" role="tab" aria-controls="nav-news" aria-selected="false">News</button>
-                        </div>
-                    </div>
+                    {/* <MobileTabs/> */}
                     <div className="cp__listing-wrap">
                         <div className="container">
-                            <h2>Profile</h2>
+                            <h2 className='pt-3'>Profile</h2>
                             <hr/>
                         </div>
                         <section>

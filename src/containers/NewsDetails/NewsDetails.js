@@ -4,6 +4,9 @@ import Footer from '../../components/Footer'
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import HeaderV2 from '../../components/HeaderV2';
+import FooterV2 from '../../components/FooterV2';
+import MobileTabs from '../../components/MobileTabs';
 
 export default function NewsDetails() {    
     const navigate = useNavigate();
@@ -34,39 +37,27 @@ export default function NewsDetails() {
 
     return (
         <>
-        <Header/>
-        <div id="main" className='l_con'>
-            <div className='container'>
-                <div className="row">
-                    <div className="col-lg-9">
-                        <div className='rrates-container mb-2'>
-                            <a href={"/"} className="left-com">
-                                <i className='fa fa-arrow-left'></i>
-                            </a>
-                            {accessToken ?
-                                <a href={"/profile"} className="right-com">
-                                    <span className=''>My Profile</span>
-                                </a>
-                            : 
-                                <a href={"/sign-in"} className="right-com">
-                                    <span className=''>Sign In</span>
-                                </a>
-                            }
-                        </div>
-                        <section className="blog-details pt-20">
-                            <div className="image-card mb-2">
-                                <figure>
-                                    <img src={newsData && newsData.image ? process.env.REACT_APP_IMG_FIX+newsData.image : ''} alt="" />
-                                </figure>
-                            </div>
-                            <div className="card card-shadow">
+        <HeaderV2/>
+        <main className="cp__list-sec">
+            <MobileTabs/>
+            <div className="container">
+                <div className="cp__listing-wrap">
+                    <h1 className='mt-3'>News Detail</h1>
+                    <div className="row">
+                        <div className="col-md-9">
+                            <section className="blog-details pt-20">
+                                <div className="image-card mb-2">
+                                    <figure>
+                                        <img src={newsData && newsData.image ? process.env.REACT_APP_IMG_FIX+newsData.image : ''} alt="" />
+                                    </figure>
+                                </div>
                                 <div className="blog-details-content">
                                     <div className="blog-details-header">
                                         <div>
-                                            <h2>{title}</h2>
+                                            <h2>{title.replace(/^"|"$/g, '')}</h2>
 
                                             <div className="post-meta">
-                                                <a href="#"><i className="fas fa-calendar-alt"></i> Published Date: {pub_date}</a>
+                                                <a href="#"><i className="fas fa-calendar-alt"></i> &nbsp;Published Date: {pub_date}</a>
                                             </div>
                                         </div>
                                     </div>
@@ -74,16 +65,13 @@ export default function NewsDetails() {
                                         <p dangerouslySetInnerHTML={{__html: newsData && newsData.news_content ? newsData.news_content : 'N/A'}} />
                                     </div>
                                 </div>
-                            </div>
-                        </section>
-                    </div>
-                    <div className="col-lg-3">
-                            
+                            </section>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <Footer/>
+        </main>
+        <FooterV2/>
         </>
     )
 }

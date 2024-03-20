@@ -23,6 +23,7 @@ function SignIn() {
                 if(response.data.status == true) {
 					localStorage.setItem('client_token', response.data.token);
 					localStorage.setItem('user_data', response.data.user.id);
+					localStorage.setItem('activeTab', '/');
 					navigate('/');
                 } else {
 					toast.error(response.data.message);

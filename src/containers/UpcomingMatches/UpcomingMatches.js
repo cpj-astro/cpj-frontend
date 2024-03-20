@@ -4,6 +4,7 @@ import HeaderV2 from '../../components/HeaderV2';
 import FooterV2 from '../../components/FooterV2';
 import MatchListCard from '../../components/MatchListCard';
 import { useNavigate } from 'react-router-dom';
+import MobileTabs from '../../components/MobileTabs';
 
 export default function UpcomingMatches() {
   const [upcomingMatches, setUpcomingMatches] = useState([]);
@@ -49,6 +50,7 @@ export default function UpcomingMatches() {
       <>
           <HeaderV2/>
           <main className="cp__list-sec">
+				      <MobileTabs/>
               <div className="container">
                   <div className="cp__listing-wrap">
                     {(upcomingMatches && upcomingMatches.length > 0 && !matchLoader) && (

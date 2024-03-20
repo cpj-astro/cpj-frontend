@@ -31,6 +31,7 @@ import Feedback from '../Feedback';
 import HeaderV2 from '../../components/HeaderV2';
 import FooterV2 from '../../components/FooterV2';
 import MatchCardV2 from '../../components/MatchCardV2';
+import MobileTabs from '../../components/MobileTabs';
 
 export default function HomePageV2() {
   const [carouselKey, setCarouselKey] = useState('');
@@ -373,15 +374,7 @@ export default function HomePageV2() {
       <main>
         <section className="cp__hero-sec">
           <div className="container">
-            <div className="cp__mobile-tab">
-              <div className="nav nav-tabs mb-3 d-lg-none d-lg-block" id="nav-tab" role="tablist">
-                <button className="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Home</button>
-                <button className="nav-link" id="nav-live-tab" data-bs-toggle="tab" data-bs-target="#nav-live" type="button" role="tab" aria-controls="nav-live" aria-selected="false">Live</button>
-                <button className="nav-link" id="nav-upcoming-tab" data-bs-toggle="tab" data-bs-target="#nav-upcoming" type="button" role="tab" aria-controls="nav-upcoming" aria-selected="false">Upcoming</button>
-                <button className="nav-link" id="nav-finished-tab" data-bs-toggle="tab" data-bs-target="#nav-finished" type="button" role="tab" aria-controls="nav-finished" aria-selected="false">Finished</button>
-                <button className="nav-link" id="nav-news-tab" data-bs-toggle="tab" data-bs-target="#nav-news" type="button" role="tab" aria-controls="nav-news" aria-selected="false">News</button>
-              </div>
-            </div>
+            <MobileTabs/>
             <div className="d-flex flex-wrap align-items-center justify-content-between cp__hero-wrap">
               <div className="col-lg-6 col-sm-12 cp__hero-content" data-aos="fade-right">
                 <h2>Enroll Today and Transform Your <span className="cp__txt-green">Cricket Game</span></h2>

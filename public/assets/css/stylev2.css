@@ -709,6 +709,11 @@ li.cp__before-dot {
     }
 }
 /* FAQ section css end */
+
+.cp__active {
+    color: #00FFFF!important;
+}
+
 /* about us css start */
 .cp__about-sec .cp__sec-title{
     margin-bottom: 60px;
@@ -1181,7 +1186,142 @@ li.cp__before-dot {
     background-color: #00FFFF !important;
 }
 
+.news-card img {
+    height: 200px;
+}
+
+.related-news .cp__card {
+    margin: 10px 0 !important;
+}
+
+.related-news figure {
+    margin-bottom: 0;
+}
+
+.related-news figure img {
+    border-radius: 10px 10px 0 0;
+}
+
+.related-news .content-block {
+    padding: 10px;
+}
+
+.blog-details-content {
+    border: 2px solid #00FFFF;
+    border-radius: 10px;
+    position: relative;
+    padding: 20px;
+}
+
+.blog-details-header {
+    -webkit-box-align: inherit;
+        -ms-flex-align: inherit;
+            align-items: inherit;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.blog-details-header h2 {
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 32px;
+    margin-bottom: 10px;
+    color: #fff;
+}
+
+.news-title {
+    color: #00FFFF;
+}
+
+@media screen and (max-width: 479px) {
+    .blog-details-header h2 {
+    font-size: 22px;
+    line-height: 26px;
+    }
+}
+
+.blog-details-header div.post-meta a {
+    display: inline-block;
+    font-size: 12px;
+    line-height: 16px;
+    color: #777;
+}
+
+.blog-details-header div.post-meta a:not(:last-of-type) {
+    margin-right: 20px;
+}
+
+.blog-details-header div.post-meta a i {
+    color: #ccc;
+}
+
+.image-card {
+    position: relative;
+}
+
+.image-card figure {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.image-card figure img {
+    border: 1px solid;
+    border-radius: 10px;
+}
+
+.image-card-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 30px;
+}
+
+@media screen and (max-width: 479px) {
+    .image-card-content {
+    position: relative;
+    }
+}
+
+.image-card-content h2 {
+    margin-bottom: 6px;
+}
+
+.image-card-content h2 a {
+    font-size: 30px;
+    font-weight: 600;
+    color: #fff;
+    line-height: 32px;
+    display: block;
+}
+
+@media screen and (max-width: 479px) {
+    .image-card-content h2 a {
+    color: #000;
+    font-size: 22px;
+    }
+}
+
+.image-card-content p {
+    color: #fff;
+    margin-bottom: 0px;
+}
+
+@media screen and (max-width: 479px) {
+    .image-card-content p {
+    color: #000;
+    }
+}
+
 .cp__event-status {
+    text-transform: capitalize;
     background-color: #00ffff;
     color: #0F0E0E;
     padding: 6px 12px;

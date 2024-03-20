@@ -15,7 +15,7 @@ export default function FooterV2() {
             <div className="d-flex flex-wrap justify-content-between cp__footer-main">
             <div className="col-lg-5 col-sm-12 cp__logo-block" data-aos="fade-up">
                 <div className="cp__logo" data-aos="zoom-in">
-                <img src="/assets/images/logo.png" alt="logo" />
+                    <a href="/"><img src="/assets/images/logo.png" alt="logo" /></a>
                 </div>
                 <p>Welcome to cricket panditji, your ultimate destination for astrology enthusiasts seeking cosmic guidance and insights into the mystical world of celestial influences.</p>
                 <div className="cp__social-link">

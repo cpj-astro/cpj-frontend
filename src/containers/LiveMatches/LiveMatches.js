@@ -15,6 +15,7 @@ import HeaderV2 from '../../components/HeaderV2';
 import FooterV2 from '../../components/FooterV2';
 import { db } from '../../authFiles/fbaseconfig';
 import MatchListCard from '../../components/MatchListCard';
+import MobileTabs from '../../components/MobileTabs';
 
 export default function LiveMatches() {
     let matchDataRef = collection(db, "matchdata");
@@ -98,6 +99,7 @@ export default function LiveMatches() {
         <>
             <HeaderV2/>
             <main className="cp__list-sec">
+				<MobileTabs/>
                 <div className="container">
                     <div className="cp__listing-wrap">
                         {(liveMatches && liveMatches.length > 0) && (
