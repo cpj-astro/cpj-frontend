@@ -17,6 +17,7 @@ import PlayingXI from '../../components/PlayingXI';
 import HeaderV2 from '../../components/HeaderV2'
 import FooterV2 from '../../components/FooterV2'
 import MobileTabs from '../../components/MobileTabs';
+import NoSleep from '@uriopass/nosleep.js';
 
 export default function LiveLineV2() {
     const navigate = useNavigate();
@@ -414,6 +415,10 @@ export default function LiveLineV2() {
     };
 
     useEffect(() => {
+
+        const noSleep = new NoSleep();
+        noSleep.enable();
+        
         const authenticated = localStorage.getItem('client_token');
         let url = null;
         if(authenticated) {
@@ -430,6 +435,10 @@ export default function LiveLineV2() {
         .catch((error) => {
             console.log(error);
         });
+        // Clean up on component unmount
+        return () => {
+            noSleep.disable();
+        };
     }, [id]);
 
     useEffect(() => {
