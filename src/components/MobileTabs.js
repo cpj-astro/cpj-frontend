@@ -33,8 +33,8 @@ export default function MobileTabs() {
                 </button>
                 
                 <button
-                    onClick={() => handleTabClick('/astro-matches')}
-                    className={`nav-link ${activeTab === '/astro-matches' ? 'active' : ''}`}
+                    onClick={() => handleTabClick('/astro')}
+                    className={`nav-link ${activeTab === '/astro' ? 'active' : ''}`}
                     type="button"
                 >
                     Astrology

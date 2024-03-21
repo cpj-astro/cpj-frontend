@@ -75,7 +75,7 @@ export default function HeaderV2() {
                     <div className="cp__header-middle">
                         <ul className="cp__menu-wrap d-flex flex-wrap align-items-center">
                             <li><a href="/" className={activeTab === '/' ? 'cp__active' : ''}>Home</a></li>
-                            <li><a href="/astro-matches" className={activeTab === '/astro-matches' ? 'cp__active' : ''}>Astrology</a></li>
+                            <li><a href="/astro" className={activeTab === '/astro' ? 'cp__active' : ''}>Astrology</a></li>
                             <li><a href="/live" className={activeTab === '/live' ? 'cp__active' : ''}>Live</a></li>
                             <li><a href="/upcoming" className={activeTab === '/upcoming' ? 'cp__active' : ''}>Upcoming</a></li>
                             <li><a href="/finished" className={activeTab === '/finished' ? 'cp__active' : ''}>Finished</a></li>
