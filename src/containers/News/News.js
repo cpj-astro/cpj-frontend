@@ -4,8 +4,10 @@ import axios from 'axios';
 import FooterV2 from '../../components/FooterV2';
 import HeaderV2 from '../../components/HeaderV2';
 import MobileTabs from '../../components/MobileTabs';
+import Loader from '../../components/Loader';
 
 export default function News() {
+    const [newsLoader, setNewsLoader] = useState(false)
     const [newsData, setNewsData] = useState([]);
     const [newsCount, setNewsCount] = useState(6);
     const maxTitleLength = 30;
@@ -18,6 +20,7 @@ export default function News() {
         },
     };
     useEffect(() => {
+        setNewsLoader(true);
         axios.get(
         process.env.REACT_APP_DEV === 'true'
             ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/news`
@@ -25,9 +28,11 @@ export default function News() {
         apiConfig
         )
         .then((response) => {
+            setNewsLoader(false);
             setNewsData(response.data.data);
         })
         .catch((error) => {
+            setNewsLoader(false);
             if(error.response.data.status_code == 401){
                 localStorage.removeItem('client_token');
                 localStorage.removeItem('user_data');
@@ -50,9 +55,9 @@ export default function News() {
                     <MobileTabs/>
                     <div className="container">
                         <div className="cp__listing-wrap">
-                            <h1 className='mt-3'>Cricket News</h1>
+                            {newsLoader && <Loader/>}
                             <section className="related-news p-0">
-                                {(newsData && newsData.length > 0) && (
+                                {(!newsLoader && newsData && newsData.length > 0) && (
                                     <div className="row">
                                         {newsData.slice(0, newsCount).map((news, index) => (
                                             <div className="col-md-6" key={news.news_id}>
@@ -73,7 +78,7 @@ export default function News() {
                                         ))}
                                     </div>
                                 )}
-                                {newsData.length > newsCount && (
+                                {!newsLoader && newsData.length > newsCount && (
                                     <div className="text-center mt-3">
                                         <span className="cp__fill-btn-profile" onClick={newsloadMore}>
                                             <i className='fa fa-spinner'></i> &nbsp; Load More

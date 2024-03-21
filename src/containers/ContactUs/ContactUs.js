@@ -54,54 +54,74 @@ export default function ContactUs() {
     return (
         <>
             <HeaderV2/>
-            <div id="main" className="main-container contactus">
-                <div className="container breadcrumb-area">
-                    <div className="breadcrumb">
-                        <a href="/">Home</a>
-                        <span>Contact Us</span>
-                    </div>
-                    <h2>Contact Us</h2>
-                </div>
-                <section className="contact-sec pt-15">
-                    <div className="container">
-                    <div className="card card-shadow px-30 py-30">
-                        <div className="row">
-                        <div className="col-md-12">
-                            <div className="comment-form p-0">
-                            <p className="mb-20">
-                                {/* Office Address <p><strong>1ST, B-102, VASANT VIHAR TOWNSHIP, Magdalla Road, Bhatar, Surat, Gujarat, 395007</strong></p> */}
-                                Our Office timings are <p><strong>Mondays to Fridays: 9:00am to 12:00pm </strong></p>
-                                Email Us <p><strong>cricketpanditji.astro@gmail.com </strong></p>
-                            </p>
-                            <hr/>
-                            <form onSubmit={handleSubmit(onSubmit)}>
-                                <div className="form-row">
-                                <div className="col-md-6">
-                                    <div className="input-field">
-                                    <label htmlFor="name">Your name</label>
-                                    <input id="name" type="text" name="name" placeholder="Enter name" required {...register("name")} />
+            <main className="cp__list-sec">
+				<div className="cp__listing-wrap">
+					<section>
+						<div className='container pt-3'>
+							<div className="cp__form-wrap">	
+                                <div className='row'>
+                                    <div className='col-md-12'>
+                                        <div className='text-center'>
+                                            <h2>Contact Us</h2>
+                                        </div>
+                                        <hr/>
                                     </div>
                                 </div>
-                                <div className="col-md-6">
-                                    <div className="input-field">
-                                    <label htmlFor="email">Email address</label>
-                                    <input id="email" type="email" name="email" placeholder="Enter email" required {...register("email")}/>
-                                    </div>
-                                </div>
-                                </div>
-                                <div className="input-field textarea">
-                                <label htmlFor="comments">Your Comment</label>
-                                <textarea id="comments" name="comments" placeholder="Write your comment" defaultValue={""} {...register("comments")}/>
-                                </div>
-                                <button type="submit" className="cricnotch-btn btn-filled radius-5">{loader ? 'Processing Your Request...' : 'Send Message'}</button>
-                            </form>
+                                <p className="mb-20">
+                                    Our Office timings are <p><strong>Mondays to Fridays: 9:00am to 12:00pm </strong></p> 
+                                    Email Us <p><strong>cricketpanditji.astro@gmail.com </strong></p>
+                                </p>
+                                <hr/>
+                                <form onSubmit={handleSubmit(onSubmit)}>
+                                    <div className="row">
+										<div className="col-md-12">
+											<div className="cp__form-group">
+												<label htmlFor="name">name</label>
+												<input 
+													id="name" 
+													type="name" 
+													name="name" 
+													placeholder="Enter Name" 
+													{...register("name")}
+													className="form-control" 
+												/>
+											</div>
+										</div>
+									</div>
+                                    <div className="row">
+										<div className="col-md-12">
+											<div className="cp__form-group">
+												<label htmlFor="email">Email Address</label>
+												<input 
+													id="email" 
+													type="email" 
+													name="email" 
+													placeholder="Enter Email" 
+													{...register("email")}
+													className="form-control" 
+												/>
+											</div>
+										</div>
+									</div>
+                                    <div className="row">
+										<div className="col-md-12">
+											<div className="cp__form-group">
+												<label htmlFor="comments">Your Comment</label>
+                                                <textarea id="comments" name="comments" className='form-control' placeholder="Write your comment" defaultValue={""} {...register("comments")}/>
+											</div>
+										</div>
+									</div>
+                                    <div className="row">
+										<div className="col-md-12">
+                                            <button type="submit" className="btn btn-primary btn-block">{loader ? 'Processing Your Request...' : 'Send Message'}</button>
+										</div>
+									</div>
+                                </form>
                             </div>
                         </div>
-                        </div>
-                    </div>
-                    </div>
-                </section>
-            </div>
+                    </section>
+                </div>
+            </main>
             <FooterV2/>
         </>
     )

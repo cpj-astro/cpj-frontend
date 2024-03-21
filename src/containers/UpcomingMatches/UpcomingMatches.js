@@ -5,10 +5,12 @@ import FooterV2 from '../../components/FooterV2';
 import MatchListCard from '../../components/MatchListCard';
 import { useNavigate } from 'react-router-dom';
 import MobileTabs from '../../components/MobileTabs';
+import Loader from '../../components/Loader';
 
 export default function UpcomingMatches() {
   const [upcomingMatches, setUpcomingMatches] = useState([]);
 	const [matchLoader, setMatchLoader] = useState(false)
+  const [matchCount, setMatchCount] = useState(10);
 	const navigate = useNavigate();
   const accessToken = localStorage.getItem('client_token');
   const apiConfig = {
@@ -41,11 +43,14 @@ export default function UpcomingMatches() {
       }
     });
   };
+  
+  const newsloadMore = () => {
+    setMatchCount((prevCount) => prevCount + 5);
+  };
 
   useEffect(() => {
     fetchUpcomingList();
   }, [])
-  
   return (
       <>
           <HeaderV2/>
@@ -53,15 +58,25 @@ export default function UpcomingMatches() {
 				      <MobileTabs/>
               <div className="container">
                   <div className="cp__listing-wrap">
-                    {(upcomingMatches && upcomingMatches.length > 0 && !matchLoader) && (
+                    {(!matchLoader && upcomingMatches && upcomingMatches.length > 0 && !matchLoader) && (
                       <>
-                        {upcomingMatches.slice(0, 5).map((m, i) => (
+                        {upcomingMatches.slice(0, matchCount).map((m, i) => (
                           <MatchListCard match={m} index={i}/>
                         ))}
                       </>
                     )}
                     
-						      {upcomingMatches && upcomingMatches.length == 0 && <h1 className='mt-3'>No Matches</h1>}
+                    {!matchLoader && upcomingMatches && upcomingMatches.length == 0 && <h1 className='mt-3'>No Matches</h1>}
+
+                    {matchLoader && <Loader/>}
+
+                    {!matchLoader && upcomingMatches.length > matchCount && (
+                        <div className="text-center mt-3">
+                            <span className="cp__fill-btn-profile" onClick={newsloadMore}>
+                                <i className='fa fa-spinner'></i> &nbsp; Load More
+                            </span>
+                        </div>
+                    )}
                   </div>
               </div>
           </main>

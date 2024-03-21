@@ -61,9 +61,11 @@ const PhonePeIntegration = ({ btnText, astroAmount, matchId, panditId, userId}) 
 
   return ( 
     <>
-      <button className="mt-2 btn-astro-v1" onClick={makePayment}> 
-        {btnText}
-      </button>
+      <buton className="cp__fill-btn" onClick={makePayment}>
+          Pay ₹ {astroAmount} Now 
+          <img src="/assets/images/arrow-right-black.svg" alt="logo" className="cp__black" />
+          <img src="/assets/images/arrow-right-blue.svg" alt="logo" className="cp__green" />
+      </buton>
     </>
   );
 };

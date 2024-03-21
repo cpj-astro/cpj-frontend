@@ -31,6 +31,14 @@ export default function MobileTabs() {
                 >
                     Home
                 </button>
+                
+                <button
+                    onClick={() => handleTabClick('/astro-matches')}
+                    className={`nav-link ${activeTab === '/astro-matches' ? 'active' : ''}`}
+                    type="button"
+                >
+                    Astrology
+                </button>
 
                 <button
                     onClick={() => handleTabClick('/live')}

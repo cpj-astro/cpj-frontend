@@ -286,14 +286,13 @@ export default function HomePageV2() {
 		
 		const fetchMatchDataIds = async () => {
 			try {
-				const userSubscribeMatchRef = doc(db, "user_subscribe_match", userId);
+				const userSubscribeMatchRef = doc(db, "user_match_subscribe", userId);
 				const userSubscribeMatchDoc = await getDoc(userSubscribeMatchRef);
         if(userSubscribeMatchDoc.exists()) {
           const matchDataPaymentIds = userSubscribeMatchDoc.data().match_id || [];
-          
           if (matchDataPaymentIds.length > 0) {
             setInitialLoadComplete(true);
-            setMatchPayIds(matchPayIds);
+            setMatchPayIds(matchDataPaymentIds);
           } 
         }
 			} catch (error) {
@@ -333,8 +332,8 @@ export default function HomePageV2() {
         const allMatches = [];
 				snapshot.forEach((doc) => {
           let data = doc.data();
-					if(data && (data.result == "" || data.result == null)) {
-            if(matchPayIds.includes(data.match_id)) {
+					if(data && (data.result == "" || data.result == null)) {            
+            if(matchPayIds.includes(String(data.match_id))) {
               data.is_paid = true;
 						} else {
               data.is_paid = false;
