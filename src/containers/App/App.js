@@ -64,7 +64,7 @@ const App = () => {
             <Route path="/" element={<HomePageV2 />} />
             <Route path="/live" element={<LiveMatches />} />
             <Route path="/upcoming" element={<UpcomingMatches />} />
-            <Route path="/astro-matches" element={<AstroMatches />} />
+            <Route path="/astro" element={<AstroMatches />} />
             <Route path="/finished" element={<FinishedMatches />} />
             <Route path="/news" element={<News />} />
             <Route path="/news-details/:id/:title/:pub_date" element={<NewsDetails />} />
