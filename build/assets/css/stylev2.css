@@ -682,7 +682,7 @@ li.cp__before-dot {
 }
 @media(max-width: 991px){
     .news-card img {
-        height: auto;
+        height: auto!important;
     }
     .cp__faq-sec .accordion {
         padding: 0;
