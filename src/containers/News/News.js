@@ -10,7 +10,7 @@ export default function News() {
     const [newsLoader, setNewsLoader] = useState(false)
     const [newsData, setNewsData] = useState([]);
     const [newsCount, setNewsCount] = useState(6);
-    const maxTitleLength = 30;
+    const maxTitleLength = 20;
     const navigate = useNavigate();
     const accessToken = localStorage.getItem('client_token');
     const apiConfig = {

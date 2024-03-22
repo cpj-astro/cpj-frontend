@@ -681,6 +681,9 @@ li.cp__before-dot {
     z-index: 1;
 }
 @media(max-width: 991px){
+    .news-card img {
+        height: auto;
+    }
     .cp__faq-sec .accordion {
         padding: 0;
     }
@@ -1181,7 +1184,7 @@ li.cp__before-dot {
 }
 
 .news-card img {
-    height: 200px;
+    height: 270px;
 }
 
 .related-news .cp__card {
