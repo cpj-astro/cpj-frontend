@@ -76,7 +76,7 @@ export default function ContactUs() {
                                     <div className="row">
 										<div className="col-md-12">
 											<div className="cp__form-group">
-												<label htmlFor="name">name</label>
+												<label htmlFor="name">Name</label>
 												<input 
 													id="name" 
 													type="name" 

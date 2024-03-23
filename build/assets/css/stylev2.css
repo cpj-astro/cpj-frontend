@@ -1132,11 +1132,11 @@ li.cp__before-dot {
 
 .country-name {
     color: inherit;
-    font-size: 14px;
+    margin-top: -5px;
+    font-size: 15px;
     text-transform: uppercase;
-    display: inline-flex;
     font-weight: 600;
-    margin-right: 5px;
+    margin-left: 20px;
 }
 
 .text-muted {
@@ -1654,7 +1654,7 @@ li.cp__before-dot {
     color: #fff;
 }
 
-.playx11 .accordion {
+.accordion {
     cursor: pointer;
 }
 
@@ -2111,4 +2111,100 @@ textarea.form-control{
 .doesn-text a {
     color: #00FFFF!important;
     font-size: 16px !important;
+}
+
+.cp__report-keys {
+    color: #00FFFF!important;
+    font-weight: 500;
+}
+
+.report-values {
+    font-size: small;
+}
+
+.flag-avatar figure.avatar-28 {
+    width: 28px;
+    height: 28px;
+    position: relative;
+}
+
+.flag-avatar figure img {
+    height: 35px;
+    width: 35px;
+    max-width: 35px;
+    border-radius: 50%;
+}
+
+.flag-avatar span {
+    color: #000;
+    font-size: 13px;
+    text-transform: uppercase;
+    display: block;
+    font-weight: 600;
+    margin: 0px;
+}
+ 
+.cvc_class {
+    border: 1px solid #ddd;
+    padding: 5px;
+    width: 30px;
+    height: 30px;
+    display: inline-flex;
+    border-radius: 50%;
+    font-size: 15px;
+    justify-content: center;
+    align-items: center;
+}
+
+.cvc_active_class {
+    border: 1px solid #ffffff;
+    background-color: #00FFFF;
+    color: #000000;
+    padding: 5px;
+    width: 30px;
+    height: 30px;
+    display: inline-flex;
+    border-radius: 50%;
+    font-size: 15px;
+    justify-content: center;
+    align-items: center;
+}
+
+span.p_class {
+    font-size: 6px!important;
+    border: 1px solid #fff;
+    position: absolute;
+    padding: 3px;
+    height: 17px;
+    width: 17px;
+    display: inline-flex !important;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    top: 20px;
+    left: 20px;
+    color: #fff!important;
+    background-color: black;
+}
+
+.country-info {
+    cursor: pointer;
+    -webkit-box-align: start;
+        -ms-flex-align: start;
+            align-items: flex-start;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    -webkit-box-pack: start;
+        -ms-flex-pack: start;
+            justify-content: flex-start;
+}
+
+@media screen and (max-width: 767px) {
+    .table .country-info {
+      -ms-flex-wrap: nowrap;
+          flex-wrap: nowrap;
+    }
 }

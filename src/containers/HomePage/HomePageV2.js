@@ -227,15 +227,15 @@ export default function HomePageV2() {
       setLoader(false);
       if(response.data.success){
         setPanditData(response.data.data);
-            }
-          }).catch((error) => {
-            setLoader(false);
-			console.error(error);
-        });
-    }
+      }
+    })
+    .catch((error) => {
+      setLoader(false);
+      console.error(error);
+    });
+  }
     
-    useEffect(() => {
-      fetchPanditsList();
+  useEffect(() => {
       // Check if the 'visited' flag is set in sessionStorage
       const hasVisited = sessionStorage.getItem('visited');
       
@@ -246,7 +246,6 @@ export default function HomePageV2() {
         sessionStorage.setItem('visited', 'true');
 		}
 	}, []);
-  
   	
 	useEffect(() => {
 		if (ads.length > 0) {
@@ -278,12 +277,10 @@ export default function HomePageV2() {
 		}
 	}, [localStorage.getItem('match_id')]);
 	
-	
 	let matchDataRef = collection(db, "matchdata");
 	
 	useEffect(() => {
-    const userId = localStorage.getItem("user_data");
-		
+    const userId = localStorage.getItem("user_data");	
 		const fetchMatchDataIds = async () => {
 			try {
 				const userSubscribeMatchRef = doc(db, "user_match_subscribe", userId);
@@ -362,9 +359,10 @@ export default function HomePageV2() {
   useEffect(() => {
     fetchUpcomingList();
     fetchRecentList();
+    fetchPanditsList();
     fetchNews();
     fetchDataFromGameZop();
-    fetchPrivateAds();
+    fetchPrivateAds();    
   }, []);
 
   return (
@@ -480,6 +478,7 @@ export default function HomePageV2() {
                     <li className="cp__before-dot">Cricket Panditji will give you astrology of cricket match based on
                       your horoscope!</li>
                   </ul>
+                  <p>Free Live Line | Match Reports | Fantasy Reports</p>
                 </div>
               </div>
             </div>
@@ -488,34 +487,44 @@ export default function HomePageV2() {
 
         <section className="cp__about-sec">
           <div className="container">
-            <h2 className="cp__sec-title" >About Us</h2>
+            <h2 className="cp__sec-title">Our Pandit</h2>
+            {(panditData && panditData.length > 0) && panditData.map((pandit, index) => (
             <div className="d-flex align-items-center justify-content-between flex-wrap">
               <div className="col-lg-6 col-sm-12 cp__about-img">
                 <div className="cp__img-block">
                   <img src="assets/images/client.png" alt="logo" />
                 </div>
                 <div className="cp__exp-desc">
-                  <span>8</span>
-                  <span>Years of experience</span>
+                <span>{pandit.experience}</span>
+                <span>Years of experience</span>
                 </div>
               </div>
               <div className="col-lg-6 col-sm-12">
-                <div className="cp__img-block">
-                  <img src="assets/images/esoteric.png" alt="logo" className="cp__start-img" />
-                </div>
-                <h3>Expertise and Experience</h3>
-                <p>Highlighting the expertise and experience of astrology pandits in the field, including their qualifications, specializations, and years of practice.</p>
-                <ul>
-                  <li className="cp__before-dot">Aries individuals are known for their boldness, energy, and competitiveness.</li>
-                  <li className="cp__before-dot">Taureans are known for their stability, determination, and practicality.</li>
-                </ul>
-                <div className="cp__about-btn">
-                  <a href="#" className="cp__fill-btn">Get Started<img src="assets/images/arrow-right-black.svg" alt="logo" className="cp__black" />
-                    <img src="assets/images/arrow-right-green.svg" alt="logo" className="cp__green" /></a>
-                  <a href="#"> <img src="assets/images/phone-call.png" alt="logo" />123 456 7890</a>
-                </div>
+                  <div className="cp__img-block">
+                      <img src="/assets/images/esoteric.png" alt="logo" className="cp__start-img" />
+                  </div>
+                  <h3>{pandit.name}</h3>
+                  <p>
+                      Our experienced pandit specialize in providing detailed match & fantasy astrology insights for cricket matches. Enhance your match experience by unlocking the secrets of the stars. Purchase their services now!
+                  </p>
+                  <ul>
+                      <li className="cp__before-dot">Rating:{Array.from({ length: pandit.rating }, (_, index) => (
+                          <>
+                              &nbsp;<i key={index} className="fa fa-star text-warning"></i>
+                          </>
+                      ))} <i className='fa fa-star-half text-warning'></i>
+                      </li>
+                      <li className="cp__before-dot">Astrology Price: ₹ {pandit.match_astrology_price}</li>
+                  </ul>
+                  <div className="cp__about-btn">
+                      <a href='/astro' className="cp__fill-btn">
+                          Get Started
+                          <img src="/assets/images/arrow-right-black.svg" alt="logo" className="cp__black" />
+                          <img src="/assets/images/arrow-right-blue.svg" alt="logo" className="cp__green" />
+                      </a>
+                  </div>
               </div>
-            </div>
+            </div>))}
           </div>
           <div className="cp__aboutbg-img">
             <img src="assets/images/about-us-bg.png" alt="about" />

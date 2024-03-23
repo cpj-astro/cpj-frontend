@@ -935,7 +935,7 @@ export default function LiveLineV2() {
                                                                         <strong>{matchData && matchData.bolwer && matchData.bolwer.name ? matchData.bolwer.name : 'No Data'}</strong>
                                                                     </td>
                                                                     <td>
-                                                                        <strong>{matchData && matchData.bolwer && matchData.bolwer.over ? matchData.bolwer.over : 'No Data'}</strong>
+                                                                        <strong>{matchData && matchData.bolwer && matchData.bolwer.over ? matchData.bolwer.over : ''}</strong>
                                                                     </td>
                                                                     <td>
                                                                         {matchData && matchData.bolwer && matchData.bolwer.run ? matchData.bolwer.run : ''}

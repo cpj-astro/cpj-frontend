@@ -40,16 +40,15 @@ const HomePage = () => {
 	const [currentAds, setCurrentAds] = useState([]);
 	const [currentIndex, setCurrentIndex] = useState(0);
 	const [activeTab, setActiveTab] = useState('home');
-	const accessToken = localStorage.getItem('client_token');
 	const maxTitleLength = 30;
 	const [newsCount, setNewsCount] = useState(6);
     const [panditData, setPanditData] = useState([]);
 	const handleCloseModal = () => setShowModal(false);
 	
     const newsloadMore = () => {
-        setNewsCount((prevCount) => prevCount + 5);
+		setNewsCount((prevCount) => prevCount + 5);
     };
-
+	
 	const responsiveOptions = {
 		0: { items: 1 },
 		300: { items: 1 },
@@ -57,6 +56,7 @@ const HomePage = () => {
 		1000: { items: 3 },
 	};
 
+	const accessToken = localStorage.getItem('client_token');
 	const apiConfig = {
 		headers: {
 		Authorization: "Bearer " + accessToken,

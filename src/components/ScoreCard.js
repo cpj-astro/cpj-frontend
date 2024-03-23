@@ -77,11 +77,11 @@ const Scorecard = ({ scorecardData }) => {
                                             <thead>
                                                 <tr>
                                                     <th scope="col">Bowlers</th>
-                                                    <th scope="col">o</th>
-                                                    <th scope="col">m</th>
-                                                    <th scope="col">r</th>
-                                                    <th scope="col">w</th>
-                                                    <th scope="col">econ</th>
+                                                    <th scope="col">O</th>
+                                                    <th scope="col">M</th>
+                                                    <th scope="col">R</th>
+                                                    <th scope="col">M</th>
+                                                    <th scope="col">Econ</th>
                                                 </tr>
                                             </thead>
                                             <tbody>

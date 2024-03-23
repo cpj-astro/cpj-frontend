@@ -7,13 +7,13 @@ function drawHouse(context, points) {
   });
   context.closePath();
   context.lineWidth = 1;
-  context.strokeStyle = 'red';
+  context.strokeStyle = 'white';
   context.stroke();
 }
 
 function drawText(context, x, y, maintext, subtext) {
   context.font = "10px Comic Sans MS";
-  context.fillStyle = "white"; // Change the text color to black
+  context.fillStyle = "#00FFFF"; // Change the text color to black
   context.fillText(maintext, x * context.canvas.width / 100, y * context.canvas.height / 100);
 }
 
