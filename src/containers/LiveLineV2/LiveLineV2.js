@@ -502,33 +502,33 @@ export default function LiveLineV2() {
                                                         {matchData && matchData.batting_team == matchData.team_a_id ?
                                                         <div className="score-card-body">
                                                             <div className="country-info">
-                                                                <div className="text-center">
+                                                                <div className="">
                                                                     <span className="country-name">{matchData && matchData.team_a_short ? matchData.team_a_short : 'No Data'}</span>
-                                                                    <span>{matchData && matchData.team_a_scores ? matchData.team_a_scores : '00-0'}</span> &nbsp;
-                                                                    <span className="text-muted">{matchData && matchData.team_a_over ? matchData.team_a_over : '0.0'} ov.</span>
+                                                                    <span>{matchData && matchData.team_a_scores ? matchData.team_a_scores : '00-0'}</span>
+                                                                    <p className="text-muted">{matchData && matchData.team_a_over ? matchData.team_a_over : '0.0'} ov.</p>
                                                                 </div> 
                                                             </div>
                                                             <div className="country-info">
-                                                                <div className="text-center">
+                                                                <div className="cp__text-rigth">
                                                                     <span className="country-name">{matchData && matchData.team_b_short ? matchData.team_b_short : 'No Data'}</span>
-                                                                    <span>{matchData && matchData.team_b_scores ? matchData.team_b_scores : '00-0'}</span> &nbsp;
-                                                                    <span className="text-muted">{matchData && matchData.team_b_over ? matchData.team_b_over : '0.0'} ov.</span>
+                                                                    <span>{matchData && matchData.team_b_scores ? matchData.team_b_scores : '00-0'}</span> 
+                                                                    <p className="text-muted">{matchData && matchData.team_b_over ? matchData.team_b_over : '0.0'} ov.</p>
                                                                 </div> 
                                                             </div>
                                                         </div> : 
                                                         <div className="score-card-body">
                                                             <div className="country-info">
-                                                                <div className="text-center">
+                                                                <div className="">
                                                                     <span className="country-name">{matchData && matchData.team_b_short ? matchData.team_b_short : 'No Data'}</span>
-                                                                    <span>{matchData && matchData.team_b_scores ? matchData.team_b_scores : '00-0'}</span> &nbsp;
-                                                                    <span className="text-muted">{matchData && matchData.team_b_over ? matchData.team_b_over : '0.0'} ov.</span>
+                                                                    <span>{matchData && matchData.team_b_scores ? matchData.team_b_scores : '00-0'}</span> 
+                                                                    <p className="text-muted">{matchData && matchData.team_b_over ? matchData.team_b_over : '0.0'} ov.</p>
                                                                 </div> 
                                                             </div>
                                                             <div className="country-info">
-                                                                <div className="text-center">
+                                                                <div className="cp__text-rigth">
                                                                     <span className="country-name">{matchData && matchData.team_a_short ? matchData.team_a_short : ' '}</span>
-                                                                    <span>{matchData && matchData.team_a_scores ? matchData.team_a_scores : '00-0'}</span> &nbsp;
-                                                                    <span className="text-muted">{matchData && matchData.team_a_over ? matchData.team_a_over : '0.0'} ov.</span>
+                                                                    <span>{matchData && matchData.team_a_scores ? matchData.team_a_scores : '00-0'}</span> 
+                                                                    <p className="text-muted">{matchData && matchData.team_a_over ? matchData.team_a_over : '0.0'} ov.</p>
                                                                 </div> 
                                                             </div>
                                                         </div>}
@@ -595,14 +595,10 @@ export default function LiveLineV2() {
                                     <div className='tab-content mt-2'>
                                         <div id="liveline" className={`tab-pane fade in ${activeTab === 'liveline' ? 'show active' : ''}`}>
                                             {matchData && matchData.match_type == 'Test' && matchData.trail_lead && 
-                                            <div className="row">
-                                                <div className="col-md-12">
-                                                    <div className="widget widget-rankings">
-                                                        <div className="card shadow px-2 py-2 odd-border text-center text-uppercase">
-                                                        <strong>{matchData.trail_lead}</strong>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                            <div className="spell-sum-box px-3 pb-0 pt-0 mt-3 mb-3">
+                                                <h5 className='text-center mb-0'>
+                                                    <strong>{matchData.trail_lead}</strong>
+                                                </h5>
                                             </div>}
 
                                             <div className="row">
@@ -932,10 +928,10 @@ export default function LiveLineV2() {
                                                             <tbody>
                                                                 <tr>
                                                                     <td>
-                                                                        <strong>{matchData && matchData.bolwer && matchData.bolwer.name ? matchData.bolwer.name : 'No Data'}</strong>
+                                                                        {matchData && matchData.bolwer && matchData.bolwer.name ? matchData.bolwer.name : 'No Data'}
                                                                     </td>
                                                                     <td>
-                                                                        <strong>{matchData && matchData.bolwer && matchData.bolwer.over ? matchData.bolwer.over : ''}</strong>
+                                                                        {matchData && matchData.bolwer && matchData.bolwer.over ? matchData.bolwer.over : ''}
                                                                     </td>
                                                                     <td>
                                                                         {matchData && matchData.bolwer && matchData.bolwer.run ? matchData.bolwer.run : ''}
@@ -957,7 +953,7 @@ export default function LiveLineV2() {
                                             {matchData && matchData.yet_to_bet && 
                                             <div className="spell-sum-box shadow mt-3">
                                                 <span>Yet to bat: &nbsp;
-                                                    <span> 
+                                                    <span style={{fontWeight: 'normal'}}> 
                                                     {matchData && matchData.yet_to_bet && 
                                                     matchData.yet_to_bet.join(', ')}
                                                     </span>

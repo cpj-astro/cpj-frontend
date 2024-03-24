@@ -610,6 +610,7 @@ li.cp__before-dot {
 .cp__buypro-sec {
     position: relative;
     overflow: hidden;
+    margin-bottom: 100px;
 }
 @media (max-width:991px){
     .cp__buypro-sec h2 {
@@ -988,16 +989,20 @@ li.cp__before-dot {
 
 .back-color.bl-style {
     position: relative;
-    background-color: #0076ff;
+    background-color: #9bd3fe;
     border: 1px solid;
     border-radius: 5px;
+    color: black;
+    font-weight: 600;
 }
 
 .lay-color.bl-style {
     position: relative;
-    background-color: #F81616;
+    background-color: #faa5b8;
     border: 1px solid;
     border-radius: 5px;
+    color: black;
+    font-weight: 600;
 }
 
 .table-width-th {
@@ -1130,13 +1135,17 @@ li.cp__before-dot {
     }
 }
 
+.cp__text-rigth {
+    text-align: right;
+}
+
 .country-name {
     color: inherit;
     margin-top: -5px;
     font-size: 15px;
     text-transform: uppercase;
     font-weight: 600;
-    margin-left: 20px;
+    margin-right: 5px;
 }
 
 .text-muted {
@@ -1383,7 +1392,7 @@ li.cp__before-dot {
     padding: 5px;
     color: #fff;
     justify-content: center;
-    background-color: #0076ff;
+    background-color: #9bd3fe;
 }
 
 .fancy-b-max {
@@ -1393,7 +1402,7 @@ li.cp__before-dot {
     padding: 5px;
     color: #fff;
     justify-content: center;
-    background-color: #F81616;
+    background-color: #faa5b8;
 }
 
 .spell-sum-box {
@@ -1413,8 +1422,8 @@ li.cp__before-dot {
     font-weight: bolder;
     font-size: 8px;
     border-radius: 5px;
-    color: black;
-    background: rgb(255 255 255 / 57%);
+    color: red;
+    background: rgba(48, 48, 48, 0.7);
     display: flex;
     align-items: center;
     justify-content: center;

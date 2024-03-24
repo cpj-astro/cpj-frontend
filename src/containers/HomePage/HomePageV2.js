@@ -55,6 +55,7 @@ export default function HomePageV2() {
 	const maxTitleLength = 30;
 	const [newsCount, setNewsCount] = useState(6);
   const [panditData, setPanditData] = useState([]);
+  const [faqs, setFaqs] = useState([]);
 	const handleCloseModal = () => setShowModal(false);
 	
   const newsloadMore = () => {
@@ -121,7 +122,7 @@ export default function HomePageV2() {
 		setLoader(false)
 	};
 	
-	const fetchUpcomingList = () => {
+  const fetchUpcomingList = () => {
 		setMatchLoader(true);
 		axios.get(
 		process.env.REACT_APP_DEV === 'true'
@@ -144,6 +145,28 @@ export default function HomePageV2() {
 			}
 		});
 	};
+
+	const fetchFaqs = () => {
+		axios.get(
+		process.env.REACT_APP_DEV === 'true'
+			? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/getAllFaqs`
+			: `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/getAllFaqs`,
+		apiConfig
+		)
+		.then((response) => {
+			setFaqs(response.data.faqs);
+		})
+		.catch((error) => {
+			if(error.response.data.status_code == 401){
+				localStorage.removeItem('client_token');
+				localStorage.removeItem('user_data');
+				
+				navigate('/');
+			} else {
+				console.log(error);
+			}
+		});
+	}
 	
 	const fetchRecentList = () => {
 		setMatchLoader(true);
@@ -357,6 +380,7 @@ export default function HomePageV2() {
   }, [liveMatches]);
 
   useEffect(() => {
+    fetchFaqs();
     fetchUpcomingList();
     fetchRecentList();
     fetchPanditsList();
@@ -376,7 +400,7 @@ export default function HomePageV2() {
               <div className="col-lg-6 col-sm-12 cp__hero-content">
                 <h2>Enroll Today and Transform Your <span className="cp__txt-green">Cricket Game</span></h2>
                 <h1>Maximize your winning chances with cricket astrology predictions. Unlock star-guided insights to boost your game strategy and dominate the field</h1>
-                <a href="#" className="cp__fill-btn">Get Started<img src="assets/images/arrow-right-black.svg" alt="logo" className="cp__black" />
+                <a href="/astro" className="cp__fill-btn">Get Started<img src="assets/images/arrow-right-black.svg" alt="logo" className="cp__black" />
                   <img src="assets/images/arrow-right-blue.svg" alt="logo" className="cp__blue" />
                 </a>
               </div>
@@ -423,6 +447,7 @@ export default function HomePageV2() {
             <img src="assets/images/herotop.png" alt="logo" />
           </div>
         </section>
+
         <section className="cp__coverview-sec">
           <div className="container">
             <h2 className="cp__sec-title">Company Overview</h2>
@@ -482,6 +507,32 @@ export default function HomePageV2() {
                 </div>
               </div>
             </div>
+          </div>
+        </section>
+        
+        <section className="cp__buypro-sec">
+          <div className="container">
+            <h2 className="cp__sec-title">Buy Our Reports</h2>
+            <div className="d-flex justify-content-between flex-wrap">
+              <div className="col-lg-6 col-sm-12 cp__buy-content">
+                <p>Brief overview of how astrology can be applied to cricket and the benefits of astrology cricket reports.</p>
+                <ul>
+                  <li className="cp__before-dot">Match Prediction Reports</li>
+                  <li className="cp__before-dot">Forecasts for cricket tournaments and series based on astrological trends</li>
+                  <li className="cp__before-dot">Team Analysis Reports</li>
+                  <li className="cp__before-dot">Tournament Forecasts</li>
+                  <li className="cp__before-dot">Player Performance Reports</li>
+                </ul>
+              </div>
+              <div className="col-lg-6 col-sm-12">
+                <div className="cp__img-block">
+                  <img src="assets/images/report.png" alt="logo" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="cp__buybg-img">
+            <img src="assets/images/star.png" alt="logo" />
           </div>
         </section>
 
@@ -565,102 +616,46 @@ export default function HomePageV2() {
           </div>
         </section>
         
-        <section className="cp__buypro-sec">
-          <div className="container">
-            <h2 className="cp__sec-title">Buy Our Reports</h2>
-            <div className="d-flex justify-content-between flex-wrap">
-              <div className="col-lg-6 col-sm-12 cp__buy-content">
-                <p>Brief overview of how astrology can be applied to cricket and the benefits of astrology cricket reports.</p>
-                <ul>
-                  <li className="cp__before-dot">Match Prediction Reports</li>
-                  <li className="cp__before-dot">Forecasts for cricket tournaments and series based on astrological trends</li>
-                  <li className="cp__before-dot">Team Analysis Reports</li>
-                  <li className="cp__before-dot">Tournament Forecasts</li>
-                  <li className="cp__before-dot">Player Performance Reports</li>
-                </ul>
-              </div>
-              <div className="col-lg-6 col-sm-12">
-                <div className="cp__img-block">
-                  <img src="assets/images/report.png" alt="logo" />
-                </div>
+        {faqs && faqs.length > 0 ? 
+          <section className="cp__faq-sec">
+            <div className="container">
+              <h2 className="cp__sec-title">Frequently Asked Questions</h2>
+              <div className="accordion" id="accordionExample">
+                {faqs.map((faq, index) => (
+                  <div className="accordion-item" key={index}>
+                    <h2 className="accordion-header" id={`heading${index}`}>
+                      <button
+                        className={`accordion-button ${index === 1 ? 'collapsed' : ''}`}
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target={`#collapse${index}`}
+                        aria-expanded={index === 1 ? 'false' : 'true'}
+                        aria-controls={`collapse${index}`}
+                      >
+                        {faq.title}
+                      </button>
+                    </h2>
+                    <div
+                      id={`collapse${index}`}
+                      className={`accordion-collapse collapse ${index === 1 ? '' : 'show'}`}
+                      aria-labelledby={`heading${index}`}
+                      data-bs-parent="#accordionExample"
+                    >
+                      <div className="accordion-body">
+                        {faq.value}
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-          </div>
-          <div className="cp__buybg-img">
-            <img src="assets/images/star.png" alt="logo" />
-          </div>
-        </section>
-        
-        <section className="cp__faq-sec">
-          <div className="container">
-            <h2 className="cp__sec-title">Frequently Asked Questions</h2>
-            <div className="accordion" id="accordionExample">
-              <div className="accordion-item">
-                <h2 className="accordion-header" id="headingOne">
-                  <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    How does astrology impact cricket matches?
-                  </button>
-                </h2>
-                <div id="collapseOne" className="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                  <div className="accordion-body">
-                    Astrologers might analyze the horoscopes or birth charts of cricket teams to predict their overall performance in a particular match, tournament, or season.
-                  </div>
-                </div>
-              </div>
-              <div className="accordion-item" >
-                <h2 className="accordion-header" id="headingTwo">
-                  <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                    How accurate are astrological predictions for cricket matches?
-                  </button>
-                </h2>
-                <div id="collapseTwo" className="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                  <div className="accordion-body">
-                    Astrologers might analyze the horoscopes or birth charts of cricket teams to predict their overall performance in a particular match, tournament, or season.
-                  </div>
-                </div>
-              </div>
-              <div className="accordion-item" >
-                <h2 className="accordion-header" id="headingThree">
-                  <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                    How does astrology impact cricket matches?
-                  </button>
-                </h2>
-                <div id="collapseThree" className="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-                  <div className="accordion-body">
-                    Astrologers might analyze the horoscopes or birth charts of cricket teams to predict their overall performance in a particular match, tournament, or season.
-                  </div>
-                </div>
-              </div>
-              <div className="accordion-item">
-                <h2 className="accordion-header" id="headingOne">
-                  <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    How does astrology impact cricket matches?
-                  </button>
-                </h2>
-                <div id="collapseOne" className="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                  <div className="accordion-body">
-                    Astrologers might analyze the horoscopes or birth charts of cricket teams to predict their overall performance in a particular match, tournament, or season.
-                  </div>
-                </div>
-              </div>
-              <div className="accordion-item">
-                <h2 className="accordion-header" id="headingThree">
-                  <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                    How does astrology impact cricket matches?
-                  </button>
-                </h2>
-                <div id="collapseThree" className="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-                  <div className="accordion-body">
-                    Astrologers might analyze the horoscopes or birth charts of cricket teams to predict their overall performance in a particular match, tournament, or season.
-                  </div>
-                </div>
-              </div>
+            <div className="cp__faqbg-img">
+              <img src="assets/images/overview-bg.png" alt="logo" />
             </div>
-          </div>
-          <div className="cp__faqbg-img">
-            <img src="assets/images/overview-bg.png" alt="logo" />
-          </div>
-        </section>
+          </section>
+        : 
+          <section className='cp__faq-sec'></section>
+        }
       </main>
       <FooterV2/>   
     </div>

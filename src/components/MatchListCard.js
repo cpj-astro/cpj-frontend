@@ -46,9 +46,11 @@ export default function MatchListCard({match, index}) {
                     </div>
                 </div>
             </div>
+            <div className="cp__card-btngrp d-flex align-items-center justify-content-between">
+                {match.astrology_status !== 'enable' && <a href={`/live-score-board/${match.match_id}`} className="cp__fill-btn">View Liveline</a>}
+            </div>
             {match.astrology_status === 'enable' && !match.astro_on_live ?
             <div className="cp__card-btngrp d-flex align-items-center justify-content-between">
-                <a className="cp__fill-btn" href={`/live-score-board/${match.match_id}`}>View Liveline</a>
                 {match.match_category == 'recent' && match.payment_id && 
                     <a href={`/match-reports/${match.match_id}`} className="cp__fill-btn">View Astrology</a>
                 }
@@ -58,7 +60,6 @@ export default function MatchListCard({match, index}) {
             </div>
             : 
             <div className="cp__card-btngrp d-flex align-items-center justify-content-between">
-                <a className="cp__fill-btn" href={`/live-score-board/${match.match_id}`}>View Liveline</a>
                 {match.astrology_status === 'enable' && match.astro_on_live && match.is_paid &&
                     <a href={`/match-reports/${match.match_id}`} className="cp__fill-btn">View Astrology</a>
                 }
