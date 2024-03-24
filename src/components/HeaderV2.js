@@ -65,8 +65,9 @@ export default function HeaderV2() {
         // Update activeTab when location pathname changes
         setActiveTab(location.pathname);
     }, [location.pathname]);
+    
     return (
-        <header data-aos="" class="headerbar">
+        <header data-aos="" className="headerbar">
             <div className="container">
                 <div className="cp__page-header d-flex flex-wrap align-items-center justify-content-between">
                     <div className="bm__header-left d-flex flex-wrap align-items-center">

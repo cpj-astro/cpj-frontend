@@ -127,7 +127,7 @@ h2.cp__sec-title{
     font-weight: 600;
 }
 .cp__card-middle .cp__score-desc p {
-    font-size: 18px;
+    font-size: 14px;
 }
 .cp__card-middle .cp__score-desc {
     padding-left: 16px;
@@ -1834,7 +1834,7 @@ textarea.form-control{
     font-size: 24px;
 }
 .cp__listing-wrap .cp__card-middle .cp__score-desc p {
-    font-size: 18px;
+    font-size: 14px;
     display: inline-block;
 }
 .cp__listing-wrap .cp__card-middle .cp__score-desc .cp__over {

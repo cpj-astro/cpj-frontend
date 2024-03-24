@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 export default function MatchCardV2({match, index}) {
     const navigate = useNavigate();
     return (
-        <div className="cp__card cp__single-btn" key={match.match_id + index} onClick={() => {navigate(`/live-score-board/${match.match_id}`)}}>
+        <div className="cp__card cp__single-btn" key={match.match_id} onClick={() => {navigate(`/live-score-board/${match.match_id}`)}}>
             <div className="cp__card-top d-flex align-items-center justify-content-between">
                 <span>{match.match_type}</span>
                 <div className='d-flex'>

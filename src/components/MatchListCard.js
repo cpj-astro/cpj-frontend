@@ -65,7 +65,7 @@ export default function MatchListCard({match, index}) {
                 }
             </div>}
             {match.match_category &&
-            <div class="cp__event-status">{match.match_category}</div>
+            <div className="cp__event-status">{match.match_category}</div>
             }
         </div>
     )

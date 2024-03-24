@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 export default function MatchCard({match, index}) {
     const navigate = useNavigate();
     return (
-        <div className="score-card card-shadow p-0 mt-3" key={index}>
+        <div className="score-card card-shadow p-0 mt-3" key={match.match_id}>
             <div className="score-card-inner"  onClick={() => {navigate(`/live-score-board/${match.match_id}`)}}>
                 <div className="score-card-header text-center">
                     <span>{'(' + match.match_type + ')' + ' ' + (match.series_name ? match.series_name : '')}</span>

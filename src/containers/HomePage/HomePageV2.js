@@ -406,7 +406,7 @@ export default function HomePageV2() {
               </div>
               <div className="col-lg-6 col-sm-12 cp__hero-cardslider">
                 <Swiper
-                  pagination={true}
+                  pagination={{ clickable: true }}
                   modules={[Pagination]}
                   slidesPerView={1}
                 >
@@ -625,7 +625,7 @@ export default function HomePageV2() {
                   <div className="accordion-item" key={index}>
                     <h2 className="accordion-header" id={`heading${index}`}>
                       <button
-                        className={`accordion-button ${index === 0 ? '' : 'collapsed'}`} // Remove 'collapsed' class for the first item
+                        className={`accordion-button ${index === 0 ? '' : 'collapsed'}`} // Remove 'collapsed' className for the first item
                         type="button"
                         data-bs-toggle="collapse"
                         data-bs-target={`#collapse${index}`}
@@ -637,7 +637,7 @@ export default function HomePageV2() {
                     </h2>
                     <div
                       id={`collapse${index}`}
-                      className={`accordion-collapse collapse ${index === 0 ? 'show' : ''}`} // Add 'show' class for the first item
+                      className={`accordion-collapse collapse ${index === 0 ? 'show' : ''}`} // Add 'show' className for the first item
                       aria-labelledby={`heading${index}`}
                       data-bs-parent="#accordionExample"
                     >
