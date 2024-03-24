@@ -582,7 +582,7 @@ export default function HomePageV2() {
           </div>
         </section>
 
-        <section className="cp__feature-sec">
+        <section className="d-none cp__feature-sec">
           <div className="container">
             <h2 className="cp__sec-title">Features</h2>
             <div className="d-flex align-items-center flex-wrap">
@@ -617,7 +617,7 @@ export default function HomePageV2() {
         </section>
         
         {faqs && faqs.length > 0 ? 
-          <section className="cp__faq-sec">
+          <section className="mt-3 cp__faq-sec">
             <div className="container">
               <h2 className="cp__sec-title">Frequently Asked Questions</h2>
               <div className="accordion" id="accordionExample">
@@ -625,11 +625,11 @@ export default function HomePageV2() {
                   <div className="accordion-item" key={index}>
                     <h2 className="accordion-header" id={`heading${index}`}>
                       <button
-                        className={`accordion-button ${index === 1 ? 'collapsed' : ''}`}
+                        className={`accordion-button ${index === 0 ? '' : 'collapsed'}`} // Remove 'collapsed' class for the first item
                         type="button"
                         data-bs-toggle="collapse"
                         data-bs-target={`#collapse${index}`}
-                        aria-expanded={index === 1 ? 'false' : 'true'}
+                        aria-expanded={index === 0 ? 'true' : 'false'} // Set 'true' for the first item, 'false' for others
                         aria-controls={`collapse${index}`}
                       >
                         {faq.title}
@@ -637,7 +637,7 @@ export default function HomePageV2() {
                     </h2>
                     <div
                       id={`collapse${index}`}
-                      className={`accordion-collapse collapse ${index === 1 ? '' : 'show'}`}
+                      className={`accordion-collapse collapse ${index === 0 ? 'show' : ''}`} // Add 'show' class for the first item
                       aria-labelledby={`heading${index}`}
                       data-bs-parent="#accordionExample"
                     >
@@ -654,7 +654,7 @@ export default function HomePageV2() {
             </div>
           </section>
         : 
-          <section className='cp__faq-sec'></section>
+          <section className='mt-3 cp__faq-sec'></section>
         }
       </main>
       <FooterV2/>   
