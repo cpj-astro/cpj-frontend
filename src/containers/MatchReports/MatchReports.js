@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { useForm } from "react-hook-form";
 import { Modal, Button } from 'react-bootstrap';
 import Footer from '../../components/Footer';
 import Loader from '../../components/Loader';
@@ -11,6 +12,7 @@ import PhonePeIntegration from '../../components/PhonePeIntegration';
 import HeaderV2 from '../../components/HeaderV2';
 import FooterV2 from '../../components/FooterV2';
 import MobileTabs from '../../components/MobileTabs';
+import LocationSearch from '../../components/LocationSearch';
 
 function MatchReports() {
     const navigate = useNavigate();
@@ -18,6 +20,7 @@ function MatchReports() {
     const [showModal, setShowModal] = useState(false);
     const handleCloseModal = () => setShowModal(false);
     const handleShowModal = () => setShowModal(true);
+    const [isKundli, setIsKundli] = useState(false);
     const [openAccordion, setOpenAccordion] = useState({});
     const [panditData, setPanditData] = useState([]);
     const [user, setUserData] = useState([]);
@@ -27,6 +30,7 @@ function MatchReports() {
     const [astroAuth, setAstroAuth] = useState(false);
     const [reportData, setReportData] = useState(null); 
     const [payments, setPaymentsDetails] = useState([]);
+    const { register, handleSubmit, setValue, reset, formState, formState: { isSubmitSuccessful } } = useForm();
 
     var accessToken = localStorage.getItem('client_token');
     const apiConfig = {
@@ -35,6 +39,60 @@ function MatchReports() {
             'Content-Type': 'application/json',
         }
     };
+
+    const validateData = (data) => {
+		if(data && data.birth_date === '') {
+			toast.error('please enter birth date');
+			return false;
+		} if(data && data.birth_time === '') {
+			toast.error('please enter birth time');
+			return false;
+		} if(!data.birth_place || data.birth_place === '') {
+			toast.error('please enter birth place');
+			return false;
+		}
+		return true;
+	}
+    const handleLocationSelect = (data) => {
+        setValue('latitude', data.lat);
+        setValue('longitude', data.lng);
+        setValue('birth_place', data.location);        
+    } 
+    const onSubmit = async (data) => {
+		if(validateData(data)) {
+			try {
+				axios.post(
+					process.env.REACT_APP_DEV === 'true' ? 
+					`${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/generate-kundli` : 
+					`${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/generate-kundli`, 
+					data, apiConfig
+				)
+				.then((response) => {
+					console.log(response);
+					if(response.data.status == true) {
+						toast.success('Your kundli has been created you can see in your profile.');
+                        handleCloseModal();
+                        fetchUserData();
+					} else {
+						toast.error(response.data.message);
+					}
+				}).catch((error) => {
+					if(error.response.data.status_code == 401){
+						localStorage.removeItem('client_token');
+						localStorage.removeItem('user_data');
+						
+						navigate('/');
+					} else {
+						console.log(error);
+					}
+				});
+			} catch (error) {
+				navigate('/sign-up');
+			}
+		} else {
+			console.log('Invalid Data');
+		}
+	};
 
     const fetchMatchData = () => {
         setLoader(true);
@@ -65,6 +123,9 @@ function MatchReports() {
         .then((response) => {
             setLoader(false);
             if(response.data.success){
+                if(response.data.data && response.data.data.kundli) {
+                    setIsKundli(true);
+                } 
                 setUserData(response.data.data);
                 setPaymentsDetails(response.data.payment_details[0]);
             }
@@ -155,6 +216,10 @@ function MatchReports() {
     }
 
     const generateReport = (m_id, u_id, moonSign) => {
+        if(!isKundli) {
+            setShowModal(true);
+            return toast("Please provide data for your kundli to generate your report.");
+        }
         setLoader(true);
         const data = {
             match_id: m_id,
@@ -275,31 +340,59 @@ function MatchReports() {
                                 <div className="row">
                                     <div className="col-md-12">
                                         <Modal show={showModal} onHide={handleCloseModal} size="lg">
+                                            <Modal.Header>
+                                                <h5>Kundli Generate Form</h5>
+                                            </Modal.Header>
                                             <Modal.Body>
-                                            <p><strong>DISCLAIMER</strong></p>
-                                            <span className='report-values'>
-                                                <p>
-                                                    Strictly for Entertainment Purposes
-                                                </p>
-                                                <p>
-                                                    The www.cricketpanditji.com provided herein is for entertainment purposes only. Any information, guidance, or advice offered during any course of the service provided by  “Cricket Panditji “ is not intended to substitute professional, legal, financial, or medical advice. 
-                                                </p>
-                                                <p>
-                                                    The content presented is based on interpretation, subjective analysis, and personal insights, and should not be considered as a substitute for expert advice. Individuals are encouraged to use their discretion and judgement in applying any information received during this service to their personal lives or decisions.
-                                                </p>
-                                                <p>
-                                                    We do not guarantee the accuracy, reliability, or completeness of any information provided during this service. Participants are advised to seek appropriate professional advice or consultation for specific concerns or issues.
-                                                </p>
-                                                <p>
-                                                    By engaging in this service, you acknowledge that any decisions or actions taken as a result of the information provided are at your own risk and discretion. Any information/advice/service must be taken as a pure entertainment and “Cricket Panditji takes no responsibility whatsoever in any manner, caused by any give any service/information by “Cricket Panditji“
-                                                </p>
-                                            </span>
+                                                <section>
+                                                    <div className="cp__form-wrap">
+                                                        <form onSubmit={handleSubmit(onSubmit)}>
+                                                            <input type="hidden" name="latitude"/>
+                                                            <input type="hidden" name="longitude"/>
+                                                            <input type="hidden" name="birth_place"/>
+                                                            <div className="row">
+                                                                <div className="col-md-12">
+                                                                    <div className="cp__form-group">
+                                                                        <label htmlFor="birth_date">Birth Date</label>
+                                                                        <input 
+                                                                            id="birth_date" 
+                                                                            type="date" 
+                                                                            name="birth_date" 
+                                                                            placeholder="Enter birth date" 
+                                                                            {...register("birth_date")}
+                                                                            className="form-control" 
+                                                                        />
+                                                                    </div>
+                                                                </div>
+                                                                <div className="col-md-12">
+                                                                    <div className="cp__form-group">
+                                                                        <label htmlFor="birth_time">Birth Time (24-hour format)</label>
+                                                                        <input 
+                                                                            id="birth_time"  
+                                                                            type="time" 
+                                                                            name="birth_time"  
+                                                                            placeholder="Enter birth time" 
+                                                                            {...register("birth_time")}
+                                                                            className="form-control" 
+                                                                        />
+                                                                    </div>
+                                                                </div>
+                                                                <div className="col-md-12">
+                                                                    <div className="cp__form-group">
+                                                                        <label htmlFor="location">Birth Place</label>
+                                                                        <LocationSearch onLocationSelect={handleLocationSelect}/>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div className="row mt-2">
+                                                                <div className="col-md-12">
+                                                                    <button type="submit" className="btn btn-primary btn-block">Save Kundli</button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </section>
                                             </Modal.Body>
-                                            <Modal.Footer>
-                                                <Button variant="secondary" onClick={handleCloseModal}>
-                                                    Close
-                                                </Button>
-                                            </Modal.Footer>
                                         </Modal>
 
                                         {/* Generate Button */}

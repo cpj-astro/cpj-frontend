@@ -9,6 +9,7 @@
     "@uriopass/nosleep.js": "^0.12.2",
     "axios": "^1.5.0",
     "firebase": "^10.4.0",
+    "font-awesome": "^4.7.0",
     "gapi-script": "^1.2.0",
     "jquery": "^3.7.1",
     "js-sha256": "^0.10.1",

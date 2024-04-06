@@ -25,6 +25,7 @@ import MatchReports from '../MatchReports/MatchReports';
 import 'react-toastify/dist/ReactToastify.css';
 import 'owl.carousel/dist/assets/owl.carousel.min.css';
 import 'owl.carousel/dist/assets/owl.theme.default.min.css';
+import 'font-awesome/css/font-awesome.min.css';
 import LiveMatches from '../LiveMatches/LiveMatches';
 import LiveLineV2 from '../LiveLineV2/LiveLineV2';
 import UpcomingMatches from '../UpcomingMatches/UpcomingMatches';

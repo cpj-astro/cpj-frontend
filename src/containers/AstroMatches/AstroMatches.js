@@ -11,6 +11,7 @@ export default function AstroMatches() {
   const [astroMatches, setAstroMatches] = useState([]);
 	const [matchLoader, setMatchLoader] = useState(false)
   const [matchCount, setMatchCount] = useState(10);
+  const [reportCounter, setReportCounter] = useState(0);
 	const navigate = useNavigate();
   const accessToken = localStorage.getItem('client_token');
   const apiConfig = {
@@ -48,7 +49,21 @@ export default function AstroMatches() {
     setMatchCount((prevCount) => prevCount + 5);
   };
 
+  const fetchUserData = () => {
+    axios.get(process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/user` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/user`, apiConfig)
+      .then((response) => {
+          if(response.data.success){
+              if(response.data.data && response.data.data.report_counter) {
+                setReportCounter(Number(response.data.data.report_counter));
+              } 
+          }
+      }).catch((error) => {
+        setReportCounter(0);
+      });
+  }
+
   useEffect(() => {
+    fetchUserData();
     fetchUpcomingList();
   }, [])
   return (
@@ -58,6 +73,12 @@ export default function AstroMatches() {
 				      <MobileTabs/>
               <div className="container">
                   <div className="cp__listing-wrap">
+                    {reportCounter == 0 && accessToken && 
+                      <div className='text-center'>
+                        <h5>Please Buy a Report to move ahead</h5>
+                        <h6>Report Counter: {reportCounter + ' Reports'}</h6>
+                      </div>
+                    }
                     {(!matchLoader && astroMatches && astroMatches.length > 0 && !matchLoader) && (
                       <>
                         {astroMatches.slice(0, matchCount).map((m, i) => (

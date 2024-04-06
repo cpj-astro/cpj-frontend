@@ -263,6 +263,7 @@ function Profile() {
                                                             placeholder="Enter first name" 
                                                             value={user.first_name}
                                                             className='form-control'
+                                                            disabled
                                                         />
                                                     </div>
                                                 </div>
@@ -276,6 +277,7 @@ function Profile() {
                                                             placeholder="Enter last name" 
                                                             value={user.last_name}
                                                             className="form-control" 
+                                                            disabled
                                                         />
                                                     </div>
                                                 </div>
@@ -291,6 +293,7 @@ function Profile() {
                                                             placeholder="Enter birth date" 
                                                             value={user.birth_date}
                                                             className="form-control" 
+                                                            disabled
                                                         />
                                                     </div>
                                                 </div>
@@ -304,6 +307,7 @@ function Profile() {
                                                             placeholder="Enter birth time" 
                                                             value={user.birth_time}
                                                             className="form-control" 
+                                                            disabled
                                                         />
                                                     </div>
                                                 </div>
@@ -319,6 +323,7 @@ function Profile() {
                                                             placeholder="Enter birth time" 
                                                             value={user.birth_place}
                                                             className="form-control" 
+                                                            disabled
                                                         />
                                                     </div>
                                                 </div>
@@ -331,12 +336,14 @@ function Profile() {
                                                             name="email" 
                                                             placeholder="Enter email" 
                                                             value={user.email}
-                                                            className="form-control" 
+                                                            className="form-control"
+                                                            disabled
                                                         />
                                                     </div>
                                                 </div>
                                             </div>
                                             <hr className='mt-0 mb-4'/>
+                                            {user && user.kundli_data ?
                                             <div className='row'>
                                                 <div className='col-md-4 display-set text-center'>
                                                     <Kundli housesData={user && user.kundli_data ? user.kundli_data : []}/>
@@ -350,6 +357,8 @@ function Profile() {
                                                     </ul>
                                                 </div>
                                             </div>
+                                            :
+                                            <h5>No Kundli Data Found</h5>}
                                         </div>
                                     </div>
                                     <div id="astrology-reports" className={`tab-pane fade ${activeTab === 'astrology-reports' ? 'show active' : ''}`}>
@@ -398,7 +407,7 @@ function Profile() {
                                                         </tr>
                                                     )) : 
                                                     <tr>
-                                                        <td colSpan={10}>No Reports Yet</td>    
+                                                        <td colSpan={11}>No Reports Yet</td>    
                                                     </tr>}
                                                 </tbody>
                                             </table>

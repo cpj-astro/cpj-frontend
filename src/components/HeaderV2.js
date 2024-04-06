@@ -99,7 +99,7 @@ export default function HeaderV2() {
                             </ul>
                         </div>
                         :
-                        <a href="/sign-up" className="cp__link-btn">
+                        <a href="/sign-in" className="cp__link-btn">
                             Sign In 
                             <img src="/assets/images/signin-blue.svg" alt="logo" className="cp__green" />
                             <img src="/assets/images/signin-black.svg" alt="logo" className="cp__white" />

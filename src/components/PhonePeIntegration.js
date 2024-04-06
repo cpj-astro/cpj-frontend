@@ -45,11 +45,13 @@ const PhonePeIntegration = ({ btnText, astroAmount, matchId, panditId, userId}) 
         }
       })
       .catch((error) => {
+        console.log("error", error);
         if(error.response.data.status_code == 401){
           localStorage.removeItem('client_token');
           localStorage.removeItem('user_data');
-          
-          navigate('/');
+          toast.error('Request failed! Please sign up first.');
+
+          navigate('/sign-in');
         } else {
           console.log(error);
         }
@@ -62,9 +64,9 @@ const PhonePeIntegration = ({ btnText, astroAmount, matchId, panditId, userId}) 
   return ( 
     <>
       <buton className="cp__fill-btn" onClick={makePayment}>
-          Pay ₹ {astroAmount} Now 
-          <img src="/assets/images/arrow-right-black.svg" alt="logo" className="cp__black" />
-          <img src="/assets/images/arrow-right-blue.svg" alt="logo" className="cp__green" />
+        {btnText} 
+        {/* <img src="/assets/images/arrow-right-black.svg" alt="logo" className="cp__black" />
+        <img src="/assets/images/arrow-right-blue.svg" alt="logo" className="cp__green" /> */}
       </buton>
     </>
   );

@@ -1,18 +1,60 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 import axios from 'axios';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 export default function FooterV2() {
     const navigate = useNavigate();
     const [gPrice, setGPrice] = useState([]);
-    const accessToken = localStorage.getItem('client_token');
+    const { register, handleSubmit, setValue, getValues, watch, reset, formState, formState: { isSubmitSuccessful } } = useForm();
+    const [loader, setLoader] = useState(false);
+	let year = new Date(); 
+	year = year.getFullYear();
+	const [askToggle, setAskToggle] = useState(false);
+	var accessToken = localStorage.getItem('client_token');
     const apiConfig = {
         headers: {
-        Authorization: "Bearer " + accessToken,
-        'Content-Type': 'application/json',
-        },
+            Authorization: "Bearer " + accessToken,
+            'Content-Type': 'application/json',
+        }
     };
 
+    const onSubmit = async (data) => {
+        if(data.question && data.wtsp_number && data.wtsp_number.length === 10 && accessToken) {
+            try {
+                setLoader(true);
+                axios.post(process.env.REACT_APP_DEV === 'true' ? `${process.env.REACT_APP_DEV_CRICKET_PANDIT_JI_API_URL}/submit-question` : `${process.env.REACT_APP_LOCAL_CRICKET_PANDIT_JI_API_URL}/submit-question`, data, apiConfig)
+                .then((response) => {
+                    if(response.data.status == true) {
+                        setLoader(false);
+                        toast.success(response.data.message);
+                    } else {
+                        setLoader(false);
+                        toast.error(response.data.message);
+                    }
+                    reset();
+                }).catch((error) => {
+                    setLoader(false);
+                    reset();
+                });
+            } catch (error) {
+                reset();
+            }
+        } else {
+            if (data.wtsp_number.length !== 10) {
+				toast.error('Please enter a valid 10-digit phone number.');
+			} else if (!accessToken) {
+				navigate('sign-up');
+			} else {
+				toast.error('Please enter WhatsApp Number and Question.');
+			}
+        }
+	};
+
+	const toggleAskForm = () => {
+		setAskToggle(!askToggle);
+	}
 
     useEffect(() => {
         const apiUrl =
@@ -81,6 +123,58 @@ export default function FooterV2() {
                     <p>CricketPanditJi ©2024 | All Rights Reserved</p>
                 </div>
             </div>
+            {askToggle &&
+            <div className="cp__form-wrap">
+                <div className="help-card">
+                    <div className="row">
+                        <div className="col-md-12">
+                            <div className="comment-form p-0">
+                            <span className="mb-20">
+                                <strong>Ask Cricket related Questions!</strong>
+                            </span>
+                            <hr/>
+                            <form onSubmit={handleSubmit(onSubmit)}> 
+                                <div className="row">
+                                    <div className="col-md-12">
+                                        <div className="cp__form-group">
+                                            <label htmlFor="wtsp_number">WhatsApp Number</label>
+                                            <input 
+                                                id="wtsp_number"  
+                                                type="number" 
+                                                name="wtsp_number" 
+                                                placeholder="WhatsApp Number" 
+                                                required 
+                                                {...register("wtsp_number")}
+                                                className="form-control" 
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="col-md-12">
+                                        <div className="cp__form-group">
+                                            <label htmlFor="question">Question</label>
+                                            <textarea 
+                                                id="question" 
+                                                name="question" 
+                                                rows={1}
+                                                placeholder="Write your question" 
+                                                defaultValue={""} 
+                                                {...register("question")}
+                                                className="form-control" 
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" className="btn btn-primary btn-block">{loader ? 'Submitting...' : 'Submit'}</button>
+                            </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+			}
+            <div className="help" onClick={() => toggleAskForm()}>
+			{askToggle ? 'X' : '?'}
+			</div>
         </footer>
     )
 }
