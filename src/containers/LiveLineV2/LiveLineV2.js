@@ -448,6 +448,9 @@ export default function LiveLineV2() {
             } else {
                 fetchMatchInfo();
             }
+        }, (error) => {
+            console.log("Firebase error: ", error);
+            fetchMatchInfo();
         });
     }, []);
 
